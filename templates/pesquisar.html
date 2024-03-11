@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Pesquisar Produtos{% endblock %}
+
+{% block content %}
+<h3> Resultado da pesquisa {{request.GET.query}}</h3>
+<div class="container">
+    <div class="row mt-3 justify-content-center align-items-center">
+        {% for p in resultado %}
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="m-3 text-center shadow" style="height: 300px;">
+                <img style="height: 100px; object-fit: cover;" class="zoom-effect img-fluid mt-3 mb-2" src="{{ p.image.url }}" alt="">
+                <h4 style="max-height: 3em; overflow: hidden; text-overflow: ellipsis;">{{ p.titulo }}</h4>
+                <p class="mt-3">Preço: <strike>R$ {{ p.preco_mercado }}</strike> R$ {{ p.venda }}</p>
+                <a href="{% url 'lojaapp:addcarro' p.id %}" class="btn btn-success">Comprar</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    @media (max-width: 577px) {
+        .col-lg-3, .col-md-4, .col-sm-6, .col-12 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+        .m-3 {
+            margin: 1px 1px 30px !important;
+        }
+    }
+</style>
+
+{% endblock %}
