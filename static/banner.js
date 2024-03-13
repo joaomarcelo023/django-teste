@@ -1,5 +1,7 @@
 const control = document.querySelectorAll('.control');
 let currentItem = 0;
+let touchEndtX =0
+let touchStartX =0
 const item = document.querySelectorAll('.item');
 const wrapper = document.getElementById('WrapperId');
 const maxItems = item.length;
@@ -17,8 +19,8 @@ item[currentItem].scrollIntoView({
 
 function handleClick(isLeft) {
 
-
-    currentItem = findCurrentItem();
+    //ALETRNATIVA INICIAL
+    //currentItem = findCurrentItem();
     console.log(currentItem);
 
     if (isLeft==1) {
@@ -64,21 +66,51 @@ function findCurrentItem() {
     return currentItemIndex;
 }
 
-function handleTouch(event) {
+function handleTouchEnd(event) {
+    //ALETRNATIVA INICIAL
+    //setTimeout(() => {
+    //    handleClick(-1);
+    //}, 100);
 
-    setTimeout(() => {
-        handleClick(-1);
+    //ALTERNATIVA SECUNDARIA
+    transX = touchEndtX - touchStartX
+    console.log(transX)
+    if (transX > 0) {
+        setTimeout(() => {
+        handleClick(1);
+    }, 100);}
+    else {
+        setTimeout(() => {
+        handleClick(0);
     }, 100);
-    console.log('clicou')
+    }
+
+
+    console.log('primeira posição do toque em X:', touchStartX,'Última posição do toque em X:', touchEndtX);
+
 }
 
-// Iterar sobre os controles e adicionar o ouvinte de evento a cada um
+function handleTouchStart(event) {
+
+    const touch = event.touches[0];
+
+    touchStartX = touch.clientX;
+}
+
+function handleTouchMove(event) {
+    const lastTouch = event.touches[event.touches.length - 1];
+    touchEndtX = lastTouch.clientX;
+
+}
+
 control.forEach(control => {
-    // Verificar se o controle é uma seta para a esquerda ou para a direita
     const isLeft = control.classList.contains('arrow-left');
 
-    // Adicionar o ouvinte de evento de clique ao controle
     control.addEventListener("click", () => handleClick(isLeft));
 });
 
-wrapper.addEventListener('touchend',handleTouch)
+wrapper.addEventListener('touchend',handleTouchEnd)
+
+wrapper.addEventListener('touchstart',handleTouchStart)
+
+document.addEventListener('touchmove', handleTouchMove);
