@@ -2,10 +2,12 @@ const control = document.querySelectorAll('.control');
 let currentItem = 0;
 const item = document.querySelectorAll('.item');
 const maxItems = item.length;
+
 item[currentItem].scrollIntoView({
         inline: "center",
         block: "nearest"
     });
+
 control.forEach(control => {
 control.addEventListener("click",() => {
     const isLeft = control.classList.contains('arrow-left')
