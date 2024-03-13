@@ -3,6 +3,12 @@ let currentItem = 0;
 const item = document.querySelectorAll('.item');
 const maxItems = item.length;
 
+var containerWidth = document.querySelector('.container-custom').clientWidth;
+    var items = document.querySelectorAll('.item');
+    items.forEach(function(item) {
+        item.style.width = containerWidth + 'px';
+    });
+
 item[currentItem].scrollIntoView({
         inline: "center",
         block: "nearest"
