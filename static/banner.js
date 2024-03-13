@@ -1,6 +1,7 @@
 const control = document.querySelectorAll('.control');
 let currentItem = 0;
 const item = document.querySelectorAll('.item');
+const wrapper = document.getElementById('WrapperId');
 const maxItems = item.length;
 
 var containerWidth = document.querySelector('.container-custom').clientWidth;
@@ -15,11 +16,16 @@ item[currentItem].scrollIntoView({
     });
 
 function handleClick(isLeft) {
-    console.log('control clicked');
 
-    if (isLeft) {
+
+    currentItem = findCurrentItem();
+    console.log(currentItem);
+
+    if (isLeft==1) {
         currentItem -= 1;
-    } else {
+    }
+    if (isLeft==0)
+    {
         currentItem += 1;
     }
 
@@ -40,6 +46,32 @@ function handleClick(isLeft) {
     });
 }
 
+function findCurrentItem() {
+    const viewportLeft = window.scrollX;
+    const viewportRight = viewportLeft + window.innerWidth;
+    let maxVisibleWidth = 0;
+    let currentItemIndex = 0;
+
+    item.forEach((item, index) => {
+        const bounding = item.getBoundingClientRect();
+        const visibleWidth = Math.min(viewportRight, bounding.right) - Math.max(viewportLeft, bounding.left);
+        if (visibleWidth > maxVisibleWidth) {
+            maxVisibleWidth = visibleWidth;
+            currentItemIndex = index;
+        }
+    });
+
+    return currentItemIndex;
+}
+
+function handleTouch(event) {
+
+    setTimeout(() => {
+        handleClick(-1);
+    }, 100);
+    console.log('clicou')
+}
+
 // Iterar sobre os controles e adicionar o ouvinte de evento a cada um
 control.forEach(control => {
     // Verificar se o controle é uma seta para a esquerda ou para a direita
@@ -48,3 +80,5 @@ control.forEach(control => {
     // Adicionar o ouvinte de evento de clique ao controle
     control.addEventListener("click", () => handleClick(isLeft));
 });
+
+wrapper.addEventListener('touchend',handleTouch)
