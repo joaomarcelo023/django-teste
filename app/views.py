@@ -2,15 +2,10 @@ from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, CreateView, FormView, DetailView, ListView
 from django.urls import reverse_lazy
 from .forms import Checar_PedidoForms, ClienteRegistrarForms, ClienteEntrarForms
-from django.http import FileResponse
 from.models import *
 from django.http import HttpResponse
-from sendfile import sendfile
 import os
-from django.conf import settings
-from django_user_agents.utils import get_user_agent
 from django.views import View
-import logging
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.core.paginator import Paginator
