@@ -48,11 +48,3 @@ control.forEach(control => {
     // Adicionar o ouvinte de evento de clique ao controle
     control.addEventListener("click", () => handleClick(isLeft));
 });
-
-// Adicionar evento de clique para dispositivos móveis
-control.forEach(element => {
-    element.addEventListener('click', function() {
-        // Adicionar classe temporária para simular o estado hover
-        console.log("clicou")
-    });
-});
