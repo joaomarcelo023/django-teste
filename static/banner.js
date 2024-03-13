@@ -6,7 +6,7 @@ const item = document.querySelectorAll('.item');
 const wrapper = document.getElementById('WrapperId');
 const maxItems = item.length;
 
-var containerWidth = document.querySelector('.container-custom').clientWidth;
+var containerWidth = wrapper.clientWidth;
     var items = document.querySelectorAll('.item');
     items.forEach(function(item) {
         item.style.width = containerWidth + 'px';

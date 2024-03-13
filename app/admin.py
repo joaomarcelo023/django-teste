@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import *
 
-admin.site.register([Admin,Cliente,Categoria,Produto,Carro,CarroProduto,Pedido_order,Empresa])
+admin.site.register([Admin,Cliente,Categoria,Produto,Carro,CarroProduto,Pedido_order,Empresa,encarte])
 
 @admin.register(Curso)
 class CursoAdmin (admin.ModelAdmin):
