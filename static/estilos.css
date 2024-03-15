@@ -1,4 +1,4 @@
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 850px) {
 
 
     .pequeno * {
@@ -6,13 +6,23 @@
     }
         }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 850px) {
 
 
     .grande * {
         display: none;
     }
         }
+
+@media only screen and (max-width: 1000px) {
+
+
+    .texto-menu {
+        display: none;
+
+    }
+        }
+
 
 #closeButton {
     background-color: #151635;
@@ -79,7 +89,7 @@
     opacity: 0.6;
     transition: all 300ms ease-in-out;
     background: transparent;
-    z-index: 9999;
+    z-index: 1;
 }
 
 .arrow-right{
@@ -104,4 +114,5 @@
 .current-item{
     opacity:1;
 }
+
 

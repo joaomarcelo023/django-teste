@@ -5,23 +5,9 @@
 
 {% block content %}
 
+{% include "banner.html" %}
 
-<div class="container-custom">
-    <button class="arrow-left control" aria-label="Previous image">
-        <svg height="100%" width="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M11 9L8 12M8 12L11 15M8 12H16M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-    </button>
-    <button class="arrow-right control" aria-label="Next image">
-        <svg height="100%" width="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M13 15L16 12M16 12L13 9M16 12H8M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-    </button>
-    <div class="gallery-wrapper" id="WrapperId">
-    <div class="gallery">
-        <img src="{% static 'banner1.png' %}" class="item current-item">
-        <img src="{% static 'banner2.png' %}" class="item">
-        <img src="{% static 'banner3.png' %}" class="item">
-    </div>
-    </div>
-    </div>
-<script src="{% static 'banner.js' %}"></script>
+{% include "mais_vendidos.html" %}
 
 <div class="container">
 
