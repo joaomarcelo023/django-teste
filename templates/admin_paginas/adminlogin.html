@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}ADMINISTRADOR{% endblock %}
+
+{% block content %}
+
+<style>
+    .errorlist{
+        color: red;
+    }
+</style>
+
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-md-6 mx-auto">
+                <h3>Entrar Admin</h3>
+                <form action="" method="post" >
+                    {%csrf_token%}
+                    {{form.as_p}}
+                    <button class = "btn btn-success">Entrar Admin</button>
+                    {%if error%}
+
+                    <li style="color: red;">{{error}}</li>
+
+                    {%endif%}
+                </form>
+                <p>Se você ainda não é cadastrado clique aqui <a href="{%url 'lojaapp:clienteregistrar' %}{%if request.GET.next%}?next={{request.GET.next}}{%endif%}">Cadastrar</a></p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

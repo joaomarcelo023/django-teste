@@ -1,0 +1,37 @@
+{%extends "admin_paginas/adminbase.html"%}
+
+
+<title>{% block title %}{% endblock %}</title>
+
+
+    {% block content %}
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-md-12">
+                <h2>Pedidos Pendentes</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Cliente</th>
+                            <th>Numero Pedido</th>
+                            <th>Data Pedido</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pedido in todospedido %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td><a href="{% url 'lojaapp:adminpedido' pedido.id %}">{{pedido.ordenado_por}}</a></td>
+                            <td>{{pedido.pedido_id}}</td>
+                            <td>{{pedido.criado_em}}</td>
+                            <td>{{pedido.total}}</td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

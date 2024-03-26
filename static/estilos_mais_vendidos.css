@@ -1,0 +1,110 @@
+.produtos-wrapper{
+    overflow-x: auto;
+    scrollbar-height: 20px;
+    display: flex;
+}
+
+.produtos {
+
+
+}
+
+.arrow-left-produtos, .arrow-right-produtos{
+    position: absolute;
+    top: 0;
+    left: 20px;
+    right: auto;
+    bottom:0;
+    width: 70px;
+    text-align: center;
+    color: #fff;
+    border: none;
+    opacity: 0.5;
+    transition: all 300ms ease-in-out;
+    background: transparent;
+    z-index: 1;
+}
+
+.arrow-right-produtos{
+    left: auto;
+    right: 20px;
+}
+
+.arrow-left-produtos:hover {
+    opacity: 1;
+    width: 80px;
+}
+.arrow-right-produtos:hover {
+    opacity: 1;
+    width: 80px;
+}
+
+.item {
+    opacity:1;
+    transition: all 600ms ease-in-out;
+}
+
+.current-item{
+    opacity:1;
+}
+
+.titulo-mais-vendidos{
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom:auto;
+    background: transparent;
+}
+
+
+
+@media (max-width: 2300px) {
+    .titulo-mais-vendidos {
+        width: auto
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: 5vw;
+        font-size: 25px;
+        bottom:auto;
+        top:1vw;
+    }
+
+    .produtos-wrapper {
+        margin-top: 0px;
+        margin-right: 5vw;
+        margin-bottom: 0px;
+        margin-left: 5vw;
+        padding-top: 3vw;
+}
+
+    .arrow-right-produtos{
+    right: 5vw;
+}
+    .arrow-left-produtos{
+    left: 5vw;
+}
+}
+
+
+@media (max-width: 400px) {
+    .titulo-mais-vendidos {
+        width: auto
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: 0px;
+        font-size: 20px;
+        bottom:auto;
+        top:3vw;
+    }
+
+    .produtos-wrapper {
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: 0px;
+        padding-top: 7vw;
+}
+
+}

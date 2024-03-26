@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}Cliente pedido detalhe{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+
+            <h3>Detalhes do pedido</h3>
+
+
+            <p><span class="font-weight-bold"> Pedido ID: </span>{{pedido_obj.id}}</p>
+            <p><span class="font-weight-bold"> Status do pedido: </span>{{pedido_obj.pedido_status}}</p>
+            <p><span class="font-weight-bold"> Criado em: </span>{{pedido_obj.criado_em}}</p>
+            <p><span class="font-weight-bold"> Informação Cliente: </span>{{pedido_obj.ordenado_por}}</p>
+            <p><span class="font-weight-bold"> Telefone Cliente: </span>{{pedido_obj.telefone}}</p>
+            <p><span class="font-weight-bold"> Endereço Cliente: </span>{{pedido_obj.endereco_envio}}</p>
+            <p><span class="font-weight-bold"> email Cliente: </span>{{pedido_obj.endereco_envio}}</p>
+
+            <hr>
+
+            <h4>Items do Pedido</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Item</th>
+                        <th>Avaliação</th>
+                        <th>Quantidade</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                {% for cp in pedido_obj.carro.carroproduto_set.all %}
+
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><a target="_blank" href="{%url 'lojaapp:produtodetalhe' cp.produto.slug %}">{{cp.produto.titulo}} {{cp.produto.id}}</a></td>
+                    <td>{{cp.avaliacao}}</td>
+                    <td>{{cp.subtotal}}</td>
+                    <td>{{cp.quantidade}}</td>
+                </tr>
+
+                {% endfor %}
+                <tr>
+                <th colspan="4" class="text-right"> Valor total</th>
+                <th>R$ {{pedido_obj.total|intcomma}}</th>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
