@@ -4,10 +4,6 @@ from django.db.models import fields
 from django.forms import ModelForm, TextInput, EmailInput
 from django.contrib.auth.models import User
 
-
-
-
-
 class Checar_PedidoForms(forms.ModelForm):
     class Meta:
         model = Pedido_order

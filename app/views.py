@@ -51,7 +51,6 @@ class HomeView(LojaMixin, TemplateView):
         page_number = self.request.GET.get('page')
         context['page_obj'] = paginator.get_page(page_number)
         context['todoscategorias'] = Categoria.objects.all()
-
         return context
 
 class SobreView(LojaMixin,TemplateView):
@@ -194,7 +193,6 @@ class AddCarroView(LojaMixin,View):
             carro_obj.save()
 
         return redirect("lojaapp:home")
-
 
 class ManipularCarroView(LojaMixin,View):
     def get(self,request,*arg,**kwargs):
@@ -363,7 +361,6 @@ class ClientePerfilView(LojaMixin,TemplateView):
 
         enderecos = Endereco.objects.filter(cliente=cliente).order_by("-id")
         context['enderecos'] = enderecos
-
         return context
 
 class ClientePedidoDetalheView(DetailView):
