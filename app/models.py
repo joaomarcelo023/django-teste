@@ -1,14 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Base(models.Model):
-    criacao = models.DateTimeField(auto_created=True)
-    atualizacao = models.DateTimeField(auto_now=True)
-    ativo = models.BooleanField(default=True)
-
-    class Meta:
-        abstract = True
-
 
 class Categoria(models.Model):
     titulo = models.CharField(max_length=200)
