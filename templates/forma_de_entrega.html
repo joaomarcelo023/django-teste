@@ -1,0 +1,88 @@
+
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        .option input {
+            margin-right: 10px;
+        }
+        .option.selected {
+            border-color: #007bff;
+            background-color: #f0f8ff;
+        }
+        .address, .price {
+            font-size: 14px;
+        }
+        .price {
+            margin-left: auto;
+            font-weight: bold;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+{% extends 'base.html' %}
+{% block title %}PROCESSAR COMPRA{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 mb-5">
+        <h1>Escolha a forma de entrega</h1>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <label class="option">
+                <input type="radio" name="forma_entrega" value="endereco" checked>
+                <div>
+                    <div class="address">Avenida Hilton Massa 199 - Apartamento 103 - Cabo Frio<br>Residencial</div>
+                    <div class="price">R$ 34,85</div>
+                </div>
+            </label>
+            <label class="option">
+                <input type="radio" name="forma_entrega" value="agencia">
+                <div>
+                    <div class="address">Retirada na Agência Mercado Livre</div>
+                    <div class="price">R$ 32,85</div>
+                </div>
+            </label>
+            <button type="submit" class="button">Continuar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

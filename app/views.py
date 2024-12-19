@@ -236,6 +236,42 @@ class LimparCarroView(LojaMixin,View):
             carro.save()
         return redirect("lojaapp:meucarro")
 
+class FormaDeEntregaView(LojaMixin,CreateView):
+    template_name = "forma_de_entrega.html"
+    form_class = Checar_PedidoForms
+    success_url = reverse_lazy("lojaapp:home")
+
+    def dispatch(self,request,*args, **kwargs):
+        if request.user.is_authenticated and request.user.cliente:
+            pass
+        else:
+            return redirect("/entrar/?next=/checkout/")
+        return super().dispatch(request,*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        carro_id = self.request.session.get("carro_id",None)
+        if carro_id:
+            carro_obj = Carro.objects.get(id=carro_id)
+        else:
+            carro_obj = None
+        context["carro"] = carro_obj
+        return context
+
+    def form_valid(self,form):
+        carro_id = self.request.session.get("carro_id")
+        if carro_id:
+            carro_obj = Carro.objects.get(id=carro_id)
+            form.instance.carro = carro_obj
+            form.instance.subtotal = carro_obj.total
+            form.instance.desconto = 0
+            form.instance.total = carro_obj.total
+            form.instance.pedido_status = "Pedido Recebido"
+            del self.request.session['carro_id']
+        else:
+            return redirect("lojaapp:home")
+        return super().form_valid(form)
+
 class CheckOutView(LojaMixin,CreateView):
     template_name = "processar.html"
     form_class = Checar_PedidoForms
