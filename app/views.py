@@ -51,13 +51,34 @@ class HomeView(LojaMixin, TemplateView):
         page_number = self.request.GET.get('page')
         context['page_obj'] = paginator.get_page(page_number)
         context['todoscategorias'] = Categoria.objects.all()
+
+        context['banners'] = Banner.objects.all()
+
+        context['footer'] = Empresa.objects.all()
+
         return context
 
 class SobreView(LojaMixin,TemplateView):
     template_name = "sobre.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['banners'] = Banner.objects.all()
+
+        context['footer'] = Empresa.objects.all()
+
+        return context
+
 class ContatoView(LojaMixin,TemplateView):
     template_name = "contato.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['banners'] = Banner.objects.all()
+
+        context['footer'] = Empresa.objects.all()
+
+        return context
 
 class TodosProdutosView(LojaMixin,TemplateView):
     template_name = "todos-produtos.html"

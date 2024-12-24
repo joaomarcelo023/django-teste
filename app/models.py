@@ -27,12 +27,39 @@ class Produto(models.Model):
 
 class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
     nome = models.CharField(max_length=200,default="")
     sobrenome = models.CharField(max_length=200,default="")
+
+    cpf_ou_cnpj = models.CharField(max_length=14,default="")
+    cpf_ou_cnpj_formatado = models.CharField(max_length=20, default="")
+    bool_cpf_cnpj = models.BooleanField(default=False)
+
     email = models.EmailField(default=2)
-    cpf = models.CharField(max_length=14,default="")
-    telefone = models.CharField(max_length=20,default="")
+    telefone = models.CharField(max_length=19,default="")
+
     data_criacao = models.DateTimeField(auto_now_add=True)
+    
+    def save(self, *args, **kwargs):
+        if self.telefone[-1] == "_":
+            ddd = f"{self.telefone[1:3]}"
+            telefoneNumero = f"{self.telefone[5:10]}{self.telefone[11:-1]}"
+            self.telefone = f"+55 ({ddd}) {telefoneNumero[:4]}-{telefoneNumero[4:]}"
+        elif self.telefone[-1].isdigit():
+            self.telefone = f"+55 {self.telefone}"
+
+        # Formatar CPF ou CNPJ
+        cpf_cnpj = self.cpf_ou_cnpj
+        if len(cpf_cnpj) == 11:  # CPF
+            self.cpf_ou_cnpj_formatado = f"{cpf_cnpj[:3]}.{cpf_cnpj[3:6]}.{cpf_cnpj[6:9]}-{cpf_cnpj[9:]}"
+            self.bool_cpf_cnpj = True
+        elif len(cpf_cnpj) == 14:  # CNPJ
+            self.cpf_ou_cnpj_formatado = f"{cpf_cnpj[:2]}.{cpf_cnpj[2:5]}.{cpf_cnpj[5:8]}/{cpf_cnpj[8:12]}-{cpf_cnpj[12:]}"
+            self.bool_cpf_cnpj = False
+        else:
+            self.cpf_ou_cnpj_formatado = cpf_cnpj  # Caso não atenda os formatos esperados
+
+        super(Cliente, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.nome} {self.sobrenome}"
@@ -122,3 +149,16 @@ class encarte(models.Model):
 
     def __str__(self):
         return "Encarte numero:" + str(self.id)
+    
+class Banner(models.Model):    
+    title = models.CharField(max_length=100, blank=True)
+
+    image_grande = models.ImageField(upload_to='banners')
+    image_pequena = models.ImageField(upload_to='banners')
+
+    link = models.CharField(max_length=200, blank=True)
+
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title

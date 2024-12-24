@@ -5,78 +5,84 @@
 {% load static %}
 
 {% block content %}
-{% include "banner.html" %}
-<link rel="stylesheet" type="text/css" href="{% static 'produtos_pequenos.css' %}">
-
-{% include "mais_vendidos.html" %}
-
-<div class="container">
-    <div class="row mt-1 justify-content-center align-items-center">
-      {% for p in page_obj %}
-        <div class="col-lg-3 col-md-4 col-sm-12 col-12" style="padding:0px;">
-          {% include "produtos_pequenos.html" %}
-        </div>
-      {% endfor %}
-    </div>
-</div>
-
-
-<style>
-    @media (max-width: 577px) {
-        .col-lg-3, .col-md-4, .col-sm-6, .col-12 {
-            flex: 0 0 50%;
-            max-width: 50%;
+    <style>
+        @media (max-width: 577px) {
+            .col-lg-3, .col-md-4, .col-sm-6, .col-12 {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+            .m-3 {
+                margin: 1px 1px 30px !important;
+            }
         }
-        .m-3 {
-            margin: 1px 1px 30px !important;
-        }
-    }
-</style>
+    </style>
 
-<nav aria-label="...">
-    <ul class="pagination">
-        {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page=1">&#60;&#60;</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&#60;</a>
-            </li>
-        {% else %}
-        <li class="page-item disabled">
-            <span class="page-link">&#60;&#60;</span>
-        </li>
-            <li class="page-item disabled">
-                <span class="page-link">&#60;</span>
-            </li>
-        {% endif %}
+    {% include "banner.html" %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/produtos_pequenos.css' %}">
 
-        {% for page in page_obj.paginator.page_range %}
-            {% if page == page_obj.number %}
-                <li class="page-item active">
-                    <span class="page-link">{{ page }}</span>
-                </li>
-            {% else %}
-                <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
-            {% endif %}
+    {% include "mais_vendidos.html" %}
+
+    <div class="container">
+        <div class="row mt-1 justify-content-center align-items-center">
+        {% for p in page_obj %}
+            <div class="col-lg-3 col-md-4 col-sm-12 col-12" style="padding:0px;">
+            {% include "produtos_pequenos.html" %}
+            </div>
         {% endfor %}
-        
-        {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">&#62;</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&#62;&#62;</a>
-            </li>
-        {% else %}
-            <li class="page-item disabled">
-                <span class="page-link">&#62;</span>
-            </li>
-            <li class="page-item disabled">
-                <span class="page-link">&#62;&#62;</span>
-            </li>
-        {% endif %}
-    </ul>
-</nav>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-3" style="display:flex; justify-content: center;">
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1">&#60;&#60;</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&#60;</a>
+                            </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&#60;&#60;</span>
+                        </li>
+                            <li class="page-item disabled">
+                                <span class="page-link">&#60;</span>
+                            </li>
+                        {% endif %}
+                
+                        {% for page in page_obj.paginator.page_range %}
+                            {% if page == page_obj.number %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ page }}</span>
+                                </li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">&#62;</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&#62;&#62;</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">&#62;</span>
+                            </li>
+                            <li class="page-item disabled">
+                                <span class="page-link">&#62;&#62;</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
 
 {% endblock %}
