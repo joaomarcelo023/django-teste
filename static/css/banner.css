@@ -1,9 +1,4 @@
-@media only screen and (min-width: 1000px) {
-
-
-    .pequeno * {
-        display: none;
-    }
+@media only screen and (min-width: 750px) {
     .item-pequeno{
         display: none;
         aspect-ratio: 1920 / 500;
@@ -16,13 +11,7 @@
     }
 }
 
-@media only screen and (max-width: 1000px) {
-
-
-    .grande * {
-        display: none;
-    }
-
+@media only screen and (max-width: 750px) {
     .item-grande{
         display: none;
         aspect-ratio: 1520 / 1000;
@@ -32,16 +21,6 @@
         width: 100vw;
         aspect-ratio: 1520 / 1000;
         cursor: pointer;
-    }
-
-}
-
-@media only screen and (max-width: 1000px) {
-
-
-    .texto-menu {
-        display: none;
-
     }
 }
 
@@ -56,6 +35,7 @@
     padding: 8px;
     cursor: pointer;
 }
+
 .popup-menu-mobile {
     opacity: 0;
     display: none;
@@ -86,7 +66,6 @@
     overflow-x: auto;
     -ms-overflow-style:none;
     scrollbar-width: none;
-    scrollbar-height: none;
     display: flex;
     min-height: 130px;
 }
@@ -121,6 +100,7 @@
     opacity: 1;
     width: 90px;
 }
+
 .arrow-right:hover {
     opacity: 1;
     width: 90px;
