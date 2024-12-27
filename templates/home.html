@@ -39,17 +39,17 @@
                     <ul class="pagination">
                         {% if page_obj.has_previous %}
                             <li class="page-item">
-                                <a class="page-link" href="?page=1">&#60;&#60;</a>
+                                <a class="page-link" href="?page=1">&ll;</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&#60;</a>
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&lt;</a>
                             </li>
                         {% else %}
-                        <li class="page-item disabled">
-                            <span class="page-link">&#60;&#60;</span>
-                        </li>
                             <li class="page-item disabled">
-                                <span class="page-link">&#60;</span>
+                                <span class="page-link">&ll;</span>
+                            </li>
+                            <li class="page-item disabled">
+                                <span class="page-link">&lt;</span>
                             </li>
                         {% endif %}
                 
@@ -59,23 +59,25 @@
                                     <span class="page-link">{{ page }}</span>
                                 </li>
                             {% else %}
-                                <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                                </li>
                             {% endif %}
                         {% endfor %}
                         
                         {% if page_obj.has_next %}
                             <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">&#62;</a>
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">&gt;</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&#62;&#62;</a>
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&gg;</a>
                             </li>
                         {% else %}
                             <li class="page-item disabled">
-                                <span class="page-link">&#62;</span>
+                                <span class="page-link">&gt;</span>
                             </li>
                             <li class="page-item disabled">
-                                <span class="page-link">&#62;&#62;</span>
+                                <span class="page-link">&gg;</span>
                             </li>
                         {% endif %}
                     </ul>
@@ -83,6 +85,4 @@
             </div>
         </div>
     </div>
-
-
 {% endblock %}

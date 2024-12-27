@@ -1,19 +1,11 @@
 <div class="form-custom-background d-flex" style="justify-content: center; align-items: center;">
 
     {% for c in todoscategorias %}
-    {% if c.id == categoria.id %}
-    <a href="{% url 'lojaapp:categoria' c.slug %}" style="color: inherit;">
-        <div class="col texto-cor-secundaria">
-            <h5 style="font-size:0.9rem;"><u>{{c.titulo}}</u></h5>
-        </div>
-    </a>
-    {% else %}
-    <a href="{% url 'lojaapp:categoria' c.slug %}" style="color: inherit;">
-        <div class="col texto-cor-secundaria">
-            <h5 style="font-size:0.9rem;">{{c.titulo}}</h5>
-        </div>
-    </a>
-    {% endif %}
+        <a href="{% url 'lojaapp:categoria' c.slug %}" style="color: inherit;">
+            <div class="col texto-cor-secundaria">
+                <h5 style="font-size:0.9rem;">{{c.titulo}}</h5>
+            </div>
+        </a>
     {% endfor %}
 
 </div>
