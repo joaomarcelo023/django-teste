@@ -32,17 +32,18 @@ class LojaMixin(object):
                 carro_obj.save()
         return super().dispatch(request,*args,**kwargs)
 
-class FooterMixin(object):
+class BaseContextMixin(object):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
+        context['todoscategorias'] = Categoria.objects.all()
         context['footer'] = Empresa.objects.all()
 
         return context
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-class HomeView(LojaMixin, FooterMixin, TemplateView):
+class HomeView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "home.html"
 
     def preprocessar_precos(self, produtos):
@@ -59,14 +60,13 @@ class HomeView(LojaMixin, FooterMixin, TemplateView):
 
         paginator = Paginator(produto_list, 20)
         page_number = self.request.GET.get('page')
-        context['page_obj'] = paginator.get_page(page_number)
-        context['todoscategorias'] = Categoria.objects.all()
+        context['page_obj'] = paginator.get_page(page_number)        
 
         context['banners'] = Banner.objects.all()
 
         return context
 
-class SobreView(LojaMixin, FooterMixin, TemplateView):
+class SobreView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "sobre.html"
 
     def get_context_data(self, **kwargs):
@@ -75,7 +75,7 @@ class SobreView(LojaMixin, FooterMixin, TemplateView):
 
         return context
 
-class ContatoView(LojaMixin, FooterMixin, TemplateView):
+class ContatoView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "contato.html"
 
     def get_context_data(self, **kwargs):
@@ -84,14 +84,14 @@ class ContatoView(LojaMixin, FooterMixin, TemplateView):
 
         return context
 
-class TodosProdutosView(LojaMixin, FooterMixin, TemplateView):
+class TodosProdutosView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "todos-produtos.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['todoscategorias'] = Categoria.objects.all()
+        
         return context
 
-class ProdutosDetalheView(LojaMixin, FooterMixin, TemplateView):
+class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "produtodetalhe.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -102,7 +102,7 @@ class ProdutosDetalheView(LojaMixin, FooterMixin, TemplateView):
         produto.save()
         return context
 
-class AddCarroView2(LojaMixin, FooterMixin, TemplateView):
+class AddCarroView2(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "produtodetalhe.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -160,7 +160,7 @@ def open_pdf(request):
         return response
     pdf.closed
 
-class MeuCarroView(LojaMixin, FooterMixin, TemplateView):
+class MeuCarroView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "meucarro.html"
 
     def get_context_data(self, **kwargs):
@@ -261,7 +261,7 @@ class LimparCarroView(LojaMixin, View):
             carro.save()
         return redirect("lojaapp:meucarro")
 
-class FormaDeEntregaView(LojaMixin, FooterMixin, CreateView):
+class FormaDeEntregaView(LojaMixin, BaseContextMixin, CreateView):
     template_name = "forma_de_entrega.html"
     form_class = Checar_PedidoForms
     success_url = reverse_lazy("lojaapp:home")
@@ -297,7 +297,7 @@ class FormaDeEntregaView(LojaMixin, FooterMixin, CreateView):
             return redirect("lojaapp:home")
         return super().form_valid(form)
 
-class CheckOutView(LojaMixin, FooterMixin, CreateView):
+class CheckOutView(LojaMixin, BaseContextMixin, CreateView):
     template_name = "processar.html"
     form_class = Checar_PedidoForms
     success_url = reverse_lazy("lojaapp:home")
@@ -334,7 +334,7 @@ class CheckOutView(LojaMixin, FooterMixin, CreateView):
         return super().form_valid(form)
 
 
-class ClienteRegistrarView(LojaMixin, FooterMixin, CreateView):
+class ClienteRegistrarView(LojaMixin, BaseContextMixin, CreateView):
     template_name = "clienteregistrar.html"
     form_class = ClienteRegistrarForms
     success_url = reverse_lazy("lojaapp:home")
@@ -370,7 +370,7 @@ class ClienteLogoutView(LojaMixin, View):
         logout(request)
         return redirect("lojaapp:home")
 
-class ClienteEntrarView(LojaMixin, FooterMixin, FormView):
+class ClienteEntrarView(LojaMixin, BaseContextMixin, FormView):
     template_name = "clienteentrar.html"
     form_class = ClienteEntrarForms
     success_url = reverse_lazy("lojaapp:home")
@@ -401,7 +401,7 @@ class ClienteEntrarView(LojaMixin, FooterMixin, FormView):
             return self.success_url
 
 
-class ClientePerfilView(LojaMixin, FooterMixin, TemplateView):
+class ClientePerfilView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "clienteperfil.html"
 
     def dispatch(self,request,*args, **kwargs):
@@ -440,7 +440,7 @@ class ClientePedidoDetalheView(DetailView):
             return redirect("/entrar/?next=/perfil/")
         return super().dispatch(request, *args, **kwargs)
 
-class AdminLoginView(FooterMixin, FormView):
+class AdminLoginView(BaseContextMixin, FormView):
     template_name = "admin_paginas/adminlogin.html"
     form_class = ClienteEntrarForms
     success_url = reverse_lazy("lojaapp:adminhome")
@@ -454,7 +454,7 @@ class AdminLoginView(FooterMixin, FormView):
             return render(self.request,self.template_name,{"form":self.form_class,"error":"usuario nao corresponde"})
         return super().form_valid(form)
 
-class AdminHomeView(AdminRequireMixin, FooterMixin, TemplateView):
+class AdminHomeView(AdminRequireMixin, BaseContextMixin, TemplateView):
     template_name = "admin_paginas/adminhome.html"
 
     def get_context_data(self, **kwargs):
@@ -463,7 +463,7 @@ class AdminHomeView(AdminRequireMixin, FooterMixin, TemplateView):
 
         return context
 
-class AdminPedidoView(AdminRequireMixin, FooterMixin, DetailView):
+class AdminPedidoView(AdminRequireMixin, BaseContextMixin, DetailView):
     template_name = "admin_paginas/adminpedidodetalhe.html"
 
     model = Pedido_order
@@ -476,7 +476,7 @@ class AdminPedidoView(AdminRequireMixin, FooterMixin, DetailView):
         return context
 
 
-class AdminTodosPedidoView(AdminRequireMixin, FooterMixin, ListView):
+class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, ListView):
     template_name = "admin_paginas/admintodospedido.html"
 
     queryset = Pedido_order.objects.all().order_by("-id")
@@ -490,7 +490,7 @@ class AdminTodosPedidoView(AdminRequireMixin, FooterMixin, ListView):
         return context
 
 
-class AdminPedidoMudarView(AdminRequireMixin, FooterMixin, ListView):
+class AdminPedidoMudarView(AdminRequireMixin, BaseContextMixin, ListView):
     def post(self,request,*args,**kwargs):
         pedido_id = self.kwargs["pk"]
         pedido_obj = Pedido_order.objects.get(id=pedido_id)
@@ -500,7 +500,7 @@ class AdminPedidoMudarView(AdminRequireMixin, FooterMixin, ListView):
 
         return redirect(reverse_lazy("lojaapp:adminpedido", kwargs={"pk" : pedido_id}))
 
-class PesquisarView(FooterMixin, TemplateView):
+class PesquisarView(BaseContextMixin, TemplateView):
     template_name = "pesquisar.html"
 
     def get_context_data(self, **kwargs):
@@ -510,7 +510,7 @@ class PesquisarView(FooterMixin, TemplateView):
         context["resultado"] = resultado
         return context
 
-class CategoriaView(LojaMixin, FooterMixin, TemplateView):
+class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "categoria.html"
 
     def preprocessar_precos(self, produtos):
@@ -530,10 +530,10 @@ class CategoriaView(LojaMixin, FooterMixin, TemplateView):
         paginator = Paginator(produto_list, 20)
         page_number = self.request.GET.get('page')
         context['page_obj'] = paginator.get_page(page_number)
-        context['todoscategorias'] = Categoria.objects.all()
+        
         return context
 
-class CadastrarEnderecoView(LojaMixin, FooterMixin, CreateView):
+class CadastrarEnderecoView(LojaMixin, BaseContextMixin, CreateView):
     template_name = "enderecocadastrar.html"
     form_class = EnderecoRegistrarForms
     success_url = reverse_lazy("lojaapp:clienteperfil")
