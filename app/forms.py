@@ -85,10 +85,10 @@ class ClienteRegistrarForms(forms.ModelForm):
         return cleaned_data
 
 class ClienteEntrarForms(forms.Form):
-    email = forms.CharField(widget=forms.TextInput(
-            attrs={'placeholder': 'Email', 'class': "form-control", 'style': 'width: 300px;display: flex;'}))
+    email = forms.CharField(label="E-mail", widget=forms.TextInput(
+            attrs={'placeholder': 'E-mail', 'class': "form-control", 'style': 'width: 100%;display: flex;'}))
     senha = forms.CharField(widget=forms.PasswordInput(
-            attrs={'placeholder': 'Sua Senha', 'class': "form-control", 'style': 'width: 300px;display: flex;'}))
+            attrs={'placeholder': 'Senha', 'class': "form-control", 'style': 'width: 100%;display: flex;'}))
 
 class EnderecoRegistrarForms(forms.ModelForm):
     class Meta:
@@ -100,42 +100,44 @@ class EnderecoRegistrarForms(forms.ModelForm):
             'titulo': TextInput(attrs={
                 'class': "form-control",
                 'style': 'max-width: 300px;',
-                'placeholder': 'Nome'
+                'placeholder': 'Título (opcional)'
             }),
             'cep': TextInput(attrs={
-                'class': "form-control",
+                'class': "form-control cep-input",
                 'style': 'max-width: 300px;',
-                'placeholder': 'Sobrenome'
+                'inputmode': 'numeric',
+                'placeholder': 'CEP'
             }),
             'estado': TextInput(attrs={
                 'class': "form-control",
                 'style': 'max-width: 300px;',
-                'placeholder': 'estado'
+                'placeholder': 'Estado'
             }),
             'cidade': TextInput(attrs={
                 'class': "form-control",
                 'style': 'max-width: 300px;',
-                'placeholder': 'CPF'
+                'placeholder': 'Cidade'
             }),
             'bairro': TextInput(attrs={
                 'class': "form-control",
                 'style': 'max-width: 300px;',
-                'placeholder': 'Telefone'
+                'placeholder': 'Bairro'
             }),
             'rua': TextInput(attrs={
                 'class': "form-control",
                 'style': 'max-width: 300px;',
-                'placeholder': 'Telefone'
+                'placeholder': 'Rua'
             }),
             'numero': TextInput(attrs={
                 'class': "form-control",
                 'style': 'max-width: 300px;',
-                'placeholder': 'Telefone'
+                'inputmode': 'numeric',
+                'placeholder': 'Número'
             }),
             'complemento': TextInput(attrs={
                 'class': "form-control",
                 'style': 'max-width: 300px;',
-                'placeholder': 'Telefone'
+                'placeholder': 'Complemento'
             }),
 
         }

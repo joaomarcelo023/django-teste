@@ -1,121 +1,47 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block title %}Perfil{% endblock %}
 
 {% block content %}
-            <style>
-    body {
-        background-color: #f8f9fa;
-    }
-    .container {
-        max-width: 500px;
-        background-color: #fff;
-        border-radius: 20px;
-        box-shadow: 0 0 7px rgba(0, 0, 0, 0.4);
-        padding: 20px;
-        margin: 50px auto;
-    }
-    .form-group input, .form-control {
-        border: 2px solid rgba(0, 0, 0, 0.4);
-        border-radius: 10px;
-    }
-    .form-group div{
-        margin-bottom: 20px;
-    }
-    .btn-success {
-        width: 100%;
-    }
-    .cep-link {
-    color: #3483fa;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 400;
-    text-decoration: none;
-}
-</style>
-<div class="container">
-    <h3 class="text-center mb-4">Adicionar Endereço</h3>
-    <form id="addressForm" action="" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título (opcional)" maxlength="20">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" id="cep" name="cep" placeholder="CEP" maxlength="8">
-            <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank" tabindex="0" role="button" class="cep-link" maxlength="8">Não sei o meu CEP</a>
-            <div id="cepWarning" style="color: red; display: none;">Por favor, insira apenas números.</div>
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" id="estado" name="estado" placeholder="Estado" style="border-style:dashed;" disabled maxlength="3">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Cidade" style="border-style:dashed;" disabled maxlength="35">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" maxlength="35">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" id="rua" name="rua" placeholder="Rua" maxlength="35">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" maxlength="20">
-        </div>
-        <div class="form-group">
-            <textarea class="form-control" id="complemento" name="complemento" placeholder="Complemento" maxlength="140"></textarea>
-        </div>
-        <button type="submit" class="btn btn-success">Cadastrar Endereço</button>
-    </form>
-</div>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/enderecocadastrar.css' %}">
 
+    <div class="container">
+        <h3 class="text-center mb-4">Adicionar Endereço</h3>
+        <form id="addressForm" action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título (opcional)" maxlength="20">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control cep-input" id="cep" name="cep" placeholder="CEP" maxlength="9" inputmode="numeric">
+                <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank" tabindex="0" role="button" class="cep-link" maxlength="9">Não sei o meu CEP</a>
+                <div id="cepWarning" style="color: red; display: none;">Por favor, insira um CEP valido.</div>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="estado" name="estado" placeholder="Estado" style="border-style:dashed;" disabled maxlength="3">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Cidade" style="border-style:dashed;" disabled maxlength="35">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" maxlength="35">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="rua" name="rua" placeholder="Rua" maxlength="35">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" maxlength="20">
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" id="complemento" name="complemento" placeholder="Complemento" maxlength="140"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Cadastrar Endereço</button>
+        </form>
+    </div>
 
-<script>
-    var cepWarning = document.getElementById('cepWarning');
-
-    document.getElementById("addressForm").addEventListener("keydown", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-        }
-    });
-
-    // Adicionando um event listener para o evento 'input' do campo de CEP
-    document.getElementById('cep').addEventListener('input', function() {
-        var cep = this.value.trim(); // Remove espaços em branco
-
-        // Verifica se o campo contém apenas números
-        if (/^\d+$/.test(cep)) {
-            cepWarning.style.display = 'none'; // Esconde o aviso
-        } else {
-            cepWarning.style.display = 'block'; // Exibe o aviso
-        }
-        this.value = cep.replace(/\D/g, '');
-        if (cep.length === 8 && /^\d+$/.test(cep)) {
-            fetchAddress(cep); // Se sim, busca o endereço
-        }
-    });
-
-    function fetchAddress() {
-        var cep = document.getElementById('cep').value.trim(); // Remove espaços em branco
-
-        // Verifica se o campo contém apenas números
-        if (/^\d+$/.test(cep)) {
-            fetch('https://viacep.com.br/ws/' + cep + '/json/')
-                .then(response => response.json())
-                .then(data => {
-                    console.log('CEP:', data.cep);
-                    console.log('Logradouro:', data.logradouro);
-                    console.log('Bairro:', data.bairro);
-                    console.log('Cidade:', data.localidade);
-                    console.log('Estado:', data.uf);
-
-                    document.getElementById('estado').value = data.uf;
-                    document.getElementById('cidade').value = data.localidade;
-                    document.getElementById('bairro').value = data.bairro;
-                    document.getElementById('rua').value = data.logradouro;
-                })
-                .catch(error => console.error('Erro ao buscar endereço:', error));
-        } else {
-            cepWarning.style.display = 'block'; // Exibe o aviso
-        }
-    }
-</script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
+    <script src="{% static 'js/enderecocadastrar.js' %}"></script>
 
 {% endblock %}
