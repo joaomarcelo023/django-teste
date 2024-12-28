@@ -82,7 +82,7 @@ class Endereco(models.Model):
 
 class Carro(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL,null=True,blank=True)
-    total = models.PositiveIntegerField(default=0)
+    total = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -92,9 +92,9 @@ class Carro(models.Model):
 class CarroProduto(models.Model):
     carro = models.ForeignKey(Carro, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
-    avaliacao = models.PositiveIntegerField()
+    preco_unitario = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     quantidade = models.PositiveIntegerField()
-    subtotal = models.PositiveIntegerField(default=0)
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

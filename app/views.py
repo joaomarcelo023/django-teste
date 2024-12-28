@@ -123,7 +123,7 @@ class AddCarroView2(LojaMixin, BaseContextMixin, TemplateView):
                 carroproduto = CarroProduto.objects.create(
                 carro = carro_obj,
                 produto = produto_obj,
-                avaliacao = produto_obj.venda,
+                preco_unitario = produto_obj.venda,
                 quantidade = 1,
                 subtotal = produto_obj.venda
 
@@ -139,7 +139,7 @@ class AddCarroView2(LojaMixin, BaseContextMixin, TemplateView):
             carroproduto = CarroProduto.objects.create(
                 carro=carro_obj,
                 produto=produto_obj,
-                avaliacao=produto_obj.venda,
+                preco_unitario=produto_obj.venda,
                 quantidade=1,
                 subtotal=produto_obj.venda
 
@@ -193,7 +193,7 @@ class AddCarroView(LojaMixin, View):
                 carroproduto = CarroProduto.objects.create(
                 carro = carro_obj,
                 produto = produto_obj,
-                avaliacao = produto_obj.venda,
+                preco_unitario = produto_obj.venda,
                 quantidade = 1,
                 subtotal = produto_obj.venda
 
@@ -209,7 +209,7 @@ class AddCarroView(LojaMixin, View):
             carroproduto = CarroProduto.objects.create(
                 carro=carro_obj,
                 produto=produto_obj,
-                avaliacao=produto_obj.venda,
+                preco_unitario=produto_obj.venda,
                 quantidade=1,
                 subtotal=produto_obj.venda
 
@@ -229,15 +229,15 @@ class ManipularCarroView(LojaMixin, View):
 
         if acao =="inc":
             cp_obj.quantidade += 1
-            cp_obj.subtotal += cp_obj.avaliacao
+            cp_obj.subtotal += cp_obj.preco_unitario
             cp_obj.save()
-            carro_obj.total += cp_obj.avaliacao
+            carro_obj.total += cp_obj.preco_unitario
             carro_obj.save()
         elif acao =="dcr":
             cp_obj.quantidade -= 1
-            cp_obj.subtotal -= cp_obj.avaliacao
+            cp_obj.subtotal -= cp_obj.preco_unitario
             cp_obj.save()
-            carro_obj.total -= cp_obj.avaliacao
+            carro_obj.total -= cp_obj.preco_unitario
             carro_obj.save()
             if cp_obj.quantidade <= 0:
                 cp_obj.delete()

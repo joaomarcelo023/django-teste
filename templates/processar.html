@@ -1,52 +1,52 @@
-
 {% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load l10n %}
+
 {% block title %}PROCESSAR COMPRA{% endblock %}
 
 {% block content %}
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-    <h3>Item do carrinho</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Codigo</th>
-                <th>Produto</th>
-                <th>Avaliacao</th>
-                <th>Quantidade</th>
-                <th>Subtotal</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for cp in carro.carroproduto_set.all %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ cp.produto.titulo }}</td>
-                <td>{{ cp.avaliacao }}</td>
-                <td>{{ cp.quantidade }}</td>
-                <td>{{ cp.subtotal }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr>
-                <th colspan="4" style="text-align: right;">TOTAL:</th>
-                <th>R$ {{ carro.total }}</th>
-            </tr>
-        </tfoot>
-    </table>
-</div>
-      <div class = "col-md-6">
-          <h3> Detalhes Produto</h3>
-          <form action="" method="POST">
-              {% csrf_token %}
-              {{form.as_p}}
-              <button class="btn btn-info">Comprar</button>
-
-          </form>
+<div class="container table-container">
+    <br>
+    <div class = "row justify-content-center">
+        <div class = "col-md-8">
+            <h4>ITENS DO CARRINHO</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="text-center">Produtos</th>
+                        <th class="text-center">Preço Unitário</th>
+                        <th class="text-center">Quantidade</th>
+                        <th class="text-center">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for cp in carro.carroproduto_set.all %}
+                        <tr>
+                            <td class="text-center" style="border-right: none;">{{ forloop.counter }}.</td>
+                            <td class="text-center" style="border-left: none;">{{ cp.produto.titulo }}</td>
+                            <td class="text-center">{{ cp.preco_unitario|intcomma }}</td>
+                            <td class="text-center">{{ cp.quantidade }}</td>
+                            <td class="text-center">{{ cp.subtotal|intcomma }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="4" style="text-align: right;">TOTAL:</th>
+                        <th class="text-center">R$ {{ carro.total|intcomma }}</th>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
-
+        <div class = "col-md-6">
+            <h3> Detalhes Produto</h3>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button class="btn btn-info">Comprar</button>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}
