@@ -14,17 +14,17 @@ class Checar_PedidoForms(forms.ModelForm):
         widgets = {
             'ordenado_por': TextInput(attrs={
                 'class': "form-control",
-                'style': 'max-width: 300px;',
-                'placeholder': 'ordenado_por'
+                'style': 'max-width: 100%;',
+                'placeholder': 'Nome'
             }),
             'endereco_envio': TextInput(attrs={
                 'class': "form-control",
-                'style': 'max-width: 300px;',
+                'style': 'max-width: 100%;',
                 'placeholder': 'Endereco de envio'
             }),
             'telefone': TextInput(attrs={
                 'class': "form-control",
-                'style': 'max-width: 300px;',
+                'style': 'max-width: 100%;',
                 'placeholder': 'Telefone'
             }),
         }

@@ -545,7 +545,6 @@ class CadastrarEnderecoView(LojaMixin, BaseContextMixin, CreateView):
     success_url = reverse_lazy("lojaapp:clienteperfil")
 
     def form_valid(self, form):
-        print("cu")
         # Obtenha os dados do formulário
 
         form.instance.cliente = self.request.user.cliente
