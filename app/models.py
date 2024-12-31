@@ -173,3 +173,11 @@ class Banner(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Empresa(models.Model):
+    titulo = models.CharField(max_length=200)
+    link = models.CharField(max_length=200,null=True,blank=True)
+    image = models.ImageField(upload_to="empresas")
+
+    def __str__(self):
+        return self.titulo
