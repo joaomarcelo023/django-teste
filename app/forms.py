@@ -9,7 +9,7 @@ from django.core.validators import RegexValidator
 class Checar_PedidoForms(forms.ModelForm):
     class Meta:
         model = Pedido_order
-        fields = ['ordenado_por',"endereco_envio","telefone","email"]
+        fields = ['ordenado_por',"endereco_envio","telefone"]
 
         widgets = {
             'ordenado_por': TextInput(attrs={
@@ -27,12 +27,6 @@ class Checar_PedidoForms(forms.ModelForm):
                 'style': 'max-width: 300px;',
                 'placeholder': 'Telefone'
             }),
-            'email': EmailInput(attrs={
-                'class': "form-control",
-                'style': 'max-width: 300px;',
-                'placeholder': 'Email'
-            }),
-
         }
 
 class ClienteRegistrarForms(forms.ModelForm):

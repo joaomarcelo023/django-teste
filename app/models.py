@@ -10,17 +10,31 @@ class Categoria(models.Model):
         return self.titulo
 
 class Produto(models.Model):
-    titulo = models.CharField(max_length=200)
+
+    #informações que virão do sistema
+    codigo = models.CharField(max_length=10) #codigo interno consistente com sistema
+    descricao = models.CharField(max_length=200)
+    codigo_GTIN = models.CharField(max_length=14) #se o produto não tiver codigo GTIN cadastrado, usar codigo interno
+    preco_unitario_bruto = models.DecimalField(max_digits=10, decimal_places=2) #preço cheio, sem desconto
+    desconto_dinheiro = models.DecimalField(max_digits=10, decimal_places=2) # em %, percentual de desconto para pagamento em dinheiro, aplicado no preco_unitario_bruto
+    desconto_retira = models.DecimalField(max_digits=10,decimal_places=2)  # em %, percentual de desconto para compras para retirada no depósito, aplicado no preco_unitario_bruto
+    unidade = models.CharField(max_length=30,default="un") #unidade em que o produto é comercializado
+    fechamento_embalagem = models.DecimalField(max_digits=10, decimal_places=2, default=1.00)
+
+    #informações que precisam ser criadas por lógica do sistema
     slug = models.SlugField(unique=True)
     Categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE)
+
+    #entrada manual de algum usuário
     image = models.ImageField(upload_to="produtos")
+
+    #TODO-ALVAREZ deletar de forma responsável
+    titulo = models.CharField(max_length=200)
     venda = models.DecimalField(max_digits=10, decimal_places=2)
-    descricao = models.TextField()
     garantia = models.CharField(max_length=300,null=True,blank=True)
     return_devolucao = models.CharField(max_length=300,null=True,blank=True)
     visualizacao = models.PositiveIntegerField(default=0)
-    unidade = models.CharField(max_length=30,default="un")
-    fechamento_embalagem = models.DecimalField(max_digits=10, decimal_places=2,default=1.00)
+
 
     def __str__(self):
         return self.titulo
@@ -109,47 +123,44 @@ PEDIDO_STATUS=[
 ]
 
 class Pedido_order(models.Model):
+
+    total_bruto = models.DecimalField(max_digits=10,decimal_places=2)
+    total_desconto = models.DecimalField(max_digits=10,decimal_places=2)
+    total_final = models.DecimalField(max_digits=10,decimal_places=2)
+    cpf_cnpj = models.CharField(max_length=20, default="") #cpf do cliente formatadinho direitinho
+    nome_cliente = models.CharField(max_length=200,default="")
+    codigo_cliente = models.CharField(max_length=8,default="") #codigo consistente com sistema interno, se não tiver
     carro = models.OneToOneField(Carro,on_delete=models.CASCADE)
-    ordenado_por = models.CharField(max_length=200)
-    telefone = models.CharField(max_length=10)
-    email = models.EmailField(null=True,blank=True)
+    criado_em = models.DateTimeField(auto_now_add=True)
+    pedido_status = models.CharField(max_length=50, choices=PEDIDO_STATUS)
     endereco_envio = models.CharField(max_length=200)
+    telefone = models.CharField(max_length=10)
+
+    #TODO-ALVAREZ deletar de forma responsável
+    ordenado_por = models.CharField(max_length=200)
     subtotal = models.PositiveIntegerField()
     desconto = models.PositiveIntegerField()
     total = models.PositiveIntegerField()
-    pedido_status = models.CharField(max_length=50,choices=PEDIDO_STATUS)
-    criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return "Pedido_order:" + str(self.id)
 
-class Empresa(models.Model):
-    titulo = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True)
-    image = models.ImageField(upload_to="empresas")
+class Pedido_Produto(models.Model):
+    #importante repetir informações do produto para que uma mudança de cadastro não altere a venda
+    codigo = models.CharField(max_length=10)
+    descricao = models.CharField(max_length=200)
+    codigo_GTIN = models.CharField(max_length=14)
+    preco_unitario_bruto = models.DecimalField(max_digits=10, decimal_places=2)
+    desconto_dinheiro = models.DecimalField(max_digits=10,decimal_places=2)
+    desconto_retira = models.DecimalField(max_digits=10,decimal_places=2)
+    unidade = models.CharField(max_length=30, default="un")
 
-    def __str__(self):
-        return self.titulo
+    quantidade = models.DecimalField(max_digits=10,decimal_places=2)
+    total_bruto = models.DecimalField(max_digits=10,decimal_places=2) #total parcial sem desconto
+    desconto_total = models.DecimalField(max_digits=10,decimal_places=2) # em reais
+    desconto_unitario = models.DecimalField(max_digits=10,decimal_places=2) # em reais
+    total_final = models.DecimalField(max_digits=10,decimal_places=2) # total parcial com desconto
 
-class Admin(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    nome_completo = models.CharField(max_length=200)
-    data_on = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(upload_to="admins")
-    tel = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.user.username
-
-class encarte(models.Model):
-
-    pdf1 = models.FileField(upload_to='pdfs/')
-    pdf2 = models.FileField(upload_to='pdfs/')
-    pdf3 = models.FileField(upload_to='pdfs/')
-
-    def __str__(self):
-        return "Encarte numero:" + str(self.id)
-    
 class Banner(models.Model):    
     title = models.CharField(max_length=100, blank=True)
 
