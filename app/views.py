@@ -285,6 +285,7 @@ class FormaDeEntregaView(LojaMixin, BaseContextMixin, CreateView):
         context["carro"] = carro_obj
 
         context["enderecos"] = Endereco.objects.filter(cliente=self.request.user.cliente)
+        context["enderecosLojas"] = Endereco.objects.filter(cliente=Cliente.objects.get(nome="Casa", sobrenome="HG"))
 
         return context
 
@@ -548,19 +549,6 @@ class CadastrarEnderecoView(LojaMixin, BaseContextMixin, CreateView):
         # Obtenha os dados do formulário
 
         form.instance.cliente = self.request.user.cliente
-
-        # cliente = self.request.user.cliente
-        # titulo = form.cleaned_data.get("titulo")
-        # cep = form.cleaned_data.get("cep")
-        # estado = form.cleaned_data.get("estado")
-        # cidade = form.cleaned_data.get("cidade")
-        # bairro = form.cleaned_data.get("bairro")
-        # rua = form.cleaned_data.get("rua")
-        # numero = form.cleaned_data.get("numero")
-        # complemento = form.cleaned_data.get("complemento")
-
-        # endereco = Endereco.objects.create(cliente=cliente, titulo=titulo, cep=cep, estado=estado, cidade=cidade, bairro=bairro , rua=rua , numero=numero , complemento=complemento)
-        # endereco.save()
 
         # Retorne a resposta de sucesso
         return super().form_valid(form)

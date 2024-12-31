@@ -81,7 +81,7 @@ class Cliente(models.Model):
 class Endereco(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL,null=True,blank=True)
     titulo = models.CharField(max_length=20,null=True,blank=True)
-    cep = models.CharField(max_length=8,null=True,blank=True)
+    cep = models.CharField(max_length=9,null=True,blank=True)
     estado = models.CharField(max_length=3,null=True,blank=True)
     cidade = models.CharField(max_length=35,null=True,blank=True)
     bairro = models.CharField(max_length=35,null=True,blank=True)
@@ -112,7 +112,7 @@ class CarroProduto(models.Model):
     criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return "Carro:" + str(self.carro.id) + "CarroProduto:" + str(self.id)
+        return "Carro: " + str(self.carro.id) + "CarroProduto: " + str(self.id)
 
 PEDIDO_STATUS=[
     ("Pedido Recebido","Pedido Recebido"),
@@ -143,7 +143,7 @@ class Pedido_order(models.Model):
     total = models.PositiveIntegerField()
 
     def __str__(self):
-        return "Pedido_order:" + str(self.id)
+        return "Pedido_order: " + str(self.id)
 
 class Pedido_Produto(models.Model):
     #importante repetir informações do produto para que uma mudança de cadastro não altere a venda
