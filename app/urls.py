@@ -16,8 +16,6 @@ urlpatterns = [
     path("todos-produtos/",TodosProdutosView.as_view(),name="Todosprodutos"),
     path("produtos/<slug:slug>/",ProdutosDetalheView.as_view(),name="produtodetalhe"),
 
-    path('abrir-pdf/', open_pdf, name='open_pdf'),
-
     path("addcarro2-<int:prod_id>/",AddCarroView2.as_view(),name="addcarro"),
     path("addcarro-<int:prod_id>/", AddCarroView.as_view(), name="addcarro"),
     path("meu-carro/",MeuCarroView.as_view(),name="meucarro"),
@@ -40,5 +38,8 @@ urlpatterns = [
     path("admin-pedido-<int:pk>/", AdminPedidoView.as_view(), name="adminpedido"),
     path("admin-todos-pedido/", AdminTodosPedidoView.as_view(), name="admintodospedido"),
     path("admin-pedido-mudar/<int:pk>/", AdminPedidoMudarView.as_view(), name="adminpedidomudar"),
+
+    path('abrir-pdf/', open_pdf, name='open_pdf'),
+    path('endereco_cadastrar/', endereco_cadastrar, name='endereco_cadastrar'),
     
 ]

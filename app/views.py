@@ -12,6 +12,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.core.paginator import Paginator
+from rest_framework.response import Response
+from rest_framework import serializers, status
 
 class AdminRequireMixin(object):
 
@@ -281,6 +283,9 @@ class FormaDeEntregaView(LojaMixin, BaseContextMixin, CreateView):
         else:
             carro_obj = None
         context["carro"] = carro_obj
+
+        context["enderecos"] = Endereco.objects.filter(cliente=self.request.user.cliente)
+
         return context
 
     def form_valid(self,form):
@@ -539,9 +544,23 @@ class CadastrarEnderecoView(LojaMixin, BaseContextMixin, CreateView):
     success_url = reverse_lazy("lojaapp:clienteperfil")
 
     def form_valid(self, form):
+        print("cu")
         # Obtenha os dados do formulário
 
         form.instance.cliente = self.request.user.cliente
+
+        # cliente = self.request.user.cliente
+        # titulo = form.cleaned_data.get("titulo")
+        # cep = form.cleaned_data.get("cep")
+        # estado = form.cleaned_data.get("estado")
+        # cidade = form.cleaned_data.get("cidade")
+        # bairro = form.cleaned_data.get("bairro")
+        # rua = form.cleaned_data.get("rua")
+        # numero = form.cleaned_data.get("numero")
+        # complemento = form.cleaned_data.get("complemento")
+
+        # endereco = Endereco.objects.create(cliente=cliente, titulo=titulo, cep=cep, estado=estado, cidade=cidade, bairro=bairro , rua=rua , numero=numero , complemento=complemento)
+        # endereco.save()
 
         # Retorne a resposta de sucesso
         return super().form_valid(form)
@@ -553,6 +572,29 @@ class CadastrarEnderecoView(LojaMixin, BaseContextMixin, CreateView):
         else:
             return self.success_url
 
+def endereco_cadastrar(request):    
+    if request.method == 'POST':
+        try:
+            print(request.POST)
+            usuario = User.objects.get(username=request.user.username)
+            cliente = Cliente.objects.get(user=usuario)
+            titulo = request.POST["titulo"]
+            cep = request.POST["cep"]
+            estado = request.POST["estado"]
+            cidade = request.POST["cidade"]
+            bairro = request.POST["bairro"]
+            rua = request.POST["rua"]
+            numero = request.POST["numero"]
+            complemento = request.POST["complemento"]
+
+            endereco = Endereco.objects.create(cliente=cliente, titulo=titulo, cep=cep, estado=estado, cidade=cidade, bairro=bairro , rua=rua , numero=numero , complemento=complemento)
+            endereco.save()
+
+            return redirect('lojaapp:clienteperfil')
+        except User.DoesNotExist:
+            return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_400_BAD_REQUEST)
+        
+    return HttpResponse("Invalid request.")
 
 class deletarEnderecoView(LojaMixin, View):
     def get(self,request,*arg,**kwargs):

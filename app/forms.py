@@ -109,12 +109,12 @@ class EnderecoRegistrarForms(forms.ModelForm):
                 'placeholder': 'CEP'
             }),
             'estado': TextInput(attrs={
-                'class': "form-control",
+                'class': "form-control estado-input",
                 'style': 'max-width: 300px;',
                 'placeholder': 'Estado'
             }),
             'cidade': TextInput(attrs={
-                'class': "form-control",
+                'class': "form-control cidade-input",
                 'style': 'max-width: 300px;',
                 'placeholder': 'Cidade'
             }),

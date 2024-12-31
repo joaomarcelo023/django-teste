@@ -8,7 +8,7 @@
 
     <div class="container">
         <h3 class="text-center mb-4">Adicionar Endereço</h3>
-        <form id="addressForm" action="" method="post">
+        <form id="addressForm" action="{% url 'lojaapp:endereco_cadastrar' %}" method="POST">
             {% csrf_token %}
             <div class="form-group">
                 <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título (opcional)" maxlength="20">
@@ -19,10 +19,10 @@
                 <div id="cepWarning" style="color: red; display: none;">Por favor, insira um CEP valido.</div>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="estado" name="estado" placeholder="Estado" style="border-style:dashed;" disabled maxlength="3">
+                <input type="text" class="form-control estado-input" id="estado" name="estado" placeholder="Estado" style="border-style:dashed;" readonly maxlength="3">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Cidade" style="border-style:dashed;" disabled maxlength="35">
+                <input type="text" class="form-control cidade-input" id="cidade" name="cidade" placeholder="Cidade" style="border-style:dashed;" readonly maxlength="35">
             </div>
             <div class="form-group">
                 <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" maxlength="35">

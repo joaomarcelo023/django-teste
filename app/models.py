@@ -77,7 +77,7 @@ class Endereco(models.Model):
 
 
     def __str__(self):
-        return self.titulo
+        return self.titulo + " | " + self.cliente.nome + " " + self.cliente.sobrenome
 
 
 class Carro(models.Model):
