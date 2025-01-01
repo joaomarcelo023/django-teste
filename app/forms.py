@@ -11,16 +11,21 @@ class Checar_PedidoForms(forms.ModelForm):
         model = Pedido_order
         fields = ['ordenado_por',"endereco_envio","telefone"]
 
+        labels = {
+            'ordenado_por': 'Nome do recebedor',
+            'endereco_envio': 'Endereço de envio',
+            'telefone': 'Telefone'
+        }
         widgets = {
             'ordenado_por': TextInput(attrs={
                 'class': "form-control",
                 'style': 'max-width: 100%;',
-                'placeholder': 'Nome'
+                'placeholder': 'Nome Completo'
             }),
             'endereco_envio': TextInput(attrs={
                 'class': "form-control",
                 'style': 'max-width: 100%;',
-                'placeholder': 'Endereco de envio'
+                'placeholder': 'Endereço de envio'
             }),
             'telefone': TextInput(attrs={
                 'class': "form-control",

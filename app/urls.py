@@ -39,7 +39,6 @@ urlpatterns = [
     path("admin-todos-pedido/", AdminTodosPedidoView.as_view(), name="admintodospedido"),
     path("admin-pedido-mudar/<int:pk>/", AdminPedidoMudarView.as_view(), name="adminpedidomudar"),
 
-    path('abrir-pdf/', open_pdf, name='open_pdf'),
     path('endereco_cadastrar/', endereco_cadastrar, name='endereco_cadastrar'),
     
 ]

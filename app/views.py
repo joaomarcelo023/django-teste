@@ -151,17 +151,6 @@ class AddCarroView2(LojaMixin, BaseContextMixin, TemplateView):
 
         return context
 
-def open_pdf(request):
-    # Lógica para obter o caminho do arquivo PDF. Substitua esta linha conforme necessário.
-    #pdf_path = os.path.join(os.path.dirname(__file__),".." ,'media', 'exemplo.pdf')
-    pdf_path = encarte.objects.latest('id').pdf1.path  # Obtém o modelo mais recente com base no campo id
-
-    with open(pdf_path, 'rb') as pdf:
-        response = HttpResponse(pdf.read(), content_type='application/pdf')
-        response['Content-Disposition'] = 'filename=a.pdf'
-        return response
-    pdf.closed
-
 class MeuCarroView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "meucarro.html"
 
