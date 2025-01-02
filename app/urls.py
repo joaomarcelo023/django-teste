@@ -10,6 +10,8 @@
 #   com o status "pagamento pendente" para pagamento não online,
 #   com o status "confirmando pagamento" para pagamento online.
 
+#TODO-ALVAREZ: implementar pagamento pagseguro
+
 
 from django.contrib import admin
 from django.urls import path, include
