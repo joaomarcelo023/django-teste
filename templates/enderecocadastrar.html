@@ -10,6 +10,7 @@
         <h3 class="text-center mb-4">Adicionar Endereço</h3>
         <form id="addressForm" action="{% url 'lojaapp:endereco_cadastrar' %}" method="POST">
             {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
             <div class="form-group">
                 <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título (opcional)" maxlength="20">
             </div>

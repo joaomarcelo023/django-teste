@@ -25,18 +25,18 @@
                     </div>
                 </label>
             {% endfor %}
+            <hr>
             {% for e in enderecosLojas %}
                 <label class="option">
                     <input type="radio" name="local_entrega" value="{{ e.id }}">
                     <div>
-                        <span class="address">{{ e.titulo }}</span>
+                        <span class="address">{{ e.titulo }} (Retirada na loja)</span>
                         <br>
                         <span class="address">{{ e.rua }}{% if e.numero %} {{ e.numero }}{% endif %}{% if e.complemento %} - {{ e.complemento }}{% endif %}, {{ e.bairro }} - {{ e.cidade }}, {{ e.estado }} - {{ e.cep }}</span>
-                        <br>
-                        <span class="price">R$ 32,85</span>
                     </div>
                 </label>
             {% endfor %}
+            <a href="{% url 'lojaapp:cadastrarendereco' %}?next={{ request.path }}" class="button-link">Novo endereço</a>
             <button type="submit" class="button">Continuar</button>
         </form>
     </div>

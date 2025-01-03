@@ -127,8 +127,8 @@ class Pedido_order(models.Model):
     cliente = models.OneToOneField(Cliente,on_delete=models.CASCADE,default="")
     nome_cliente = models.CharField(max_length=200,default="")
     cpf_cnpj = models.CharField(max_length=20, default="") # cpf do cliente formatadinho direitinho
-    codigo_cliente = models.CharField(max_length=8,default="") # codigo consistente com sistema interno, se não tiver
-    telefone = models.CharField(max_length=10,default="")
+    codigo_cliente = models.CharField(max_length=8,default="",null=True,blank=True) # codigo consistente com sistema interno, se não tiver
+    telefone = models.CharField(max_length=19,default="")
 
     carro = models.OneToOneField(Carro,on_delete=models.CASCADE)
     total_bruto = models.DecimalField(max_digits=10,decimal_places=2,default=0)
@@ -142,7 +142,7 @@ class Pedido_order(models.Model):
     criado_em = models.DateTimeField(auto_now_add=True)
 
     # TODO-ALVAREZ deletar de forma responsável
-    ordenado_por = models.CharField(max_length=200)
+    ordenado_por = models.CharField(max_length=200,null=True,blank=True)
 
     def __str__(self):
         return "Pedido_order: " + str(self.id) + " | Status: " + self.pedido_status + " | Cliente: " + self.nome_cliente

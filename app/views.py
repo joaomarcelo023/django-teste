@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, CreateView, FormView, DetailView, ListView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .forms import Checar_PedidoForms, ClienteRegistrarForms, ClienteEntrarForms, EnderecoRegistrarForms
 from.models import *
 from django.http import HttpResponse
@@ -18,7 +18,7 @@ from rest_framework import serializers, status
 class AdminRequireMixin(object):
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated and Admin.objects.filter(user=request.user).exists():
+        if request.user.is_authenticated:# and Admin.objects.filter(user=request.user).exists():
             pass
         else:
             return redirect("/admin-login/")
@@ -32,6 +32,9 @@ class LojaMixin(object):
             if request.user.is_authenticated and request.user.cliente:
                 carro_obj.cliente = request.user.cliente
                 carro_obj.save()
+        else:
+            carro_obj = Carro.objects.create(total=0)
+            self.request.session['carro_id'] = carro_obj.id
         return super().dispatch(request,*args,**kwargs)
 
 class BaseContextMixin(object):
@@ -273,29 +276,32 @@ class FormaDeEntregaView(LojaMixin, BaseContextMixin, CreateView):
             carro_obj = None
         context["carro"] = carro_obj
 
-        context["enderecos"] = Endereco.objects.filter(cliente=self.request.user.cliente)
+        context["enderecos"] = Endereco.objects.filter(cliente=self.request.user.cliente).order_by("-id")
         context["enderecosLojas"] = Endereco.objects.filter(cliente=Cliente.objects.get(nome="Casa", sobrenome="HG"))
 
         return context
 
-    def form_valid(self,form):
-        carro_id = self.request.session.get("carro_id")
-        if carro_id:
-            carro_obj = Carro.objects.get(id=carro_id)
-            form.instance.carro = carro_obj
-            form.instance.subtotal = carro_obj.total
-            form.instance.desconto = 0
-            form.instance.total = carro_obj.total
-            form.instance.pedido_status = "Pedido Recebido"
-            del self.request.session['carro_id']
-        else:
-            return redirect("lojaapp:home")
-        return super().form_valid(form)
+    # def form_valid(self,form):
+    #     carro_id = self.request.session.get("carro_id")
+    #     if carro_id:
+    #         carro_obj = Carro.objects.get(id=carro_id)
+    #         form.instance.carro = carro_obj
+    #         form.instance.subtotal = carro_obj.total
+    #         form.instance.desconto = 0
+    #         form.instance.total = carro_obj.total
+    #         form.instance.pedido_status = "Pedido Recebido"
+    #         del self.request.session['carro_id']
+    #     else:
+    #         return redirect("lojaapp:home")
+    #     return super().form_valid(form)
     
 def pedido_carro_endereco(request):
     if request.method == 'POST':
         try:
-            print(request.POST)
+            if Pedido_order.objects.filter(carro=request.POST["carro_id"]):
+                # print(request.POST)
+                Pedido_order.objects.get(carro=request.POST["carro_id"]).delete()
+
             usuario = User.objects.get(username=request.user.username)
             cliente = Cliente.objects.get(user=usuario)
             nome_cliente = f"{cliente.nome} {cliente.sobrenome}"
@@ -473,7 +479,7 @@ class AdminLoginView(BaseContextMixin, FormView):
         unome = form.cleaned_data.get("usuario")
         pword = form.cleaned_data.get("senha")
         usr = authenticate(username = unome, password = pword)
-        if usr is not None and Admin.objects.filter(user=usr).exists():
+        if usr is not None:# and Admin.objects.filter(user=usr).exists():
             login(self.request, usr)
         else:
             return render(self.request,self.template_name,{"form":self.form_class,"error":"usuario nao corresponde"})
@@ -563,6 +569,14 @@ class CadastrarEnderecoView(LojaMixin, BaseContextMixin, CreateView):
     form_class = EnderecoRegistrarForms
     success_url = reverse_lazy("lojaapp:clienteperfil")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if "next" in self.request.GET:
+            context["next"] = self.request.GET.get("next")
+
+        return context
+
     def form_valid(self, form):
         # Obtenha os dados do formulário
 
@@ -571,12 +585,12 @@ class CadastrarEnderecoView(LojaMixin, BaseContextMixin, CreateView):
         # Retorne a resposta de sucesso
         return super().form_valid(form)
 
-    def get_success_url(self):
-        if "next" in self.request.GET:
-            next_url = self.request.GET.get("next")
-            return next_url
-        else:
-            return self.success_url
+    # def get_success_url(self):
+    #     if "next" in self.request.GET:
+    #         next_url = self.request.GET.get("next")
+    #         return next_url
+    #     else:
+    #         return self.success_url
 
 def endereco_cadastrar(request):    
     if request.method == 'POST':
@@ -596,7 +610,10 @@ def endereco_cadastrar(request):
             endereco = Endereco.objects.create(cliente=cliente, titulo=titulo, cep=cep, estado=estado, cidade=cidade, bairro=bairro , rua=rua , numero=numero , complemento=complemento)
             endereco.save()
 
-            return redirect('lojaapp:clienteperfil')
+            next_url = request.POST.get("next", reverse("lojaapp:clienteperfil"))
+            if  not next_url:
+                next_url = reverse("lojaapp:clienteperfil")
+            return redirect(next_url)
         except User.DoesNotExist:
             return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_400_BAD_REQUEST)
         

@@ -49,6 +49,31 @@
     margin-top: 10px;
 }
 
+.button-link {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #e6cf00;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.726);
+    box-shadow: .75px .75px black;
+}
+
+.button-link:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #c4b000;
+}
+
 .button:hover {
     background-color: #0056b3;
+}
+
+hr {
+    background-color: black;
 }
