@@ -28,7 +28,7 @@ class Produto(models.Model):
     #entrada manual de algum usuário
     image = models.ImageField(upload_to="produtos")
 
-    #TODO-ALVAREZ deletar de forma responsável
+    # TODO-ALVAREZ deletar de forma responsável
     titulo = models.CharField(max_length=200)
     venda = models.DecimalField(max_digits=10, decimal_places=2)
     garantia = models.CharField(max_length=300,null=True,blank=True)
@@ -115,6 +115,7 @@ class CarroProduto(models.Model):
         return "Carro: " + str(self.carro.id) + "CarroProduto: " + str(self.id)
 
 PEDIDO_STATUS=[
+    ("Pedido em Andamento","Pedido em Andamento"),
     ("Pedido Recebido","Pedido Recebido"),
     ("Pedido Processando", "Pedido Processando"),
     ("Pedido Caminho", "Pedido Caminho"),
@@ -122,28 +123,29 @@ PEDIDO_STATUS=[
     ("Pedido Cancelado", "Pedido Cancelado"),
 ]
 
-class Pedido_order(models.Model):
-
-    total_bruto = models.DecimalField(max_digits=10,decimal_places=2)
-    total_desconto = models.DecimalField(max_digits=10,decimal_places=2)
-    total_final = models.DecimalField(max_digits=10,decimal_places=2)
-    cpf_cnpj = models.CharField(max_length=20, default="") #cpf do cliente formatadinho direitinho
+class Pedido_order(models.Model):    
+    cliente = models.OneToOneField(Cliente,on_delete=models.CASCADE,default="")
     nome_cliente = models.CharField(max_length=200,default="")
-    codigo_cliente = models.CharField(max_length=8,default="") #codigo consistente com sistema interno, se não tiver
-    carro = models.OneToOneField(Carro,on_delete=models.CASCADE)
-    criado_em = models.DateTimeField(auto_now_add=True)
-    pedido_status = models.CharField(max_length=50, choices=PEDIDO_STATUS)
-    endereco_envio = models.CharField(max_length=200)
-    telefone = models.CharField(max_length=10)
+    cpf_cnpj = models.CharField(max_length=20, default="") # cpf do cliente formatadinho direitinho
+    codigo_cliente = models.CharField(max_length=8,default="") # codigo consistente com sistema interno, se não tiver
+    telefone = models.CharField(max_length=10,default="")
 
-    #TODO-ALVAREZ deletar de forma responsável
+    carro = models.OneToOneField(Carro,on_delete=models.CASCADE)
+    total_bruto = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+    total_desconto = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+    total_final = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+    pedido_status = models.CharField(max_length=50, choices=PEDIDO_STATUS)
+
+    endereco_envio = models.OneToOneField(Endereco,on_delete=models.CASCADE,default="")
+    endereco_envio_formatado = models.CharField(max_length=200,default="")
+
+    criado_em = models.DateTimeField(auto_now_add=True)
+
+    # TODO-ALVAREZ deletar de forma responsável
     ordenado_por = models.CharField(max_length=200)
-    subtotal = models.PositiveIntegerField()
-    desconto = models.PositiveIntegerField()
-    total = models.PositiveIntegerField()
 
     def __str__(self):
-        return "Pedido_order: " + str(self.id)
+        return "Pedido_order: " + str(self.id) + " | Status: " + self.pedido_status + " | Cliente: " + self.nome_cliente
 
 class Pedido_Produto(models.Model):
     #importante repetir informações do produto para que uma mudança de cadastro não altere a venda

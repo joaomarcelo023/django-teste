@@ -261,7 +261,7 @@ class FormaDeEntregaView(LojaMixin, BaseContextMixin, CreateView):
         if request.user.is_authenticated and request.user.cliente:
             pass
         else:
-            return redirect("/entrar/?next=/checkout/")
+            return redirect("/entrar/?next=/forma-de-entrega/")
         return super().dispatch(request,*args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -291,6 +291,34 @@ class FormaDeEntregaView(LojaMixin, BaseContextMixin, CreateView):
         else:
             return redirect("lojaapp:home")
         return super().form_valid(form)
+    
+def pedido_carro_endereco(request):
+    if request.method == 'POST':
+        try:
+            print(request.POST)
+            usuario = User.objects.get(username=request.user.username)
+            cliente = Cliente.objects.get(user=usuario)
+            nome_cliente = f"{cliente.nome} {cliente.sobrenome}"
+            cpf_cnpj = cliente.cpf_ou_cnpj_formatado
+            # codigo_cliente = 
+            telefone = cliente.telefone
+
+            carro = Carro.objects.get(id=request.POST["carro_id"])
+            pedido_status = "Pedido em Andamento"
+            total_bruto = carro.total
+            
+            endereco_envio = Endereco.objects.get(id=request.POST["local_entrega"])
+            endereco_envio_formatado = f"{endereco_envio.rua} {endereco_envio.numero} {endereco_envio.complemento}, {endereco_envio.bairro} - {endereco_envio.cep} {endereco_envio.cidade}/{endereco_envio.estado}"
+
+            pedido = Pedido_order.objects.create(cliente=cliente, nome_cliente=nome_cliente, cpf_cnpj=cpf_cnpj, telefone=telefone, carro=carro, total_bruto=total_bruto, pedido_status=pedido_status, endereco_envio=endereco_envio, endereco_envio_formatado=endereco_envio_formatado)
+            pedido.save()
+
+            return redirect('lojaapp:checkout')
+        except User.DoesNotExist:
+            return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_400_BAD_REQUEST)
+        
+    return HttpResponse("Invalid request.")
+
 
 class CheckOutView(LojaMixin, BaseContextMixin, CreateView):
     template_name = "processar.html"
@@ -312,6 +340,8 @@ class CheckOutView(LojaMixin, BaseContextMixin, CreateView):
         else:
             carro_obj = None
         context["carro"] = carro_obj
+        context["pedido"] = Pedido_order.objects.get(carro=carro_obj)
+
         return context
 
     def form_valid(self,form):

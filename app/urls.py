@@ -55,5 +55,6 @@ urlpatterns = [
     path("admin-pedido-mudar/<int:pk>/", AdminPedidoMudarView.as_view(), name="adminpedidomudar"),
 
     path('endereco_cadastrar/', endereco_cadastrar, name='endereco_cadastrar'),
+    path('pedido_carro_endereco/', pedido_carro_endereco, name='pedido_carro_endereco'),
     
 ]
