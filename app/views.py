@@ -1,3 +1,5 @@
+#alvagay
+
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, CreateView, FormView, DetailView, ListView
 from django.urls import reverse_lazy, reverse
