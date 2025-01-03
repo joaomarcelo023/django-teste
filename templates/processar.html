@@ -6,51 +6,81 @@
 {% block title %}Processar Compra{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/forma_de_entrega.css' %}">
+
 <div class="container table-container">
     <br>
     <div class="row justify-content-center">
-        <div class = "col-md-6">
+        <div class = "col-md-5">
             <h3>Pagamento</h3>
             <form action="" method="POST">
                 {% csrf_token %}
-                {{form.as_p}}
+                <!-- {{form.as_p}} -->
+                <div>
+                    <label class="option selected">
+                        <input type="radio" name="local_entrega" value="dinheiro" checked>
+                        <div>
+                            <span class="address">Dinheiro</span>
+                        </div>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="local_entrega" value="loja">
+                        <div>
+                            <span class="address">Loja</span>
+                        </div>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="local_entrega" value="online">
+                        <div>
+                            <span class="address">Online</span>
+                        </div>
+                    </label>
+                </div>
                 <div class="text-center">
                     <button class="btn btn-info">Comprar</button>
                 </div>
             </form>
         </div>
-        <div class = "col-md-6">
+        <div class = "col-md-7">
             <h3>Itens do carrinho</h3>
-            <table class="table" style="font-size: 0.825em;">
+            <table class="table">
                 <thead>
                     <tr>
                         <th colspan="2" class="text-center">Produtos</th>
                         <th class="text-center">Preço Unitário</th>
                         <th class="text-center">Quantidade</th>
+                        <th></th>
                         <th class="text-center">Subtotal</th>
+                        <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody style="vertical-align: middle;">
                     {%for cp in carro.carroproduto_set.all %}
                         <tr>
-                            <td class="text-center" style="border-right: none;">{{ forloop.counter }}.</td>
-                            <td class="text-center" style="border-left: none;">{{ cp.produto.titulo }}</td>
-                            <td class="text-center">{{ cp.preco_unitario|intcomma }}</td>
-                            <td class="text-center">{{ cp.quantidade }}</td>
-                            <td class="text-center">R$ {{ cp.subtotal|intcomma }}</td>
+                            <td class="text-center" style="border-right: none; vertical-align: middle;">{{ forloop.counter }}.</td>
+                            <td class="text-center" style="border-left: none; vertical-align: middle;">{{ cp.produto.titulo }}</td>
+                            <td class="text-center" style="vertical-align: middle;">R$ {{ cp.preco_unitario|intcomma }}</td>
+                            <td class="text-center" style="vertical-align: middle;">{{ cp.quantidade }}</td>
+                            <td colspan="3" class="text-center" style="vertical-align: middle;">R$ {{ cp.subtotal|intcomma }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
                 <tfoot>
+                    {% if not pedido.endereco_envio.cliente.nome == "Casa" and not pedido.endereco_envio.cliente.sobrenome == "HG" %}
+                        <tr>
+                            <th colspan="4" class="text-right" style="vertical-align: middle;">Frete:</th>
+                            <th colspan="3" class="text-center" style="vertical-align: middle;">R$ </th>
+                        </tr>
+                    {% endif %}
                     <tr>
-                        <th colspan="4" style="text-align: right;">TOTAL:</th>
-                        <th class="text-center">R$ {{ carro.total|intcomma }}</th>
+                        <th colspan="4" class="text-right" style="vertical-align: middle;">TOTAL:</th>
+                        <th colspan="3" class="text-center" style="vertical-align: middle;">R$ {{ carro.total|intcomma }}</th>
                     </tr>
                 </tfoot>
             </table>
             <br>
             <div>
-                <h3>Endereço de entrega</h3>
+                <h3>Endereço de {% if pedido.endereco_envio.cliente.nome == "Casa" and pedido.endereco_envio.cliente.sobrenome == "HG" %}retirada{% else %}entrega{% endif %}</h3>
                 <p style="background-color: white; padding: 2.5%;">
                     {{ pedido.endereco_envio.titulo }}
                     <br>
@@ -60,5 +90,7 @@
         </div>
     </div>
 </div>
+
+<script src="{% static 'js/forma_de_entrega.js' %}"></script>
 {% endblock %}
 
