@@ -8,3 +8,9 @@ l.forEach(e => {
         e.classList.add("selected");
     });
 });
+
+function updateFreteValue(radio) {
+    const hiddenInput = document.getElementById('freteInput');
+    const extraValue = radio.dataset.frete;
+    hiddenInput.value = `${extraValue}`;
+}

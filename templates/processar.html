@@ -6,33 +6,194 @@
 {% block title %}Processar Compra{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/forma_de_entrega.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/processar.css' %}">
 
 <div class="container table-container">
     <br>
     <div class="row justify-content-center">
         <div class = "col-md-5">
             <h3>Pagamento</h3>
-            <form action="" method="POST">
+            <form action="{% url 'lojaapp:testPOST' %}" method="POST">
                 {% csrf_token %}
+                <input type="hidden" name="path" value="{{ request.path }}">
                 <!-- {{form.as_p}} -->
                 <div>
                     <label class="option selected">
-                        <input type="radio" name="local_entrega" value="dinheiro" checked>
-                        <div>
-                            <span class="address">Dinheiro</span>
+                        <label class="option_title selected" style="margin-bottom: 0px;">
+                            <input type="radio" name="local_pagamento" value="dinheiro" checked>
+                            <div class="payment">
+                                <table>
+                                    <tr>
+                                        <td class="payment_place">Dinheiro em espécie (melhor preço) (não diz pro patrão que eu te avisei &#128540; )</td>
+                                        {% if pedido.total_desconto %}
+                                            <td class="total_desconto">R${{ pedido.total_bruto|intcomma }}</td>
+                                            <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                        {% else %}
+                                            <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                        {% endif %}
+                                    </tr>
+                                </table>
+                            </div>
+                        </label>
+                        <!-- <input type="hidden" name="metodo_pagamento" value="dinheiro"> -->
+                    </label>
+                    <label class="option">
+                        <label class="option_title">
+                            <input type="radio" name="local_pagamento" value="loja">
+                            <div class="payment">
+                                <table>
+                                    <tr>
+                                        <td class="payment_place">Pagar na loja</td>
+                                        {% if pedido.total_desconto %}
+                                            <td class="total_desconto">R${{ pedido.total_bruto|intcomma }}</td>
+                                            <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                        {% else %}
+                                            <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                        {% endif %}
+                                    </tr>
+                                </table>
+                            </div>
+                        </label>
+                        <div class="methods" style="display: none;">
+                            <label class="option_method">
+                                <input type="radio" name="metodo_pagamento" value="pix">
+                                <div class="payment">
+                                    <table>
+                                        <tr>
+                                            <td class="payment_method">PIX</td>
+                                            {% if pedido.total_desconto %}
+                                                <td class="total_desconto">R${{ pedido.total_bruto|intcomma }}</td>
+                                                <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                            {% else %}
+                                                <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                            {% endif %}
+                                        </tr>
+                                    </table>
+                                </div>
+                            </label>
+                            <label class="option_method">
+                                <input type="radio" name="metodo_pagamento" value="debito">
+                                <div class="payment">
+                                    <table>
+                                        <tr>
+                                            <td class="payment_method">Débito</td>
+                                            {% if pedido.total_desconto %}
+                                                <td class="total_desconto">R${{ pedido.total_bruto|intcomma }}</td>
+                                                <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                            {% else %}
+                                                <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                            {% endif %}
+                                        </tr>
+                                    </table>
+                                </div>
+                            </label>
+                            <label class="option_method">
+                                <input type="radio" name="metodo_pagamento" value="credito">
+                                <div class="payment">
+                                    <table>
+                                        <tr>
+                                            <td class="payment_method">Credito</td>
+                                            {% if pedido.total_desconto %}
+                                                <td class="total_desconto">R${{ pedido.total_bruto|intcomma }}</td>
+                                                <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                            {% else %}
+                                                <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                            {% endif %}
+                                        </tr>
+                                    </table>
+                                </div>
+                            </label>
+                            <div class="option_parcelas">
+                                <table>
+                                    <tr class="parcelas">
+                                        <td>Número de parcelas:</td>
+                                        <td>
+                                            <select name="parcelas">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </label>
                     <label class="option">
-                        <input type="radio" name="local_entrega" value="loja">
-                        <div>
-                            <span class="address">Loja</span>
-                        </div>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="local_entrega" value="online">
-                        <div>
-                            <span class="address">Online</span>
+                        <label class="option_title">
+                            <input type="radio" name="local_pagamento" value="online">
+                            <div class="payment">
+                                <table>
+                                    <tr>
+                                        <td class="payment_place">Pagamento online com logo da pagseguro</td>
+                                        {% if pedido.total_desconto %}
+                                            <td class="total_desconto">R${{ pedido.total_bruto|intcomma }}</td>
+                                            <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                        {% else %}
+                                            <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                        {% endif %}
+                                    </tr>
+                                </table>
+                            </div>
+                        </label>
+                        <div class="methods" style="display: none;">
+                            <label class="option_method">
+                                <input type="radio" name="metodo_pagamento" value="pix">
+                                <div class="payment">
+                                    <table>
+                                        <tr>
+                                            <td class="payment_method">PIX</td>
+                                            {% if pedido.total_desconto %}
+                                                <td class="total_desconto">R${{ pedido.total_bruto|intcomma }}</td>
+                                                <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                            {% else %}
+                                                <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                            {% endif %}
+                                        </tr>
+                                    </table>
+                                </div>
+                            </label>
+                            <label class="option_method">
+                                <input type="radio" name="metodo_pagamento" value="debito">
+                                <div class="payment">
+                                    <table>
+                                        <tr>
+                                            <td class="payment_method">Débito</td>
+                                            {% if pedido.total_desconto %}
+                                                <td class="total_desconto">R${{ pedido.total_bruto|intcomma }}</td>
+                                                <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                            {% else %}
+                                                <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                            {% endif %}
+                                        </tr>
+                                    </table>
+                                </div>
+                            </label>
+                            <label class="option_method">
+                                <input type="radio" name="metodo_pagamento" value="credito">
+                                <div class="payment">
+                                    <table>
+                                        <tr>
+                                            <td class="payment_method">Credito</td>
+                                            {% if pedido.total_desconto %}
+                                                <td class="total_desconto">R${{ pedido.total_bruto|intcomma }}</td>
+                                                <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                            {% else %}
+                                                <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                            {% endif %}
+                                        </tr>
+                                    </table>
+                                </div>
+                            </label>
                         </div>
                     </label>
                 </div>
@@ -66,10 +227,16 @@
                     {% endfor %}
                 </tbody>
                 <tfoot>
+                    {% if pedido.total_desconto %}
+                        <tr>
+                            <th colspan="4" class="text-right" style="vertical-align: middle; font-weight: 400;">Desconto:</th>
+                            <th colspan="3" class="text-center" style="vertical-align: middle; font-weight: 400;">R$ {{ pedido.total_desconto|intcomma }}</th>
+                        </tr>
+                    {% endif %}
                     {% if not pedido.endereco_envio.cliente.nome == "Casa" and not pedido.endereco_envio.cliente.sobrenome == "HG" %}
                         <tr>
-                            <th colspan="4" class="text-right" style="vertical-align: middle;">Frete:</th>
-                            <th colspan="3" class="text-center" style="vertical-align: middle;">R$ </th>
+                            <th colspan="4" class="text-right" style="vertical-align: middle; font-weight: 400;">Frete:</th>
+                            <th colspan="3" class="text-center" style="vertical-align: middle; font-weight: 400;">R$ {{ pedido.frete|intcomma }}</th>
                         </tr>
                     {% endif %}
                     <tr>
@@ -81,7 +248,7 @@
             <br>
             <div>
                 <h3>Endereço de {% if pedido.endereco_envio.cliente.nome == "Casa" and pedido.endereco_envio.cliente.sobrenome == "HG" %}retirada{% else %}entrega{% endif %}</h3>
-                <p style="background-color: white; padding: 2.5%;">
+                <p class="endereco">
                     {{ pedido.endereco_envio.titulo }}
                     <br>
                     {{ pedido.endereco_envio_formatado }}
@@ -91,6 +258,6 @@
     </div>
 </div>
 
-<script src="{% static 'js/forma_de_entrega.js' %}"></script>
+<script src="{% static 'js/processar.js' %}"></script>
 {% endblock %}
 

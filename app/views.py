@@ -1,5 +1,3 @@
-#alvagay
-
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, CreateView, FormView, DetailView, ListView
 from django.urls import reverse_lazy, reverse
@@ -16,6 +14,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from rest_framework.response import Response
 from rest_framework import serializers, status
+import decimal 
 
 class AdminRequireMixin(object):
 
@@ -314,11 +313,13 @@ def pedido_carro_endereco(request):
             carro = Carro.objects.get(id=request.POST["carro_id"])
             pedido_status = "Pedido em Andamento"
             total_bruto = carro.total
+            frete = decimal.Decimal(request.POST["frete"])
+            total_final = (decimal.Decimal(total_bruto) + decimal.Decimal(frete))
             
             endereco_envio = Endereco.objects.get(id=request.POST["local_entrega"])
             endereco_envio_formatado = f"{endereco_envio.rua} {endereco_envio.numero} {endereco_envio.complemento}, {endereco_envio.bairro} - {endereco_envio.cep} {endereco_envio.cidade}/{endereco_envio.estado}"
 
-            pedido = Pedido_order.objects.create(cliente=cliente, nome_cliente=nome_cliente, cpf_cnpj=cpf_cnpj, telefone=telefone, carro=carro, total_bruto=total_bruto, pedido_status=pedido_status, endereco_envio=endereco_envio, endereco_envio_formatado=endereco_envio_formatado)
+            pedido = Pedido_order.objects.create(cliente=cliente, nome_cliente=nome_cliente, cpf_cnpj=cpf_cnpj, telefone=telefone, carro=carro, pedido_status=pedido_status, total_bruto=total_bruto, total_final=total_final, frete=frete, endereco_envio=endereco_envio, endereco_envio_formatado=endereco_envio_formatado)
             pedido.save()
 
             return redirect('lojaapp:checkout')
@@ -326,7 +327,6 @@ def pedido_carro_endereco(request):
             return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_400_BAD_REQUEST)
         
     return HttpResponse("Invalid request.")
-
 
 class CheckOutView(LojaMixin, BaseContextMixin, CreateView):
     template_name = "processar.html"
@@ -627,3 +627,11 @@ class deletarEnderecoView(LojaMixin, View):
         Endereco.objects.filter(id=endereco_id).delete()
 
         return redirect("lojaapp:clienteperfil")
+
+
+def testPOST(request):
+    if request.method == 'POST':
+        print(request.POST)
+        return redirect(request.POST["path"])
+
+    return HttpResponse("Invalid request.")

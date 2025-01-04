@@ -13,14 +13,15 @@
         <form method="POST" action="{% url 'lojaapp:pedido_carro_endereco' %}">
             {% csrf_token %}
             <input type="hidden" name="carro_id" value="{{ carro.id }}">
+            <input id="freteInput" type="hidden" name="frete">
             {% for e in enderecos %}
                 <label class="option {% if forloop.first %}selected{% endif %}">
-                    <input type="radio" name="local_entrega" value="{{ e.id }}" {% if forloop.first %}checked{% endif %}>
+                    <input type="radio" name="local_entrega" data-frete="34.85" value="{{ e.id }}" onchange="updateFreteValue(this)" {% if forloop.first %}checked{% endif %}>                    
                     <div>
                         <span class="address">{{ e.titulo }}</span>
                         <br>
                         <span class="address">{{ e.rua }}{% if e.numero %} {{ e.numero }}{% endif %}{% if e.complemento %} - {{ e.complemento }}{% endif %}, {{ e.bairro }} - {{ e.cidade }}, {{ e.estado }} - {{ e.cep }}</span>
-                        <br>
+                        <br>                        
                         <span class="price">R$ 34,85</span>
                     </div>
                 </label>
@@ -28,7 +29,7 @@
             <hr>
             {% for e in enderecosLojas %}
                 <label class="option">
-                    <input type="radio" name="local_entrega" value="{{ e.id }}">
+                    <input type="radio" name="local_entrega" data-frete="0" value="{{ e.id }}" onchange="updateFreteValue(this)">
                     <div>
                         <span class="address">{{ e.titulo }} (Retirada na loja)</span>
                         <br>

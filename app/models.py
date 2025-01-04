@@ -131,10 +131,12 @@ class Pedido_order(models.Model):
     telefone = models.CharField(max_length=19,default="")
 
     carro = models.OneToOneField(Carro,on_delete=models.CASCADE)
+    pedido_status = models.CharField(max_length=50, choices=PEDIDO_STATUS)
+
     total_bruto = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+    frete =  models.DecimalField(max_digits=10,decimal_places=2,default=0)
     total_desconto = models.DecimalField(max_digits=10,decimal_places=2,default=0)
     total_final = models.DecimalField(max_digits=10,decimal_places=2,default=0)
-    pedido_status = models.CharField(max_length=50, choices=PEDIDO_STATUS)
 
     endereco_envio = models.OneToOneField(Endereco,on_delete=models.CASCADE,default="")
     endereco_envio_formatado = models.CharField(max_length=200,default="")
