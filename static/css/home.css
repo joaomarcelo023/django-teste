@@ -1,0 +1,31 @@
+@media (max-width: 577px) {
+    .col-lg-3, .col-md-4, .col-sm-6, .col-12 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    .m-3 {
+        margin: 1px 1px 30px !important;
+    }
+}
+
+.pagination {
+    height: 50px;
+    width: 50px;
+    font-size: 25px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.pagination .page-link {
+    height: 50px;
+    width: 50px;
+    font-size: 25px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display:flex;
+    vertical-align: middle;
+}
