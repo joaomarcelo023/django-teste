@@ -87,7 +87,7 @@
                                     </table>
                                 </div>
                             </label>
-                            <label class="option_method">
+                            <label class="option_method credito">
                                 <input type="radio" name="metodo_pagamento" value="credito">
                                 <div class="payment">
                                     <table>
@@ -103,12 +103,12 @@
                                     </table>
                                 </div>
                             </label>
-                            <div class="option_parcelas">
+                            <div class="option_parcelas" style="display: none;">
                                 <table>
                                     <tr class="parcelas">
-                                        <td>Número de parcelas:</td>
-                                        <td>
-                                            <select name="parcelas">
+                                        <td style="width: 35%;">Número de parcelas:</td>
+                                        <td style="width: 40%;">
+                                            <select class="parcelas_select">
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -123,6 +123,7 @@
                                                 <option value="12">12</option>
                                             </select>
                                         </td>
+                                        <td class="total_normal" style="width: 25%;"></td>
                                     </tr>
                                 </table>
                             </div>
@@ -178,7 +179,7 @@
                                     </table>
                                 </div>
                             </label>
-                            <label class="option_method">
+                            <label class="option_method credito">
                                 <input type="radio" name="metodo_pagamento" value="credito">
                                 <div class="payment">
                                     <table>
@@ -194,6 +195,30 @@
                                     </table>
                                 </div>
                             </label>
+                            <div class="option_parcelas" style="display: none;">
+                                <table>
+                                    <tr class="parcelas">
+                                        <td style="width: 35%;">Número de parcelas:</td>
+                                        <td style="width: 40%;">
+                                            <select class="parcelas_select">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                            </select>
+                                        </td>
+                                        <td class="total_normal" style="width: 25%;"></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </label>
                 </div>
@@ -241,7 +266,7 @@
                     {% endif %}
                     <tr>
                         <th colspan="4" class="text-right" style="vertical-align: middle;">TOTAL:</th>
-                        <th colspan="3" class="text-center" style="vertical-align: middle;">R$ {{ carro.total|intcomma }}</th>
+                        <th colspan="3" class="text-center" style="vertical-align: middle;">R$ {{ pedido.total_final|intcomma }}</th>
                     </tr>
                 </tfoot>
             </table>

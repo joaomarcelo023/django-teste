@@ -299,9 +299,9 @@ class FormaDeEntregaView(LojaMixin, BaseContextMixin, CreateView):
 def pedido_carro_endereco(request):
     if request.method == 'POST':
         try:
-            if Pedido_order.objects.filter(carro=request.POST["carro_id"]):
+            # if Pedido_order.objects.filter(carro=request.POST["carro_id"]):
                 # print(request.POST)
-                Pedido_order.objects.get(carro=request.POST["carro_id"]).delete()
+                # Pedido_order.objects.get(carro=request.POST["carro_id"]).delete()
 
             usuario = User.objects.get(username=request.user.username)
             cliente = Cliente.objects.get(user=usuario)
@@ -317,9 +317,24 @@ def pedido_carro_endereco(request):
             total_final = (decimal.Decimal(total_bruto) + decimal.Decimal(frete))
             
             endereco_envio = Endereco.objects.get(id=request.POST["local_entrega"])
-            endereco_envio_formatado = f"{endereco_envio.rua} {endereco_envio.numero} {endereco_envio.complemento}, {endereco_envio.bairro} - {endereco_envio.cep} {endereco_envio.cidade}/{endereco_envio.estado}"
+            if endereco_envio.complemento and endereco_envio.numero:
+                endereco_envio_formatado = f"{endereco_envio.rua} {endereco_envio.numero} {endereco_envio.complemento}, {endereco_envio.bairro} - {endereco_envio.cep} {endereco_envio.cidade}/{endereco_envio.estado}"
+            elif endereco_envio.numero:
+                endereco_envio_formatado = f"{endereco_envio.rua} {endereco_envio.numero}, {endereco_envio.bairro} - {endereco_envio.cep} {endereco_envio.cidade}/{endereco_envio.estado}"
+            elif endereco_envio.complemento:
+                endereco_envio_formatado = f"{endereco_envio.rua} {endereco_envio.complemento}, {endereco_envio.bairro} - {endereco_envio.cep} {endereco_envio.cidade}/{endereco_envio.estado}"
+            else:
+                endereco_envio_formatado = f"{endereco_envio.rua}, {endereco_envio.bairro} - {endereco_envio.cep} {endereco_envio.cidade}/{endereco_envio.estado}"
 
-            pedido = Pedido_order.objects.create(cliente=cliente, nome_cliente=nome_cliente, cpf_cnpj=cpf_cnpj, telefone=telefone, carro=carro, pedido_status=pedido_status, total_bruto=total_bruto, total_final=total_final, frete=frete, endereco_envio=endereco_envio, endereco_envio_formatado=endereco_envio_formatado)
+            
+            if Pedido_order.objects.filter(carro=request.POST["carro_id"]):
+                pedido = Pedido_order.objects.get(carro=request.POST["carro_id"])
+                pedido.endereco_envio = endereco_envio
+                pedido.endereco_envio_formatado = endereco_envio_formatado
+                pedido.frete = frete
+                pedido.total_final = total_final
+            else:
+                pedido = Pedido_order.objects.create(cliente=cliente, nome_cliente=nome_cliente, cpf_cnpj=cpf_cnpj, telefone=telefone, carro=carro, pedido_status=pedido_status, total_bruto=total_bruto, total_final=total_final, frete=frete, endereco_envio=endereco_envio, endereco_envio_formatado=endereco_envio_formatado)
             pedido.save()
 
             return redirect('lojaapp:checkout')
