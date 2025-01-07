@@ -3,8 +3,7 @@ from django.views.generic import TemplateView, CreateView, FormView, DetailView,
 from django.urls import reverse_lazy, reverse
 from .forms import Checar_PedidoForms, ClienteRegistrarForms, ClienteEntrarForms, EnderecoRegistrarForms
 from .models import *
-from django.http import HttpResponse
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 import os
 from django.views import View
@@ -14,9 +13,9 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from rest_framework.response import Response
 from rest_framework import serializers, status
+import requests
 import decimal
 from django_teste import settings
-from pagseguro.api import PagSeguroApi
 
 class AdminRequireMixin(object):
 
@@ -372,9 +371,10 @@ def pedido_carro_pagamento(request):
 
             pedido.save()
 
-            # create_payment(request)
-
-            return redirect('lojaapp:home')
+            return create_payment(request)
+            
+            # return redirect(request.POST["path"])
+            # return redirect('lojaapp:home')
         except User.DoesNotExist:
             return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_400_BAD_REQUEST)
     return HttpResponse("Invalid request.")
@@ -688,29 +688,37 @@ def testPOST(request):
     return HttpResponse("Invalid request.")
 
 def create_payment(request):
-    pedido = Pedido_order.objects.get(id=request.POST["pedido_id"])
-
-    pg = PagSeguroApi(pagseguro_email=settings.PAGSEGURO_EMAIL, pagseguro_token=settings.PAGSEGURO_TOKEN)
-    pg.add_item({
-        'id': '1',
-        'description': 'Product 1',
-        'amount': '100.00',
-        'quantity': 1,
-    })
-    # pg.sender = {
-    #     'name': pedido.nome_cliente,
-    #     'email': pedido.email,
-    #     'phone': pedido.telefone
-    # }
-    # pg.shipping = {
-    #     'type': pg.SHIPPING_TYPE_SEDEX,
-    #     'street': pedido.endereco_envio.rua,
-    #     'number': pedido.endereco_envio.numero,
-    #     'district': pedido.endereco_envio.bairro,
-    #     'postal_code': pedido.endereco_envio.cep,
-    #     'city': pedido.endereco_envio.cidade,
-    #     'state': pedido.endereco_envio.estado,
-    #     'country': 'BRA'
-    # }
-    response = pg.checkout()
-    return redirect(response.payment_url)
+    # PagSeguro sandbox endpoint
+    url = "https://ws.sandbox.pagbank.com.br/v2/checkout"
+    
+    # Payment details
+    data = {
+        'email': 'joaomarceloguima23@gmail.com',
+        'token': 'ABCC2A32A40646FAAEFB06B7BA4B80FA',
+        'currency': 'BRL',
+        'itemId1': '1',
+        'itemDescription1': 'Product Name',
+        'itemAmount1': '100.00',  # Price in format: 123.45
+        'itemQuantity1': '1',    # Quantity of the item
+    }
+    
+    # Send the POST request
+    response = requests.post(url, data=data)
+    print(response)
+    
+    # Check the response
+    if response.status_code == 200:
+        # Parse the XML response to get the checkout code
+        from xml.etree import ElementTree as ET
+        xml_response = ET.fromstring(response.text)
+        checkout_code = xml_response.find('code').text
+        
+        # Construct the payment URL
+        payment_url = f"https://sandbox.pagbank.com.br/v2/checkout/payment.html?code={checkout_code}"
+        
+        # Redirect the user to the PagSeguro payment page
+        return redirect(payment_url)
+    else:
+        print(response)
+        # Handle errors
+        return HttpResponse(f"Error: {response.status_code} - {response.text}")

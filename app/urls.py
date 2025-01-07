@@ -53,8 +53,6 @@ urlpatterns = [
     path("admin-pedido-<int:pk>/", AdminPedidoView.as_view(), name="adminpedido"),
     path("admin-todos-pedido/", AdminTodosPedidoView.as_view(), name="admintodospedido"),
     path("admin-pedido-mudar/<int:pk>/", AdminPedidoMudarView.as_view(), name="adminpedidomudar"),
-    
-    path('retorno/pagseguro/', include('pagseguro.urls')),
 
     path('endereco_cadastrar/', endereco_cadastrar, name='endereco_cadastrar'),
     path('pedido_carro_endereco/', pedido_carro_endereco, name='pedido_carro_endereco'),
