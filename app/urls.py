@@ -15,7 +15,7 @@
 
 from django.contrib import admin
 from django.urls import path, include
-from.views import *
+from .views import *
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -53,9 +53,12 @@ urlpatterns = [
     path("admin-pedido-<int:pk>/", AdminPedidoView.as_view(), name="adminpedido"),
     path("admin-todos-pedido/", AdminTodosPedidoView.as_view(), name="admintodospedido"),
     path("admin-pedido-mudar/<int:pk>/", AdminPedidoMudarView.as_view(), name="adminpedidomudar"),
+    
+    path('retorno/pagseguro/', include('pagseguro.urls')),
 
     path('endereco_cadastrar/', endereco_cadastrar, name='endereco_cadastrar'),
     path('pedido_carro_endereco/', pedido_carro_endereco, name='pedido_carro_endereco'),
+    path('pedido_carro_pagamento/', pedido_carro_pagamento, name='pedido_carro_pagamento'),
     
     path('testPOST/', testPOST, name='testPOST'),
     

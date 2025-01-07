@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, CreateView, FormView, DetailView, ListView
 from django.urls import reverse_lazy, reverse
 from .forms import Checar_PedidoForms, ClienteRegistrarForms, ClienteEntrarForms, EnderecoRegistrarForms
-from.models import *
+from .models import *
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
@@ -14,7 +14,9 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from rest_framework.response import Response
 from rest_framework import serializers, status
-import decimal 
+import decimal
+from django_teste import settings
+from pagseguro.api import PagSeguroApi
 
 class AdminRequireMixin(object):
 
@@ -309,6 +311,7 @@ def pedido_carro_endereco(request):
             cpf_cnpj = cliente.cpf_ou_cnpj_formatado
             # codigo_cliente = 
             telefone = cliente.telefone
+            email = cliente.email
 
             carro = Carro.objects.get(id=request.POST["carro_id"])
             pedido_status = "Pedido em Andamento"
@@ -334,13 +337,46 @@ def pedido_carro_endereco(request):
                 pedido.frete = frete
                 pedido.total_final = total_final
             else:
-                pedido = Pedido_order.objects.create(cliente=cliente, nome_cliente=nome_cliente, cpf_cnpj=cpf_cnpj, telefone=telefone, carro=carro, pedido_status=pedido_status, total_bruto=total_bruto, total_final=total_final, frete=frete, endereco_envio=endereco_envio, endereco_envio_formatado=endereco_envio_formatado)
+                pedido = Pedido_order.objects.create(cliente=cliente, nome_cliente=nome_cliente, cpf_cnpj=cpf_cnpj, telefone=telefone, email=email, carro=carro, pedido_status=pedido_status, total_bruto=total_bruto, total_final=total_final, frete=frete, endereco_envio=endereco_envio, endereco_envio_formatado=endereco_envio_formatado)
             pedido.save()
 
             return redirect('lojaapp:checkout')
         except User.DoesNotExist:
             return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_400_BAD_REQUEST)
         
+    return HttpResponse("Invalid request.")
+
+def pedido_carro_pagamento(request):
+    if request.method == 'POST':
+        try:
+            # print(request.POST)
+            # usuario = User.objects.get(username=request.user.username)
+            pedido = Pedido_order.objects.get(id=request.POST["pedido_id"])
+
+            pedido.local_de_pagamento = request.POST["local_pagamento"]
+            if "metodo_pagamento" in request.POST:
+                pedido.forma_de_pagamento = request.POST["metodo_pagamento"]
+
+                if "parcelas" in request.POST:
+                    pedido.parcelas = request.POST["parcelas"]
+                    pedido.valor_parcela = pedido.total_final / decimal.Decimal(request.POST["parcelas"])
+                else:
+                    pedido.parcelas = 1
+                    pedido.valor_parcela = pedido.total_final
+            else:
+                pedido.forma_de_pagamento = "dinheiro"
+                pedido.parcelas = 1
+                pedido.valor_parcela = pedido.total_final
+
+            pedido.pedido_status = "Pedido Recebido"
+
+            pedido.save()
+
+            # create_payment(request)
+
+            return redirect('lojaapp:home')
+        except User.DoesNotExist:
+            return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_400_BAD_REQUEST)
     return HttpResponse("Invalid request.")
 
 class CheckOutView(LojaMixin, BaseContextMixin, CreateView):
@@ -650,3 +686,31 @@ def testPOST(request):
         return redirect(request.POST["path"])
 
     return HttpResponse("Invalid request.")
+
+def create_payment(request):
+    pedido = Pedido_order.objects.get(id=request.POST["pedido_id"])
+
+    pg = PagSeguroApi(pagseguro_email=settings.PAGSEGURO_EMAIL, pagseguro_token=settings.PAGSEGURO_TOKEN)
+    pg.add_item({
+        'id': '1',
+        'description': 'Product 1',
+        'amount': '100.00',
+        'quantity': 1,
+    })
+    # pg.sender = {
+    #     'name': pedido.nome_cliente,
+    #     'email': pedido.email,
+    #     'phone': pedido.telefone
+    # }
+    # pg.shipping = {
+    #     'type': pg.SHIPPING_TYPE_SEDEX,
+    #     'street': pedido.endereco_envio.rua,
+    #     'number': pedido.endereco_envio.numero,
+    #     'district': pedido.endereco_envio.bairro,
+    #     'postal_code': pedido.endereco_envio.cep,
+    #     'city': pedido.endereco_envio.cidade,
+    #     'state': pedido.endereco_envio.estado,
+    #     'country': 'BRA'
+    # }
+    response = pg.checkout()
+    return redirect(response.payment_url)

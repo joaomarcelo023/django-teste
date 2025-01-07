@@ -49,7 +49,7 @@ class Cliente(models.Model):
     cpf_ou_cnpj_formatado = models.CharField(max_length=20, default="")
     bool_cpf_cnpj = models.BooleanField(default=False)
 
-    email = models.EmailField(default=2)
+    email = models.EmailField(default="")
     telefone = models.CharField(max_length=19,default="")
 
     data_criacao = models.DateTimeField(auto_now_add=True)
@@ -124,13 +124,14 @@ PEDIDO_STATUS=[
 ]
 
 class Pedido_order(models.Model):    
-    cliente = models.OneToOneField(Cliente,on_delete=models.CASCADE,default="")
+    cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE,default="")
     nome_cliente = models.CharField(max_length=200,default="")
     cpf_cnpj = models.CharField(max_length=20, default="") # cpf do cliente formatadinho direitinho
     codigo_cliente = models.CharField(max_length=8,default="",null=True,blank=True) # codigo consistente com sistema interno, se não tiver
     telefone = models.CharField(max_length=19,default="")
+    email = models.EmailField(default="")
 
-    carro = models.OneToOneField(Carro,on_delete=models.CASCADE)
+    carro = models.ForeignKey(Carro,on_delete=models.CASCADE)
     pedido_status = models.CharField(max_length=50, choices=PEDIDO_STATUS)
 
     total_bruto = models.DecimalField(max_digits=10,decimal_places=2,default=0)
@@ -138,7 +139,12 @@ class Pedido_order(models.Model):
     total_desconto = models.DecimalField(max_digits=10,decimal_places=2,default=0)
     total_final = models.DecimalField(max_digits=10,decimal_places=2,default=0)
 
-    endereco_envio = models.OneToOneField(Endereco,on_delete=models.CASCADE,default="")
+    local_de_pagamento = models.CharField(max_length=200,default="",null=True,blank=True)
+    forma_de_pagamento = models.CharField(max_length=200,default="",null=True,blank=True)
+    parcelas = models.PositiveIntegerField(default=1)
+    valor_parcela = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+
+    endereco_envio = models.ForeignKey(Endereco,on_delete=models.CASCADE,default="")
     endereco_envio_formatado = models.CharField(max_length=200,default="")
 
     criado_em = models.DateTimeField(auto_now_add=True)
