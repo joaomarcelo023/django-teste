@@ -56,7 +56,7 @@
                         </label>
                         <div class="methods" style="display: none;">
                             <label class="option_method">
-                                <input type="radio" name="metodo_pagamento" value="pix">
+                                <input type="radio" name="metodo_pagamento" value="PIX">
                                 <div class="payment">
                                     <table>
                                         <tr>
@@ -72,7 +72,7 @@
                                 </div>
                             </label>
                             <label class="option_method">
-                                <input type="radio" name="metodo_pagamento" value="debito">
+                                <input type="radio" name="metodo_pagamento" value="DEBIT_CARD">
                                 <div class="payment">
                                     <table>
                                         <tr>
@@ -88,7 +88,7 @@
                                 </div>
                             </label>
                             <label class="option_method credito">
-                                <input type="radio" name="metodo_pagamento" value="credito">
+                                <input type="radio" name="metodo_pagamento" value="CREDIT_CARD">
                                 <div class="payment">
                                     <table>
                                         <tr>
@@ -148,7 +148,7 @@
                         </label>
                         <div class="methods" style="display: none;">
                             <label class="option_method">
-                                <input type="radio" name="metodo_pagamento" value="pix">
+                                <input type="radio" name="metodo_pagamento" value="PIX">
                                 <div class="payment">
                                     <table>
                                         <tr>
@@ -164,7 +164,23 @@
                                 </div>
                             </label>
                             <label class="option_method">
-                                <input type="radio" name="metodo_pagamento" value="debito">
+                                <input type="radio" name="metodo_pagamento" value="BOLETO">
+                                <div class="payment">
+                                    <table>
+                                        <tr>
+                                            <td class="payment_method">Boleto</td>
+                                            {% if pedido.total_desconto %}
+                                                <td class="total_desconto">R${{ pedido.total_bruto|intcomma }}</td>
+                                                <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                            {% else %}
+                                                <td class="total_normal">R${{ pedido.total_final|intcomma }}</td>
+                                            {% endif %}
+                                        </tr>
+                                    </table>
+                                </div>
+                            </label>
+                            <label class="option_method">
+                                <input type="radio" name="metodo_pagamento" value="DEBIT_CARD">
                                 <div class="payment">
                                     <table>
                                         <tr>
@@ -180,7 +196,7 @@
                                 </div>
                             </label>
                             <label class="option_method credito">
-                                <input type="radio" name="metodo_pagamento" value="credito">
+                                <input type="radio" name="metodo_pagamento" value="CREDIT_CARD">
                                 <div class="payment">
                                     <table>
                                         <tr>

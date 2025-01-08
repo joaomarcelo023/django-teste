@@ -15,6 +15,7 @@ from rest_framework.response import Response
 from rest_framework import serializers, status
 import requests
 import decimal
+import json
 from django_teste import settings
 
 class AdminRequireMixin(object):
@@ -371,13 +372,114 @@ def pedido_carro_pagamento(request):
 
             pedido.save()
 
-            return create_payment(request)
-            
-            # return redirect(request.POST["path"])
-            # return redirect('lojaapp:home')
+            if pedido.local_de_pagamento == "online":
+                return create_payment(request)
+            else:            
+                # return redirect(request.POST["path"])
+                return redirect('lojaapp:home')
         except User.DoesNotExist:
             return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_400_BAD_REQUEST)
     return HttpResponse("Invalid request.")
+
+def create_payment(request):
+    pedido = Pedido_order.objects.get(id=request.POST["pedido_id"])
+    carro = pedido.carro
+    produtos = CarroProduto.objects.filter(carro=carro)
+
+    telefone_numeros = pedido.telefone.replace("-", "")
+    cpf_cnpj_numeros = pedido.cpf_cnpj.replace(".", "").replace("-", "")
+    cep_numeros = pedido.endereco_envio.cep.replace("-", "")
+
+    url = "https://sandbox.api.pagseguro.com/checkouts"
+    
+    payload = {
+        "customer": {
+            "phone": {
+                "area": pedido.telefone[5:7],
+                "country": "+55",
+                "number": telefone_numeros[9:]
+            },
+            "name": pedido.nome_cliente,
+            "email": pedido.email,
+            "tax_id": cpf_cnpj_numeros
+        },
+        "shipping": {
+            "address": {
+                "street": pedido.endereco_envio.rua,
+                "number": pedido.endereco_envio.numero,
+                "complement": pedido.endereco_envio.complemento,
+                "locality": pedido.endereco_envio.bairro,
+                "city": pedido.endereco_envio.cidade,
+                "region_code": pedido.endereco_envio.estado,
+                "country": "BRA",
+                "postal_code": cep_numeros
+            },
+        },
+        "reference_id": request.POST["pedido_id"],
+        "customer_modifiable": False,
+        "items": [],
+        "payment_methods": [],
+        "payment_methods_configs": [
+            {
+                "type": "CREDIT_CARD",
+                "config_options": [
+                    {
+                        "option": "INSTALLMENTS_LIMIT",
+                        "value": "12"
+                    },
+                    {
+                        "option": "INTEREST_FREE_INSTALLMENTS",
+                        "value": "12"
+                    }
+                ]
+            }
+        ],
+        "redirect_url": "https://vendashg.pythonanywhere.com",
+        # "notification_urls": ["notificacaoStatus.com.br"],
+        # "payment_notification_urls": ["notificacaoPagamento.com.br"]
+    }
+
+    if pedido.frete:
+        payload["shipping"]["type"] = "FIXED"
+        payload["shipping"]["service_type"] = "SEDEX"
+        payload["shipping"]["address_modifiable"] = False
+        payload["shipping"]["amount"] = int(pedido.frete * 100)
+    else:
+        payload["shipping"]["type"] = "FREE"
+        payload["shipping"]["address_modifiable"] = False
+
+    for prod in produtos:
+        payload["items"].append(
+            {
+                "reference_id": prod.produto.codigo,
+                "name": prod.produto.titulo,
+                "description": prod.produto.descricao,
+                "quantity": prod.quantidade,
+                "unit_amount": int(prod.preco_unitario * 100),
+                "image_url": "https://vendashg.pythonanywhere.com" + prod.produto.image.url
+            }
+        )
+    
+    payload["payment_methods"].append({ "type": pedido.forma_de_pagamento })
+
+    headers = {
+        "accept": "*/*",
+        "Authorization": "Bearer 3f83367b-ce21-4fe4-91b1-a27be2eac7ce7eb5a2b84ff5a4895f10b5717c065b6ca97f-a6ed-4f2a-a97c-989e07fb10cb",
+        "Content-type": "application/json"
+    }
+    
+    response = requests.post(url, json=payload, headers=headers)
+    
+    if response.status_code >= 200 and response.status_code < 300:
+        respJson = json.loads(response.text)
+        links = respJson.get("links")
+        for dic in links:
+            if dic["rel"] == "PAY":
+                payment_url = dic["href"]
+        
+        return redirect(payment_url)
+    else:
+        return HttpResponse(f"Error: {response.status_code} - {response.text}")
 
 class CheckOutView(LojaMixin, BaseContextMixin, CreateView):
     template_name = "processar.html"
@@ -686,39 +788,3 @@ def testPOST(request):
         return redirect(request.POST["path"])
 
     return HttpResponse("Invalid request.")
-
-def create_payment(request):
-    # PagSeguro sandbox endpoint
-    url = "https://ws.sandbox.pagbank.com.br/v2/checkout"
-    
-    # Payment details
-    data = {
-        'email': 'joaomarceloguima23@gmail.com',
-        'token': 'ABCC2A32A40646FAAEFB06B7BA4B80FA',
-        'currency': 'BRL',
-        'itemId1': '1',
-        'itemDescription1': 'Product Name',
-        'itemAmount1': '100.00',  # Price in format: 123.45
-        'itemQuantity1': '1',    # Quantity of the item
-    }
-    
-    # Send the POST request
-    response = requests.post(url, data=data)
-    print(response)
-    
-    # Check the response
-    if response.status_code == 200:
-        # Parse the XML response to get the checkout code
-        from xml.etree import ElementTree as ET
-        xml_response = ET.fromstring(response.text)
-        checkout_code = xml_response.find('code').text
-        
-        # Construct the payment URL
-        payment_url = f"https://sandbox.pagbank.com.br/v2/checkout/payment.html?code={checkout_code}"
-        
-        # Redirect the user to the PagSeguro payment page
-        return redirect(payment_url)
-    else:
-        print(response)
-        # Handle errors
-        return HttpResponse(f"Error: {response.status_code} - {response.text}")
