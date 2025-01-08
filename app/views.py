@@ -50,6 +50,29 @@ class LogedMixin(object):
             return redirect(f"/entrar/?next={next}")
         return super().dispatch(request,*args, **kwargs)
 
+class CarroComItemsMixin(object):
+    def dispatch(self,request,*args, **kwargs):
+        carro_id = request.session.get("carro_id")
+        carro_obj = Carro.objects.get(id=carro_id)
+
+        if carro_obj.total:
+            pass
+        else:
+            return redirect("lojaapp:home")
+        return super().dispatch(request,*args, **kwargs)
+
+class PedidoExisteMixin(object):
+    def dispatch(self,request,*args, **kwargs):
+        carro_id = request.session.get("carro_id")
+        carro_obj = Carro.objects.get(id=carro_id)
+        pedido = Pedido_order.objects.filter(carro=carro_obj)
+
+        if pedido:
+            pass
+        else:
+            return redirect("lojaapp:home")
+        return super().dispatch(request,*args, **kwargs)
+
 class BaseContextMixin(object):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -267,14 +290,10 @@ class LimparCarroView(LojaMixin, View):
             carro.save()
         return redirect("lojaapp:meucarro")
 
-class FormaDeEntregaView(LogedMixin, LojaMixin, BaseContextMixin, CreateView):
+class FormaDeEntregaView(LogedMixin, LojaMixin, CarroComItemsMixin, BaseContextMixin, CreateView):
     template_name = "forma_de_entrega.html"
     form_class = Checar_PedidoForms
     success_url = reverse_lazy("lojaapp:home")
-
-    def dispatch(self,request,*args, **kwargs):
-        self.request.session['next_path'] = "/perfil/"
-        return super().dispatch(request,*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -338,7 +357,7 @@ def pedido_carro_endereco(request):
         
     return HttpResponse("Invalid request.")
 
-class CheckOutView(LogedMixin, LojaMixin, BaseContextMixin, CreateView):
+class CheckOutView(LogedMixin, LojaMixin, CarroComItemsMixin, PedidoExisteMixin, BaseContextMixin, CreateView):
     template_name = "processar.html"
     form_class = Checar_PedidoForms
     success_url = reverse_lazy("lojaapp:home")
@@ -663,7 +682,7 @@ class CadastrarEnderecoView(LogedMixin, LojaMixin, BaseContextMixin, CreateView)
     #     else:
     #         return self.success_url
 
-def endereco_cadastrar(request):    
+def endereco_cadastrar(request):
     if request.method == 'POST':
         try:
             print(request.POST)
