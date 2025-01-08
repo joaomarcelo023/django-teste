@@ -41,6 +41,15 @@ class LojaMixin(object):
             self.request.session['carro_id'] = carro_obj.id
         return super().dispatch(request,*args,**kwargs)
 
+class LogedMixin(object):
+    def dispatch(self,request,*args, **kwargs):
+        next = request.path
+        if request.user.is_authenticated and request.user.cliente:
+            pass
+        else:
+            return redirect(f"/entrar/?next={next}")
+        return super().dispatch(request,*args, **kwargs)
+
 class BaseContextMixin(object):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -258,7 +267,7 @@ class LimparCarroView(LojaMixin, View):
             carro.save()
         return redirect("lojaapp:meucarro")
 
-class FormaDeEntregaView(LojaMixin, BaseContextMixin, CreateView):
+class FormaDeEntregaView(LogedMixin, LojaMixin, BaseContextMixin, CreateView):
     template_name = "forma_de_entrega.html"
     form_class = Checar_PedidoForms
     success_url = reverse_lazy("lojaapp:home")
@@ -329,17 +338,10 @@ def pedido_carro_endereco(request):
         
     return HttpResponse("Invalid request.")
 
-class CheckOutView(LojaMixin, BaseContextMixin, CreateView):
+class CheckOutView(LogedMixin, LojaMixin, BaseContextMixin, CreateView):
     template_name = "processar.html"
     form_class = Checar_PedidoForms
     success_url = reverse_lazy("lojaapp:home")
-
-    def dispatch(self,request,*args, **kwargs):
-        if request.user.is_authenticated and request.user.cliente:
-            pass
-        else:
-            return redirect("/entrar/?next=/checkout/")
-        return super().dispatch(request,*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -511,7 +513,7 @@ def create_payment(request):
     else:
         return HttpResponse(f"Error: {response.status_code} - {response.text}")
 
-class PedidoConfirmadoView(BaseContextMixin, TemplateView):
+class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
     template_name = "pedidoConfirmado.html"
 
     def get_context_data(self, **kwargs):
@@ -559,7 +561,6 @@ class ClienteRegistrarView(LojaMixin, BaseContextMixin, CreateView):
         else:
             return self.success_url
 
-
 class ClienteLogoutView(LojaMixin, View):
     def get (self, request):
         logout(request)
@@ -595,16 +596,15 @@ class ClienteEntrarView(LojaMixin, BaseContextMixin, FormView):
         else:
             return self.success_url
 
-
-class ClientePerfilView(LojaMixin, BaseContextMixin, TemplateView):
+class ClientePerfilView(LogedMixin, LojaMixin, BaseContextMixin, TemplateView):
     template_name = "clienteperfil.html"
 
-    def dispatch(self,request,*args, **kwargs):
-        if request.user.is_authenticated and Cliente.objects.filter(user=request.user).exists():
-            pass
-        else:
-            return redirect("/entrar/?next=/perfil/")
-        return super().dispatch(request,*args, **kwargs)
+    # def dispatch(self,request,*args, **kwargs):
+    #     if request.user.is_authenticated and Cliente.objects.filter(user=request.user).exists():
+    #         pass
+    #     else:
+    #         return redirect("/entrar/?next=/perfil/")
+    #     return super().dispatch(request,*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -619,7 +619,7 @@ class ClientePerfilView(LojaMixin, BaseContextMixin, TemplateView):
         context['enderecos'] = enderecos
         return context
 
-class ClientePedidoDetalheView(DetailView):
+class ClientePedidoDetalheView(LogedMixin, DetailView):
     template_name = "clientepedidodetalhe.html"
     model = Pedido_order
     context_object_name = "pedido_obj"
@@ -635,100 +635,7 @@ class ClientePedidoDetalheView(DetailView):
             return redirect("/entrar/?next=/perfil/")
         return super().dispatch(request, *args, **kwargs)
 
-class AdminLoginView(BaseContextMixin, FormView):
-    template_name = "admin_paginas/adminlogin.html"
-    form_class = ClienteEntrarForms
-    success_url = reverse_lazy("lojaapp:adminhome")
-    def form_valid(self, form):
-        unome = form.cleaned_data.get("usuario")
-        pword = form.cleaned_data.get("senha")
-        usr = authenticate(username = unome, password = pword)
-        if usr is not None:# and Admin.objects.filter(user=usr).exists():
-            login(self.request, usr)
-        else:
-            return render(self.request,self.template_name,{"form":self.form_class,"error":"usuario nao corresponde"})
-        return super().form_valid(form)
-
-class AdminHomeView(AdminRequireMixin, BaseContextMixin, TemplateView):
-    template_name = "admin_paginas/adminhome.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["PedidosPendentes"] = Pedido_order.objects.filter(pedido_status="Pedido Recebido").order_by("-id")
-
-        return context
-
-class AdminPedidoView(AdminRequireMixin, BaseContextMixin, DetailView):
-    template_name = "admin_paginas/adminpedidodetalhe.html"
-
-    model = Pedido_order
-
-    context_object_name = "pedido_obj"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["PEDIDO_STATUS"] = PEDIDO_STATUS
-        return context
-
-
-class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, ListView):
-    template_name = "admin_paginas/admintodospedido.html"
-
-    queryset = Pedido_order.objects.all().order_by("-id")
-
-    context_object_name = "todospedido"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["PedidosPendentes"] = Pedido_order.objects.filter(pedido_status="Pedido Recebido").order_by("-id")
-
-        return context
-
-
-class AdminPedidoMudarView(AdminRequireMixin, BaseContextMixin, ListView):
-    def post(self,request,*args,**kwargs):
-        pedido_id = self.kwargs["pk"]
-        pedido_obj = Pedido_order.objects.get(id=pedido_id)
-        novo_status = request.POST.get("status")
-        pedido_obj.pedido_status = novo_status
-        pedido_obj.save()
-
-        return redirect(reverse_lazy("lojaapp:adminpedido", kwargs={"pk" : pedido_id}))
-
-class PesquisarView(BaseContextMixin, TemplateView):
-    template_name = "pesquisar.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        kw = self.request.GET.get("query")
-        resultado = Produto.objects.filter(Q(titulo__icontains=kw) | Q(descricao__icontains = kw))
-        context["resultado"] = resultado
-        return context
-
-class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
-    template_name = "categoria.html"
-
-    def preprocessar_precos(self, produtos):
-        for produto in produtos:
-            venda_parts = str(produto.venda).split('.')
-            produto.integer_part = venda_parts[0]
-            produto.decimal_part = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-        return produtos
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        url_slug = self.kwargs['slug']
-        categoria = Categoria.objects.get(slug=url_slug)
-        context['categoria'] = categoria
-        all_produtos = Produto.objects.filter(Categoria = categoria).order_by("-id").all()
-        produto_list = self.preprocessar_precos(all_produtos)
-        paginator = Paginator(produto_list, 20)
-        page_number = self.request.GET.get('page')
-        context['page_obj'] = paginator.get_page(page_number)
-        
-        return context
-
-class CadastrarEnderecoView(LojaMixin, BaseContextMixin, CreateView):
+class CadastrarEnderecoView(LogedMixin, LojaMixin, BaseContextMixin, CreateView):
     template_name = "enderecocadastrar.html"
     form_class = EnderecoRegistrarForms
     success_url = reverse_lazy("lojaapp:clienteperfil")
@@ -790,6 +697,100 @@ class deletarEnderecoView(LojaMixin, View):
 
         return redirect("lojaapp:clienteperfil")
 
+class PesquisarView(BaseContextMixin, TemplateView):
+    template_name = "pesquisar.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        kw = self.request.GET.get("query")
+        resultado = Produto.objects.filter(Q(titulo__icontains=kw) | Q(descricao__icontains = kw))
+        context["resultado"] = resultado
+        return context
+
+class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
+    template_name = "categoria.html"
+
+    def preprocessar_precos(self, produtos):
+        for produto in produtos:
+            venda_parts = str(produto.venda).split('.')
+            produto.integer_part = venda_parts[0]
+            produto.decimal_part = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+        return produtos
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        url_slug = self.kwargs['slug']
+        categoria = Categoria.objects.get(slug=url_slug)
+        context['categoria'] = categoria
+        all_produtos = Produto.objects.filter(Categoria = categoria).order_by("-id").all()
+        produto_list = self.preprocessar_precos(all_produtos)
+        paginator = Paginator(produto_list, 20)
+        page_number = self.request.GET.get('page')
+        context['page_obj'] = paginator.get_page(page_number)
+        
+        return context
+
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+class AdminLoginView(BaseContextMixin, FormView):
+    template_name = "admin_paginas/adminlogin.html"
+    form_class = ClienteEntrarForms
+    success_url = reverse_lazy("lojaapp:adminhome")
+    def form_valid(self, form):
+        unome = form.cleaned_data.get("usuario")
+        pword = form.cleaned_data.get("senha")
+        usr = authenticate(username = unome, password = pword)
+        if usr is not None:# and Admin.objects.filter(user=usr).exists():
+            login(self.request, usr)
+        else:
+            return render(self.request,self.template_name,{"form":self.form_class,"error":"usuario nao corresponde"})
+        return super().form_valid(form)
+
+class AdminHomeView(AdminRequireMixin, BaseContextMixin, TemplateView):
+    template_name = "admin_paginas/adminhome.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["PedidosPendentes"] = Pedido_order.objects.filter(pedido_status="Pedido Recebido").order_by("-id")
+
+        return context
+
+class AdminPedidoView(AdminRequireMixin, BaseContextMixin, DetailView):
+    template_name = "admin_paginas/adminpedidodetalhe.html"
+
+    model = Pedido_order
+
+    context_object_name = "pedido_obj"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["PEDIDO_STATUS"] = PEDIDO_STATUS
+        return context
+
+class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, ListView):
+    template_name = "admin_paginas/admintodospedido.html"
+
+    queryset = Pedido_order.objects.all().order_by("-id")
+
+    context_object_name = "todospedido"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["PedidosPendentes"] = Pedido_order.objects.filter(pedido_status="Pedido Recebido").order_by("-id")
+
+        return context
+
+class AdminPedidoMudarView(AdminRequireMixin, BaseContextMixin, ListView):
+    def post(self,request,*args,**kwargs):
+        pedido_id = self.kwargs["pk"]
+        pedido_obj = Pedido_order.objects.get(id=pedido_id)
+        novo_status = request.POST.get("status")
+        pedido_obj.pedido_status = novo_status
+        pedido_obj.save()
+
+        return redirect(reverse_lazy("lojaapp:adminpedido", kwargs={"pk" : pedido_id}))
+
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 def testPOST(request):
     if request.method == 'POST':
