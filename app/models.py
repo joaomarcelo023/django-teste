@@ -115,8 +115,11 @@ class CarroProduto(models.Model):
         return "Carro: " + str(self.carro.id) + "CarroProduto: " + str(self.id)
 
 PEDIDO_STATUS=[
-    ("Pedido em Andamento","Pedido em Andamento"),
-    ("Pedido Recebido","Pedido Recebido"),
+    ("Pedido em Andamento", "Pedido em Andamento"),
+    ("Pedido Recebido", "Pedido Recebido"),
+    ("Pagamento Pendente", "Pagamento Pendente"),
+    ("Pagamento Processando", "Pagamento Processando"),
+    ("Pagamento Confirmado", "Pagamento Confirmado"),
     ("Pedido Processando", "Pedido Processando"),
     ("Pedido Caminho", "Pedido Caminho"),
     ("Pedido Completado", "Pedido Completo"),

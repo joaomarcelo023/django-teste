@@ -37,6 +37,7 @@ class LojaMixin(object):
                 carro_obj.save()
         else:
             carro_obj = Carro.objects.create(total=0)
+            carro_obj.save()
             self.request.session['carro_id'] = carro_obj.id
         return super().dispatch(request,*args,**kwargs)
 
@@ -170,7 +171,6 @@ class MeuCarroView(LojaMixin, BaseContextMixin, TemplateView):
         context["carro"] = carro_id
         return context
 
-
 class AddCarroView(LojaMixin, View):
     def get(self,request,*arg,**kwargs):
         produto_id = self.kwargs['prod_id']
@@ -264,10 +264,7 @@ class FormaDeEntregaView(LojaMixin, BaseContextMixin, CreateView):
     success_url = reverse_lazy("lojaapp:home")
 
     def dispatch(self,request,*args, **kwargs):
-        if request.user.is_authenticated and request.user.cliente:
-            pass
-        else:
-            return redirect("/entrar/?next=/forma-de-entrega/")
+        self.request.session['next_path'] = "/perfil/"
         return super().dispatch(request,*args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -283,20 +280,6 @@ class FormaDeEntregaView(LojaMixin, BaseContextMixin, CreateView):
         context["enderecosLojas"] = Endereco.objects.filter(cliente=Cliente.objects.get(nome="Casa", sobrenome="HG"))
 
         return context
-
-    # def form_valid(self,form):
-    #     carro_id = self.request.session.get("carro_id")
-    #     if carro_id:
-    #         carro_obj = Carro.objects.get(id=carro_id)
-    #         form.instance.carro = carro_obj
-    #         form.instance.subtotal = carro_obj.total
-    #         form.instance.desconto = 0
-    #         form.instance.total = carro_obj.total
-    #         form.instance.pedido_status = "Pedido Recebido"
-    #         del self.request.session['carro_id']
-    #     else:
-    #         return redirect("lojaapp:home")
-    #     return super().form_valid(form)
     
 def pedido_carro_endereco(request):
     if request.method == 'POST':
@@ -346,6 +329,44 @@ def pedido_carro_endereco(request):
         
     return HttpResponse("Invalid request.")
 
+class CheckOutView(LojaMixin, BaseContextMixin, CreateView):
+    template_name = "processar.html"
+    form_class = Checar_PedidoForms
+    success_url = reverse_lazy("lojaapp:home")
+
+    def dispatch(self,request,*args, **kwargs):
+        if request.user.is_authenticated and request.user.cliente:
+            pass
+        else:
+            return redirect("/entrar/?next=/checkout/")
+        return super().dispatch(request,*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        carro_id = self.request.session.get("carro_id",None)
+        if carro_id:
+            carro_obj = Carro.objects.get(id=carro_id)
+        else:
+            carro_obj = None
+        context["carro"] = carro_obj
+        context["pedido"] = Pedido_order.objects.get(carro=carro_obj)
+
+        return context
+
+    def form_valid(self,form):
+        carro_id = self.request.session.get("carro_id")
+        if carro_id:
+            carro_obj = Carro.objects.get(id=carro_id)
+            form.instance.carro = carro_obj
+            form.instance.subtotal = carro_obj.total
+            form.instance.desconto = 0
+            form.instance.total = carro_obj.total
+            form.instance.pedido_status = "Pedido Recebido"
+            del self.request.session['carro_id']
+        else:
+            return redirect("lojaapp:home")
+        return super().form_valid(form)
+
 def pedido_carro_pagamento(request):
     if request.method == 'POST':
         try:
@@ -373,12 +394,20 @@ def pedido_carro_pagamento(request):
             pedido.save()
 
             if pedido.local_de_pagamento == "online":
+                pedido.pedido_status = "Pagamento Processando"
+                pedido.save()
+
                 return create_payment(request)
-            else:            
+            else:
+                # pedido.pedido_status = "Pagamento Pendente"
+                # pedido.save()
+                         
                 # return redirect(request.POST["path"])
-                return redirect('lojaapp:home')
+                return redirect(f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}&status=Pagamento_Pendente")
+            
         except User.DoesNotExist:
             return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_400_BAD_REQUEST)
+        
     return HttpResponse("Invalid request.")
 
 def create_payment(request):
@@ -434,7 +463,8 @@ def create_payment(request):
                 ]
             }
         ],
-        "redirect_url": "https://vendashg.pythonanywhere.com",
+        "redirect_url": f"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
+        # f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}&status=Pagamento_Confirmado"
         # "notification_urls": ["notificacaoStatus.com.br"],
         # "payment_notification_urls": ["notificacaoPagamento.com.br"]
     }
@@ -481,44 +511,23 @@ def create_payment(request):
     else:
         return HttpResponse(f"Error: {response.status_code} - {response.text}")
 
-class CheckOutView(LojaMixin, BaseContextMixin, CreateView):
-    template_name = "processar.html"
-    form_class = Checar_PedidoForms
-    success_url = reverse_lazy("lojaapp:home")
-
-    def dispatch(self,request,*args, **kwargs):
-        if request.user.is_authenticated and request.user.cliente:
-            pass
-        else:
-            return redirect("/entrar/?next=/checkout/")
-        return super().dispatch(request,*args, **kwargs)
+class PedidoConfirmadoView(BaseContextMixin, TemplateView):
+    template_name = "pedidoConfirmado.html"
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        carro_id = self.request.session.get("carro_id",None)
-        if carro_id:
-            carro_obj = Carro.objects.get(id=carro_id)
-        else:
-            carro_obj = None
-        context["carro"] = carro_obj
-        context["pedido"] = Pedido_order.objects.get(carro=carro_obj)
+        context =  super().get_context_data(**kwargs)
+        pedido_id = self.request.GET.get("id")
+        pedido_status = self.request.GET.get("status")
+
+        pedido = Pedido_order.objects.get(id=pedido_id)
+        pedido.pedido_status = pedido_status.replace("_", " ")
+        pedido.save()
+
+        carro_obj = Carro.objects.create(total=0)
+        carro_obj.save()
+        self.request.session['carro_id'] = carro_obj.id
 
         return context
-
-    def form_valid(self,form):
-        carro_id = self.request.session.get("carro_id")
-        if carro_id:
-            carro_obj = Carro.objects.get(id=carro_id)
-            form.instance.carro = carro_obj
-            form.instance.subtotal = carro_obj.total
-            form.instance.desconto = 0
-            form.instance.total = carro_obj.total
-            form.instance.pedido_status = "Pedido Recebido"
-            del self.request.session['carro_id']
-        else:
-            return redirect("lojaapp:home")
-        return super().form_valid(form)
-
 
 class ClienteRegistrarView(LojaMixin, BaseContextMixin, CreateView):
     template_name = "clienteregistrar.html"
