@@ -1,4 +1,4 @@
-TODO-ALVAREZ: tela de entrega leva para a tela de escolher forma de pagamento, nessa tela terão 3 categoria
+TODO-ALVAREZ-RESOLVIDO: tela de entrega leva para a tela de escolher forma de pagamento, nessa tela terão 3 categoria
   1° dinheiro em espécie (tentativa de chamar atenção pq é o melhor preço),
   2° Pagar na loja (clique abre 3 de opções (PIX, débito e credito(credito abre opção de prazo 1x-12x))),
   3° Pagamento online com logo da pagseguro (clique abre 3 opções (PIX, débito e crédito(credito abre opção de prazo 1x-12x))).
@@ -11,3 +11,7 @@ TODO-ALVAREZ: tela de resumo com uma tabela não editável onde se encontram tod
   com o status "confirmando pagamento" para pagamento online.
 
 TODO-ALVAREZ: implementar pagamento pagseguro
+
+TODO-ALVAREZ: mandar pagar online pro pagseguro e na loja pra outra porra;
+
+TODO-ALVAREZ: impedir do usuario entrar e sair do checkout livremente;
