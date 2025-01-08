@@ -14,6 +14,6 @@ TODO-ALVAREZ: implementar pagamento pagseguro;
 
 TODO-ALVAREZ-RESOLVIDO: mandar pagar online pro pagseguro e na loja pra outra porra;
 
-TODO-ALVAREZ: impedir do usuario entrar e sair do checkout livremente;
+TODO-ALVAREZ-RESOLVIDO: impedir do usuario entrar e sair do checkout livremente;
 
-TODO-ALVAREZ: fazer um mixin com dispatch pra checar se o brother ta logado;
+TODO-ALVAREZ-RESOLVIDO: fazer um mixin com dispatch pra checar se o brother ta logado;
