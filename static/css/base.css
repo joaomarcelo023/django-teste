@@ -63,14 +63,17 @@ body {
     background-color: #EBEBEB;
 }
 
-hr {
-    background-color: #ff9900;
-}
-
 footer {
-    width: 100vw;
     background-color: transparent;
+    border-top: 2px solid #ff9900;
     /* background-color: #151635; */
     /* color: #ff9900; */
     box-shadow: none;
+}
+
+footer .row {
+    padding-top: 10px;
+    width: 100%;
+
+    color: #ff9900;
 }

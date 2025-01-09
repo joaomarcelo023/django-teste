@@ -652,14 +652,14 @@ class ClientePedidoDetalheView(LogedMixin, BaseContextMixin, DetailView):
     context_object_name = "pedido_obj"
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated and request.user.cliente:
-            order_id = self.kwargs["pk"]
-            pedido = Pedido_order.objects.get(id=order_id)
-            if request.user.cliente != pedido.carro.cliente:
-                return redirect("lojaapp:clienteperfil")
+        # if request.user.is_authenticated and request.user.cliente:
+        order_id = self.kwargs["pk"]
+        pedido = Pedido_order.objects.get(id=order_id)
+        if request.user.cliente != pedido.carro.cliente:
+            return redirect("lojaapp:clienteperfil")
 
-        else:
-            return redirect("/entrar/?next=/perfil/")
+        # else:
+        #     return redirect("/entrar/?next=/perfil/")
         return super().dispatch(request, *args, **kwargs)
 
 class CadastrarEnderecoView(LogedMixin, LojaMixin, BaseContextMixin, CreateView):

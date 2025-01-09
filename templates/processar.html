@@ -274,7 +274,7 @@
                             <th colspan="3" class="text-center" style="vertical-align: middle; font-weight: 400;">R$ {{ pedido.total_desconto|intcomma }}</th>
                         </tr>
                     {% endif %}
-                    {% if not pedido.endereco_envio.cliente.nome == "Casa" and not pedido.endereco_envio.cliente.sobrenome == "HG" %}
+                    {% if pedido.frete %}
                         <tr>
                             <th colspan="4" class="text-right" style="vertical-align: middle; font-weight: 400;">Frete:</th>
                             <th colspan="3" class="text-center" style="vertical-align: middle; font-weight: 400;">R$ {{ pedido.frete|intcomma }}</th>

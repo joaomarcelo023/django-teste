@@ -1,7 +1,7 @@
 const caixas = document.querySelectorAll(".perfilCont");
 const PC = document.querySelector('.grande');
 let caixaVisu = new URLSearchParams(window.location.search).get('perfil');
-if (caixaVisu === ""){
+if (caixaVisu === null){
     caixaVisu = "ClienteInfo";
 }
 
