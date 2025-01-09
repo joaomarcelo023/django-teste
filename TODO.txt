@@ -10,10 +10,14 @@ TODO-ALVAREZ-RESOLVIDO: tela de resumo com uma tabela não editável onde se enc
   com o status "pagamento pendente" para pagamento não online,
   com o status "confirmando pagamento" para pagamento online.
 
-TODO-ALVAREZ: implementar pagamento pagseguro;
+TODO-ALVAREZ-RESOLVIDO: implementar pagamento pagseguro
 
-TODO-ALVAREZ-RESOLVIDO: mandar pagar online pro pagseguro e na loja pra outra porra;
+TODO-ALVAREZ-RESOLVIDO: mandar pagar online pro pagseguro e na loja pra outra porra
 
-TODO-ALVAREZ-RESOLVIDO: impedir do usuario entrar e sair do checkout livremente;
+TODO-ALVAREZ-RESOLVIDO: impedir do usuario entrar e sair do checkout livremente
 
-TODO-ALVAREZ-RESOLVIDO: fazer um mixin com dispatch pra checar se o brother ta logado;
+TODO-ALVAREZ-RESOLVIDO: fazer um mixin com dispatch pra checar se o brother ta logado
+
+TODO-ALVAREZ: colocar descontos direito nos pagamentos
+
+TODO: Criar area de admin

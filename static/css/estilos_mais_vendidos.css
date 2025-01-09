@@ -1,12 +1,12 @@
 .produtos-wrapper{
     overflow-x: auto;
-    scrollbar-height: 20px;
+    /* scrollbar-height: 20px; */
     display: flex;
 }
 
-.produtos {
+/* .produtos {
 
-}
+} */
 
 .arrow-left-produtos, .arrow-right-produtos{
     position: absolute;
@@ -59,7 +59,7 @@
 
 @media (max-width: 2300px) {
     .titulo-mais-vendidos {
-        width: auto
+        width: auto;
         margin-top: 0px;
         margin-right: 0px;
         margin-bottom: 0px;
@@ -75,20 +75,20 @@
         margin-bottom: 0px;
         margin-left: 5vw;
         padding-top: 3vw;
-}
+    }
 
     .arrow-right-produtos{
-    right: 5vw;
-}
+        right: 5vw;
+    }
     .arrow-left-produtos{
-    left: 5vw;
-}
+        left: 5vw;
+    }
 }
 
 
 @media (max-width: 400px) {
     .titulo-mais-vendidos {
-        width: auto
+        width: auto;
         margin-top: 0px;
         margin-right: 0px;
         margin-bottom: 0px;
@@ -104,6 +104,5 @@
         margin-bottom: 0px;
         margin-left: 0px;
         padding-top: 7vw;
-}
-
+    }
 }

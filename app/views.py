@@ -112,7 +112,10 @@ class SobreView(LojaMixin, BaseContextMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['banners'] = Banner.objects.all()
+
+        # context['empresa'] = Empresa.objects.all()
+        context["enderecosLojas"] = Endereco.objects.filter(cliente=Cliente.objects.get(nome="Casa", sobrenome="HG"))
+        context["mapsKey"] = settings.GOOGLE_MAPS_KEY
 
         return context
 
@@ -515,7 +518,7 @@ def create_payment(request):
 
     headers = {
         "accept": "*/*",
-        "Authorization": "Bearer 3f83367b-ce21-4fe4-91b1-a27be2eac7ce7eb5a2b84ff5a4895f10b5717c065b6ca97f-a6ed-4f2a-a97c-989e07fb10cb",
+        "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN_SANDBOX,
         "Content-type": "application/json"
     }
     
@@ -530,6 +533,7 @@ def create_payment(request):
         
         return redirect(payment_url)
     else:
+        # TODO: Melhorar essa tela de erro pra versão final
         return HttpResponse(f"Error: {response.status_code} - {response.text}")
 
 class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
@@ -628,6 +632,10 @@ class ClientePerfilView(LogedMixin, LojaMixin, BaseContextMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        perfil_select = self.request.GET.get("perfil", "ClienteInfo")
+        context['caixaPerfil'] = perfil_select
+        print(perfil_select)
+
         cliente = self.request.user.cliente
         context['cliente'] = cliente
 
@@ -638,7 +646,7 @@ class ClientePerfilView(LogedMixin, LojaMixin, BaseContextMixin, TemplateView):
         context['enderecos'] = enderecos
         return context
 
-class ClientePedidoDetalheView(LogedMixin, DetailView):
+class ClientePedidoDetalheView(LogedMixin, BaseContextMixin, DetailView):
     template_name = "clientepedidodetalhe.html"
     model = Pedido_order
     context_object_name = "pedido_obj"

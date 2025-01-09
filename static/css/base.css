@@ -62,3 +62,15 @@
 body {
     background-color: #EBEBEB;
 }
+
+hr {
+    background-color: #ff9900;
+}
+
+footer {
+    width: 100vw;
+    background-color: transparent;
+    /* background-color: #151635; */
+    /* color: #ff9900; */
+    box-shadow: none;
+}

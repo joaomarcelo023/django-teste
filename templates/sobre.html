@@ -1,7 +1,41 @@
+<!-- TODO: Rever texto -->
 {% extends 'base.html' %}
+{% load static %}
+
 {% block title %}SOBRE{% endblock %}
+
 {%block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/sobre.css' %}">
 
-    <h1>SEJA BEM VINDO AO SOBRE</h1>
+<section class="container">
+    <div class="row">
+        <div class="col-12">
+            <br>
+            <p>A <span style="color: #ff9900; font-weight: 600;">Casa HG</span> estabelecida no centro de Teresópolis/RJ por estar há mais de 50 anos no mercado é uma empresa sólida no seguimento de materiais de construção. Contamos com uma ampla estrutura incluindo diversos funcionários treinados pra lhe oferecer sempre o atendimento que você merece.</p>
+            <p>Se está pensando em construir ou reformar, passe na Casa HG e nós teremos o prazer em lhe oferecer o melhor em produtos e facilidade na hora de fazer suas compras.</p>
+            <p>Oferecemos formas de pagamento bem acessíveis. Faça um orçamento online!</p>
+            <p>Agradecemos sua visita. Fique à vontade para nos escrever caso tenha qualquer dúvida.</p>
+            <ul>
+                <!-- TODO: Preencher href -->
+                <li><a href="{% url 'lojaapp:home' %}">Conheça nossos produtos</a></li>
+                <li><a href="">Solicite um orçamento</a></li>
+            </ul>
+            <br>
+            <h2>Venha nos visitar!</h2>
+            <ul class="localidades">
+                {% for e in enderecosLojas %}
+                    <li>
+                        <span class="address">{{ e.titulo }}: {{ e.rua }}{% if e.numero %} {{ e.numero }}{% endif %}{% if e.complemento %} - {{ e.complemento }}{% endif %}, {{ e.bairro }} - {{ e.cidade }}, {{ e.estado }} - {{ e.cep }}</span>
+                        <br>
+                        <div id="googleMap{{ forloop.counter }}" style="width:100%;height:200px;"></div>
+                        <br>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
 
+<script src="https://maps.googleapis.com/maps/api/js?key={{ mapsKey }}"></script>
+<script src="{% static 'js/sobre.js' %}"></script>
 {% endblock %}

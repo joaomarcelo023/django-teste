@@ -144,3 +144,8 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# TODO: Mudar as chave das APIs para contas da loja
+GOOGLE_MAPS_KEY = 'AIzaSyDzhKmxOI3em8ljqwr_NYne89XvTE1inzQ'
+
+PAGSEGURO_TOKEN_SANDBOX = '3f83367b-ce21-4fe4-91b1-a27be2eac7ce7eb5a2b84ff5a4895f10b5717c065b6ca97f-a6ed-4f2a-a97c-989e07fb10cb'

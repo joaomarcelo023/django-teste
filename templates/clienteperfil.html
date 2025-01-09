@@ -1,25 +1,56 @@
+<!-- TODO-ALVAREZ: Arrumar layout pra PC -->
+
 {% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load l10n %}
+
 {% block title %}Perfil{% endblock %}
 
 {% block content %}
-    <div class="row m-5" style="padding:0px; justify-content: center">
-        <div class="container" style="width:auto; background-color: #fff; border-radius: 20px; box-shadow: 0 0 7px rgba(0, 0, 0, 0.4); padding:10px; overflow: hidden; text-overflow: ellipsis;">
-            <h3 class="m2 d-flex" style="justify-content:center;" >Perfil</h3>
-            <span class="font-weight-bold">Nome:&nbsp;</span>{{cliente.nome}}&nbsp;{{cliente.sobrenome}}<hr style="border-color: black; margin-top: 10px; margin-bottom: 10px;">
-            <span class="font-weight-bold">E-mail:&nbsp;</span>{{cliente.email}}<hr style="border-color: black; margin-top: 10px; margin-bottom: 10px;">
-            <span class="font-weight-bold">{% if cliente.bool_cpf_cnpj %}CPF{% else %}CNPJ{% endif %}:&nbsp;</span>{{cliente.cpf_ou_cnpj_formatado}}<hr style="border-color: black; margin-top: 10px; margin-bottom: 10px;">
-            <span class="font-weight-bold">Telefone:&nbsp;</span>{{cliente.telefone}}<hr style="border-color: black; margin-top: 10px; margin-bottom: 10px;">
-            <span class="font-weight-bold">cadastrado em:&nbsp;</span>{{cliente.data_criacao}}<hr style="border-color: black; margin-top: 10px; margin-bottom: 10px;">
+<link rel="stylesheet" type="text/css" href="{% static 'css/clienteperfil.css' %}">
+
+<section class="form-custom-background navbarSection grande">
+    <div class="row justify-content-center">
+        <form method="get" action="{% url 'lojaapp:clienteperfil' %}">
+            <nav id="perfilSelect" class="col-12 align-items-center text-center pageNav">
+                <li><button type="submit" name="perfil" value="ClienteInfo">Perfil</button></li>
+                |
+                <li><button type="submit" name="perfil" value="Endereco">Endereços</button></li>
+                |
+                <li><button type="submit" name="perfil" value="Pedidos">Pedidos</button></li>
+                <!-- | -->
+                <!-- <li><button type="submit" name="perfil" value=""></button></li> -->
+            </nav>
+        </form>
+    </div>
+</section>
+
+<section class="container">
+    <div id="ClienteInfo" class="row m-5 perfilCont">
+        <div class="container cont">
+            <h3 class="d-flex">Perfil</h3>
+            <hr class="hrInner">
+            <span class="font-weight-bold">Nome:&nbsp;</span>{{cliente.nome}}&nbsp;{{cliente.sobrenome}}
+            <hr class="hrInner">
+            <span class="font-weight-bold">E-mail:&nbsp;</span>{{cliente.email}}
+            <hr class="hrInner">
+            <span class="font-weight-bold">{% if cliente.bool_cpf_cnpj %}CPF{% else %}CNPJ{% endif %}:&nbsp;</span>{{cliente.cpf_ou_cnpj_formatado}}
+            <hr class="hrInner">
+            <span class="font-weight-bold">Telefone:&nbsp;</span>{{cliente.telefone}}
+            <hr class="hrInner">
+            <span class="font-weight-bold">cadastrado em:&nbsp;</span>{{cliente.data_criacao}}
+            <hr class="hrInner">
         </div>
     </div>
 
-    <div class="row m-5" style="padding:0px; justify-content: center">
-        <div class="container" style="margin:auto; width:auto; background-color: #fff; border-radius: 20px; box-shadow: 0 0 7px rgba(0, 0, 0, 0.4);padding:10px;">
-            <h3 class="row d-flex" style="justify-content:center;">Endereços</h3>
-            <hr style="border-color: black; margin-top: 10px; margin-bottom: 10px;">
+    <div id="Endereco" class="row m-5 perfilCont">
+        <div class="container cont">
+            <h3 class="d-flex">Endereços</h3>
+            <hr class="hrInner">
             {% for end in enderecos %}
-                <div class="row d-flex" style="width:auto; flex-direction: column;">
-                    <div class="row d-flex mb-2" style="width:auto; line-height: auto; white-space: nowrap;">
+                <div class="row d-flex enderecoIndv">
+                    <div class="row d-flex mb-2 enderecoDado" style="line-height: auto; white-space: nowrap;">
                         <div class="col d-flex" style="width:100%; flex: 2;"><span class="font-weight-bold" style="height:1rem;">Título:&nbsp;</span>{{end.titulo}}</div>
                         <div class="col d-flex" style="justify-content: flex-end; width:auto; height:1rem; flex: 1;">
                             <a href="{% url 'lojaapp:deletarendereco' end.id %}">
@@ -28,65 +59,71 @@
                         </div>
                     </div>
 
-                    <div class="row d-flex mb-2" style="width:auto;">
+                    <div class="row d-flex mb-2 enderecoDado">
                         <div class="col d-flex"><span class="font-weight-bold">CEP:&nbsp;</span>{{end.cep}}</div>
                     </div>
 
-                    <div class="row d-flex mb-2" style="width:auto;">
+                    <div class="row d-flex mb-2 enderecoDado">
                         <div class="col d-flex"> <span class="font-weight-bold">Cidade:&nbsp;</span>{{end.cidade}}</div>
                     </div>
 
-                    <div class="row d-flex mb-2" style="width:auto;">
+                    <div class="row d-flex mb-2 enderecoDado">
                         <div class="col d-flex"><span class="font-weight-bold">Estado:&nbsp;</span>{{end.estado}}</div>
                     </div>
 
-                    <div class="row d-flex mb-2" style="width:auto;">
+                    <div class="row d-flex mb-2 enderecoDado">
                         <div class="col d-flex"><span class="font-weight-bold">Bairro:&nbsp;</span>{{end.bairro}}</div>
                     </div>
 
-                    <div class="row d-flex mb-2" style="width:auto;">
+                    <div class="row d-flex mb-2 enderecoDado">
                         <div class="col d-flex"><span class="font-weight-bold">Rua:&nbsp;</span>{{end.rua}}</div>
                     </div>
 
-                    <div class="row d-flex mb-2" style="width:auto;">
+                    <div class="row d-flex mb-2 enderecoDado">
                         <div class="col d-flex"> <span class="font-weight-bold">Número:&nbsp;</span>{{end.numero}}</div>
                     </div>
 
-                    <div class="row d-flex mb-2" style="position: relative; width:35em;">
+                    <div class="row d-flex mb-2 enderecoDado">
                         <div class="col d-flex"><span class="font-weight-bold">Complemento:&nbsp;</span>{{end.complemento}}</div>
                     </div>
                 </div>
-                <hr style="border-color: black; margin-top: 10px; margin-bottom: 10px;">
+                <hr class="hrInner">
             {% endfor %}
-            <a href="{% url 'lojaapp:cadastrarendereco' %}">Registrar Novo Endereco</a>
+            <div class="d-flex" style="justify-content:center;">
+                <a href="{% url 'lojaapp:cadastrarendereco' %}">Registrar Novo Endereco</a>
+            </div>
         </div>
     </div>
-    <div class="row m-5" style="padding:0px; justify-content: center">
-        <div class="container m-5" style="width:auto; background-color: #fff; border-radius: 20px; box-shadow: 0 0 7px rgba(0, 0, 0, 0.4);padding:10px;">
-            <h3>Compras anteriores</h3>
+    
+    <div id="Pedidos" class="row m-5 perfilCont">
+        <div class="container cont">
+            <h3 class="d-flex">Compras anteriores</h3>
+            <!-- <hr class="hrInner"> -->
             <table class="table">
                 <thead>
                     <tr>
-                        <th>codigo</th>
-                        <th>Pedido</th>
-                        <th>Valor</th>
-                        <th>Data pedido</th>
-                        <th>Status</th>
+                        <!-- <th>codigo</th> -->
+                        <th class="text-center">Pedido</th>
+                        <th class="text-center">Valor</th>
+                        <th class="text-center">Data pedido</th>
+                        <th class="text-center">Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for ped in pedidos %}
                         <tr>
-                            <td><a href="{% url 'lojaapp:clientepedidodetalhe' ped.pk%}">{{ ped.pk }}</a></td>
-                            <td>{{ped.id}}</td>
-                            <td>{{ped.total}}</td>
-                            <td>{{ped.criado_em}}</td>
-                            <td>{{ped.pedido_status}}</td>
+                            <td class="text-center"><a href="{% url 'lojaapp:clientepedidodetalhe' ped.pk%}">{{ ped.pk }}</a></td>
+                            <!-- <td>{{ped.id}}</td> -->
+                            <td class="text-center">R$ {{ped.total_final|intcomma}}</td>
+                            <td class="text-center">{{ped.criado_em}}</td>
+                            <td class="text-center">{{ped.pedido_status}}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
+</section>
 
+<script src="{% static 'js/clienteperfil.js' %}"></script>
 {% endblock %}
