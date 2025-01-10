@@ -112,7 +112,7 @@ class CarroProduto(models.Model):
     criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return "Carro: " + str(self.carro.id) + "CarroProduto: " + str(self.id)
+        return "Carro: " + str(self.carro.id) + " | CarroProduto: " + str(self.id)
 
 PEDIDO_STATUS=[
     ("Pedido em Andamento", "Pedido em Andamento"),
@@ -160,19 +160,25 @@ class Pedido_order(models.Model):
 
 class Pedido_Produto(models.Model):
     #importante repetir informações do produto para que uma mudança de cadastro não altere a venda
-    codigo = models.CharField(max_length=10)
-    descricao = models.CharField(max_length=200)
-    codigo_GTIN = models.CharField(max_length=14)
-    preco_unitario_bruto = models.DecimalField(max_digits=10, decimal_places=2)
-    desconto_dinheiro = models.DecimalField(max_digits=10,decimal_places=2)
-    desconto_retira = models.DecimalField(max_digits=10,decimal_places=2)
+    pedido = models.ForeignKey(Pedido_order,on_delete=models.CASCADE,default="")
+    produto = models.ForeignKey(Produto,on_delete=models.CASCADE,default="")
+
+    codigo = models.CharField(max_length=10,default="")
+    descricao = models.CharField(max_length=200,default="")
+    codigo_GTIN = models.CharField(max_length=14,default="")
+    preco_unitario_bruto = models.DecimalField(max_digits=10, decimal_places=2,default=0)
+    desconto_dinheiro = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+    desconto_retira = models.DecimalField(max_digits=10,decimal_places=2,default=0)
     unidade = models.CharField(max_length=30, default="un")
 
-    quantidade = models.DecimalField(max_digits=10,decimal_places=2)
-    total_bruto = models.DecimalField(max_digits=10,decimal_places=2) #total parcial sem desconto
-    desconto_total = models.DecimalField(max_digits=10,decimal_places=2) # em reais
-    desconto_unitario = models.DecimalField(max_digits=10,decimal_places=2) # em reais
-    total_final = models.DecimalField(max_digits=10,decimal_places=2) # total parcial com desconto
+    quantidade = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+    total_bruto = models.DecimalField(max_digits=10,decimal_places=2,default=0) #total parcial sem desconto
+    desconto_total = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True,default=0) # em reais
+    desconto_unitario = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True,default=0) # em reais
+    total_final = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True,default=0) # total parcial com desconto
+
+    def __str__(self):
+        return "Pedido: " + str(self.pedido.id) + " | Codigo do produto: " + self.codigo + " | Produto: " + self.produto.titulo
 
 class Banner(models.Model):    
     title = models.CharField(max_length=100, blank=True)

@@ -396,6 +396,8 @@ def pedido_carro_pagamento(request):
         try:
             # print(request.POST)
             # usuario = User.objects.get(username=request.user.username)
+
+            # Termina de preencher os dados de pagamento
             pedido = Pedido_order.objects.get(id=request.POST["pedido_id"])
 
             pedido.local_de_pagamento = request.POST["local_pagamento"]
@@ -417,6 +419,16 @@ def pedido_carro_pagamento(request):
 
             pedido.save()
 
+            # Cria os Pedido_Produto
+            for produtosCarro in CarroProduto.objects.filter(carro=pedido.carro):
+                produto = Produto.objects.get(id=produtosCarro.produto.id)
+                Pedido_Produto.objects.create(pedido=pedido, produto=produto, codigo=produto.codigo, 
+                                              descricao=produto.descricao, codigo_GTIN=produto.codigo_GTIN, preco_unitario_bruto=produto.preco_unitario_bruto, 
+                                              desconto_dinheiro=produto.desconto_dinheiro, desconto_retira=produto.desconto_retira, unidade=produto.unidade, 
+                                              quantidade=produtosCarro.quantidade, total_bruto=produtosCarro.subtotal)#, 
+                                            #   desconto_total=, desconto_unitario=, total_final=)
+
+            # Direciona pro pagamento
             if pedido.local_de_pagamento == "online":
                 pedido.pedido_status = "Pagamento Processando"
                 pedido.save()
