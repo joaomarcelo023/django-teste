@@ -487,7 +487,7 @@ def create_payment(request):
                 ]
             }
         ],
-        "redirect_url": f"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
+        "redirect_url": f"http://127.0.0.1:8000/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",# f"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
         # f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}&status=Pagamento_Confirmado"
         # "notification_urls": ["notificacaoStatus.com.br"],
         # "payment_notification_urls": ["notificacaoPagamento.com.br"]
