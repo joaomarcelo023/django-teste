@@ -25,10 +25,9 @@
             <ul class="localidades">
                 {% for e in enderecosLojas %}
                     <li>
-                        <span class="address">{{ e.titulo }}: {{ e.rua }}{% if e.numero %} {{ e.numero }}{% endif %}{% if e.complemento %} - {{ e.complemento }}{% endif %}, {{ e.bairro }} - {{ e.cidade }}, {{ e.estado }} - {{ e.cep }}</span>
+                        <span class="address"><b>{{ e.titulo }}</b>: {{ e.rua }}{% if e.numero %} {{ e.numero }}{% endif %}{% if e.complemento %} - {{ e.complemento }}{% endif %}, {{ e.bairro }} - {{ e.cidade }}, {{ e.estado }} - {{ e.cep }}</span>
                         <br>
-                        <div id="googleMap{{ forloop.counter }}" style="width:100%;height:200px;"></div>
-                        <br>
+                        <div id="googleMap{{ forloop.counter }}" class="map"></div>
                     </li>
                 {% endfor %}
             </ul>

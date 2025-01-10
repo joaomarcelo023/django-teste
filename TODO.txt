@@ -20,4 +20,6 @@ TODO-ALVAREZ-RESOLVIDO: fazer um mixin com dispatch pra checar se o brother ta l
 
 TODO-ALVAREZ: colocar descontos direito nos pagamentos
 
+TODO-ALVAREZ: colocar Pedido_produto nos pagamentos
+
 TODO: Criar area de admin
