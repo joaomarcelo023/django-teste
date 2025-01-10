@@ -4,45 +4,44 @@
 {% block title %}Perfil{% endblock %}
 
 {% block content %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/enderecocadastrar.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/enderecocadastrar.css' %}">
 
-    <div class="container">
-        <h3 class="text-center mb-4">Adicionar Endereço</h3>
-        <form id="addressForm" action="{% url 'lojaapp:endereco_cadastrar' %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{{ next }}">
-            <div class="form-group">
-                <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título (opcional)" maxlength="20">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control cep-input" id="cep" name="cep" placeholder="CEP" maxlength="9" inputmode="numeric">
-                <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank" tabindex="0" role="button" class="cep-link" maxlength="9">Não sei o meu CEP</a>
-                <div id="cepWarning" style="color: red; display: none;">Por favor, insira um CEP valido.</div>
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control estado-input" id="estado" name="estado" placeholder="Estado" style="border-style:dashed;" readonly maxlength="3">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control cidade-input" id="cidade" name="cidade" placeholder="Cidade" style="border-style:dashed;" readonly maxlength="35">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control bairro-input" id="bairro" name="bairro" placeholder="Bairro" style="border-style:dashed;" readonly maxlength="35">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control rua-input" id="rua" name="rua" placeholder="Rua" style="border-style:dashed;" readonly maxlength="35">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" maxlength="20">
-            </div>
-            <div class="form-group">
-                <textarea class="form-control" id="complemento" name="complemento" placeholder="Complemento" maxlength="140"></textarea>
-            </div>
-            <button type="submit" class="btn btn-success">Cadastrar Endereço</button>
-        </form>
-    </div>
+<section class="container">
+    <h3 class="text-center mb-4">Adicionar Endereço</h3>
+    <form id="addressForm" action="{% url 'lojaapp:endereco_cadastrar' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        <div class="form-group">
+            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título (opcional)" maxlength="20">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control cep-input" id="cep" name="cep" placeholder="CEP" maxlength="9" inputmode="numeric">
+            <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank" tabindex="0" role="button" class="cep-link" maxlength="9">Não sei o meu CEP</a>
+            <div id="cepWarning" style="color: red; display: none;">Por favor, insira um CEP valido.</div>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control estado-input" id="estado" name="estado" placeholder="Estado" style="border-style:dashed;" readonly maxlength="3">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control cidade-input" id="cidade" name="cidade" placeholder="Cidade" style="border-style:dashed;" readonly maxlength="35">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control bairro-input" id="bairro" name="bairro" placeholder="Bairro" style="border-style:dashed;" readonly maxlength="35">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control rua-input" id="rua" name="rua" placeholder="Rua" style="border-style:dashed;" readonly maxlength="35">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" maxlength="20">
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" id="complemento" name="complemento" placeholder="Complemento" maxlength="140"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Cadastrar Endereço</button>
+    </form>
+</section>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
-    <script src="{% static 'js/enderecocadastrar.js' %}"></script>
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
+<script src="{% static 'js/enderecocadastrar.js' %}"></script>
 {% endblock %}

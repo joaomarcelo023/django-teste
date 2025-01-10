@@ -5,51 +5,32 @@
 
 {% block content %}
 
-    <style>
-        .errorlist{
-            color: red;
-        }
-    </style>
+<style>
+    .errorlist{
+        color: red;
+    }
+</style>
 
-    <div class="container justify-content-center">
-        <div class="row">
-            <div class="col-md-4 mx-auto">
-                <h3 class="my-3">Cadastrar Clientes</h3>
-                <form action="" method="post" >
-                    {%csrf_token%}
-                    {{form.as_p}}
-                    <div class="text-center">
-                        <button class = "btn btn-success">Cadastrar Cliente</button>
-                    </div>
-                </form>
-                <br>
-                <div>
-                    Se você já é cadastrado: <a href="{%url 'lojaapp:clienteentrar' %}">Entrar</a>
+<section class="container justify-content-center">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <h3 class="my-3">Cadastrar Clientes</h3>
+            <form action="" method="post" >
+                {%csrf_token%}
+                {{form.as_p}}
+                <div class="text-center">
+                    <button class = "btn btn-success">Cadastrar Cliente</button>
                 </div>
+            </form>
+            <br>
+            <div>
+                Se você já é cadastrado: <a href="{%url 'lojaapp:clienteentrar' %}">Entrar</a>
             </div>
         </div>
     </div>
+</section>
     
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.phone-number').inputmask({
-                mask: "(99) 99999-9999",    // Specify the format here
-                placeholder: "_",           // Placeholder character
-                showMaskOnHover: false,     // Optional: remove mask on hover
-                showMaskOnFocus: true       // Optional: show mask on focus only
-            });
-        });
-        
-        // $(document).ready(function() {
-        //     $('.cpf-cnpj').inputmask({
-        //         mask: "99999999999999",    // Specify the format here
-        //         placeholder: "_",           // Placeholder character
-        //         showMaskOnHover: false,     // Optional: remove mask on hover
-        //         showMaskOnFocus: true       // Optional: show mask on focus only
-        //     });
-        // });
-    </script>
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
+<script src="{% static 'js/clienteregistrar.js' %}"></script>
 {% endblock %}
