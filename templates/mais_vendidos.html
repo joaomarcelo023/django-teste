@@ -2,9 +2,9 @@
 {% load humanize %}
 {% load l10n %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'css/estilos_mais_vendidos.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/mais_vendidos.css' %}">
 
-<div class="container-custom" style="padding:0px;  ">
+<div class="container-custom BigDivBoy">
     <button class="arrow-left-produtos control-produtos grande" aria-label="Previous image">
         <svg height="100%" width="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M11 9L8 12M8 12L11 15M8 12H16M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
     </button>
@@ -12,12 +12,14 @@
         <svg height="100%" width="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M13 15L16 12M16 12L13 9M16 12H8M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
     </button>
     <h3 class="titulo-mais-vendidos">Produtos mais vendidos</h3>
-    <div class="produtos-wrapper" id="produtos-wrapperId" style="width:100%; background-color: #fff; border-radius: 20px; box-shadow: 0 0 7px rgba(0, 0, 0, 0.4);">
-        <div  style="padding: 10px; display: flex; flex-flow: row nowrap;">
+    <div class="produtos-wrapper" id="produtos-wrapperId">
+        <div class="produtos-Subwrapper">
             {% for p in page_obj %}
-                <div class="produtos" >
-                    {% include "produtos_pequenos.html" %}
-                </div>
+                {% if p.quantidade_vendas >= 5 %}
+                    <div class="produtos">
+                        {% include "produtos_pequenos.html" %}
+                    </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

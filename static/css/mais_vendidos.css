@@ -1,11 +1,26 @@
+.BigDivBoy {
+    padding: 0px;
+}
+
 .produtos-wrapper{
     overflow-x: auto;
     /* scrollbar-height: 20px; */
     display: flex;
+
+    width: 100%;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.4);
+}
+
+.produtos-Subwrapper {
+    padding: 10px;
+    display: flex;
+    flex-flow: row nowrap;
 }
 
 /* .produtos {
-
+    border: 1px solid red;
 } */
 
 .arrow-left-produtos, .arrow-right-produtos{
@@ -55,9 +70,7 @@
     background: transparent;
 }
 
-
-
-@media (max-width: 2300px) {
+@media (min-width: 750px) {
     .titulo-mais-vendidos {
         width: auto;
         margin-top: 0px;
@@ -85,8 +98,7 @@
     }
 }
 
-
-@media (max-width: 400px) {
+@media (max-width: 750px) {
     .titulo-mais-vendidos {
         width: auto;
         margin-top: 0px;

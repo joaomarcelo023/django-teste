@@ -117,6 +117,8 @@ window.addEventListener('resize', () => {
     maxItems = document.querySelectorAll('.item').length;// Atualiza o número de itens após o redimensionamento
 });
 
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 // Controle de transição de slide pelo toque em touchscreens e arraste do mouse
 const slideshowContainer = document.querySelector('.gallery-wrapper');
 let startX;
@@ -180,3 +182,7 @@ function handleSwipe(start, end) {
         window.open(document.getElementById("L" + (currentItem + 1)).href, "_blank");
     }
 }
+
+const t = setInterval(function () {
+    handleClick(0);
+}, 15000);

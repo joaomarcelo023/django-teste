@@ -1,3 +1,5 @@
 TODO-ALVAREZ: colocar descontos direito nos pagamentos
 
 TODO: Criar area de admin
+
+TODO-ALVAREZ: Arrumar mudança automatica do banner quando ele não está aparecendo na tela

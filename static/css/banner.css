@@ -28,29 +28,6 @@
     cursor: pointer;
 }
 
-#closeButton {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px;
-    cursor: pointer;
-}
-
-.popup-menu-mobile {
-    opacity: 0;
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #363a3f;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    transition: opacity 0.5s;
-}
-
 .container-custom{
     position: relative;
     padding: 15px;

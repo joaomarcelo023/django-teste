@@ -11,7 +11,7 @@ class Categoria(models.Model):
 
 class Produto(models.Model):
 
-    #informações que virão do sistema
+    #informações que virão do sistema externo
     codigo = models.CharField(max_length=10) #codigo interno consistente com sistema
     descricao = models.CharField(max_length=200)
     codigo_GTIN = models.CharField(max_length=14) #se o produto não tiver codigo GTIN cadastrado, usar codigo interno
@@ -21,11 +21,11 @@ class Produto(models.Model):
     unidade = models.CharField(max_length=30,default="un") #unidade em que o produto é comercializado
     fechamento_embalagem = models.DecimalField(max_digits=10, decimal_places=2, default=1.00)
 
-    #informações que precisam ser criadas por lógica do sistema
+    #informações que precisam ser criadas por lógica do sistema externo
     slug = models.SlugField(unique=True)
     Categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE)
 
-    #entrada manual de algum usuário
+    #entrada manual de algum admin
     image = models.ImageField(upload_to="produtos")
 
     # TODO-ALVAREZ deletar de forma responsável
@@ -33,7 +33,10 @@ class Produto(models.Model):
     venda = models.DecimalField(max_digits=10, decimal_places=2)
     garantia = models.CharField(max_length=300,null=True,blank=True)
     return_devolucao = models.CharField(max_length=300,null=True,blank=True)
+    
+    #informações que virão do sistema da loja online
     visualizacao = models.PositiveIntegerField(default=0)
+    quantidade_vendas = models.PositiveIntegerField(default=0)
 
 
     def __str__(self):
@@ -200,3 +203,16 @@ class Empresa(models.Model):
 
     def __str__(self):
         return self.titulo
+
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+class Admin(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    nome_completo = models.CharField(max_length=200,default="")
+    image = models.ImageField(upload_to="admin",null=True,blank=True)
+    email = models.EmailField(default="")
+    telefone = models.CharField(max_length=19,default="")
+
+
+    def __str__(self):
+        return self.user.username

@@ -2,34 +2,35 @@
 {% load humanize %}
 {% load l10n %}
 {% localize on %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/produtos_pequenos.css' %}">
 
-<a href="{% url 'lojaapp:produtodetalhe' p.slug %}" style="color:currentColor; text-decoration:none; display: flex;">
-    <div class="text-center div-produtos_pequenos container" style="background: #fff; padding:0; position: relative; justify-content: center; flex-direction: column; flex-wrap:wrap;display:flex; flex-shrink:1;">
-        <div class="" style="height:100%; margin:auto; padding:0;justify-content: center; flex-direction: column; flex-shrink:1; display:flex; justify-content: center;"  >
-            <div class="row" style="aspect-ratio:0.75;max-height:70%; object-fit: scale-down; justify-content: center; margin: 0px; padding: 0; height:auto; width:auto; align-items: center; flex-shrink:1; justify-content: center;">
-                <img style="object-fit: scale-down; height: 100%; width: 100%;" class="img-fluid zoom-effectmt-3 mb-2 imagemProdutos" src="{{ p.image.url }}" alt="">
+<a class="linkProd" href="{% url 'lojaapp:produtodetalhe' p.slug %}">
+    <div class="text-center div-produtos_pequenos container">
+        <div class="divSub-produtos_pequenos">
+            <div class="row divImagemProd">
+                <img class="img-fluid zoom-effectmt-3 mb-2 imagemProdutos" src="{{ p.image.url }}" alt="">
             </div>
-            <div class="row" style=" margin:auto; padding:0; ">
-                <h4 style="height: 0.825cm; overflow: hidden; text-align: left; text-overflow: ellipsis; font-size: 0.35cm; line-height: 0.375cm; color: #464646;">{{ p.titulo|truncatechars:60}}</h4>
-                <div class=" container" style="display: flex; padding:0; align-items: center; align-content: center;">
-                    <div class="col ml-3" style="height:100%; display: flex; text-align: left; justify-content: flex-start; align-items: center;padding:0; align-content: center;">
-                        <span class="" style="font-size: 0.33cm; color: #000; font-family: Arial, Helvetica, sans-serif; display: inline-block; align-items: center; align-content: center; margin:0;">
+            <div class="row divInfoProd">
+                <h4>{{ p.titulo|truncatechars:60}}</h4>
+                <div class="container" style="display: flex; padding:0; align-items: center; align-content: center;">
+                    <div class="col ml-3 divPreco">
+                        <span class="precoLow">
                             R$
                         </span>
-                        <span class="" style=" font-size: 0.45cm; font-weight: bold; color: #000; font-family: Arial, Helvetica, sans-serif; display: inline-block; align-items: center; align-content: center; margin:0;">
+                        <span class="precoHigh">
                         {{ p.integer_part|intcomma }}
                         </span>
-                        <span class="" style="font-size: 0.33cm; color: #000; font-family: Arial, Helvetica, sans-serif; display: inline-block; align-items: center; align-content: center; margin:0;">
+                        <span class="precoLow">
                             ,{{ p.decimal_part}}
                         </span>
-                        <span class="" style="font-size: 0.33cm; color: #000; font-family: Arial, Helvetica, sans-serif; align-items: center; align-content: center; margin:0;">
+                        <span class="precoLow">
                             &nbsp;{{ p.unidade}}
                         </span>
                     </div>
 
-                    <div class="col mr-3" style="display: flex; text-align: right; justify-content: flex-end; align-items: center; padding:0;">
-                        <form action="{% url 'lojaapp:addcarro' p.id %}" method="get" style="display:flex; justify-content: flex-end;">
-                            <button class="btn btn-discreto mt-1 mb-1" style=" padding:3px;">
+                    <div class="col mr-3 divAdd">
+                        <form class="formAdd" action="{% url 'lojaapp:addcarro' p.id %}" method="get">
+                            <button class="btn btn-discreto mt-1 mb-1">
                                 <?xml version="1.0" encoding="utf-8"?>
                                 <svg class="icone_adicionar_carrinho" width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g transform="matrix(1.184448957443237, 0, 0, 1.10855495929718, -0.4976980164304079, -2.911299033631369)">
@@ -45,4 +46,5 @@
         </div>
     </div>
 </a>
+
 {% endlocalize %}

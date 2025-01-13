@@ -19,9 +19,8 @@ import json
 from django_teste import settings
 
 class AdminRequireMixin(object):
-
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:# and Admin.objects.filter(user=request.user).exists():
+        if request.user.is_authenticated and Admin.objects.filter(user=request.user).exists():
             pass
         else:
             return redirect("/admin-login/")
@@ -144,6 +143,7 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
         context['produto'] = produto
         produto.visualizacao += 1
         produto.save()
+
         return context
 
 class AddCarroView2(LojaMixin, BaseContextMixin, TemplateView):
@@ -499,7 +499,7 @@ def create_payment(request):
                 ]
             }
         ],
-        "redirect_url": f"http://127.0.0.1:8000/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",# f"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
+        "redirect_url": f"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado", # f"http://127.0.0.1:8000/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
         # f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}&status=Pagamento_Confirmado"
         # "notification_urls": ["notificacaoStatus.com.br"],
         # "payment_notification_urls": ["notificacaoPagamento.com.br"]
@@ -543,6 +543,7 @@ def create_payment(request):
             if dic["rel"] == "PAY":
                 payment_url = dic["href"]
         
+        print(response)
         return redirect(payment_url)
     else:
         # TODO: Melhorar essa tela de erro pra versão final
@@ -556,10 +557,19 @@ class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
         pedido_id = self.request.GET.get("id")
         pedido_status = self.request.GET.get("status")
 
+        # TODO: Melhorar isso para não poder ser abusado pelo cliente
+        # Muda status do pedido
         pedido = Pedido_order.objects.get(id=pedido_id)
         pedido.pedido_status = pedido_status.replace("_", " ")
         pedido.save()
 
+        # Aumenta a quantidade de venda de cada produto
+        pedidoProduto = Pedido_Produto.objects.filter(pedido=pedido)
+        for pp in pedidoProduto:
+            produto = Produto.objects.get(id=pp.produto.id)
+            produto.quantidade_vendas += 1
+
+        # Cria carro novo
         carro_obj = Carro.objects.create(total=0)
         carro_obj.save()
         self.request.session['carro_id'] = carro_obj.id
@@ -779,7 +789,7 @@ class AdminLoginView(BaseContextMixin, FormView):
         unome = form.cleaned_data.get("usuario")
         pword = form.cleaned_data.get("senha")
         usr = authenticate(username = unome, password = pword)
-        if usr is not None:# and Admin.objects.filter(user=usr).exists():
+        if usr is not None and Admin.objects.filter(user=usr).exists():
             login(self.request, usr)
         else:
             return render(self.request,self.template_name,{"form":self.form_class,"error":"usuario nao corresponde"})
