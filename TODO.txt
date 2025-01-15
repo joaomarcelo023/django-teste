@@ -1,5 +1,210 @@
 TODO-ALVAREZ: colocar descontos direito nos pagamentos
 
-TODO: Criar area de admin
+TODO-ALVAREZ: Colocar local de pagamento nas tabelas admin todos os pedidos
+
+TODO-ALVAREZ: Criar area de admin com dados de produtos (mais visualizados, mais vendidos, etc)
 
 TODO-ALVAREZ: Arrumar mudança automatica do banner quando ele não está aparecendo na tela
+
+
+"Coisas que precisam estar bem estruturadas:
+  Apresentar toda a linha de piso, argamassa e rejunte
+  Interface de home, pesquisa e detalhe do produto bem montadinha
+  Informação do local da entrega
+  Facilidade para saber quanto de estoque tem em cada loja
+  Conseguir exibir amigavelmente a maluquice que vão ser os preços
+
+Coisas que não precisam estar bem estruturadas:
+  Devolução 
+  Seguranca de usuário verificação de login
+  Mexer com envio de e-mail
+  Nada de pós venda"
+
+
+{
+  "id":"CHEC_8FCC4B38-C6A1-404B-9A54-6632AED6899E",
+  "reference_id":"48",
+  "created_at":"2025-01-13T19:35:32-03:00",
+  "status":"ACTIVE",
+  "customer":
+    {
+      "name":"Alva Test",
+      "email":"test@test.com",
+      "tax_id":"46289466046",
+      "phone":
+        {
+          "country":"+55",
+          "area":"11",
+          "number":"911111111"
+        }
+    },
+  "customer_modifiable":false,
+  "items":
+    [
+      {
+        "reference_id":"0",
+        "name":"Computador dell",
+        "quantity":1,
+        "description":"computador pra uso pessoal",
+        "unit_amount":280000,
+        "image_url":"https://vendashg.pythonanywhere.com/media/produtos/-1162794354.jpg",
+        "image_status":"WAITING_ANALYSIS"
+      }
+    ],
+  "additional_amount":0,
+  "discount_amount":0,
+  "shipping":
+    {
+      "type":"FIXED",
+      "service_type":"SEDEX",
+      "amount":3485,
+      "address":
+        {
+          "country":"BRA",
+          "region_code":"RJ",
+          "city":"Rio de Janeiro",
+          "postal_code":"22441030",
+          "street":"Rua Cupertino Durão",
+          "number":"84",
+          "locality":"Leblon",
+          "complement":"Apt 4"
+        },
+      "address_modifiable":false
+    },
+  "payment_methods":
+    [
+      {
+        "type":"CREDIT_CARD"
+      }
+    ],
+  "payment_methods_configs":
+    [
+      {
+        "type":"CREDIT_CARD",
+        "config_options":
+          [
+            {
+              "option":"INSTALLMENTS_LIMIT",
+              "value":"12"
+            },
+            {
+              "option":"INTEREST_FREE_INSTALLMENTS",
+              "value":"12"
+            }
+          ]
+      }
+    ],
+  "redirect_url":"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id=48&status=Pagamento_Confirmado",
+  "links":
+    [
+      {
+        "rel":"SELF","href":"https://sandbox.api.pagseguro.com/checkouts/CHEC_8FCC4B38-C6A1-404B-9A54-6632AED6899E","method":"GET"
+      },
+      {
+        "rel":"PAY","href":"https://pagamento.sandbox.pagbank.com.br/pagamento?code=8fcc4b38-c6a1-404b-9a54-6632aed6899e","method":"GET"
+      },
+      {
+        "rel":"INACTIVATE","href":"https://sandbox.api.pagseguro.com/checkouts/CHEC_8FCC4B38-C6A1-404B-9A54-6632AED6899E/inactivate","method":"POST"
+      }
+    ]
+}
+
+{
+  "id":"CHEC_8FCC4B38-C6A1-404B-9A54-6632AED6899E",
+  "reference_id":"48",
+  "created_at":"2025-01-13T19:35:32-03:00",
+  "status":"ACTIVE",
+  "customer":
+    {
+      "name":"Alva Test",
+      "email":"test@test.com",
+      "tax_id":"46289466046",
+      "phone":
+        {
+          "country":"+55",
+          "area":"11",
+          "number":"911111111"
+        }
+    },
+  "customer_modifiable":false,
+  "items":
+    [
+      {
+        "reference_id":"0",
+        "name":"Computador dell",
+        "quantity":1,
+        "description":"computador pra uso pessoal",
+        "unit_amount":280000,
+        "image_url":"https://vendashg.pythonanywhere.com/media/produtos/-1162794354.jpg",
+        "image_status":"WAITING_ANALYSIS"
+      }
+    ],
+  "additional_amount":0,
+  "discount_amount":0,
+  "shipping":
+    {
+      "type":"FIXED",
+      "service_type":"SEDEX",
+      "amount":3485,
+      "address":
+        {
+          "country":"BRA",
+          "region_code":"RJ",
+          "city":"Rio de Janeiro",
+          "postal_code":"22441030",
+          "street":"Rua Cupertino Durão",
+          "number":"84",
+          "locality":"Leblon",
+          "complement":"Apt 4"
+        },
+      "address_modifiable":false
+    },
+  "payment_methods":
+    [
+      {
+        "type":"CREDIT_CARD"
+      }
+    ],
+  "payment_methods_configs":
+    [
+      {
+        "type":"CREDIT_CARD",
+        "config_options":
+          [
+            {
+              "option":"INSTALLMENTS_LIMIT",
+              "value":"12"
+            },
+            {
+              "option":"INTEREST_FREE_INSTALLMENTS",
+              "value":"12"
+            }
+          ]
+      }
+    ],
+  "redirect_url":"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id=48&status=Pagamento_Confirmado",
+  "orders":
+    [
+      {
+        "id":"ORDE_AA8CBC4B-5DE0-4D81-A89E-4D049784859E",
+        "links":
+          [
+            {
+              "rel":"GET","href":"https://sandbox.api.pagseguro.com/orders/ORDE_AA8CBC4B-5DE0-4D81-A89E-4D049784859E","method":"GET"
+            }
+          ]
+      }
+    ],
+  "links":
+    [
+      {
+        "rel":"SELF","href":"https://sandbox.api.pagseguro.com/checkouts/CHEC_8FCC4B38-C6A1-404B-9A54-6632AED6899E?offset=0&limit=10","method":"GET"
+      },
+      {
+        "rel":"PAY","href":"https://pagamento.sandbox.pagbank.com.br/pagamento?code=8fcc4b38-c6a1-404b-9a54-6632aed6899e","method":"GET"
+      },
+      {
+        "rel":"INACTIVATE","href":"https://sandbox.api.pagseguro.com/checkouts/CHEC_8FCC4B38-C6A1-404B-9A54-6632AED6899E/inactivate","method":"POST"
+      }
+    ]
+}

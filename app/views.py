@@ -100,7 +100,9 @@ class HomeView(LojaMixin, BaseContextMixin, TemplateView):
 
         paginator = Paginator(produto_list, 20)
         page_number = self.request.GET.get('page')
-        context['page_obj'] = paginator.get_page(page_number)        
+        context['page_obj'] = paginator.get_page(page_number)   
+
+        context['mais_vendidos'] = Produto.objects.all().order_by("-quantidade_vendas")[:7]
 
         context['banners'] = Banner.objects.all()
 
@@ -543,7 +545,10 @@ def create_payment(request):
             if dic["rel"] == "PAY":
                 payment_url = dic["href"]
         
-        print(response)
+        # print(response.text)
+        pedido.id_PagBank = respJson["id"]
+        pedido.save()
+
         return redirect(payment_url)
     else:
         # TODO: Melhorar essa tela de erro pra versão final
@@ -820,12 +825,29 @@ class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, ListView):
     template_name = "admin_paginas/admintodospedido.html"
 
     queryset = Pedido_order.objects.all().order_by("-id")
-
-    context_object_name = "todospedido"
+    # context_object_name = "todospedido"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["PedidosPendentes"] = Pedido_order.objects.filter(pedido_status="Pedido Recebido").order_by("-id")
+
+        pedidoType_select = self.request.GET.get('pedidos', 'Todos')
+
+        context = {
+            'PedidosAndamento' : Pedido_order.objects.filter(pedido_status="Pedido  em Andamento").order_by("-id"),
+            'PedidosRecebido' : Pedido_order.objects.filter(pedido_status="Pedido Recebido").order_by("-id"),
+            'PagamentoPendente' : Pedido_order.objects.filter(pedido_status="Pagamento Pendente").order_by("-id"),
+            'PagamentoProcessando' : Pedido_order.objects.filter(pedido_status="Pagamento Processando").order_by("-id"),
+            'PagamentoConfirmado' : Pedido_order.objects.filter(pedido_status="Pagamento Confirmado").order_by("-id"),
+            'PedidosProcessando' : Pedido_order.objects.filter(pedido_status="Pedido Processando").order_by("-id"),
+            'PedidosCaminho' : Pedido_order.objects.filter(pedido_status="Pedido Caminho").order_by("-id"),
+            'PedidosCompletado' : Pedido_order.objects.filter(pedido_status="Pedido Completado").order_by("-id"),
+            'PedidosCancelado' : Pedido_order.objects.filter(pedido_status="Pedido Cancelado").order_by("-id"),
+        }
+        
+        statusList = []
+        for i,j in PEDIDO_STATUS:
+            statusList.append((i, j.replace(" ", "_")))
+        context["pedidoType"] = statusList
 
         return context
 
@@ -838,6 +860,48 @@ class AdminPedidoMudarView(AdminRequireMixin, BaseContextMixin, ListView):
         pedido_obj.save()
 
         return redirect(reverse_lazy("lojaapp:adminpedido", kwargs={"pk" : pedido_id}))
+    
+class PesquisarAdminView(AdminRequireMixin, BaseContextMixin, TemplateView):
+    template_name = "admin_paginas/PesquisarAdmin.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        kw = self.request.GET.get("query")
+
+        result = Pedido_order.objects.filter(Q(nome_cliente__contains = kw) | Q(email__icontains = kw) | Q(id = kw)).order_by("-id")
+        context['resultados'] = result
+
+        return context
+    
+def consultar_checkout_pag (request):
+    if request.method == 'POST':
+        # print(request.POST)
+        if request.POST["checkout_id"]:
+            url = "https://sandbox.api.pagseguro.com/checkouts/" + request.POST["checkout_id"] + "?offset=0&limit=10"
+
+            headers = {
+                "accept": "*/*",
+                "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN_SANDBOX,
+            }
+
+            response = requests.get(url, headers=headers)
+                    
+            if response.status_code >= 200 and response.status_code < 300:
+                respJson = json.loads(response.text)
+                links = respJson.get("links")#[0].get("links")
+                for dic in links:
+                    if dic["rel"] == "SELF":
+                        consulta_url = dic["href"]
+
+                # print(response.text)
+                return redirect(consulta_url)
+                # return redirect(request.POST["path"])
+            else:
+                # TODO: Melhorar essa tela de erro pra versão final
+                return HttpResponse(f"Error: {response.status_code} - {response.text}")
+        
+    return HttpResponse("Invalid request.")
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 

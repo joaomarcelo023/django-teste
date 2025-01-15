@@ -21,3 +21,5 @@ TODO-ALVAREZ-RESOLVIDO: fazer um mixin com dispatch pra checar se o brother ta l
 TODO-ALVAREZ-RESOLVIDO: colocar Pedido_produto nos pagamentos
 
 TODO-RESOLVIDO: Arrumar o menu na versão mobile
+
+TODO-RESOLVIDO: Criar area de admin

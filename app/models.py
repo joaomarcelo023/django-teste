@@ -33,7 +33,7 @@ class Produto(models.Model):
     venda = models.DecimalField(max_digits=10, decimal_places=2)
     garantia = models.CharField(max_length=300,null=True,blank=True)
     return_devolucao = models.CharField(max_length=300,null=True,blank=True)
-    
+
     #informações que virão do sistema da loja online
     visualizacao = models.PositiveIntegerField(default=0)
     quantidade_vendas = models.PositiveIntegerField(default=0)
@@ -154,6 +154,8 @@ class Pedido_order(models.Model):
     endereco_envio_formatado = models.CharField(max_length=200,default="")
 
     criado_em = models.DateTimeField(auto_now_add=True)
+
+    id_PagBank = models.CharField(max_length=200,default="",null=True,blank=True)
 
     # TODO-ALVAREZ deletar de forma responsável
     ordenado_por = models.CharField(max_length=200,null=True,blank=True)

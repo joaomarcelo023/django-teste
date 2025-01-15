@@ -39,10 +39,12 @@ urlpatterns = [
     path("admin-pedido-<int:pk>/", AdminPedidoView.as_view(), name="adminpedido"),
     path("admin-todos-pedido/", AdminTodosPedidoView.as_view(), name="admintodospedido"),
     path("admin-pedido-mudar/<int:pk>/", AdminPedidoMudarView.as_view(), name="adminpedidomudar"),
+    path('admin-pesquisar/', PesquisarAdminView.as_view(), name="adminpesquisar"),
 
     path('endereco_cadastrar/', endereco_cadastrar, name='endereco_cadastrar'),
     path('pedido_carro_endereco/', pedido_carro_endereco, name='pedido_carro_endereco'),
     path('pedido_carro_pagamento/', pedido_carro_pagamento, name='pedido_carro_pagamento'),
+    path('consultar_checkout_pag/', consultar_checkout_pag, name='consultar_checkout_pag'),
     
     path('testPOST/', testPOST, name='testPOST'),
     

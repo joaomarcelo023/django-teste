@@ -1,37 +1,426 @@
-{%extends "admin_paginas/adminbase.html"%}
+{% extends "admin_paginas/adminbase.html" %}
+
+{% load static %}
+{% load humanize %}
+{% load l10n %}
+
+{% block title %}Todos os Pedidos{% endblock %}
 
 
-<title>{% block title %}{% endblock %}</title>
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/admintodospedido.css' %}">
 
+<section class="container">
+    <div class="row">
+        <div class="col-sm-12 mx-auto">
+            <div style="display: flex; justify-content: flex-end;">
+                <form method="GET" action="">
+                    <select name="pedidos" onchange="this.form.submit()">
+                        <option value="Todos" style="text-align: center;" {% if request.GET.pedidos == "Todos" %}selected{% endif %}>Todos Pedidos</option>
+                        {% for tipoNome, tipoLista in pedidoType %}
+                            <option value="{{ tipoLista }}" style="text-align: center;" {% if request.GET.pedidos == tipoLista %}selected{% endif %}>{{ tipoNome }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
 
-    {% block content %}
-    <div class = "container">
-        <div class = "row">
-            <div class = "col-md-12">
-                <h2>Pedidos Pendentes</h2>
-                <table>
-                    <thead>
+            <div id="Pedido_em_Andamento" class="tabela">
+                <table class="table text-center">
+                    <h3>Pedidos em andamento</h3>
+                    <tr>
+                        <th></th>
+                        <th class="text-center">Pedido ID</th>
+                        <th class="text-center">User</th>
+                        <th class="text-center">Cliente</th>
+                        <th></th>
+                        <th class="text-center">Valor</th>
+                        <th></th>
+                        <th class="text-center">Data do pedido</th>
+                        <th class="text-center">Pagamento</th>
+                        <th class="text-center">Status do pedido</th>
+                    </tr>
+                    {% if PedidosAndamento %}
+                        {% for p in PedidosAndamento %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'lojaapp:adminpedido' p.id %}">{{ p.id }}</a></td>
+                                <td>{{ p.cliente }}</td>
+                                <td>{{ p.nome_cliente }}</td>
+                                <td colspan="3">R$ {{ p.total_final|intcomma }}</td>
+                                <td>{{ p.criado_em }}</td>
+                                <td>{{ p.local_de_pagamento }}</td>
+                                <td>{{ p.pedido_status }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
                         <tr>
-                            <th>Codigo</th>
-                            <th>Cliente</th>
-                            <th>Numero Pedido</th>
-                            <th>Data Pedido</th>
-                            <th>Valor</th>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td colspan="3">-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {% for pedido in todospedido %}
+                    {% endif %}
+                </table>
+                <br>
+            </div>
+
+            <div id="Pedido_Recebido" class="tabela">
+                <table class="table text-center">
+                    <h3>Pedidos recebidos</h3>
+                    <tr>
+                        <th></th>
+                        <th class="text-center">Pedido ID</th>
+                        <th class="text-center">User</th>
+                        <th class="text-center">Cliente</th>
+                        <th></th>
+                        <th class="text-center">Valor</th>
+                        <th></th>
+                        <th class="text-center">Data do pedido</th>
+                        <th class="text-center">Pagamento</th>
+                        <th class="text-center">Status do pedido</th>
+                    </tr>
+                    {% if PedidosRecebido %}
+                        {% for p in PedidosRecebido %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'lojaapp:adminpedido' p.id %}">{{ p.id }}</a></td>
+                                <td>{{ p.cliente }}</td>
+                                <td>{{ p.nome_cliente }}</td>
+                                <td colspan="3">R$ {{ p.total_final|intcomma }}</td>
+                                <td>{{ p.criado_em }}</td>
+                                <td>{{ p.local_de_pagamento }}</td>
+                                <td>{{ p.pedido_status }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
                         <tr>
-                            <td>{{forloop.counter}}</td>
-                            <td><a href="{% url 'lojaapp:adminpedido' pedido.id %}">{{pedido.ordenado_por}}</a></td>
-                            <td>{{pedido.pedido_id}}</td>
-                            <td>{{pedido.criado_em}}</td>
-                            <td>{{pedido.total}}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td colspan="3">-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
                         </tr>
-                        {%endfor%}
-                    </tbody>
+                    {% endif %}
+                </table>
+                <br>
+            </div>
+
+            <div id="Pagamento_Pendente" class="tabela">
+                <table class="table text-center">
+                    <h3>Pagamentos pendentes</h3>
+                    <tr>
+                        <th></th>
+                        <th class="text-center">Pedido ID</th>
+                        <th class="text-center">User</th>
+                        <th class="text-center">Cliente</th>
+                        <th></th>
+                        <th class="text-center">Valor</th>
+                        <th></th>
+                        <th class="text-center">Data do pedido</th>
+                        <th class="text-center">Pagamento</th>
+                        <th class="text-center">Status do pedido</th>
+                    </tr>
+                    {% if PagamentoPendente %}
+                        {% for p in PagamentoPendente %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'lojaapp:adminpedido' p.id %}">{{ p.id }}</a></td>
+                                <td>{{ p.cliente }}</td>
+                                <td>{{ p.nome_cliente }}</td>
+                                <td colspan="3">R$ {{ p.total_final|intcomma }}</td>
+                                <td>{{ p.criado_em }}</td>
+                                <td>{{ p.local_de_pagamento }}</td>
+                                <td>{{ p.pedido_status }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td colspan="3">-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    {% endif %}
+                </table>
+                <br>
+            </div>
+
+            <div id="Pagamento_Processando" class="tabela">
+                <table class="table text-center">
+                    <h3>Pagamentos processando</h3>
+                    <tr>
+                        <th></th>
+                        <th class="text-center">Pedido ID</th>
+                        <th class="text-center">User</th>
+                        <th class="text-center">Cliente</th>
+                        <th></th>
+                        <th class="text-center">Valor</th>
+                        <th></th>
+                        <th class="text-center">Data do pedido</th>
+                        <th class="text-center">Pagamento</th>
+                        <th class="text-center">Status do pedido</th>
+                    </tr>
+                    {% if PagamentoProcessando %}
+                        {% for p in PagamentoProcessando %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'lojaapp:adminpedido' p.id %}">{{ p.id }}</a></td>
+                                <td>{{ p.cliente }}</td>
+                                <td>{{ p.nome_cliente }}</td>
+                                <td colspan="3">R$ {{ p.total_final|intcomma }}</td>
+                                <td>{{ p.criado_em }}</td>
+                                <td>{{ p.local_de_pagamento }}</td>
+                                <td>{{ p.pedido_status }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td colspan="3">-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    {% endif %}
+                </table>
+                <br>
+            </div>
+
+            <div id="Pagamento_Confirmado" class="tabela">
+                <table class="table text-center">
+                    <h3>Pagamentos confirmados</h3>
+                    <tr>
+                        <th></th>
+                        <th class="text-center">Pedido ID</th>
+                        <th class="text-center">User</th>
+                        <th class="text-center">Cliente</th>
+                        <th></th>
+                        <th class="text-center">Valor</th>
+                        <th></th>
+                        <th class="text-center">Data do pedido</th>
+                        <th class="text-center">Pagamento</th>
+                        <th class="text-center">Status do pedido</th>
+                    </tr>
+                    {% if PagamentoConfirmado %}
+                        {% for p in PagamentoConfirmado %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'lojaapp:adminpedido' p.id %}">{{ p.id }}</a></td>
+                                <td>{{ p.cliente }}</td>
+                                <td>{{ p.nome_cliente }}</td>
+                                <td colspan="3">R$ {{ p.total_final|intcomma }}</td>
+                                <td>{{ p.criado_em }}</td>
+                                <td>{{ p.local_de_pagamento }}</td>
+                                <td>{{ p.pedido_status }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td colspan="3">-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    {% endif %}
+                </table>
+                <br>
+            </div>
+
+            <div id="Pedido_Processando" class="tabela">
+                <table class="table text-center">
+                    <h3>Pedidos Processando</h3>
+                    <tr>
+                        <th></th>
+                        <th class="text-center">Pedido ID</th>
+                        <th class="text-center">User</th>
+                        <th class="text-center">Cliente</th>
+                        <th></th>
+                        <th class="text-center">Valor</th>
+                        <th></th>
+                        <th class="text-center">Data do pedido</th>
+                        <th class="text-center">Pagamento</th>
+                        <th class="text-center">Status do pedido</th>
+                    </tr>
+                    {% if PedidosProcessando %}
+                        {% for p in PedidosProcessando %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'lojaapp:adminpedido' p.id %}">{{ p.id }}</a></td>
+                                <td>{{ p.cliente }}</td>
+                                <td>{{ p.nome_cliente }}</td>
+                                <td colspan="3">R$ {{ p.total_final|intcomma }}</td>
+                                <td>{{ p.criado_em }}</td>
+                                <td>{{ p.local_de_pagamento }}</td>
+                                <td>{{ p.pedido_status }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td colspan="3">-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    {% endif %}
+                </table>
+                <br>
+            </div>
+
+            <div id="Pedido_Caminho" class="tabela">
+                <table class="table text-center">
+                    <h3>Pedidos a Caminho</h3>
+                    <tr>
+                        <th></th>
+                        <th class="text-center">Pedido ID</th>
+                        <th class="text-center">User</th>
+                        <th class="text-center">Cliente</th>
+                        <th></th>
+                        <th class="text-center">Valor</th>
+                        <th></th>
+                        <th class="text-center">Data do pedido</th>
+                        <th class="text-center">Pagamento</th>
+                        <th class="text-center">Status do pedido</th>
+                    </tr>
+                    {% if PedidosCaminho %}
+                        {% for p in PedidosCaminho %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'lojaapp:adminpedido' p.id %}">{{ p.id }}</a></td>
+                                <td>{{ p.cliente }}</td>
+                                <td>{{ p.nome_cliente }}</td>
+                                <td colspan="3">R$ {{ p.total_final|intcomma }}</td>
+                                <td>{{ p.criado_em }}</td>
+                                <td>{{ p.local_de_pagamento }}</td>
+                                <td>{{ p.pedido_status }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td colspan="3">-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    {% endif %}
+                </table>
+                <br>
+            </div>
+
+            <div id="Pedido_Completo" class="tabela">
+                <table class="table text-center">
+                    <h3>Pedidos Completado</h3>
+                    <tr>
+                        <th></th>
+                        <th class="text-center">Pedido ID</th>
+                        <th class="text-center">User</th>
+                        <th class="text-center">Cliente</th>
+                        <th></th>
+                        <th class="text-center">Valor</th>
+                        <th></th>
+                        <th class="text-center">Data do pedido</th>
+                        <th class="text-center">Pagamento</th>
+                        <th class="text-center">Status do pedido</th>
+                    </tr>
+                    {% if PedidosCompletado %}
+                        {% for p in PedidosCompletado %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'lojaapp:adminpedido' p.id %}">{{ p.id }}</a></td>
+                                <td>{{ p.cliente }}</td>
+                                <td>{{ p.nome_cliente }}</td>
+                                <td colspan="3">R$ {{ p.total_final|intcomma }}</td>
+                                <td>{{ p.criado_em }}</td>
+                                <td>{{ p.local_de_pagamento }}</td>
+                                <td>{{ p.pedido_status }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td colspan="3">-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    {% endif %}
+                </table>
+                <br>
+            </div>
+
+            <div id="Pedido_Cancelado" class="tabela">
+                <table class="table text-center">
+                    <h3>Pedidos Cancelado</h3>
+                    <tr>
+                        <th></th>
+                        <th class="text-center">Pedido ID</th>
+                        <th class="text-center">User</th>
+                        <th class="text-center">Cliente</th>
+                        <th></th>
+                        <th class="text-center">Valor</th>
+                        <th></th>
+                        <th class="text-center">Data do pedido</th>
+                        <th class="text-center">Pagamento</th>
+                        <th class="text-center">Status do pedido</th>
+                    </tr>
+                    {% if PedidosCancelado %}
+                        {% for p in PedidosCancelado %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'lojaapp:adminpedido' p.id %}">{{ p.id }}</a></td>
+                                <td>{{ p.cliente }}</td>
+                                <td>{{ p.nome_cliente }}</td>
+                                <td colspan="3">R$ {{ p.total_final|intcomma }}</td>
+                                <td>{{ p.criado_em }}</td>
+                                <td>{{ p.local_de_pagamento }}</td>
+                                <td>{{ p.pedido_status }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td colspan="3">-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    {% endif %}
                 </table>
             </div>
         </div>
     </div>
-    {% endblock %}
+</section>
+
+<script src="{% static 'js/admintodospedido.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{%extends "admin_paginas/adminbase.html"%}
+{% load humanize %}
+{% load l10n %}
+
+{% block title %}Pesquisar Admin{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="row">
+        {% if resultados %}
+            <div class="col-sm-12 mx-auto">
+                <h2 class="text-success">"{{request.GET.query}}"</h2>
+                <table class="table text-center">
+                    <h3>Pedidos</h3>
+                    <tr>
+                        <th></th>
+                        <th class="text-center">Pedido ID</th>
+                        <th class="text-center">User</th>
+                        <th class="text-center">Cliente</th>
+                        <th></th>
+                        <th class="text-center">Valor</th>
+                        <th></th>
+                        <th class="text-center">Data do pedido</th>
+                        <th class="text-center">Status do pedido</th>
+                    </tr>
+                </tr>
+                {% if resultados %}
+                    {% for p in resultados %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'lojaapp:adminpedido' p.id %}">{{ p.id }}</a></td>
+                            <td>{{ p.cliente }}</td>
+                            <td>{{ p.nome_cliente }}</td>
+                            <td colspan="3">R$ {{ p.total_final|intcomma }}</td>
+                            <td>{{ p.criado_em }}</td>
+                            <td>{{ p.pedido_status }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td colspan="3">-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                {% endif %}
+                </table>
+            </div>
+        {% else %}
+            <h2 class="text-danger">Pedidos não encontrado</h2>
+        {% endif %}
+    </div>
+</section>    
+{% endblock %}
