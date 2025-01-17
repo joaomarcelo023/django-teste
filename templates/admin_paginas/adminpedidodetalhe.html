@@ -11,11 +11,11 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-9 mx-auto detalhesDiv">
+        <div class="{% if pagseguro_display %}col-md-7{% else %}col-md-9{% endif %} mx-auto detalhesDiv">
             <h3 class="d-flex" style="justify-content: center;">Detalhes do pedido</h3>
             <br>
             <p><span class="font-weight-bold"> Pedido ID: </span>{{ pedido_obj.id }}</p>
-            <p><span class="font-weight-bold"> Status do pedido: </span><span {% if pedido_obj.pedido_status != "Pedido Completado" %}style="color: red;"{% endif %}>{{ pedido_obj.pedido_status }}</span></p>
+            <p><span class="font-weight-bold"> Status do pedido: </span><span {% if pedido_obj.pedido_status == "Pedido Completado" %}style="color: black;"{% elif pedido_obj.pedido_status == "Pedido Cancelado" %}style="color: red;"{% else %}style="color: blue;"{% endif %}>{{ pedido_obj.pedido_status }}</span></p>
             <p><span class="font-weight-bold"> Forma de pagamento: </span>{{ pedido_obj.local_de_pagamento }} - {{ pedido_obj.forma_de_pagamento }} {{ pedido_obj.parcelas }}x</p>
             <p><span class="font-weight-bold"> Criado em: </span>{{ pedido_obj.criado_em }}</p>
             <p><span class="font-weight-bold"> Nome Cliente: </span>{{ pedido_obj.nome_cliente }}</p>
@@ -73,8 +73,9 @@
                 <form action="{% url 'lojaapp:consultar_checkout_pag' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="path" value="{{ request.path }}">
+                    <input type="hidden" name="pedido_id" value="{{ pedido_obj.id }}">
                     <input type="hidden" name="checkout_id" value="{{ pedido_obj.id_PagBank }}">
-                    <button class="btn btn-info pagButton">Consultar pagamento</button>
+                    <button class="btn btn-info pagButton">Consultar pagamento PagSeguro <svg style="height: 18px;" fill="white" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title>PagSeguro icon</title><path d="M17.482 9.712c1.64 0 3.108.69 4.1 1.813.044-.388.087-.777.087-1.208C21.67 5.007 17.353.69 12 .69c-5.353 0-9.67 4.316-9.67 9.626 0 .345 0 .69.044 1.036a8.688 8.688 0 017.943-5.137c2.848 0 5.352 1.381 6.95 3.496h.215zm-7.122-2.72c-4.36 0-7.9 3.54-7.9 7.9s3.54 7.9 7.9 7.9c2.158 0 4.1-.864 5.525-2.245a5.53 5.53 0 01-3.928-5.31c0-2.676 1.9-4.92 4.446-5.438-1.468-1.684-3.626-2.806-6.043-2.806zM4.79 21.583A11.958 11.958 0 010 12C0 5.353 5.396 0 12 0s12 5.396 12 12-5.396 12-12 12c-1.554 0-3.022-.302-4.36-.82-1.079-.389-2.028-.907-2.849-1.597zm12.777-1.51a4.827 4.827 0 004.835-4.835 4.827 4.827 0 00-4.835-4.834 4.827 4.827 0 00-4.834 4.834 4.827 4.827 0 004.834 4.835Z"></path></g></svg></button>
                 </form>
                 <br>
             {% endif %}
@@ -92,6 +93,80 @@
             </form>
             <br>
         </div>
+        
+        <div class="col-md-4 mx-auto detalhesDiv" {% if pagseguro_display %}style="display: block;"{% else %}style="display: none;"{% endif %}>
+            <span class="d-flex PagSeguroTitulo">
+                <h3 class="d-flex">PagSeguro <svg style="height: 18px;" fill="#00000" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title>PagSeguro icon</title><path d="M17.482 9.712c1.64 0 3.108.69 4.1 1.813.044-.388.087-.777.087-1.208C21.67 5.007 17.353.69 12 .69c-5.353 0-9.67 4.316-9.67 9.626 0 .345 0 .69.044 1.036a8.688 8.688 0 017.943-5.137c2.848 0 5.352 1.381 6.95 3.496h.215zm-7.122-2.72c-4.36 0-7.9 3.54-7.9 7.9s3.54 7.9 7.9 7.9c2.158 0 4.1-.864 5.525-2.245a5.53 5.53 0 01-3.928-5.31c0-2.676 1.9-4.92 4.446-5.438-1.468-1.684-3.626-2.806-6.043-2.806zM4.79 21.583A11.958 11.958 0 010 12C0 5.353 5.396 0 12 0s12 5.396 12 12-5.396 12-12 12c-1.554 0-3.022-.302-4.36-.82-1.079-.389-2.028-.907-2.849-1.597zm12.777-1.51a4.827 4.827 0 004.835-4.835 4.827 4.827 0 00-4.835-4.834 4.827 4.827 0 00-4.834 4.834 4.827 4.827 0 004.834 4.835Z"></path></g></svg></h3>
+                <a class="d-flex" href="{% url 'lojaapp:adminpedido' pedido_obj.id %}">x</a>
+            </span>
+            <br>
+            <h4>Detalhes pagamento</h4>
+            <table class="pagTable">
+                <tr>
+                    <td class="pagTableCelTitle">Id:</td>
+                    <td class="pagTableCelContent">{{ data_Pag.id }}</td>
+                </tr>
+                <tr>
+                    <td class="pagTableCelTitle">Status:</td>
+                    <td class="pagTableCelContent">{{ data_Pag.status }}</td>
+                </tr>
+                <tr>
+                    <td class="pagTableCelTitle">Criação:</td>
+                    <td class="pagTableCelContent">{{ data_Pag.created_at }}</td>
+                </tr>
+                <tr>
+                    <td class="pagTableCelTitle">Pagamento:</td>
+                    <td class="pagTableCelContent">{{ data_Pag.paid_at }}</td>
+                </tr>
+                <tr>
+                    <td class="pagTableCelTitle">Método:</td>
+                    <td class="pagTableCelContent">{{ data_Pag.payment_method.type }}</td>
+                </tr>
+                <tr>
+                    <td class="pagTableCelTitle">Prestações:</td>
+                    <td class="pagTableCelContent">{{ data_Pag.payment_method.installments }}</td>
+                </tr>
+                <tr>
+                    <td class="pagTableCelTitle">Pago:</td>
+                    <td class="pagTableCelContent">{{ data_Pag.amount.summary.paid }}</td>
+                </tr>
+            </table>
+            {% if data_Pag.payment_method.type == "CREDIT_CARD" and data_Pag.status == "PAID" %}
+                <br>
+                <h4>Detalhes cartão</h4>
+                <table class="pagTable">
+                    <tr>
+                        <td class="pagTableCelTitle">Bandeira:</td>
+                        <td class="pagTableCelContent">{{ data_Pag.payment_method.card.brand }}</td>
+                    </tr>
+                    <tr>
+                        <td class="pagTableCelTitle">Numero:</td>
+                        <td class="pagTableCelContent">{{ data_Pag.payment_method.card.first_digits|slice:4 }} {{ data_Pag.payment_method.card.first_digits|slice:"4:"}}** **** {{ data_Pag.payment_method.card.last_digits }}</td>
+                    </tr>
+                    <tr>
+                        <td class="pagTableCelTitle">Expiração:</td>
+                        <td class="pagTableCelContent">{{ data_Pag.payment_method.card.exp_month }}/{{ data_Pag.payment_method.card.exp_year }}</td>
+                    </tr>
+                    <tr>
+                        <td class="pagTableCelTitle">Nome:</td>
+                        <td class="pagTableCelContent">{{ data_Pag.payment_method.card.holder.name }}</td>
+                    </tr>
+                    <tr>
+                        <td class="pagTableCelTitle">CPF/CNPJ</td>
+                        <td class="pagTableCelContent">{{ data_Pag.payment_method.card.holder.tax_id }}</td>
+                    </tr>
+                </table>
+            {% endif %}
+            <br>
+            <form method="POST" action="{% url 'lojaapp:cancelar_checkout_pag' %}">
+                {% csrf_token %}
+                <input type="hidden" name="id_cancel" value="{{ data_Pag.id }}">
+                <input type="hidden" name="valor_pago" value="{{ data_Pag.amount.value }}">
+                <button class="btn btn-danger">Cancelar Pedido</button>
+            </form>
+        </div>
     </div>
 </div>
+
+<script src="{% static 'js/adminpedidodetalhe.js' %}"></script>
 {% endblock %}

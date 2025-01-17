@@ -15,7 +15,7 @@ from rest_framework.response import Response
 from rest_framework import serializers, status
 import requests
 import decimal
-import json
+# import json
 from django_teste import settings
 
 class AdminRequireMixin(object):
@@ -503,7 +503,7 @@ def create_payment(request):
         ],
         "redirect_url": f"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado", # f"http://127.0.0.1:8000/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
         # f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}&status=Pagamento_Confirmado"
-        # "notification_urls": ["notificacaoStatus.com.br"],
+        "notification_urls": [f"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id={pedido.id}"],
         # "payment_notification_urls": ["notificacaoPagamento.com.br"]
     }
 
@@ -539,7 +539,7 @@ def create_payment(request):
     response = requests.post(url, json=payload, headers=headers)
     
     if response.status_code >= 200 and response.status_code < 300:
-        respJson = json.loads(response.text)
+        respJson = response.json()
         links = respJson.get("links")
         for dic in links:
             if dic["rel"] == "PAY":
@@ -874,10 +874,12 @@ class PesquisarAdminView(AdminRequireMixin, BaseContextMixin, TemplateView):
 
         return context
     
-def consultar_checkout_pag (request):
+def consultar_checkout_pag(request):
     if request.method == 'POST':
         # print(request.POST)
         if request.POST["checkout_id"]:
+            pedido = Pedido_order.objects.get(id=request.POST["pedido_id"])
+
             url = "https://sandbox.api.pagseguro.com/checkouts/" + request.POST["checkout_id"] + "?offset=0&limit=10"
 
             headers = {
@@ -885,22 +887,73 @@ def consultar_checkout_pag (request):
                 "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN_SANDBOX,
             }
 
-            response = requests.get(url, headers=headers)
+            consulta_response = requests.get(url, headers=headers)
                     
-            if response.status_code >= 200 and response.status_code < 300:
-                respJson = json.loads(response.text)
-                links = respJson.get("links")#[0].get("links")
-                for dic in links:
-                    if dic["rel"] == "SELF":
-                        consulta_url = dic["href"]
+            if consulta_response.status_code >= 200 and consulta_response.status_code < 300:
+                respJson = consulta_response.json()
+                order_urls = respJson.get("orders")[0].get("links")
+                for dic in order_urls:
+                    if dic["rel"] == "GET":
+                        consulta_order_url = dic["href"]
 
-                # print(response.text)
-                return redirect(consulta_url)
-                # return redirect(request.POST["path"])
+                order_response = requests.get(consulta_order_url, headers=headers)
+
+                if order_response.status_code >= 200 and order_response.status_code < 300:
+                    charges = order_response.json().get("charges")[0]
+                    # data = json.dumps(charges, indent=4)
+                    # print(order_response.text)
+                    # return redirect(consulta_url)
+                    # return redirect(request.POST["path"])
+                    return render(request, "admin_paginas/adminpedidodetalhe.html", {"pedido_obj":pedido,"PEDIDO_STATUS":PEDIDO_STATUS, "data_Pag":charges, "pagseguro_display":True})
+                    # return JsonResponse(charges)
+                else:
+                    # TODO: Melhorar essa tela de erro pra versão final
+                    return HttpResponse(f"Error: {order_response.status_code} - {order_response.text}")
             else:
                 # TODO: Melhorar essa tela de erro pra versão final
-                return HttpResponse(f"Error: {response.status_code} - {response.text}")
+                return HttpResponse(f"Error: {consulta_response.status_code} - {consulta_response.text}")
         
+    return HttpResponse("Invalid request.")
+
+def cancelar_checkout_pag(request):
+    if request.method == 'POST':
+        # print(request.POST)
+        # pedido = Pedido_order.objects.get(id=request.POST["pedido_id"])
+        url = "https://internal.sandbox.api.pagseguro.com/charges/" + request.POST["id_cancel"] + "/cancel"
+        # internal.
+
+        payload = { "amount": { "value": request.POST["valor_pago"] } }
+
+        headers = {
+            "accept": "*/*",
+            "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN_SANDBOX,
+            "Content-type": "application/json"
+        }
+
+        cancelar_response = requests.get(url, json=payload, headers=headers)
+
+        if cancelar_response.status_code >= 200 and cancelar_response.status_code < 300:
+            print(cancelar_response.text)
+        else:
+            # TODO: Melhorar essa tela de erro pra versão final
+            return HttpResponse(f"Error: {cancelar_response.status_code} - {cancelar_response.text}")
+        
+    return HttpResponse("Invalid request.")
+
+def test_atualizacao_pag(request):
+    if request.method == 'POST':
+        pedido_id = request.GET.get("id")
+        pedido = Pedido_order.objects.get(id=pedido_id)
+
+        notification_code = request.POST.get("notificationCode")
+        notification_type = request.POST.get("notificationType")
+
+        if notification_type == "transaction":
+            pedido.status_test = notification_code
+            pedido.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+
     return HttpResponse("Invalid request.")
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#

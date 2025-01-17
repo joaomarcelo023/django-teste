@@ -5,11 +5,11 @@
 }
 
 .pagButton {
-    width: 42%;
+    width: 50%;
 }
 
 .statusDiv {
-    width: 42%;
+    width: 50%;
     display: flex;
 }
 
@@ -26,4 +26,38 @@
 .statusDiv button {
     vertical-align: middle;
     width: 39%;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+.PagSeguroTitulo h3 {
+    height: 100%;
+    width: 97.5%;
+    justify-content: center;
+    align-items: baseline;
+
+    padding: 0px;
+    margin: 0px;
+}
+
+.PagSeguroTitulo a {
+    width: 2.5%;
+    justify-content: end;
+    align-items: start;
+
+    color: black;
+    text-decoration: none;
+}
+
+.pagTable {
+    width: 100%;
+}
+
+.pagTableCelTitle {
+    width: 30%;
+    max-width: 50%;
+}
+
+.pagTableCelContent {
+    min-width: 50%;
 }

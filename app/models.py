@@ -159,6 +159,7 @@ class Pedido_order(models.Model):
 
     # TODO-ALVAREZ deletar de forma responsável
     ordenado_por = models.CharField(max_length=200,null=True,blank=True)
+    status_test = models.CharField(max_length=2000,null=True,blank=True)
 
     def __str__(self):
         return "Pedido_order: " + str(self.id) + " | Status: " + self.pedido_status + " | Cliente: " + self.nome_cliente
