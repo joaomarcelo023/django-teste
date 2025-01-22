@@ -20,6 +20,7 @@ class Produto(models.Model):
     desconto_retira = models.DecimalField(max_digits=10,decimal_places=2)  # em %, percentual de desconto para compras para retirada no depósito, aplicado no preco_unitario_bruto
     unidade = models.CharField(max_length=30,default="un") #unidade em que o produto é comercializado
     fechamento_embalagem = models.DecimalField(max_digits=10, decimal_places=2, default=1.00)
+    em_estoque = models.BooleanField(default=True)
 
     #informações que precisam ser criadas por lógica do sistema externo
     slug = models.SlugField(unique=True)
@@ -41,6 +42,13 @@ class Produto(models.Model):
 
     def __str__(self):
         return self.titulo
+
+class Fotos_Produto(models.Model):
+    produto = models.ForeignKey(Produto,related_name="images",on_delete=models.CASCADE,default="")
+    image = models.ImageField(upload_to="produtos")
+
+    def __str__(self):
+        return self.produto.titulo + ": " + str(self.id)
 
 class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

@@ -141,71 +141,15 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         url_slug = self.kwargs['slug']
+
         produto = Produto.objects.get(slug=url_slug)
         context['produto'] = produto
+
+        context['fotos_produtos'] = produto.images.all() #Fotos_Produto.objects.filter(produto=produto)
+
         produto.visualizacao += 1
         produto.save()
 
-        return context
-
-class AddCarroView2(LojaMixin, BaseContextMixin, TemplateView):
-    template_name = "produtodetalhe.html"
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        produto_id = self.kwargs['prod_id']
-        produto_obj = Produto.objects.get(id=produto_id)
-        carro_id = self.request.session.get("carro_id",None)
-        try:
-            carro_obj = Carro.objects.get(id=carro_id)
-            produto_no_carro = carro_obj.carroproduto_set.filter(produto=produto_obj)
-
-            if produto_no_carro.exists():
-                carroproduto = produto_no_carro.last()
-                carroproduto.quantidade += 1
-                carroproduto.subtotal += produto_obj.venda
-                carroproduto.save()
-
-            else:
-                carroproduto = CarroProduto.objects.create(
-                carro = carro_obj,
-                produto = produto_obj,
-                preco_unitario = produto_obj.venda,
-                quantidade = 1,
-                subtotal = produto_obj.venda
-
-                )
-
-            carro_obj.total += produto_obj.venda
-            carro_obj.save()
-
-
-        except Carro.DoesNotExist:
-            carro_obj = Carro.objects.create(total=0)
-            self.request.session['carro_id'] = carro_obj.id
-            carroproduto = CarroProduto.objects.create(
-                carro=carro_obj,
-                produto=produto_obj,
-                preco_unitario=produto_obj.venda,
-                quantidade=1,
-                subtotal=produto_obj.venda
-
-            )
-            carro_obj.total += produto_obj.venda
-            carro_obj.save()
-
-        return context
-
-class MeuCarroView(LojaMixin, BaseContextMixin, TemplateView):
-    template_name = "meucarro.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        carro_id = self.request.session.get("carro_id",None)
-        if carro_id:
-            carro_id = Carro.objects.get(id=carro_id)
-        else:
-            carro_id = None
-        context["carro"] = carro_id
         return context
 
 class AddCarroView(LojaMixin, View):
@@ -252,6 +196,114 @@ class AddCarroView(LojaMixin, View):
             carro_obj.save()
 
         return redirect("lojaapp:home")
+    
+class AddCarroView2(LojaMixin, BaseContextMixin, TemplateView):
+    template_name = "produtodetalhe.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        produto_id = self.kwargs['prod_id']
+        produto_obj = Produto.objects.get(id=produto_id)
+        carro_id = self.request.session.get("carro_id",None)
+        try:
+            carro_obj = Carro.objects.get(id=carro_id)
+            produto_no_carro = carro_obj.carroproduto_set.filter(produto=produto_obj)
+
+            if produto_no_carro.exists():
+                carroproduto = produto_no_carro.last()
+                carroproduto.quantidade += 1
+                carroproduto.subtotal += produto_obj.venda
+                carroproduto.save()
+
+            else:
+                carroproduto = CarroProduto.objects.create(
+                carro = carro_obj,
+                produto = produto_obj,
+                preco_unitario = produto_obj.venda,
+                quantidade = 1,
+                subtotal = produto_obj.venda
+
+                )
+
+            carro_obj.total += produto_obj.venda
+            carro_obj.save()
+
+
+        except Carro.DoesNotExist:
+            carro_obj = Carro.objects.create(total=0)
+            self.request.session['carro_id'] = carro_obj.id
+            carroproduto = CarroProduto.objects.create(
+                carro=carro_obj,
+                produto=produto_obj,
+                preco_unitario=produto_obj.venda,
+                quantidade=1,
+                subtotal=produto_obj.venda
+
+            )
+            carro_obj.total += produto_obj.venda
+            carro_obj.save()
+
+        return context
+    
+class AddCarroQuantView(LojaMixin, BaseContextMixin, TemplateView):
+    def get(self,request,*arg,**kwargs):
+        produto_id = request.GET.get("prod_id")
+        produto_quantidade = int(request.GET.get("quantidade"))
+
+        produto_obj = Produto.objects.get(id=produto_id)
+        carro_id = self.request.session.get("carro_id",None)
+        try:
+            carro_obj = Carro.objects.get(id=carro_id)
+            produto_no_carro = carro_obj.carroproduto_set.filter(produto=produto_obj)
+
+            if produto_no_carro.exists():
+                carroproduto = produto_no_carro.last()
+                carroproduto.quantidade += produto_quantidade
+                carroproduto.subtotal += (produto_obj.venda * produto_quantidade)
+                carroproduto.save()
+
+            else:
+                carroproduto = CarroProduto.objects.create(
+                carro = carro_obj,
+                produto = produto_obj,
+                preco_unitario = produto_obj.venda,
+                quantidade = produto_quantidade,
+                subtotal = (produto_obj.venda * produto_quantidade)
+
+                )
+
+            carro_obj.total += (produto_obj.venda * produto_quantidade)
+            carro_obj.save()
+
+
+        except Carro.DoesNotExist:
+            carro_obj = Carro.objects.create(total=0)
+            self.request.session['carro_id'] = carro_obj.id
+            carroproduto = CarroProduto.objects.create(
+                carro = carro_obj,
+                produto = produto_obj,
+                preco_unitario = produto_obj.venda,
+                quantidade = produto_quantidade,
+                subtotal = (produto_obj.venda * produto_quantidade)
+
+            )
+            carro_obj.total += (produto_obj.venda * produto_quantidade)
+            carro_obj.save()
+
+        # return context
+        return redirect("lojaapp:home")
+
+class MeuCarroView(LojaMixin, BaseContextMixin, TemplateView):
+    template_name = "meucarro.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        carro_id = self.request.session.get("carro_id",None)
+        if carro_id:
+            carro_id = Carro.objects.get(id=carro_id)
+        else:
+            carro_id = None
+        context["carro"] = carro_id
+        return context
 
 class ManipularCarroView(LojaMixin, View):
     def get(self,request,*arg,**kwargs):
