@@ -80,10 +80,17 @@ function handleClick(isLeft) {
 
     item.forEach(item => item.classList.remove('current-item'));
     item[currentItem].classList.add('current-item');
-    item[currentItem].scrollIntoView({
-        inline: "center",
-        behavior: "smooth",
-        block: "nearest"
+    // item[currentItem].scrollIntoView({
+    //     inline: "center",
+    //     behavior: "smooth",
+    //     block: "nearest"
+    // });
+    const container = document.querySelector('.gallery-wrapper');
+    const offsetLeft = item[currentItem].offsetLeft;
+
+    container.scrollTo({
+        left: offsetLeft,
+        behavior: "smooth"
     });
 }
 
