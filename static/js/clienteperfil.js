@@ -9,6 +9,9 @@ caixas.forEach(e => {
     if ((e.id === caixaVisu) && (window.getComputedStyle(PC).display !== "none")){
         e.style.display = "flex";
     }
+    else if (window.getComputedStyle(PC).display === "none") {
+        e.style.display = "flex";
+    }
     else {
         e.style.display = "none";
     }
