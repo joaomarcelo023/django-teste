@@ -3,6 +3,7 @@ let currentItem = 0;
 let touchEndtX = 0;
 let touchStartX = 0;
 const wrapper = document.getElementById('WrapperId');
+const slideshowContainer = document.querySelector('.gallery-wrapper');
 
 function atualiza_item(event) {
     const item = document.querySelectorAll('.item');
@@ -85,10 +86,10 @@ function handleClick(isLeft) {
     //     behavior: "smooth",
     //     block: "nearest"
     // });
-    const container = document.querySelector('.gallery-wrapper');
+    // const container = document.querySelector('.gallery-wrapper');
     const offsetLeft = item[currentItem].offsetLeft;
 
-    container.scrollTo({
+    slideshowContainer.scrollTo({
         left: offsetLeft,
         behavior: "smooth"
     });
@@ -127,7 +128,7 @@ window.addEventListener('resize', () => {
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // Controle de transição de slide pelo toque em touchscreens e arraste do mouse
-const slideshowContainer = document.querySelector('.gallery-wrapper');
+// const slideshowContainer = document.querySelector('.gallery-wrapper');
 let startX;
 let isDragging = false;
 
