@@ -53,7 +53,7 @@
                 <p class="preco">R${{ produto.preco_unitario_bruto|intcomma }}<span class="unidade">{{ produto.unidade }}</span></p>
                 <div class="quantSelect justify-content-left d-flex">
                     <div id="minusUnit" class="quantidadeButton" onclick="takeUnit()">-</div>
-                    <input id="quantValue" name="quantidade" value="1">
+                    <input id="quantValue" type="number" inputmode="numeric" min="1" name="quantidade" value="1">
                     <div id="plusUnit" class="quantidadeButton" onclick="addUnit()">+</div>
                 </div>
                 <br>

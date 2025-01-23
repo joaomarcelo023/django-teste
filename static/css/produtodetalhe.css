@@ -161,6 +161,15 @@ hr {
     text-align: center;
 }
 
+.quantSelect  input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantSelect input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .comprarBtn {
     width: 100%;
 }
