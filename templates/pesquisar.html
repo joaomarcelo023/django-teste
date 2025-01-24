@@ -1,34 +1,74 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Pesquisar Produtos{% endblock %}
+{% block title %}Pesquisar {{ request.GET.query }}{% endblock %}
 
 {% block content %}
-<style>
-    @media (max-width: 577px) {
-        .col-lg-3, .col-md-4, .col-sm-6, .col-12 {
-            flex: 0 0 50%;
-            max-width: 50%;
-        }
-        .m-3 {
-            margin: 1px 1px 30px !important;
-        }
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="{% static 'css/pesquisar.css' %}">
 
-<h3> Resultado da pesquisa {{request.GET.query}}</h3>
+{% include 'barra_macro_classificar.html' %}
+
 <div class="container">
     <div class="row mt-3 justify-content-center align-items-center">
         {% for p in resultado %}
-        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="m-3 text-center shadow" style="height: 300px;">
-                <img style="height: 100px; object-fit: cover;" class="zoom-effect img-fluid mt-3 mb-2" src="{{ p.image.url }}" alt="">
-                <h4 style="max-height: 3em; overflow: hidden; text-overflow: ellipsis;">{{ p.titulo }}</h4>
-                <p class="mt-3">Preço: <strike>R$ {{ p.preco_mercado }}</strike> R$ {{ p.venda }}</p>
-                <a href="{% url 'lojaapp:addcarro' p.id %}" class="btn btn-success">Comprar</a>
+            <div class="col-lg-3 col-md-4 col-sm-12 col-12" style="padding:0px;">
+                {% include "produtos_pequenos.html" %}
             </div>
-        </div>
         {% endfor %}
     </div>
 </div>
+<br>
+<section class="container">
+    <div class="row justify-content-center">
+        <div class="col-3" style="display:flex; justify-content: center;">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    {% if resultado.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?query={{ request.GET.query }}&Classificar={{ request.GET.Classificar }}&page=1">&ll;</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?query={{ request.GET.query }}&Classificar={{ request.GET.Classificar }}&page={{ resultado.previous_page_number }}">&lt;</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&ll;</span>
+                        </li>
+                        <li class="page-item disabled">
+                            <span class="page-link">&lt;</span>
+                        </li>
+                    {% endif %}
+            
+                    {% for page in resultado.paginator.page_range %}
+                        {% if page == resultado.number %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page }}</span>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?query={{ request.GET.query }}&Classificar={{ request.GET.Classificar }}&page={{ page }}">{{ page }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if resultado.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?query={{ request.GET.query }}&Classificar={{ request.GET.Classificar }}&page={{ resultado.next_page_number }}">&gt;</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?query={{ request.GET.query }}&Classificar={{ request.GET.Classificar }}&page={{ resultado.paginator.num_pages }}">&gg;</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&gt;</span>
+                        </li>
+                        <li class="page-item disabled">
+                            <span class="page-link">&gg;</span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
 {% endblock %}

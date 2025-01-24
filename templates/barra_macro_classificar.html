@@ -1,0 +1,28 @@
+{% load static %}
+
+<div class="form-custom-background d-flex" style="background-color: white;">
+    {% if request.GET.query %}
+        <div style="width: 25%; padding-left: 1%;">
+            <span>Resultados para <span style="color: #ff9900;">"{{ request.GET.query }}"</span></span>
+        </div>
+
+        <span style="width: 50%;"></span>
+    {% else %}
+        <span style="width: 75%;"></span>
+    {% endif %}
+
+    <div style="display: flex; justify-content: flex-end; width: 25%; padding-right: 1%;">
+        <form method="GET" action="">
+            {% if request.GET.query %}
+                <input type="hidden" name="query" value="{{ request.GET.query }}">
+            {% endif %}
+            <label>Classificar por:</label>
+            <select name="Classificar" onchange="this.form.submit()" style="height: 75%; margin-left: 2px;">
+                <option value="Destaque" {% if request.GET.Classificar == "Destaque" %}selected{% endif %}>Destaque</option>
+                <option value="MaisVendidos" {% if request.GET.Classificar == "MaisVendidos" %}selected{% endif %}>Mais vendidos</option>
+                <option value="MenorPreço" {% if request.GET.Classificar == "MenorPreço" %}selected{% endif %}>Menor preço</option>
+                <option value="MaiorPreço" {% if request.GET.Classificar == "MaiorPreço" %}selected{% endif %}>Maior preço</option>
+            </select>
+        </form>
+    </div>
+</div>

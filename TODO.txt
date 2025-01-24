@@ -1,10 +1,12 @@
 TODO-ALVAREZ: colocar descontos direito nos pagamentos
 
-TODO-ALVAREZ: Colocar local de pagamento nas tabelas admin todos os pedidos
-
 TODO-ALVAREZ: Criar area de admin com dados de produtos (mais visualizados, mais vendidos, etc)
 
-TODO-ALVAREZ: Arrumar mudança automatica do banner quando ele não está aparecendo na tela
+TODO-ALVAREZ: Arrumar tamanho da tabela do carrinho
+
+TODO-ALVAREZ: Colocar barra de produtos relacionados no produto detalhes
+
+TODO-ALVAREZ: Arrumar barra_macro_classificar pra pagina categoria
 
 
 "Coisas que precisam estar bem estruturadas:

@@ -116,5 +116,7 @@
         margin-bottom: 0px;
         margin-left: 0px;
         padding-top: 7vw;
+        
+        overflow-x: auto;
     }
 }

@@ -100,7 +100,7 @@ class HomeView(LojaMixin, BaseContextMixin, TemplateView):
 
         paginator = Paginator(produto_list, 20)
         page_number = self.request.GET.get('page')
-        context['page_obj'] = paginator.get_page(page_number)   
+        context['page_obj'] = paginator.get_page(page_number)
 
         context['mais_vendidos'] = Produto.objects.all().order_by("-quantidade_vendas")[:7]
 
@@ -553,7 +553,7 @@ def create_payment(request):
                 ]
             }
         ],
-        "redirect_url": f"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado", # f"http://127.0.0.1:8000/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
+        "redirect_url": f"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id={pedido.id}", # f"http://127.0.0.1:8000/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
         # f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}&status=Pagamento_Confirmado"
         # "notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"],
         # "payment_notification_urls": ["notificacaoPagamento.com.br"]
@@ -614,10 +614,14 @@ class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
         pedido_id = self.request.GET.get("id")
         pedido_status = self.request.GET.get("status")
 
-        # TODO: Melhorar isso para não poder ser abusado pelo cliente
+        # TODO: Acho que só funfa automaticamente pra cartão de credito
         # Muda status do pedido
         pedido = Pedido_order.objects.get(id=pedido_id)
-        pedido.pedido_status = pedido_status.replace("_", " ")
+
+        if ta_pago(pedido):
+            pedido.pedido_status = "Pagamento Confirmado"
+
+        # pedido.pedido_status = pedido_status.replace("_", " ")
         pedido.save()
 
         # Aumenta a quantidade de venda de cada produto
@@ -806,11 +810,39 @@ class deletarEnderecoView(LojaMixin, View):
 class PesquisarView(BaseContextMixin, TemplateView):
     template_name = "pesquisar.html"
 
+    def preprocessar_precos(self, produtos):
+        for produto in produtos:
+            venda_parts = str(produto.venda).split('.')
+            produto.integer_part = venda_parts[0]
+            produto.decimal_part = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+        return produtos
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        classificar_selected = self.request.GET.get("Classificar", "Destaque")
+        if classificar_selected == "Destaque":
+            context["classificar"] = "Destaque"
+            order = "-visualizacao"
+        elif classificar_selected ==  "MaisVendidos":
+            context["classificar"] = "MaisVendidos"
+            order = "-quantidade_vendas"
+        elif classificar_selected ==  "MenorPreço":
+            context["classificar"] = "MenorPreço"
+            order = "preco_unitario_bruto"
+        elif classificar_selected ==  "MaiorPreço":
+            context["classificar"] = "MaiorPreço"
+            order = "-preco_unitario_bruto"
+
         kw = self.request.GET.get("query")
-        resultado = Produto.objects.filter(Q(titulo__icontains=kw) | Q(descricao__icontains = kw))
-        context["resultado"] = resultado
+        
+        resultado = Produto.objects.filter(Q(titulo__icontains=kw) | Q(descricao__icontains = kw)).order_by(order)
+        resultadoList = self.preprocessar_precos(resultado)
+
+        resultadoPag = Paginator(resultadoList, 20)
+        page_number = self.request.GET.get('page')
+
+        context["resultado"] = resultadoPag.get_page(page_number)
         return context
 
 class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
@@ -1008,6 +1040,32 @@ def test_atualizacao_pag(request):
 
     return HttpResponse("Invalid request.")
 
+def ta_pago(_pedido):
+    url = "https://sandbox.api.pagseguro.com/checkouts/" + _pedido.id_PagBank + "?offset=0&limit=10"
+
+    headers = {
+        "accept": "*/*",
+        "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN_SANDBOX,
+    }
+
+    consulta_response = requests.get(url, headers=headers)
+                    
+    if consulta_response.status_code >= 200 and consulta_response.status_code < 300:
+        respJson = consulta_response.json()
+        order_urls = respJson.get("orders")[0].get("links")
+        for dic in order_urls:
+            if dic["rel"] == "GET":
+                consulta_order_url = dic["href"]
+
+        order_response = requests.get(consulta_order_url, headers=headers)
+
+        if order_response.status_code >= 200 and order_response.status_code < 300:
+            status = order_response.json().get("charges")[0].get("status")
+
+            if status == "PAID":
+                return True
+            
+    return False
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 def testPOST(request):

@@ -23,3 +23,19 @@ TODO-ALVAREZ-RESOLVIDO: colocar Pedido_produto nos pagamentos
 TODO-RESOLVIDO: Arrumar o menu na versão mobile
 
 TODO-RESOLVIDO: Criar area de admin
+
+TODO-ALVAREZ-RESOLVIDO: Colocar local de pagamento nas tabelas admin todos os pedidos
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar mudança automatica do banner quando ele não está aparecendo na tela
+
+TODO-ALVAREZ-RESOLVIDO: Colocar paginator no pesquisar view
+
+TODO-ALVAREZ-RESOLVIDO: Mudar {% extend base %} pra baseadmin no login do admin
+
+TODO-ALVAREZ-RESOLVIDO: Mudar cor do fundo do menu na versão mobile pro azul da casashg em vez do preto do excellence
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar tamanho da caixa de todos os pedidos no menu mobile do admin
+
+TODO-ALVAREZ-RESOLVIDO(?): Arrumar o overflow-x da barra de mais vendidos mobile
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar pequisar
