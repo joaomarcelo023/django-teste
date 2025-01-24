@@ -6,8 +6,6 @@ TODO-ALVAREZ: Arrumar tamanho da tabela do carrinho
 
 TODO-ALVAREZ: Colocar barra de produtos relacionados no produto detalhes
 
-TODO-ALVAREZ: Arrumar barra_macro_classificar pra pagina categoria
-
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte

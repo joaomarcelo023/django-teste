@@ -857,10 +857,27 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         url_slug = self.kwargs['slug']
+
         categoria = Categoria.objects.get(slug=url_slug)
         context['categoria'] = categoria
-        all_produtos = Produto.objects.filter(Categoria = categoria).order_by("-id").all()
+
+        classificar_selected = self.request.GET.get("Classificar", "Destaque")
+        if classificar_selected == "Destaque":
+            context["classificar"] = "Destaque"
+            order = "-visualizacao"
+        elif classificar_selected ==  "MaisVendidos":
+            context["classificar"] = "MaisVendidos"
+            order = "-quantidade_vendas"
+        elif classificar_selected ==  "MenorPreço":
+            context["classificar"] = "MenorPreço"
+            order = "preco_unitario_bruto"
+        elif classificar_selected ==  "MaiorPreço":
+            context["classificar"] = "MaiorPreço"
+            order = "-preco_unitario_bruto"
+        
+        all_produtos = Produto.objects.filter(Categoria = categoria).order_by(order).all()
         produto_list = self.preprocessar_precos(all_produtos)
         paginator = Paginator(produto_list, 20)
         page_number = self.request.GET.get('page')

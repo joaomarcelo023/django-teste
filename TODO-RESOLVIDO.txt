@@ -39,3 +39,5 @@ TODO-ALVAREZ-RESOLVIDO: Arrumar tamanho da caixa de todos os pedidos no menu mob
 TODO-ALVAREZ-RESOLVIDO(?): Arrumar o overflow-x da barra de mais vendidos mobile
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar pequisar
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar barra_macro_classificar pra pagina categoria
