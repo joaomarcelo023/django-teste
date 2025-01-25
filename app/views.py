@@ -138,6 +138,14 @@ class TodosProdutosView(LojaMixin, BaseContextMixin, TemplateView):
 
 class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "produtodetalhe.html"
+
+    def preprocessar_precos(self, produtos):
+        for produto in produtos:
+            venda_parts = str(produto.venda).split('.')
+            produto.integer_part = venda_parts[0]
+            produto.decimal_part = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+        return produtos
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         url_slug = self.kwargs['slug']
@@ -145,10 +153,13 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
         produto = Produto.objects.get(slug=url_slug)
         context['produto'] = produto
 
-        context['fotos_produtos'] = produto.images.all() #Fotos_Produto.objects.filter(produto=produto)
-
         produto.visualizacao += 1
         produto.save()
+
+        context['fotos_produtos'] = produto.images.all() #Fotos_Produto.objects.filter(produto=produto)
+
+        produtos_similares = self.preprocessar_precos(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:12])
+        context['produtos_similares'] = produtos_similares
 
         return context
 
