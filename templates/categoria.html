@@ -26,10 +26,10 @@
                     <ul class="pagination">
                         {% if page_obj.has_previous %}
                             <li class="page-item">
-                                <a class="page-link" href="?page=1">&ll;</a>
+                                <a class="page-link" href="?Classificar={{ request.GET.Classificar }}&page=1">&ll;</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+                                <a class="page-link" href="?Classificar={{ request.GET.Classificar }}&page={{ page_obj.previous_page_number }}">&lt;</a>
                             </li>
                         {% else %}
                             <li class="page-item disabled">
@@ -47,17 +47,17 @@
                                 </li>
                             {% else %}
                                 <li class="page-item">
-                                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                                    <a class="page-link" href="?Classificar={{ request.GET.Classificar }}&page={{ page }}">{{ page }}</a>
                                 </li>
                             {% endif %}
                         {% endfor %}
                         
                         {% if page_obj.has_next %}
                             <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                                <a class="page-link" href="?Classificar={{ request.GET.Classificar }}&page={{ page_obj.next_page_number }}">&gt;</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&gg;</a>
+                                <a class="page-link" href="?Classificar={{ request.GET.Classificar }}&page={{ page_obj.paginator.num_pages }}">&gg;</a>
                             </li>
                         {% else %}
                             <li class="page-item disabled">
