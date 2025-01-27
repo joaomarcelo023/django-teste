@@ -102,7 +102,7 @@ class HomeView(LojaMixin, BaseContextMixin, TemplateView):
         page_number = self.request.GET.get('page')
         context['page_obj'] = paginator.get_page(page_number)
 
-        context['mais_vendidos'] = Produto.objects.all().order_by("-quantidade_vendas")[:7]
+        context['mais_vendidos'] = self.preprocessar_precos(Produto.objects.all().order_by("-quantidade_vendas")[:7])
 
         context['banners'] = Banner.objects.all()
 
