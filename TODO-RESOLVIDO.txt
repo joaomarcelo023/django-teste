@@ -36,8 +36,12 @@ TODO-ALVAREZ-RESOLVIDO: Mudar cor do fundo do menu na versão mobile pro azul da
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar tamanho da caixa de todos os pedidos no menu mobile do admin
 
-TODO-ALVAREZ-RESOLVIDO(?): Arrumar o overflow-x da barra de mais vendidos mobile
+TODO-ALVAREZ-RESOLVIDO: Arrumar o overflow-x da barra de mais vendidos mobile
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar pequisar
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar barra_macro_classificar pra pagina categoria
+
+TODO-ALVAREZ-RESOLVIDO: Colocar barra de produtos relacionados no produto detalhes
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar tamanho da tabela do carrinho

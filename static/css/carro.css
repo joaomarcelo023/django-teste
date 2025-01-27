@@ -2,10 +2,14 @@
     height: 68vh;
 }
 
-.table {
-    border-collapse: collapse;
+.table-responsive {
     width: 100%;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.table {
+    border-collapse: collapse;
+    margin-bottom: 0px;
 }
 
 .table, th, td {

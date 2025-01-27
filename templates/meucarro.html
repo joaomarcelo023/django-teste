@@ -10,56 +10,58 @@
 
 <section class="container table-container">
     <br>
-    <div class = "row justify-content-center">
-        <div class = "col-md-12">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-12 col-md-12">
             <h4>ITENS DO CARRINHO</h4>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th colspan="2" class="text-center">Produtos</th>
-                        <th class="text-center">Preço Unitário</th>
-                        <th class="text-center">Quantidade</th>
-                        <th style="border-right: none;"></th>
-                        <th {% if not carro.carroproduto_set.all%}colspan = "2"{% endif %} class="text-center" style="border-right: none; border-left: none;">Subtotal</th>
-                        <th style="border-left: none;"></th>
-                        {% if carro.carroproduto_set.all%}
-                            <th class="text-center">Ação</th>
-                        {% endif %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {%for cp in carro.carroproduto_set.all %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td class="text-center" style="border-right: none;">{{ forloop.counter }}.</td>
-                            <td class="text-center" style="border-left: none;">{{ cp.produto.titulo }}</td>
-                            <td class="text-center">R$ {{ cp.preco_unitario|intcomma }}</td>
-                            <td class="text-center">{{ cp.quantidade }}</td>
-                            <td {% if not carro.carroproduto_set.all%}colspan = "4"{% else %}colspan = "3"{% endif %} class="text-center">R$ {{ cp.subtotal|intcomma }}</td>
-                            <td class="justify-content-center text-center">
-                                <a href="{%url 'lojaapp:manipularcarro' cp.id %}?acao=inc" class="btn btn-success"> + </a>
-                                <a href="{%url 'lojaapp:manipularcarro' cp.id %}?acao=dcr" class="btn btn-warning"> - </a>
-                                <a href="{%url 'lojaapp:manipularcarro' cp.id %}?acao=rmv" class="btn btn-danger"> X </a>
-                            </td>
+                            <th colspan="2" class="text-center">Produtos</th>
+                            <th class="text-center">Preço Unitário</th>
+                            <th class="text-center">Quantidade</th>
+                            <th style="border-right: none;"></th>
+                            <th {% if not carro.carroproduto_set.all%}colspan = "2"{% endif %} class="text-center" style="border-right: none; border-left: none;">Subtotal</th>
+                            <th style="border-left: none;"></th>
+                            {% if carro.carroproduto_set.all%}
+                                <th class="text-center">Ação</th>
+                            {% endif %}
                         </tr>
-                    {%endfor%}
-                    <tr>
-                        <th colspan = "4" class="text-right">Total:</th>
-                        <th {% if not carro.carroproduto_set.all%}colspan = "4"{% else %}colspan = "3"{% endif %} class="text-center">R$ {{ carro.total|intcomma }}</th>
-                        {% if carro.carroproduto_set.all%}
-                            <th class="justify-content-center text-center">
-                                <a href="{%url 'lojaapp:limparcarro'%}" class="btn btn-warning"> Limpar carrinho </a>
-                            </th>
-                        {% endif %}
-                    </tr>
-                    <tr>
-                        {% if carro.carroproduto_set.all%}
-                            <th colspan="8" class="justify-content-center text-center">
-                                <a href="{%url 'lojaapp:formadeentrega'%}" class="btn btn-info"> Processar Compra </a>
-                            </th>
-                        {% endif %}
-                    </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {%for cp in carro.carroproduto_set.all %}
+                            <tr>
+                                <td class="text-center" style="border-right: none;">{{ forloop.counter }}.</td>
+                                <td class="text-center" style="border-left: none;">{{ cp.produto.titulo }}</td>
+                                <td class="text-center">R$ {{ cp.preco_unitario|intcomma }}</td>
+                                <td class="text-center">{{ cp.quantidade }}</td>
+                                <td {% if not carro.carroproduto_set.all%}colspan = "4"{% else %}colspan = "3"{% endif %} class="text-center">R$ {{ cp.subtotal|intcomma }}</td>
+                                <td class="justify-content-center text-center">
+                                    <a href="{%url 'lojaapp:manipularcarro' cp.id %}?acao=inc" class="btn btn-success"> + </a>
+                                    <a href="{%url 'lojaapp:manipularcarro' cp.id %}?acao=dcr" class="btn btn-warning"> - </a>
+                                    <a href="{%url 'lojaapp:manipularcarro' cp.id %}?acao=rmv" class="btn btn-danger"> X </a>
+                                </td>
+                            </tr>
+                        {%endfor%}
+                        <tr>
+                            <th colspan = "4" class="text-right">Total:</th>
+                            <th {% if not carro.carroproduto_set.all%}colspan = "4"{% else %}colspan = "3"{% endif %} class="text-center">R$ {{ carro.total|intcomma }}</th>
+                            {% if carro.carroproduto_set.all%}
+                                <th class="justify-content-center text-center">
+                                    <a href="{%url 'lojaapp:limparcarro'%}" class="btn btn-warning"> Limpar carrinho </a>
+                                </th>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            {% if carro.carroproduto_set.all%}
+                                <th colspan="8" class="justify-content-center text-center">
+                                    <a href="{%url 'lojaapp:formadeentrega'%}" class="btn btn-info"> Processar Compra </a>
+                                </th>
+                            {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </section>

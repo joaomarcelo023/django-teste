@@ -2,10 +2,6 @@ TODO-ALVAREZ: colocar descontos direito nos pagamentos
 
 TODO-ALVAREZ: Criar area de admin com dados de produtos (mais visualizados, mais vendidos, etc)
 
-TODO-ALVAREZ: Arrumar tamanho da tabela do carrinho
-
-TODO-ALVAREZ: Colocar barra de produtos relacionados no produto detalhes
-
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte
