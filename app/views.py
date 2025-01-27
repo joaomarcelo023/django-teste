@@ -566,7 +566,7 @@ def create_payment(request):
         ],
         "redirect_url": f"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id={pedido.id}", # f"http://127.0.0.1:8000/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
         # f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}&status=Pagamento_Confirmado"
-        # "notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"],
+        "notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"],
         # "payment_notification_urls": ["notificacaoPagamento.com.br"]
     }
 
@@ -1053,20 +1053,22 @@ def cancelar_checkout_pag(request):
     return HttpResponse("Invalid request.")
 
 def test_atualizacao_pag(request):
-    if request.method == 'POST':
-        pedido_id = "52"
-        pedido = Pedido_order.objects.get(id=pedido_id)
+    # if request.method == 'POST':
+    #     pedido_id = "52"
+    #     pedido = Pedido_order.objects.get(id=pedido_id)
 
-        notification_code = request.POST.get("notificationCode")
-        notification_type = request.POST.get("notificationType")
+    #     notification_code = request.POST.get("notificationCode")
+    #     notification_type = request.POST.get("notificationType")
 
-        if notification_type == "transaction":
-            pedido.status_test = notification_code
-            pedido.save()
+    #     if notification_type == "transaction":
+    #         pedido.status_test = notification_code
+    #         pedido.save()
 
-        return JsonResponse({"status": "success"}, status=200)
+    #     return JsonResponse({"status": "success"}, status=200)
 
-    return HttpResponse("Invalid request.")
+    # return HttpResponse("Invalid request.")
+    t = TestStatus.objects.create(status=request.POST)
+    t.save()
 
 def ta_pago(_pedido):
     url = "https://sandbox.api.pagseguro.com/checkouts/" + _pedido.id_PagBank + "?offset=0&limit=10"
