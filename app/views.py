@@ -567,7 +567,7 @@ def create_payment(request):
         "redirect_url": f"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id={pedido.id}", # f"http://127.0.0.1:8000/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
         # f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}&status=Pagamento_Confirmado"
         "notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"],
-        # "payment_notification_urls": ["notificacaoPagamento.com.br"]
+        "payment_notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"]
     }
 
     if pedido.frete:
@@ -1067,8 +1067,10 @@ def test_atualizacao_pag(request):
     #     return JsonResponse({"status": "success"}, status=200)
 
     # return HttpResponse("Invalid request.")
-    t = TestStatus.objects.create(status=request.POST)
-    t.save()
+    t1 = TestStatus.objects.create(status=request.POST)
+    t1.save()
+    t2 = TestStatus.objects.create(status="cu")
+    t2.save()
 
 def ta_pago(_pedido):
     url = "https://sandbox.api.pagseguro.com/checkouts/" + _pedido.id_PagBank + "?offset=0&limit=10"
