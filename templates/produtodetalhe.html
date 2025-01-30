@@ -32,7 +32,7 @@
         <div class="col-md-5 detalheCol">
             <div>
                 <h2>{{ produto.titulo }}</h2>
-                <p class="categoriaText">Categoria: {{ produto.Categoria }}</p>
+                <p class="categoriaText">Categoria: <a href="{% url 'lojaapp:categoria' produto.Categoria.slug %}">{{ produto.Categoria }}</a></p>
             </div>
             <hr>
             <div>

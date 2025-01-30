@@ -38,6 +38,7 @@ class Produto(models.Model):
     #informações que virão do sistema da loja online
     visualizacao = models.PositiveIntegerField(default=0)
     quantidade_vendas = models.PositiveIntegerField(default=0)
+    num_fotos = models.SmallIntegerField(default=1,null=True,blank=True)
 
 
     def __str__(self):
@@ -46,9 +47,18 @@ class Produto(models.Model):
 class Fotos_Produto(models.Model):
     produto = models.ForeignKey(Produto,related_name="images",on_delete=models.CASCADE,default="")
     image = models.ImageField(upload_to="produtos")
+    img_num = models.SmallIntegerField(null=True,blank=True)
+
+    def save(self, *args, **kwargs):
+        self.produto.num_fotos += 1
+        self.produto.save()
+
+        self.img_num = self.produto.num_fotos
+
+        return super(Fotos_Produto, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.produto.titulo + ": " + str(self.id)
+        return self.produto.titulo + ": " + str(self.img_num)
 
 class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

@@ -89,6 +89,11 @@ hr {
     font-size: small;
 }
 
+.categoriaText a {
+    color: black;
+    text-decoration: none;
+}
+
 .descricaoText {
     text-align: justify;
 }
