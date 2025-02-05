@@ -9,8 +9,12 @@ l.forEach(e => {
     });
 });
 
-function updateFreteValue(radio) {
-    const hiddenInput = document.getElementById('freteInput');
-    const extraValue = radio.dataset.frete;
-    hiddenInput.value = `${extraValue}`;
+function updateFreteRetiradaValue(radio) {
+    const hiddenInputFrete = document.getElementById('freteInput');
+    const extraValueFrete = radio.dataset.frete;
+    hiddenInputFrete.value = `${extraValueFrete}`;
+    
+    const hiddenInputRetirada = document.getElementById('DescontoRetiradaInput');
+    const extraValueRetirada = radio.dataset.retirada;
+    hiddenInputRetirada.value = `${extraValueRetirada}`;
 }

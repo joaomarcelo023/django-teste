@@ -2,6 +2,7 @@
 {% load static %}
 {% load humanize %}
 {% load l10n %}
+{% load custom_filters %}
 
 {% block title %}{{ produto.titulo }} - CasaHG{% endblock %}
 
@@ -50,7 +51,8 @@
                 <input type="hidden" name="prod_id" value="{{ produto.id }}">
                 <p class="disponibilidadeCompra" {% if produto.em_estoque %}style="color:blue"{% else %}style="color:red"{% endif %}>{% if produto.em_estoque %}Em{% else %}Fora de{% endif %} estoque</p>
                 <hr>
-                <p class="preco">R${{ produto.preco_unitario_bruto|intcomma }}<span class="unidade">{{ produto.unidade }}</span></p>
+                <p class="preco">R${{ produto.preco_unitario_bruto|intcomma }}<span class="unidade">/{{ produto.unidade|format_unit }}</span></p>
+                <p class="preco_dinheiro">R${{ preco_dinheiro|intcomma }}/{{ produto.unidade|format_unit }} no dinheiro</p>
                 <div class="quantSelect justify-content-left d-flex">
                     <div id="minusUnit" class="quantidadeButton" onclick="takeUnit()">-</div>
                     <input id="quantValue" type="number" inputmode="numeric" min="1" name="quantidade" value="1">

@@ -27,10 +27,10 @@ class Produto(models.Model):
     Categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE)
 
     #entrada manual de algum admin
+    titulo = models.CharField(max_length=200)
     image = models.ImageField(upload_to="produtos")
 
     # TODO-ALVAREZ deletar de forma responsável
-    titulo = models.CharField(max_length=200)
     venda = models.DecimalField(max_digits=10, decimal_places=2)
     garantia = models.CharField(max_length=300,null=True,blank=True)
     return_devolucao = models.CharField(max_length=300,null=True,blank=True)
@@ -159,7 +159,9 @@ class Pedido_order(models.Model):
     pedido_status = models.CharField(max_length=50, choices=PEDIDO_STATUS)
 
     total_bruto = models.DecimalField(max_digits=10,decimal_places=2,default=0)
-    frete =  models.DecimalField(max_digits=10,decimal_places=2,default=0)
+    frete = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+    desconto_retirada = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+    desconto_forma_pagamento = models.DecimalField(max_digits=10,decimal_places=2,default=0)
     total_desconto = models.DecimalField(max_digits=10,decimal_places=2,default=0)
     total_final = models.DecimalField(max_digits=10,decimal_places=2,default=0)
 

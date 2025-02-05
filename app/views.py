@@ -15,7 +15,7 @@ from rest_framework.response import Response
 from rest_framework import serializers, status
 import requests
 import decimal
-# import json
+import json
 from django_teste import settings
 
 class AdminRequireMixin(object):
@@ -88,7 +88,7 @@ class HomeView(LojaMixin, BaseContextMixin, TemplateView):
 
     def preprocessar_precos(self, produtos):
         for produto in produtos:
-            venda_parts = str(produto.venda).split('.')
+            venda_parts = str(produto.preco_unitario_bruto).split('.')
             produto.integer_part = venda_parts[0]
             produto.decimal_part = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
         return produtos
@@ -141,7 +141,7 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
 
     def preprocessar_precos(self, produtos):
         for produto in produtos:
-            venda_parts = str(produto.venda).split('.')
+            venda_parts = str(produto.preco_unitario_bruto).split('.')
             produto.integer_part = venda_parts[0]
             produto.decimal_part = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
         return produtos
@@ -156,8 +156,11 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
         produto.visualizacao += 1
         produto.save()
 
+        context['preco_dinheiro'] = round((produto.preco_unitario_bruto * (1 - (produto.desconto_dinheiro / 100))), 2)
+
         context['fotos_produtos'] = produto.images.all() #Fotos_Produto.objects.filter(produto=produto)
 
+        # TODO: Tirar o proprio produto desta lista
         produtos_similares = self.preprocessar_precos(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:12])
         context['produtos_similares'] = produtos_similares
 
@@ -175,20 +178,20 @@ class AddCarroView(LojaMixin, View):
             if produto_no_carro.exists():
                 carroproduto = produto_no_carro.last()
                 carroproduto.quantidade += 1
-                carroproduto.subtotal += produto_obj.venda
+                carroproduto.subtotal += produto_obj.preco_unitario_bruto
                 carroproduto.save()
 
             else:
                 carroproduto = CarroProduto.objects.create(
                 carro = carro_obj,
                 produto = produto_obj,
-                preco_unitario = produto_obj.venda,
+                preco_unitario = produto_obj.preco_unitario_bruto,
                 quantidade = 1,
-                subtotal = produto_obj.venda
+                subtotal = produto_obj.preco_unitario_bruto
 
                 )
 
-            carro_obj.total += produto_obj.venda
+            carro_obj.total += produto_obj.preco_unitario_bruto
             carro_obj.save()
 
 
@@ -198,12 +201,12 @@ class AddCarroView(LojaMixin, View):
             carroproduto = CarroProduto.objects.create(
                 carro=carro_obj,
                 produto=produto_obj,
-                preco_unitario=produto_obj.venda,
+                preco_unitario=produto_obj.preco_unitario_bruto,
                 quantidade=1,
-                subtotal=produto_obj.venda
+                subtotal=produto_obj.preco_unitario_bruto
 
             )
-            carro_obj.total += produto_obj.venda
+            carro_obj.total += produto_obj.preco_unitario_bruto
             carro_obj.save()
 
         return redirect("lojaapp:home")
@@ -222,20 +225,20 @@ class AddCarroView2(LojaMixin, BaseContextMixin, TemplateView):
             if produto_no_carro.exists():
                 carroproduto = produto_no_carro.last()
                 carroproduto.quantidade += 1
-                carroproduto.subtotal += produto_obj.venda
+                carroproduto.subtotal += produto_obj.preco_unitario_bruto
                 carroproduto.save()
 
             else:
                 carroproduto = CarroProduto.objects.create(
                 carro = carro_obj,
                 produto = produto_obj,
-                preco_unitario = produto_obj.venda,
+                preco_unitario = produto_obj.preco_unitario_bruto,
                 quantidade = 1,
-                subtotal = produto_obj.venda
+                subtotal = produto_obj.preco_unitario_bruto
 
                 )
 
-            carro_obj.total += produto_obj.venda
+            carro_obj.total += produto_obj.preco_unitario_bruto
             carro_obj.save()
 
 
@@ -245,12 +248,12 @@ class AddCarroView2(LojaMixin, BaseContextMixin, TemplateView):
             carroproduto = CarroProduto.objects.create(
                 carro=carro_obj,
                 produto=produto_obj,
-                preco_unitario=produto_obj.venda,
+                preco_unitario=produto_obj.preco_unitario_bruto,
                 quantidade=1,
-                subtotal=produto_obj.venda
+                subtotal=produto_obj.preco_unitario_bruto
 
             )
-            carro_obj.total += produto_obj.venda
+            carro_obj.total += produto_obj.preco_unitario_bruto
             carro_obj.save()
 
         return context
@@ -269,20 +272,20 @@ class AddCarroQuantView(LojaMixin, BaseContextMixin, TemplateView):
             if produto_no_carro.exists():
                 carroproduto = produto_no_carro.last()
                 carroproduto.quantidade += produto_quantidade
-                carroproduto.subtotal += (produto_obj.venda * produto_quantidade)
+                carroproduto.subtotal += (produto_obj.preco_unitario_bruto * produto_quantidade)
                 carroproduto.save()
 
             else:
                 carroproduto = CarroProduto.objects.create(
                 carro = carro_obj,
                 produto = produto_obj,
-                preco_unitario = produto_obj.venda,
+                preco_unitario = produto_obj.preco_unitario_bruto,
                 quantidade = produto_quantidade,
-                subtotal = (produto_obj.venda * produto_quantidade)
+                subtotal = (produto_obj.preco_unitario_bruto * produto_quantidade)
 
                 )
 
-            carro_obj.total += (produto_obj.venda * produto_quantidade)
+            carro_obj.total += (produto_obj.preco_unitario_bruto * produto_quantidade)
             carro_obj.save()
 
 
@@ -292,16 +295,16 @@ class AddCarroQuantView(LojaMixin, BaseContextMixin, TemplateView):
             carroproduto = CarroProduto.objects.create(
                 carro = carro_obj,
                 produto = produto_obj,
-                preco_unitario = produto_obj.venda,
+                preco_unitario = produto_obj.preco_unitario_bruto,
                 quantidade = produto_quantidade,
-                subtotal = (produto_obj.venda * produto_quantidade)
+                subtotal = (produto_obj.preco_unitario_bruto * produto_quantidade)
 
             )
-            carro_obj.total += (produto_obj.venda * produto_quantidade)
+            carro_obj.total += (produto_obj.preco_unitario_bruto * produto_quantidade)
             carro_obj.save()
 
         # return context
-        return redirect("lojaapp:home")
+        return redirect("lojaapp:meucarro")
 
 class MeuCarroView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "meucarro.html"
@@ -372,6 +375,13 @@ class FormaDeEntregaView(LogedMixin, LojaMixin, CarroComItemsMixin, BaseContextM
             carro_obj = None
         context["carro"] = carro_obj
 
+        # desconto retirada
+        desc_retirada = 0
+        for prod in CarroProduto.objects.filter(carro=carro_obj):
+            desc_retirada += prod.produto.preco_unitario_bruto * (prod.produto.desconto_retira / 100)
+        
+        context["desconto_retirada"] = str(round(desc_retirada, 2))
+
         context["enderecos"] = Endereco.objects.filter(cliente=self.request.user.cliente).order_by("-id")
         context["enderecosLojas"] = Endereco.objects.filter(cliente=Cliente.objects.get(nome="Casa", sobrenome="HG"))
 
@@ -383,6 +393,7 @@ def pedido_carro_endereco(request):
             # if Pedido_order.objects.filter(carro=request.POST["carro_id"]):
                 # print(request.POST)
                 # Pedido_order.objects.get(carro=request.POST["carro_id"]).delete()
+            # print(request.POST)
 
             usuario = User.objects.get(username=request.user.username)
             cliente = Cliente.objects.get(user=usuario)
@@ -396,7 +407,8 @@ def pedido_carro_endereco(request):
             pedido_status = "Pedido em Andamento"
             total_bruto = carro.total
             frete = decimal.Decimal(request.POST["frete"])
-            total_final = (decimal.Decimal(total_bruto) + decimal.Decimal(frete))
+            desconto_retirada = decimal.Decimal(request.POST["desconto_retirada"])
+            total_final = (decimal.Decimal(total_bruto) + frete) # - desconto_retirada)
             
             endereco_envio = Endereco.objects.get(id=request.POST["local_entrega"])
             if endereco_envio.complemento and endereco_envio.numero:
@@ -413,10 +425,12 @@ def pedido_carro_endereco(request):
                 pedido = Pedido_order.objects.get(carro=request.POST["carro_id"])
                 pedido.endereco_envio = endereco_envio
                 pedido.endereco_envio_formatado = endereco_envio_formatado
+                pedido.total_bruto = total_bruto
                 pedido.frete = frete
+                pedido.desconto_retirada = desconto_retirada
                 pedido.total_final = total_final
             else:
-                pedido = Pedido_order.objects.create(cliente=cliente, nome_cliente=nome_cliente, cpf_cnpj=cpf_cnpj, telefone=telefone, email=email, carro=carro, pedido_status=pedido_status, total_bruto=total_bruto, total_final=total_final, frete=frete, endereco_envio=endereco_envio, endereco_envio_formatado=endereco_envio_formatado)
+                pedido = Pedido_order.objects.create(cliente=cliente, nome_cliente=nome_cliente, cpf_cnpj=cpf_cnpj, telefone=telefone, email=email, carro=carro, pedido_status=pedido_status, total_bruto=total_bruto, total_final=total_final, frete=frete, desconto_retirada=desconto_retirada, endereco_envio=endereco_envio, endereco_envio_formatado=endereco_envio_formatado)
             pedido.save()
 
             return redirect('lojaapp:checkout')
@@ -438,7 +452,40 @@ class CheckOutView(LogedMixin, LojaMixin, CarroComItemsMixin, PedidoExisteMixin,
         else:
             carro_obj = None
         context["carro"] = carro_obj
-        context["pedido"] = Pedido_order.objects.get(carro=carro_obj)
+
+        pedido = Pedido_order.objects.get(carro=carro_obj)
+        context["pedido"] = pedido
+    
+        # descontos formas de pagamento
+        desc_dinheiro = 0
+        for prod in CarroProduto.objects.filter(carro=carro_obj):
+            desc_dinheiro += prod.produto.preco_unitario_bruto * (prod.produto.desconto_dinheiro / 100)
+        context["desconto_dinheiro"] = decimal.Decimal(round(desc_dinheiro, 2))
+
+        desc_credito_list = [0.07, 0.04, 0.04, 0.01, 0.01, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        desconto_credito = pedido.total_bruto * decimal.Decimal(desc_credito_list[0])
+        context["desconto_credito"] = decimal.Decimal(round(desconto_credito, 2))
+        
+        desc_a_vista = pedido.total_bruto * decimal.Decimal(0.15)
+        context["desconto_a_vista"] = decimal.Decimal(round(desc_a_vista, 2))
+
+        context["desconto_tot_init"] = str(round(float(desc_dinheiro + desc_a_vista), 2)).replace(",", ".")
+
+        context["descontos"] = json.dumps({
+            "desconto_a_vista": round(float(desc_a_vista), 2),
+            "desconto_dinheiro": round(float(desc_dinheiro), 2),
+            "desconto_credito": round(float(desconto_credito), 2),
+            "desc_credito_list": desc_credito_list,
+            "total_bruto": float(pedido.total_bruto),
+        })
+
+        context["total_dinheiro"] = decimal.Decimal(round((pedido.total_bruto + pedido.frete - pedido.desconto_retirada - desc_dinheiro - desc_a_vista), 2))
+
+        context["total_credito"] = decimal.Decimal(round((pedido.total_bruto + pedido.frete - pedido.desconto_retirada - desconto_credito), 2))
+
+        context["total_eletronico"] = decimal.Decimal(round((pedido.total_bruto + pedido.frete - pedido.desconto_retirada - desc_a_vista), 2))
+
+        context["total_desc_pagamento"] = str(round((pedido.total_bruto + pedido.frete - pedido.desconto_retirada - desc_dinheiro - desc_a_vista), 2)).replace(",", ".")
 
         return context
 
@@ -464,6 +511,12 @@ def pedido_carro_pagamento(request):
 
             # Termina de preencher os dados de pagamento
             pedido = Pedido_order.objects.get(id=request.POST["pedido_id"])
+
+            pedido.total_final = decimal.Decimal(request.POST["total_final"])
+
+            pedido.desconto_forma_pagamento = decimal.Decimal(request.POST["desconto_pagamento"])
+
+            pedido.total_desconto = pedido.desconto_forma_pagamento + pedido.desconto_retirada
 
             pedido.local_de_pagamento = request.POST["local_pagamento"]
             if "metodo_pagamento" in request.POST:
@@ -504,7 +557,7 @@ def pedido_carro_pagamento(request):
                 # pedido.save()
                          
                 # return redirect(request.POST["path"])
-                return redirect(f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}&status=Pagamento_Pendente")
+                return redirect(f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}")
             
         except User.DoesNotExist:
             return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_400_BAD_REQUEST)
@@ -629,7 +682,10 @@ class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
         # Muda status do pedido
         pedido = Pedido_order.objects.get(id=pedido_id)
 
-        if ta_pago(pedido):
+        if pedido.local_de_pagamento == "online":
+            if ta_pago(pedido):
+                pedido.pedido_status = "Pagamento Confirmado"
+        else:
             pedido.pedido_status = "Pagamento Confirmado"
 
         # pedido.pedido_status = pedido_status.replace("_", " ")
@@ -816,14 +872,14 @@ class deletarEnderecoView(LojaMixin, View):
         endereco_id = self.kwargs['endereco_id']
         Endereco.objects.filter(id=endereco_id).delete()
 
-        return redirect("lojaapp:clienteperfil")
+        return redirect(f"{reverse_lazy('lojaapp:clienteperfil')}?perfil=Endereco")
 
 class PesquisarView(BaseContextMixin, TemplateView):
     template_name = "pesquisar.html"
 
     def preprocessar_precos(self, produtos):
         for produto in produtos:
-            venda_parts = str(produto.venda).split('.')
+            venda_parts = str(produto.preco_unitario_bruto).split('.')
             produto.integer_part = venda_parts[0]
             produto.decimal_part = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
         return produtos
@@ -861,7 +917,7 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
 
     def preprocessar_precos(self, produtos):
         for produto in produtos:
-            venda_parts = str(produto.venda).split('.')
+            venda_parts = str(produto.preco_unitario_bruto).split('.')
             produto.integer_part = venda_parts[0]
             produto.decimal_part = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
         return produtos
@@ -1111,6 +1167,7 @@ def ta_pago(_pedido):
 def testPOST(request):
     if request.method == 'POST':
         print(request.POST)
+
         return redirect(request.POST["path"])
 
     return HttpResponse("Invalid request.")

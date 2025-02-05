@@ -126,6 +126,13 @@ hr {
 .preco {
     font-weight: 700;
     font-size: x-large;
+    margin-bottom: 0px;
+}
+
+.preco_dinheiro {
+    font-weight: 500;
+    font-size: small;
+    margin-top: 0px;
 }
 
 .unidade {
