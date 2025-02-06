@@ -160,8 +160,12 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
 
         context['fotos_produtos'] = produto.images.all() #Fotos_Produto.objects.filter(produto=produto)
 
-        # TODO: Tirar o proprio produto desta lista
-        produtos_similares = self.preprocessar_precos(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:12])
+        produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:12])
+        if produto in produtos_similares_list:
+            produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:13])
+            produtos_similares_list.pop(produtos_similares_list.index(produto))
+
+        produtos_similares = self.preprocessar_precos(produtos_similares_list)
         context['produtos_similares'] = produtos_similares
 
         return context
@@ -676,7 +680,7 @@ class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         pedido_id = self.request.GET.get("id")
-        pedido_status = self.request.GET.get("status")
+        # pedido_status = self.request.GET.get("status")
 
         # TODO: Acho que só funfa automaticamente pra cartão de credito
         # Muda status do pedido

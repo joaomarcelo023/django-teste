@@ -47,3 +47,5 @@ TODO-ALVAREZ-RESOLVIDO: Colocar barra de produtos relacionados no produto detalh
 TODO-ALVAREZ-RESOLVIDO: Arrumar tamanho da tabela do carrinho
 
 TODO-ALVAREZ-RESOLVIDO: Fazer com que só possam cadastrar endereços de entrega em teresopolis
+
+TODO-ALVAREZ-RESOLVIDO: Tirar o proprio produto desta lista

@@ -76,13 +76,15 @@
     </div>
 </section>
 <br>
-<section class="container">
-    <div class="row">
-        <div class="col-12">
-            {% include "produtosrelacionados.html" %}
+{% if produtos_similares|length > 0 %}
+    <section class="container">
+        <div class="row">
+            <div class="col-12">
+                {% include "produtosrelacionados.html" %}
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+{% endif %}
 
 <script src="{% static 'js/produtodetalhe.js' %}"></script>
 {% endblock %}
