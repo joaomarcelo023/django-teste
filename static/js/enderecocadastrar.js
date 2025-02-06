@@ -46,13 +46,31 @@ function fetchAddress(cep) {
                 console.log('Cidade:', data.localidade);
                 console.log('Estado:', data.uf);
 
-                document.getElementById('estado').value = data.uf;
-                document.getElementById('cidade').value = data.localidade;
-                document.getElementById('bairro').value = data.bairro;
-                document.getElementById('rua').value = data.logradouro;
+                if (data.localidade === "Teresópolis") {
+                    document.getElementById('estado').value = data.uf;
+                    document.getElementById('cidade').value = data.localidade;
+                    document.getElementById('bairro').value = data.bairro;
+                    document.getElementById('rua').value = data.logradouro;
+
+                    document.getElementById("cidadeWarning").style.display = 'none';
+                    document.querySelector(".buttonCadastrar").disabled = false;
+                }
+                else {
+                    document.getElementById("cidadeWarning").style.display = 'block';
+
+                    document.getElementById('estado').value = "";
+                    document.getElementById('cidade').value = "";
+                    document.getElementById('bairro').value = "";
+                    document.getElementById('rua').value = "";
+                    document.getElementById('numero').value = "";
+                    document.getElementById('complemento').value = "";
+
+                    document.querySelector(".buttonCadastrar").disabled = true;
+                }
             })
             .catch(error => console.error('Erro ao buscar endereço:', error));
     } else {
         cepWarning.style.display = 'block'; // Exibe o aviso
+        document.querySelector(".buttonCadastrar").disabled = true;
     }
 }

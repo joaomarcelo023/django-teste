@@ -1,7 +1,5 @@
 TODO-ALVAREZ: colocar descontos direito nos pagamentos
 
-TODO-ALVAREZ: Fazer com que só possam cadastrar endereços de entrega em teresopolis
-
 TODO-ALVAREZ: Criar area de admin com dados de produtos (mais visualizados, mais vendidos, etc)
 
 

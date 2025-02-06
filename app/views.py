@@ -860,7 +860,7 @@ def endereco_cadastrar(request):
 
             next_url = request.POST.get("next", reverse("lojaapp:clienteperfil"))
             if  not next_url:
-                next_url = reverse("lojaapp:clienteperfil")
+                next_url = reverse(f"{reverse_lazy('lojaapp:clienteperfil')}?perfil=Endereco")
             return redirect(next_url)
         except User.DoesNotExist:
             return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_400_BAD_REQUEST)

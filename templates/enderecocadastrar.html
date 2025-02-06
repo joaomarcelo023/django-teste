@@ -18,6 +18,7 @@
             <input type="text" class="form-control cep-input" id="cep" name="cep" placeholder="CEP" maxlength="9" inputmode="numeric">
             <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank" tabindex="0" role="button" class="cep-link" maxlength="9">Não sei o meu CEP</a>
             <div id="cepWarning" style="color: red; display: none;">Por favor, insira um CEP valido.</div>
+            <div id="cidadeWarning" style="color: red; display: none;">No momento entregamos somente em Teresópolis.</div>
         </div>
         <div class="form-group">
             <input type="text" class="form-control estado-input" id="estado" name="estado" placeholder="Estado" style="border-style:dashed;" readonly maxlength="3">
@@ -37,7 +38,7 @@
         <div class="form-group">
             <textarea class="form-control" id="complemento" name="complemento" placeholder="Complemento" maxlength="140"></textarea>
         </div>
-        <button type="submit" class="btn btn-success">Cadastrar Endereço</button>
+        <button type="submit" class="btn btn-success buttonCadastrar" disabled>Cadastrar Endereço</button>
     </form>
 </section>
 
