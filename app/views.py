@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, CreateView, FormView, DetailView, ListView
 from django.urls import reverse_lazy, reverse
+from django_teste import settings
 from .forms import Checar_PedidoForms, ClienteRegistrarForms, ClienteEntrarForms, EnderecoRegistrarForms
 from .models import *
 from django.http import HttpResponse, JsonResponse
@@ -16,7 +17,7 @@ from rest_framework import serializers, status
 import requests
 import decimal
 import json
-from django_teste import settings
+from random import randint
 
 class AdminRequireMixin(object):
     def dispatch(self, request, *args, **kwargs):
@@ -80,6 +81,14 @@ class BaseContextMixin(object):
         context['footer'] = Empresa.objects.all()
 
         return context
+
+class CrazyAlvaPaymentCheckMixin(object):
+    def dispatch(self,request,*args, **kwargs):
+        pedidos = list(Pedido_order.objects.filter(pedido_status="Pagamento Processando", local_de_pagamento="online"))
+        pedido_aleatorio = pedidos[randint(0, len(pedidos))]
+
+        if ta_pago(pedido_aleatorio):
+            pedido_aleatorio.pedido_status = "Pagamento Confirmado"
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
@@ -157,6 +166,8 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
         produto.save()
 
         context['preco_dinheiro'] = round((produto.preco_unitario_bruto * (1 - (produto.desconto_dinheiro / 100))), 2)
+        
+        context['preco_caixa'] = round(produto.preco_unitario_bruto * produto.fechamento_embalagem, 2)
 
         context['fotos_produtos'] = produto.images.all() #Fotos_Produto.objects.filter(produto=produto)
 
@@ -182,16 +193,16 @@ class AddCarroView(LojaMixin, View):
             if produto_no_carro.exists():
                 carroproduto = produto_no_carro.last()
                 carroproduto.quantidade += 1
-                carroproduto.subtotal += produto_obj.preco_unitario_bruto
+                carroproduto.subtotal += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
                 carroproduto.save()
 
             else:
                 carroproduto = CarroProduto.objects.create(
                 carro = carro_obj,
                 produto = produto_obj,
-                preco_unitario = produto_obj.preco_unitario_bruto,
+                preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
                 quantidade = 1,
-                subtotal = produto_obj.preco_unitario_bruto
+                subtotal = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
 
                 )
 
@@ -205,9 +216,9 @@ class AddCarroView(LojaMixin, View):
             carroproduto = CarroProduto.objects.create(
                 carro=carro_obj,
                 produto=produto_obj,
-                preco_unitario=produto_obj.preco_unitario_bruto,
+                preco_unitario=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
                 quantidade=1,
-                subtotal=produto_obj.preco_unitario_bruto
+                subtotal=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
 
             )
             carro_obj.total += produto_obj.preco_unitario_bruto
@@ -229,16 +240,16 @@ class AddCarroView2(LojaMixin, BaseContextMixin, TemplateView):
             if produto_no_carro.exists():
                 carroproduto = produto_no_carro.last()
                 carroproduto.quantidade += 1
-                carroproduto.subtotal += produto_obj.preco_unitario_bruto
+                carroproduto.subtotal += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
                 carroproduto.save()
 
             else:
                 carroproduto = CarroProduto.objects.create(
                 carro = carro_obj,
                 produto = produto_obj,
-                preco_unitario = produto_obj.preco_unitario_bruto,
+                preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
                 quantidade = 1,
-                subtotal = produto_obj.preco_unitario_bruto
+                subtotal = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
 
                 )
 
@@ -252,9 +263,9 @@ class AddCarroView2(LojaMixin, BaseContextMixin, TemplateView):
             carroproduto = CarroProduto.objects.create(
                 carro=carro_obj,
                 produto=produto_obj,
-                preco_unitario=produto_obj.preco_unitario_bruto,
+                preco_unitario=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
                 quantidade=1,
-                subtotal=produto_obj.preco_unitario_bruto
+                subtotal=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
 
             )
             carro_obj.total += produto_obj.preco_unitario_bruto
@@ -276,16 +287,16 @@ class AddCarroQuantView(LojaMixin, BaseContextMixin, TemplateView):
             if produto_no_carro.exists():
                 carroproduto = produto_no_carro.last()
                 carroproduto.quantidade += produto_quantidade
-                carroproduto.subtotal += (produto_obj.preco_unitario_bruto * produto_quantidade)
+                carroproduto.subtotal += (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem)
                 carroproduto.save()
 
             else:
                 carroproduto = CarroProduto.objects.create(
                 carro = carro_obj,
                 produto = produto_obj,
-                preco_unitario = produto_obj.preco_unitario_bruto,
+                preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
                 quantidade = produto_quantidade,
-                subtotal = (produto_obj.preco_unitario_bruto * produto_quantidade)
+                subtotal = (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem)
 
                 )
 
@@ -299,9 +310,9 @@ class AddCarroQuantView(LojaMixin, BaseContextMixin, TemplateView):
             carroproduto = CarroProduto.objects.create(
                 carro = carro_obj,
                 produto = produto_obj,
-                preco_unitario = produto_obj.preco_unitario_bruto,
+                preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
                 quantidade = produto_quantidade,
-                subtotal = (produto_obj.preco_unitario_bruto * produto_quantidade)
+                subtotal = (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem)
 
             )
             carro_obj.total += (produto_obj.preco_unitario_bruto * produto_quantidade)
@@ -623,7 +634,7 @@ def create_payment(request):
         ],
         "redirect_url": f"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id={pedido.id}", # f"http://127.0.0.1:8000/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
         # f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}&status=Pagamento_Confirmado"
-        "notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"],
+        # "notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"],
         # "payment_notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"]
     }
 

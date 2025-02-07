@@ -53,10 +53,27 @@
                 <hr>
                 <p class="preco">R${{ produto.preco_unitario_bruto|intcomma }}<span class="unidade">/{{ produto.unidade|format_unit }}</span></p>
                 <p class="preco_dinheiro">R${{ preco_dinheiro|intcomma }}/{{ produto.unidade|format_unit }} no dinheiro</p>
+                {% if produto.fechamento_embalagem > 1 %}
+                    <div class="infoEmbalagem">
+                        <span>{{ produto.fechamento_embalagem }}{{ produto.unidade|format_unit }} por caixa</span>
+                        <br>
+                        <span>R${{ preco_caixa }} a caixa</span>
+                    </div>
+                {% endif %}
                 <div class="quantSelect justify-content-left d-flex">
                     <div id="minusUnit" class="quantidadeButton" onclick="takeUnit()">-</div>
                     <input id="quantValue" type="number" inputmode="numeric" min="1" name="quantidade" value="1">
                     <div id="plusUnit" class="quantidadeButton" onclick="addUnit()">+</div>
+                    {% if produto.fechamento_embalagem > 1 %}
+                        <span class="caixasQuant">caixas</span>
+                    {% endif %}
+                </div>
+                <div class="varsEmbalagem">
+                    <span {% if not produto.fechamento_embalagem|gt:1 %}style="display: none;"{% endif %}><span class="quantidade_total_caixas">{{ produto.fechamento_embalagem }}</span>{{ produto.unidade|format_unit }} total</span>
+                    {% if produto.fechamento_embalagem|gt:1 %}
+                        <br>
+                    {% endif %}
+                    <span>R$<span class="custo_total_caixas">{{ preco_caixa }}</span> total</span>
                 </div>
                 <br>
                 <div class="text-center">

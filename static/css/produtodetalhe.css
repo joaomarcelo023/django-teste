@@ -108,8 +108,16 @@ hr {
     padding-top: 10px;
     border: 1px solid #ff9900;
     border-radius: 5%;
+    
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 
-    height: 250px;
+    /* height: 250px; */
+}
+
+.compraCol form {
+    flex: 1;
 }
 
 .disponibilidadeCompra {
@@ -133,11 +141,24 @@ hr {
     font-weight: 500;
     font-size: small;
     margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 .unidade {
     font-weight: 400;
     font-size: large;
+}
+
+.infoEmbalagem {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    
+    font-weight: 500;
+    font-size: medium;
+}
+
+.quantSelect {
+    margin-top: 21%;
 }
 
 /* .quantSelect button {
@@ -182,8 +203,25 @@ hr {
   -moz-appearance: textfield;
 }
 
+.caixasQuant {
+    margin-left: 2.5%;
+    font-weight: 500;
+
+    vertical-align: middle;
+    text-align: center;
+}
+
+.varsEmbalagem {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    
+    font-weight: 500;
+    font-size: medium;
+}
+
 .comprarBtn {
     width: 100%;
+    margin-bottom: 10%;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */

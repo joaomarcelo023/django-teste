@@ -6,6 +6,10 @@ html, body {
     flex-direction: column;
 }
 
+body {
+    background-color: #EBEBEB;
+}
+
 @media only screen and (min-width: 750px) {
     .pequeno * {
         display: none;
@@ -93,10 +97,6 @@ section {
 
 .texto-cor-secundaria:hover {
     color: #c47500;
-}
-
-body {
-    background-color: #EBEBEB;
 }
 
 footer {

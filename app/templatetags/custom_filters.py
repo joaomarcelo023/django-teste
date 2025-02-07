@@ -21,3 +21,7 @@ UNIT_SYMBOLS = {
 def format_unit(value):
     """Convert unit abbreviations to symbols."""
     return UNIT_SYMBOLS.get(value.upper(), value)
+
+@register.filter
+def gt(value, arg):
+    return value > arg
