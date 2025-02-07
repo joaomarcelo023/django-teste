@@ -97,9 +97,13 @@ class HomeView(LojaMixin, BaseContextMixin, TemplateView):
 
     def preprocessar_precos(self, produtos):
         for produto in produtos:
+            precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
+            venda_parts_caixa = str(precoCaixa).split('.')
             venda_parts = str(produto.preco_unitario_bruto).split('.')
-            produto.integer_part = venda_parts[0]
-            produto.decimal_part = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+            produto.integer_part_uni = venda_parts[0]
+            produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+            produto.integer_part_caixa = venda_parts_caixa[0]
+            produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
         return produtos
 
     def get_context_data(self, **kwargs):
@@ -150,9 +154,13 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
 
     def preprocessar_precos(self, produtos):
         for produto in produtos:
+            precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
+            venda_parts_caixa = str(precoCaixa).split('.')
             venda_parts = str(produto.preco_unitario_bruto).split('.')
-            produto.integer_part = venda_parts[0]
-            produto.decimal_part = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+            produto.integer_part_uni = venda_parts[0]
+            produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+            produto.integer_part_caixa = venda_parts_caixa[0]
+            produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
         return produtos
     
     def get_context_data(self, **kwargs):
@@ -894,9 +902,13 @@ class PesquisarView(BaseContextMixin, TemplateView):
 
     def preprocessar_precos(self, produtos):
         for produto in produtos:
+            precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
+            venda_parts_caixa = str(precoCaixa).split('.')
             venda_parts = str(produto.preco_unitario_bruto).split('.')
-            produto.integer_part = venda_parts[0]
-            produto.decimal_part = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+            produto.integer_part_uni = venda_parts[0]
+            produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+            produto.integer_part_caixa = venda_parts_caixa[0]
+            produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
         return produtos
 
     def get_context_data(self, **kwargs):
@@ -932,9 +944,13 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
 
     def preprocessar_precos(self, produtos):
         for produto in produtos:
+            precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
+            venda_parts_caixa = str(precoCaixa).split('.')
             venda_parts = str(produto.preco_unitario_bruto).split('.')
-            produto.integer_part = venda_parts[0]
-            produto.decimal_part = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+            produto.integer_part_uni = venda_parts[0]
+            produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+            produto.integer_part_caixa = venda_parts_caixa[0]
+            produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
         return produtos
 
     def get_context_data(self, **kwargs):
