@@ -12,6 +12,14 @@
     margin-bottom: 0px;
 }
 
+.prodImage {
+    height: 36px;
+    padding: 0px;
+    margin: 0px;
+    
+    text-align: center;
+}
+
 .table, th, td {
     border: 1px solid #ddd;
 }
@@ -19,6 +27,15 @@
 th, td {
     padding: 15px;
     text-align: center;
+}
+
+td a {
+    color: black;
+}
+
+td a:hover {
+    color: #ff9900;
+    text-decoration: none;
 }
 
 th {
