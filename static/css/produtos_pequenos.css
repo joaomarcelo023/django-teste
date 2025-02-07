@@ -139,6 +139,11 @@
     align-content: center;
 }
 
+.divPreco .precoUniCaixa {
+    display: block;
+    width: 100%;
+}
+
 .divPreco span {
     color: #000;
     font-family: Arial, Helvetica, sans-serif;

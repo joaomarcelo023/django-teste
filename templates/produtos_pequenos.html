@@ -2,6 +2,8 @@
 {% load humanize %}
 {% load l10n %}
 {% localize on %}
+{% load custom_filters %}
+
 <link rel="stylesheet" type="text/css" href="{% static 'css/produtos_pequenos.css' %}">
 
 <a class="linkProd" href="{% url 'lojaapp:produtodetalhe' p.slug %}">
@@ -13,19 +15,36 @@
             <div class="row divInfoProd">
                 <h4>{{ p.titulo|truncatechars:60}}</h4>
                 <div class="container" style="display: flex; padding:0; align-items: center; align-content: center;">
-                    <div class="col ml-3 divPreco">
-                        <span class="precoLow">
-                            R$
-                        </span>
-                        <span class="precoHigh">
-                        {{ p.integer_part|intcomma }}
-                        </span>
-                        <span class="precoLow">
-                            ,{{ p.decimal_part}}
-                        </span>
-                        <span class="precoLow">
-                            &nbsp;{{ p.unidade}}
-                        </span>
+                    <div class="col-8 ml-3 divPreco">
+                        <div class="precoUniCaixa">
+                            <span class="precoLow">
+                                R$
+                            </span>
+                            <span class="precoHigh">
+                            {{ p.integer_part_uni|intcomma }}
+                            </span>
+                            <span class="precoLow">
+                                ,{{ p.decimal_part_uni}}
+                            </span>
+                            <span class="precoLow">
+                                &nbsp;{{ p.unidade|format_unit}}
+                            </span>
+                            {% if p.fechamento_embalagem > 1 %}
+                                <br>
+                                <span class="precoLow">
+                                    R$
+                                </span>
+                                <span class="precoHigh">
+                                {{ p.integer_part_caixa|intcomma }}
+                                </span>
+                                <span class="precoLow">
+                                    ,{{ p.decimal_part_caixa}}
+                                </span>
+                                <span class="precoLow">
+                                    &nbsp;caixa
+                                </span>
+                            {% endif %}
+                        </div>
                     </div>
 
                     <div class="col mr-3 divAdd">
