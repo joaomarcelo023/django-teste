@@ -153,11 +153,20 @@
     margin:0;
 }
 
-.divPreco .precoLow {
+.divPreco .precoLowLow {
+    font-size: 0.29cm;
+}
+
+.divPreco .precoHighLow {
+    font-size: 0.396cm;
+    font-weight: bold;
+}
+
+.divPreco .precoLowHigh {
     font-size: 0.33cm;
 }
 
-.divPreco .precoHigh {
+.divPreco .precoHighHigh {
     font-size: 0.45cm;
     font-weight: bold;
 }
