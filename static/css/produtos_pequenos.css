@@ -31,7 +31,8 @@
 }
 @media (max-width: 750px) {
     .div-produtos_pequenos {
-        height: 65vw;
+        /* TODO: ajustar dimensões pro mobile, ta muito pequeno */
+        height: 67.5vw;
         width: 45vw;
         /* margin-top: 10px; */
         /* margin-right: 1.5vw; */

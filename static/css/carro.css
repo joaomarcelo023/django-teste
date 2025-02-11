@@ -112,4 +112,7 @@ th a {
 
     border-left: none;
     border-right: none;
+
+    font-size: small;
+    border:1px solid red;
 }
