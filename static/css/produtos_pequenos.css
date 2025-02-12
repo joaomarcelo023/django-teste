@@ -28,11 +28,15 @@
     .imagemProdutos {
         padding: 15px;
     }
+
+    .divInfoProd h4 {
+        height: 0.825cm;
+    }
 }
 @media (max-width: 750px) {
     .div-produtos_pequenos {
         /* TODO: ajustar dimensões pro mobile, ta muito pequeno */
-        height: 67.5vw;
+        height: 90vw;
         width: 45vw;
         /* margin-top: 10px; */
         /* margin-right: 1.5vw; */
@@ -58,7 +62,11 @@
     }
 
     .imagemProdutos {
-        padding: 5px;
+        padding: 2px;
+    }
+
+    .divInfoProd h4 {
+        height: 1.44cm;
     }
 }
 
@@ -121,7 +129,7 @@
 }
 
 .divInfoProd h4 {
-    height: 0.825cm;
+    /* height: 0.825cm; */
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;

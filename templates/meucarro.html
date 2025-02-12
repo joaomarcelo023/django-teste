@@ -36,7 +36,7 @@
                                 <tr>
                                     <td class="text-center" style="border-right: none;">{{ forloop.counter }}.</td>
                                     <td class="text-center" style="border-left: none; border-right: none;"><img class="prodImage" src="{{ cp.produto.image.url }}"></td>
-                                    <td class="text-center" style="border-left: none;"><a href="{% url 'lojaapp:produtodetalhe' cp.produto.slug %}">{{ cp.produto.titulo }}</a></td>
+                                    <td class="text-center" style="border-left: none;"><a href="{% url 'lojaapp:produtodetalhe' cp.produto.slug %}">{{ cp.produto.descricao }}</a></td>
                                     <td class="text-center">R$ {{ cp.preco_unitario|intcomma }}</td>
                                     <td class="text-center">{{ cp.quantidade }}</td>
                                     <td {% if not carro.carroproduto_set.all%}colspan = "4"{% else %}colspan = "3"{% endif %} class="text-center">R$ {{ cp.subtotal|intcomma }}</td>
@@ -78,9 +78,6 @@
                         <div class="col-12 justify-content-center text-center">
                             <a href="{%url 'lojaapp:formadeentrega'%}" class="btn btn-info btnTot"> Finalizar Compra </a>
                         </div>
-                        <div class="col-12 justify-content-center text-center">
-                            <a href="{%url 'lojaapp:limparcarro'%}" class="btn btn-warning btnTot"> Limpar carrinho </a>
-                        </div>
                     </div>
                     <br>
                     {%for cp in carro.carroproduto_set.all %}
@@ -91,10 +88,10 @@
                         <div class="col-7 colTable">
                             <table class="table">
                                 <tr>
-                                    <td colspan="2" class="text-center" style="border-top: none;"><a href="{% url 'lojaapp:produtodetalhe' cp.produto.slug %}">{{ cp.produto.titulo }}</a></td>
+                                    <td colspan="2" class="text-center" style="border-top: none;"><a href="{% url 'lojaapp:produtodetalhe' cp.produto.slug %}">{{ cp.produto.descricao }}</a></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-right" style="border-bottom: none; width: 50%; font-size: smaller;">Preço Unitário:</td>
+                                    <td class="text-right" style="border-bottom: none; width: 50%;"><span style="margin: 0px; padding: 0px; font-size: smaller; font-weight: 625;">Preço Unitário:</span></td>
                                     <td class="text-left" style="border-bottom: none; width: 50%;">R$ {{ cp.preco_unitario|intcomma }}</td>
                                 </tr>
                                 <tr>
@@ -115,8 +112,17 @@
                             </table>
                         </div>
                     </div>
-                    <br>
+                    {% if not forloop.last %}
+                        <hr style="background-color: black;">
+                    {% endif %}
+                    <!-- <br> -->
                     {% endfor %}
+                    <br>
+                    <div class="row">
+                        <div class="col-12 justify-content-center text-center">
+                            <a href="{%url 'lojaapp:limparcarro'%}" class="btn btn-warning btnTot"> Limpar carrinho </a>
+                        </div>
+                    </div>
                 {% else %}
                     <h4>Seu carrinho está vazio</h4>
                 {% endif %}

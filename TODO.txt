@@ -4,6 +4,11 @@ TODO-Alvarez: Arrumar o produto_detalhe pra mostrar o preço da  caixa e não un
 
 TODO-ALVAREZ: Criar area de admin com dados de produtos (mais visualizados, mais vendidos, etc)
 
+TODO-ALVAREZ: Arrumar tela de pagamento pra mobile
+
+TODO-ALVAREZ: Arrumar menu do base pra mobile
+
+TODO-ALVAREZ: Arrumar menu de classificação dos produtos pra mobile
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte

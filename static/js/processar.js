@@ -9,8 +9,8 @@ const DescontosDic = JSON.parse(document.getElementById("descontos-data").textCo
 var TotalCredito = document.getElementById("total-credito-data").textContent;
 var descontoCreditoInit = DescontosDic.desconto_credito;
 
-optionLabel.forEach(e => {        
-    e.addEventListener('click', function () {
+optionLabel.forEach(e => {
+    e.addEventListener('input', function () {
         optionLabel.forEach(t => {
             t.classList.remove("selected");
 

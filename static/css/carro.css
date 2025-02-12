@@ -68,8 +68,8 @@ th a {
 }
 .pequeno .btnTot {
     width: 100%;
-    margin-bottom: 10px;
-    /* margin-top: 10px; */
+    /* margin-bottom: 5px; */
+    margin-top: 10px;
 }
 
 .pequeno .colImage {
@@ -114,5 +114,4 @@ th a {
     border-right: none;
 
     font-size: small;
-    border:1px solid red;
 }

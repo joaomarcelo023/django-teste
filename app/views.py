@@ -77,6 +77,12 @@ class BaseContextMixin(object):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
+        carro_id = self.request.session.get("carro_id")
+        if carro_id:
+            carro_obj = Carro.objects.get(id=carro_id)
+            produtos = list(CarroProduto.objects.filter(carro=carro_obj))
+            if produtos:
+                context["numProdCarro"] = len(produtos)
         context['todoscategorias'] = Categoria.objects.all()
         context['footer'] = Empresa.objects.all()
 
@@ -173,11 +179,11 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
         produto.visualizacao += 1
         produto.save()
 
-        context['preco_dinheiro'] = round((produto.preco_unitario_bruto * (1 - (produto.desconto_dinheiro / 100))), 2)
+        context['preco_dinheiro'] = round((produto.preco_unitario_bruto * (1 - ((produto.desconto_dinheiro + produto.desconto_retira) / 100))), 2)
         
         context['preco_caixa'] = round(produto.preco_unitario_bruto * produto.fechamento_embalagem, 2)
 
-        context['fotos_produtos'] = produto.images.all() #Fotos_Produto.objects.filter(produto=produto)
+        context['FotosProdutos'] = produto.images.all() #FotosProduto.objects.filter(produto=produto)
 
         produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:12])
         if produto in produtos_similares_list:
@@ -201,20 +207,21 @@ class AddCarroView(LojaMixin, View):
             if produto_no_carro.exists():
                 carroproduto = produto_no_carro.last()
                 carroproduto.quantidade += 1
+                carroproduto.subtotal_bruto += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
                 carroproduto.subtotal += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
                 carroproduto.save()
 
             else:
                 carroproduto = CarroProduto.objects.create(
-                carro = carro_obj,
-                produto = produto_obj,
-                preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
-                quantidade = 1,
-                subtotal = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
-
+                    carro = carro_obj,
+                    produto = produto_obj,
+                    preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
+                    quantidade = 1,
+                    subtotal_bruto = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
+                    subtotal = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
                 )
 
-            carro_obj.total += produto_obj.preco_unitario_bruto
+            carro_obj.total += carroproduto.subtotal
             carro_obj.save()
 
 
@@ -226,10 +233,10 @@ class AddCarroView(LojaMixin, View):
                 produto=produto_obj,
                 preco_unitario=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
                 quantidade=1,
+                subtotal_bruto=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
                 subtotal=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
-
             )
-            carro_obj.total += produto_obj.preco_unitario_bruto
+            carro_obj.total += carroproduto.subtotal
             carro_obj.save()
 
         return redirect("lojaapp:home")
@@ -248,20 +255,21 @@ class AddCarroView2(LojaMixin, BaseContextMixin, TemplateView):
             if produto_no_carro.exists():
                 carroproduto = produto_no_carro.last()
                 carroproduto.quantidade += 1
+                carroproduto.subtotal_bruto += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
                 carroproduto.subtotal += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
                 carroproduto.save()
 
             else:
                 carroproduto = CarroProduto.objects.create(
-                carro = carro_obj,
-                produto = produto_obj,
-                preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
-                quantidade = 1,
-                subtotal = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
-
+                    carro = carro_obj,
+                    produto = produto_obj,
+                    preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
+                    quantidade = 1,
+                    subtotal_bruto = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
+                    subtotal = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
                 )
 
-            carro_obj.total += produto_obj.preco_unitario_bruto
+            carro_obj.total += carroproduto.subtotal
             carro_obj.save()
 
 
@@ -273,10 +281,10 @@ class AddCarroView2(LojaMixin, BaseContextMixin, TemplateView):
                 produto=produto_obj,
                 preco_unitario=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
                 quantidade=1,
+                subtotal_bruto=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
                 subtotal=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
-
             )
-            carro_obj.total += produto_obj.preco_unitario_bruto
+            carro_obj.total += carroproduto.subtotal
             carro_obj.save()
 
         return context
@@ -295,6 +303,7 @@ class AddCarroQuantView(LojaMixin, BaseContextMixin, TemplateView):
             if produto_no_carro.exists():
                 carroproduto = produto_no_carro.last()
                 carroproduto.quantidade += produto_quantidade
+                carroproduto.subtotal_bruto += (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem)
                 carroproduto.subtotal += (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem)
                 carroproduto.save()
 
@@ -304,11 +313,12 @@ class AddCarroQuantView(LojaMixin, BaseContextMixin, TemplateView):
                 produto = produto_obj,
                 preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
                 quantidade = produto_quantidade,
+                subtotal_bruto = (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem),
                 subtotal = (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem)
 
                 )
 
-            carro_obj.total += (produto_obj.preco_unitario_bruto * produto_quantidade)
+            carro_obj.total += carroproduto.subtotal
             carro_obj.save()
 
 
@@ -320,10 +330,11 @@ class AddCarroQuantView(LojaMixin, BaseContextMixin, TemplateView):
                 produto = produto_obj,
                 preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
                 quantidade = produto_quantidade,
+                subtotal_bruto = (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem),
                 subtotal = (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem)
 
             )
-            carro_obj.total += (produto_obj.preco_unitario_bruto * produto_quantidade)
+            carro_obj.total += carroproduto.subtotal
             carro_obj.save()
 
         # return context
@@ -369,6 +380,10 @@ class ManipularCarroView(LojaMixin, View):
             carro_obj.save()
             cp_obj.delete()
 
+            order = Pedido_order.objects.filter(carro=carro_obj)
+            if order:
+                order.delete()
+
         else:
             pass
         return redirect("lojaapp:meucarro")
@@ -382,6 +397,11 @@ class LimparCarroView(LojaMixin, View):
             carro.carroproduto_set.all().delete()
             carro.total = 0
             carro.save()
+
+            order = Pedido_order.objects.filter(carro=carro)
+            if order:
+                order.delete()
+
         return redirect("lojaapp:meucarro")
 
 class FormaDeEntregaView(LogedMixin, LojaMixin, CarroComItemsMixin, BaseContextMixin, CreateView):
@@ -401,7 +421,7 @@ class FormaDeEntregaView(LogedMixin, LojaMixin, CarroComItemsMixin, BaseContextM
         # desconto retirada
         desc_retirada = 0
         for prod in CarroProduto.objects.filter(carro=carro_obj):
-            desc_retirada += prod.produto.preco_unitario_bruto * (prod.produto.desconto_retira / 100)
+            desc_retirada += prod.preco_unitario * prod.quantidade * (prod.produto.desconto_retira / 100)
         
         context["desconto_retirada"] = str(round(desc_retirada, 2))
 
@@ -482,7 +502,7 @@ class CheckOutView(LogedMixin, LojaMixin, CarroComItemsMixin, PedidoExisteMixin,
         # descontos formas de pagamento
         desc_dinheiro = 0
         for prod in CarroProduto.objects.filter(carro=carro_obj):
-            desc_dinheiro += prod.produto.preco_unitario_bruto * (prod.produto.desconto_dinheiro / 100)
+            desc_dinheiro += prod.preco_unitario * (prod.produto.desconto_dinheiro / 100) * prod.quantidade
         context["desconto_dinheiro"] = decimal.Decimal(round(desc_dinheiro, 2))
 
         desc_credito_list = [0.07, 0.04, 0.04, 0.01, 0.01, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
@@ -534,6 +554,10 @@ def pedido_carro_pagamento(request):
 
             # Termina de preencher os dados de pagamento
             pedido = Pedido_order.objects.get(id=request.POST["pedido_id"])
+            carro = pedido.carro
+            produtos = CarroProduto.objects.filter(carro=carro)
+            desc = 0
+            desc_credito_list = [0.07, 0.04, 0.04, 0.01, 0.01, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
             pedido.total_final = decimal.Decimal(request.POST["total_final"])
 
@@ -551,10 +575,42 @@ def pedido_carro_pagamento(request):
                 else:
                     pedido.parcelas = 1
                     pedido.valor_parcela = pedido.total_final
+
+                if pedido.forma_de_pagamento == "DEBIT_CARD" or pedido.forma_de_pagamento == "BOLETO" or pedido.forma_de_pagamento == "PIX":
+                    for prod in produtos:
+                        desc = 0.15                                             # Desconto à vista
+                        if pedido.desconto_retirada:
+                            desc += float(prod.produto.desconto_retira) / 100   # Desconto retirada em loja
+
+                        prod.subtotal = prod.preco_unitario * prod.quantidade * decimal.Decimal(1 - desc)
+                        prod.save()
+
+                        desc = 0
+                elif pedido.forma_de_pagamento == "CREDIT_CARD":
+                    for prod in produtos:
+                        desc = desc_credito_list[int(pedido.parcelas) - 1]
+                        if pedido.desconto_retirada:
+                            desc += float(prod.produto.desconto_retira) / 100   # Desconto retirada em loja
+
+                        prod.subtotal = prod.preco_unitario * prod.quantidade * decimal.Decimal(1 - desc)
+                        prod.save()
+
+                        desc = 0
             else:
                 pedido.forma_de_pagamento = "dinheiro"
                 pedido.parcelas = 1
                 pedido.valor_parcela = pedido.total_final
+
+                for prod in produtos:
+                    desc = float(prod.produto.desconto_dinheiro) / 100          # Desconto dinheiro
+                    desc += 0.15                                                # Desconto à vista
+                    if pedido.desconto_retirada:
+                        desc += float(prod.produto.desconto_retira) / 100       # Desconto retirada em loja
+
+                    prod.subtotal = prod.preco_unitario * prod.quantidade * decimal.Decimal(1 - desc)
+                    prod.save()
+
+                    desc = 0
 
             pedido.pedido_status = "Pedido Recebido"
 
@@ -566,8 +622,10 @@ def pedido_carro_pagamento(request):
                 Pedido_Produto.objects.create(pedido=pedido, produto=produto, codigo=produto.codigo, 
                                               descricao=produto.descricao, codigo_GTIN=produto.codigo_GTIN, preco_unitario_bruto=produto.preco_unitario_bruto, 
                                               desconto_dinheiro=produto.desconto_dinheiro, desconto_retira=produto.desconto_retira, unidade=produto.unidade, 
-                                              quantidade=produtosCarro.quantidade, total_bruto=produtosCarro.subtotal)#, 
-                                            #   desconto_total=, desconto_unitario=, total_final=)
+                                              quantidade=produtosCarro.quantidade, total_bruto=produtosCarro.subtotal_bruto, 
+                                              desconto_total=(produtosCarro.subtotal_bruto - produtosCarro.subtotal), 
+                                              desconto_unitario=(produtosCarro.subtotal_bruto - produtosCarro.subtotal) / produtosCarro.quantidade, 
+                                              total_final=produtosCarro.subtotal)
 
             # Direciona pro pagamento
             if pedido.local_de_pagamento == "online":
@@ -662,12 +720,29 @@ def create_payment(request):
                 "name": prod.produto.titulo,
                 "description": prod.produto.descricao,
                 "quantity": prod.quantidade,
-                "unit_amount": int(prod.preco_unitario * 100),
+                "unit_amount": int((prod.subtotal / prod.quantidade) * 100),
                 "image_url": "https://vendashg.pythonanywhere.com" + prod.produto.image.url
             }
         )
     
     payload["payment_methods"].append({ "type": pedido.forma_de_pagamento })
+        # "installments": int(pedido.parcelas),
+
+    # TODO: Arrumar essa porra pra uma parcela só e ver se tem como controlar o numero de parcelas
+    # if pedido.parcelas > 1:
+    #     payload["payment_methods_configs"] = [{
+    #         "type": "CREDIT_CARD",
+    #         "config_options": [
+    #             {
+    #                 "option": "INTEREST_FREE_INSTALLMENTS",
+    #                 "value": int(pedido.parcelas)
+    #             },
+    #             {
+    #                 "option": "INSTALLMENTS_LIMIT",
+    #                 "value": int(pedido.parcelas)
+    #             }
+    #         ]
+    #     }]
 
     headers = {
         "accept": "*/*",
@@ -675,6 +750,7 @@ def create_payment(request):
         "Content-type": "application/json"
     }
     
+    # print(payload)
     response = requests.post(url, json=payload, headers=headers)
     
     if response.status_code >= 200 and response.status_code < 300:

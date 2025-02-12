@@ -42,9 +42,9 @@ class Produto(models.Model):
 
 
     def __str__(self):
-        return self.titulo
+        return self.descricao
 
-class Fotos_Produto(models.Model):
+class FotosProduto(models.Model):
     produto = models.ForeignKey(Produto,related_name="images",on_delete=models.CASCADE,default="")
     image = models.ImageField(upload_to="produtos")
     img_num = models.SmallIntegerField(null=True,blank=True)
@@ -55,7 +55,7 @@ class Fotos_Produto(models.Model):
 
         self.img_num = self.produto.num_fotos
 
-        return super(Fotos_Produto, self).save(*args, **kwargs)
+        return super(FotosProduto, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.produto.titulo + ": " + str(self.img_num)
@@ -129,6 +129,7 @@ class CarroProduto(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     preco_unitario = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     quantidade = models.PositiveIntegerField()
+    subtotal_bruto = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     criado_em = models.DateTimeField(auto_now_add=True)
 
@@ -181,7 +182,7 @@ class Pedido_order(models.Model):
     ordenado_por = models.CharField(max_length=200,null=True,blank=True)
 
     def __str__(self):
-        return "Pedido_order: " + str(self.id) + " | Status: " + self.pedido_status + " | Cliente: " + self.nome_cliente
+        return "Pedido: " + str(self.id) + " | Status: " + self.pedido_status + " | Cliente: " + self.nome_cliente
 
 class Pedido_Produto(models.Model):
     #importante repetir informações do produto para que uma mudança de cadastro não altere a venda
