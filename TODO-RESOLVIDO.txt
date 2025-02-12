@@ -57,3 +57,5 @@ TODO-ALVAREZ-RESOLVIDO: Colocar preço total bruto em CarroProduto
 TODO-Alvarez-RESOLVIDO: Colocar numerozinho no carrinho mostrando quantidade de itens nele;
 
 TODO-Alvarez-RESOLVIDO: Arrumar tabela do carrinho pro mobile;
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar menu do base pra mobile

@@ -11,13 +11,13 @@ body {
 }
 
 @media only screen and (min-width: 750px) {
-    .pequeno * {
+    .pequeno {
         display: none;
     }
 }
 
 @media only screen and (max-width: 750px) {
-    .grande * {
+    .grande {
         display: none;
     }
     .texto-menu {
@@ -76,14 +76,30 @@ section {
     border-color: #ff9900;
     border-width: 3px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
+    align-items: center;  
 }
 
 .btn-custom:hover {
     background-color: #ff9900;
     border-color: #ff9900;
     color: #151635;
+}
+
+.pequenoMenu {
+    padding: 1px;
+    margin: 0px;
+    height: 5vh;
+    
+    /* border: 1px solid red; */
+}
+
+.pequenoMenuBtn {
+    height: 100%;
+    width: 100%;
+
+    line-height: 100%;
+    text-align: center;
 }
 
 .form-custom-background {
@@ -128,4 +144,18 @@ footer .row {
     background-color: #151635;
     text-align: center;
     line-height: 15px;
+}
+
+.numProdCarroPequeno {
+    width: 2.25vh;
+    height: 2.25vh;
+
+    border: 2px solid #ff9900;
+    border-radius: 50%;
+
+    color: #ff9900;
+    background-color: #151635;
+    text-align: center;
+    line-height: 100%;
+    font-size: x-small;
 }
