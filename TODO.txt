@@ -6,9 +6,7 @@ TODO-ALVAREZ: Criar area de admin com dados de produtos (mais visualizados, mais
 
 TODO-ALVAREZ: Arrumar tela de pagamento pra mobile
 
-TODO-ALVAREZ: Arrumar menu de classificação dos produtos pra mobile
-
-TODO-ALVAREZ: Arrumar parcelas
+TODO-ALVAREZ: Arrumar parcelas no pagseguro checkout
 
 TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 

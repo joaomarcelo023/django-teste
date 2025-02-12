@@ -8,3 +8,15 @@
         margin: 1px 1px 30px !important;
     }
 }
+
+@media only screen and (min-width: 750px) {
+    .pequeno {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .grande {
+        display: none;
+    }
+}

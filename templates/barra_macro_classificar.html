@@ -1,28 +1,57 @@
 {% load static %}
 
-<div class="form-custom-background d-flex" style="background-color: white;">
-    <div style="width: 25%; padding-left: 1%;">
-    {% if request.GET.query %}
-        <span>Resultados para <span style="color: #ff9900;">"{{ request.GET.query }}"</span></span>
-    {% else %}
-        <span>{{ categoria }}</span>
-    {% endif %}
-    </div>
-
-    <span style="width: 50%;"></span>
-
-    <div style="display: flex; justify-content: flex-end; width: 25%; padding-right: 1%;">
-        <form method="GET" action="">
+<div class="pequeno">
+    <div class="form-custom-background" style="background-color: white;">
+        <div style="width: 100%; padding-left: 1%; font-weight: 600;">
             {% if request.GET.query %}
-                <input type="hidden" name="query" value="{{ request.GET.query }}">
+                <span>Resultados para <span style="color: #ff9900;">"{{ request.GET.query }}"</span></span>
+            {% else %}
+                <span>{{ categoria }}</span>
             {% endif %}
-            <label>Classificar por:</label>
-            <select name="Classificar" onchange="this.form.submit()" style="height: 75%; margin-left: 2px;">
-                <option value="Destaque" {% if request.GET.Classificar == "Destaque" %}selected{% endif %}>Destaque</option>
-                <option value="MaisVendidos" {% if request.GET.Classificar == "MaisVendidos" %}selected{% endif %}>Mais vendidos</option>
-                <option value="MenorPreço" {% if request.GET.Classificar == "MenorPreço" %}selected{% endif %}>Menor preço</option>
-                <option value="MaiorPreço" {% if request.GET.Classificar == "MaiorPreço" %}selected{% endif %}>Maior preço</option>
-            </select>
-        </form>
+        </div>
+
+        <div style="width: 100%; padding-left: 1%; padding-right: 1%;">
+            <form method="GET" action="">
+                {% if request.GET.query %}
+                    <input type="hidden" name="query" value="{{ request.GET.query }}">
+                {% endif %}
+                <label style="width: 58%;">Classificar por:</label>
+                <select name="Classificar" onchange="this.form.submit()" style="height: 75%; width: 40%; margin-left: 2px;">
+                    <option value="Destaque" {% if request.GET.Classificar == "Destaque" %}selected{% endif %}>Destaque</option>
+                    <option value="MaisVendidos" {% if request.GET.Classificar == "MaisVendidos" %}selected{% endif %}>Mais vendidos</option>
+                    <option value="MenorPreço" {% if request.GET.Classificar == "MenorPreço" %}selected{% endif %}>Menor preço</option>
+                    <option value="MaiorPreço" {% if request.GET.Classificar == "MaiorPreço" %}selected{% endif %}>Maior preço</option>
+                </select>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="grande">
+    <div class="form-custom-background d-flex" style="background-color: white;">
+        <div style="width: 25%; padding-left: 1%;">
+            {% if request.GET.query %}
+                <span>Resultados para <span style="color: #ff9900;">"{{ request.GET.query }}"</span></span>
+            {% else %}
+                <span>{{ categoria }}</span>
+            {% endif %}
+        </div>
+
+        <span style="width: 50%;"></span>
+
+        <div style="display: flex; justify-content: flex-end; width: 25%; padding-right: 1%;">
+            <form method="GET" action="">
+                {% if request.GET.query %}
+                    <input type="hidden" name="query" value="{{ request.GET.query }}">
+                {% endif %}
+                <label>Classificar por:</label>
+                <select name="Classificar" onchange="this.form.submit()" style="height: 75%; margin-left: 2px;">
+                    <option value="Destaque" {% if request.GET.Classificar == "Destaque" %}selected{% endif %}>Destaque</option>
+                    <option value="MaisVendidos" {% if request.GET.Classificar == "MaisVendidos" %}selected{% endif %}>Mais vendidos</option>
+                    <option value="MenorPreço" {% if request.GET.Classificar == "MenorPreço" %}selected{% endif %}>Menor preço</option>
+                    <option value="MaiorPreço" {% if request.GET.Classificar == "MaiorPreço" %}selected{% endif %}>Maior preço</option>
+                </select>
+            </form>
+        </div>
     </div>
 </div>

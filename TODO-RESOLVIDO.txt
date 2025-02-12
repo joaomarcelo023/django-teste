@@ -59,3 +59,5 @@ TODO-Alvarez-RESOLVIDO: Colocar numerozinho no carrinho mostrando quantidade de 
 TODO-Alvarez-RESOLVIDO: Arrumar tabela do carrinho pro mobile;
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar menu do base pra mobile
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar menu de classificação dos produtos pra mobile
