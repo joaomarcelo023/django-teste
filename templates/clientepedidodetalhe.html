@@ -6,11 +6,12 @@
 {% block title %}Detalhe pedido {{ pedido_obj.id }}{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/clientepedidodetalhe.css' %}">
 
 <section class="container">
     <br>
-    <div class="row">
-        <div class="col-md-9 mx-auto" style="background-color: white; border-radius: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+    <div class="row m-1 justify-content-center">
+        <div class="col" style="background-color: white; border-radius: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
             <h3 class="d-flex" style="justify-content: center;">Detalhes do pedido</h3>
             <br>
             <p><span class="font-weight-bold"> Pedido ID: </span>{{ pedido_obj.id }}</p>
@@ -24,7 +25,44 @@
             <hr>
 
             <h4>Items do Pedido</h4>
-            <table class="table">
+            <div class="pequeno">
+                <!-- <span class="spanTotal">Total: R$ {{ pedido_obj.total_final|intcomma }}</span> -->
+                <!-- <br> -->
+                {%for cp in pedido_obj.carro.carroproduto_set.all %}
+                    <div class="row">
+                        <div class="col-5 colImage">
+                            <img class="prodImage" src="{{ cp.produto.image.url }}">
+                        </div>
+                        <div class="col-7 colTable">
+                            <table class="table">
+                                <tr>
+                                    <td colspan="2" class="text-center" style="border-top: none;"><a href="{% url 'lojaapp:produtodetalhe' cp.produto.slug %}">{{ cp.produto.descricao }}</a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-right" style="border-bottom: none; width: 50%;"><span style="margin: 0px; padding: 0px; font-size: x;">Preço Unitário:</span></td>
+                                    <td class="text-left" style="border-bottom: none; width: 50%;">R$ {{ cp.preco_unitario|intcomma }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-right" style="border-bottom: none; border-top: none; width: 50%;">Quantidade:</td>
+                                    <td class="text-left" style="border-bottom: none; border-top: none; width: 50%;">{{ cp.quantidade }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-right" style="border-bottom: none; border-top: none; width: 50%;">Subtotal:</td>
+                                    <td class="text-left" style="border-bottom: none; border-top: none; width: 50%;">R$ {{ cp.subtotal|intcomma }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    {% if not forloop.last %}
+                        <hr style="background-color: black;">
+                    {% endif %}
+                {% endfor %}
+                <br>
+                <span class="spanTotal d-flex" style="display: flex; justify-content: flex-end;">Total: R$ {{ pedido_obj.total_final|intcomma }}</span>
+                <br>
+            </div>
+
+            <table class="table grande">
                 <thead>
                     <tr>
                         <th colspan="2" class="text-center">Item</th>

@@ -1,0 +1,58 @@
+.pequeno .spanTotal {
+    font-weight: 750;
+    font-size: large;
+}
+
+.pequeno .colImage {
+    padding: 0px;
+    margin: 0px;
+
+    background-color: transparent;
+    
+    /* border: 1px solid red; */
+}
+
+.pequeno .colTable {
+    padding: 0px;
+    margin: 0px;
+
+    background-color: transparent;
+
+    /* border: 1px solid blue; */
+}
+
+.pequeno .prodImage {
+    width: 95%;
+    height: 100%;
+    
+    padding: 0px;
+    margin: 0px;
+    margin-left: 5%;
+
+    text-align: center;
+}
+
+.pequeno .table {
+    width: 100%;
+
+    padding: 0px;
+    margin: 0px;
+}
+
+.pequeno td {
+    background-color: transparent;
+
+    border-left: none;
+    border-right: none;
+
+    font-size: small;
+}
+
+td a {
+    color: black;
+}
+
+td a:hover {
+    color: #ff9900;
+    text-decoration: none;
+}
