@@ -4,7 +4,7 @@ TODO-Alvarez: Arrumar o produto_detalhe pra mostrar o preço da  caixa e não un
 
 TODO-ALVAREZ: Criar area de admin com dados de produtos (mais visualizados, mais vendidos, etc)
 
-TODO-ALVAREZ: Arrumar tela de pagamento pra mobile
+TODO-ALVAREZ: Arrumar tela de produto_detalhe pra mobile
 
 TODO-ALVAREZ: Arrumar parcelas no pagseguro checkout
 

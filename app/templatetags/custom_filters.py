@@ -25,3 +25,7 @@ def format_unit(value):
 @register.filter
 def gt(value, arg):
     return value > arg
+
+@register.filter
+def comma_point(value):
+    return value.replace(".", ",")
