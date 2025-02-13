@@ -63,3 +63,7 @@ TODO-ALVAREZ-RESOLVIDO: Arrumar menu do base pra mobile
 TODO-ALVAREZ-RESOLVIDO: Arrumar menu de classificação dos produtos pra mobile
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar tela de pagamento pra mobile
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar enderecocadastrar pra mobile
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar tabela de pedidos anteriores no clienteperfil pra mobile

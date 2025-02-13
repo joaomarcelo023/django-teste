@@ -183,7 +183,7 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
         
         context['preco_caixa'] = round(produto.preco_unitario_bruto * produto.fechamento_embalagem, 2)
 
-        context['FotosProdutos'] = produto.images.all() #FotosProduto.objects.filter(produto=produto)
+        context['fotos_produtos'] = produto.images.all() #FotosProduto.objects.filter(produto=produto)
 
         produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:12])
         if produto in produtos_similares_list:
@@ -883,13 +883,17 @@ class ClientePerfilView(LogedMixin, LojaMixin, BaseContextMixin, TemplateView):
 
         perfil_select = self.request.GET.get("perfil", "ClienteInfo")
         context['caixaPerfil'] = perfil_select
-        print(perfil_select)
+        # print(perfil_select)
 
         cliente = self.request.user.cliente
         context['cliente'] = cliente
 
+        
         pedidos = Pedido_order.objects.filter(carro__cliente=cliente).order_by("-id")
-        context['pedidos'] = pedidos
+        paginator = Paginator(pedidos, 6)
+        page_number = self.request.GET.get('page')
+        context['pedidos'] = paginator.get_page(page_number)
+        # context['pedidos'] = pedidos
 
         enderecos = Endereco.objects.filter(cliente=cliente).order_by("-id")
         context['enderecos'] = enderecos

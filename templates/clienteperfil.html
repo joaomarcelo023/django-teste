@@ -25,7 +25,7 @@
 </div>
 
 <section class="container">
-    <div id="ClienteInfo" class="row m-5 perfilCont">
+    <div id="ClienteInfo" class="row m-2 mt-5 mb-5 perfilCont">
         <div class="container cont">
             <h3 class="d-flex">Perfil</h3>
             <hr class="hrInner">
@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    <div id="Endereco" class="row m-5 perfilCont">
+    <div id="Endereco" class="row m-2 mt-5 mb-5 perfilCont">
         <div class="container cont">
             <h3 class="d-flex">Endereços</h3>
             <hr class="hrInner">
@@ -93,11 +93,31 @@
         </div>
     </div>
     
-    <div id="Pedidos" class="row m-5 perfilCont">
+    <div id="Pedidos" class="row m-2 mt-5 mb-5 perfilCont">
         <div class="container cont">
             <h3 class="d-flex">Compras anteriores</h3>
             <!-- <hr class="hrInner"> -->
-            <table class="table">
+            <table class="table pequeno">
+                <thead>
+                    <tr>
+                        <!-- <th>codigo</th> -->
+                        <th class="text-center">Pedido</th>
+                        <th class="text-center">Data pedido</th>
+                        <th class="text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ped in pedidos %}
+                        <tr>
+                            <td class="text-center" style="font-size: small;"><a href="{% url 'lojaapp:clientepedidodetalhe' ped.pk%}">{{ ped.pk }}</a></td>
+                            <td class="text-center" style="font-size: small;">{{ped.criado_em}}</td>
+                            <td class="text-center" style="font-size: small;">{{ped.pedido_status}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <table class="table grande">
                 <thead>
                     <tr>
                         <!-- <th>codigo</th> -->
@@ -119,6 +139,91 @@
                     {% endfor %}
                 </tbody>
             </table>
+        
+            <!-- Paginator Navbar -->
+            <section class="container">
+                <div class="row justify-content-center">
+                    <div class="col-3" style="display:flex; justify-content: center;">
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                                {% if pedidos.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?perfil={{ caixaPerfil }}&page=1">&ll;</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?perfil={{ caixaPerfil }}&page={{ pedidos.previous_page_number }}">&lt;</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&ll;</span>
+                                    </li>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&lt;</span>
+                                    </li>
+                                {% endif %}
+
+                                {% if pedidos.has_previous and pedidos.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?perfil={{ caixaPerfil }}&page={{ pedidos.previous_page_number }}">{{ pedidos.previous_page_number }}</a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ pedidos.number }}</span>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?perfil={{ caixaPerfil }}&page={{ pedidos.next_page_number }}">{{ pedidos.next_page_number }}</a>
+                                    </li>
+                                {% elif pedidos.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?perfil={{ caixaPerfil }}&page={{ pedidos.previous_page_number }}">{{ pedidos.previous_page_number }}</a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ pedidos.number }}</span>
+                                    </li>
+                                {% elif pedidos.has_next %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ pedidos.number }}</span>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?perfil={{ caixaPerfil }}&page={{ pedidos.next_page_number }}">{{ pedidos.next_page_number }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ pedidos.number }}</span>
+                                    </li>
+                                {% endif %}
+                        
+                                <!-- {% for page in pedidos.paginator.page_range %}
+                                    {% if page == pedidos.number %}
+                                        <li class="page-item active">
+                                            <span class="page-link">{{ page }}</span>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %} -->
+                                
+                                {% if pedidos.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?perfil={{ caixaPerfil }}&page={{ pedidos.next_page_number }}">&gt;</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?perfil={{ caixaPerfil }}&page={{ pedidos.paginator.num_pages }}">&gg;</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&gt;</span>
+                                    </li>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&gg;</span>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 </section>
