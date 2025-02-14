@@ -901,8 +901,6 @@ class ClientePerfilView(LogedMixin, LojaMixin, BaseContextMixin, TemplateView):
         context['enderecos'] = enderecos
         return context
     
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
-# TODO: Terminar de "adaptar" (copiar na cara dura) essas paginas
 class ClientePerfilViewEditarNome(LogedMixin, LojaMixin, BaseContextMixin, TemplateView, FormView):
     template_name = "clienteperfil_editar_nome.html"
     form_class = ClienteEditarNome
@@ -1084,8 +1082,6 @@ class DeletarPerfilView(LoginRequiredMixin, LojaMixin, BaseContextMixin, DeleteV
 
     def get_object(self):
         return self.request.user
-
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 class ClientePedidoDetalheView(LogedMixin, BaseContextMixin, DetailView):
     template_name = "clientepedidodetalhe.html"
