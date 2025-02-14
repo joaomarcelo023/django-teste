@@ -34,6 +34,12 @@ urlpatterns = [
     path("perfil/pedido-<int:pk>", ClientePedidoDetalheView.as_view(), name="clientepedidodetalhe"),
     path("cadastrar-endereco/",CadastrarEnderecoView.as_view(),name="cadastrarendereco"),
     path('deletar-endereco/<int:endereco_id>/', deletarEnderecoView.as_view(), name='deletarendereco'),
+    path("perfil/editar-nome", ClientePerfilViewEditarNome.as_view(), name="clienteperfil_editar_nome"),
+    path("perfil/editar-email", ClientePerfilViewEditarEmail.as_view(), name="clienteperfil_editar_email"),
+    path("perfil/editar-cpf", ClientePerfilViewEditarCPF.as_view(), name="clienteperfil_editar_cpf"),
+    path("perfil/editar-telefone", ClientePerfilViewEditarTelefone.as_view(), name="clienteperfil_editar_telefone"),
+    path("perfil/alterar-senha", ClientePerfilViewAlterarSenha.as_view(), name="clienteperfil_alterar_senha"),
+    path("deletar-perfil/", DeletarPerfilView.as_view(), name="deletar-perfil"),
 
     path("admin-login/", AdminLoginView.as_view(), name="adminlogin"),
     path("admin-home/", AdminHomeView.as_view(), name="adminhome"),

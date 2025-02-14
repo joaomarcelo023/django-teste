@@ -76,6 +76,7 @@ class Cliente(models.Model):
     data_criacao = models.DateTimeField(auto_now_add=True)
     
     def save(self, *args, **kwargs):
+        # TODO: Arrumar essa porra pra ele parar de colocar "+55 " na frente do numero toda vez que é salvo
         if self.telefone[-1] == "_":
             ddd = f"{self.telefone[1:3]}"
             telefoneNumero = f"{self.telefone[5:10]}{self.telefone[11:-1]}"

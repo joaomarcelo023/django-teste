@@ -2,8 +2,10 @@ from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, CreateView, FormView, DetailView, ListView
 from django.urls import reverse_lazy, reverse
 from django_teste import settings
-from .forms import Checar_PedidoForms, ClienteRegistrarForms, ClienteEntrarForms, EnderecoRegistrarForms
+from .forms import *
 from .models import *
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import DeleteView
 from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 import os
@@ -898,6 +900,192 @@ class ClientePerfilView(LogedMixin, LojaMixin, BaseContextMixin, TemplateView):
         enderecos = Endereco.objects.filter(cliente=cliente).order_by("-id")
         context['enderecos'] = enderecos
         return context
+    
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# TODO: Terminar de "adaptar" (copiar na cara dura) essas paginas
+class ClientePerfilViewEditarNome(LogedMixin, LojaMixin, BaseContextMixin, TemplateView, FormView):
+    template_name = "clienteperfil_editar_nome.html"
+    form_class = ClienteEditarNome
+    success_url = reverse_lazy("lojaapp:clienteperfil")
+
+    def form_valid(self, form):
+        nome = form.cleaned_data.get("nome")
+        sobrenome = form.cleaned_data.get("sobrenome")
+
+        user = self.request.user
+        
+        user.first_name = nome
+        user.last_name = sobrenome
+        user.save()
+
+        cliente = user.cliente
+        cliente.nome = nome
+        cliente.sobrenome = sobrenome
+        cliente.save()  # Salva as alterações no banco de dados
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+            return f"{self.success_url}?perfil=ClienteInfo"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        cliente = self.request.user.cliente
+        context['cliente'] = cliente
+
+        return context
+
+class ClientePerfilViewEditarEmail(LogedMixin, LojaMixin, BaseContextMixin, TemplateView, FormView):
+    template_name = "clienteperfil_editar_email.html"
+    form_class = ClienteEditarEmail
+    success_url = reverse_lazy("lojaapp:clienteperfil")
+
+    def form_valid(self, form):
+        email = form.cleaned_data.get("email")
+
+        user = self.request.user
+        user.email = email
+        user.username = email
+        user.save()
+
+        cliente = user.cliente
+        cliente.email = email
+        cliente.save()  # Salva as alterações no banco de dados
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+            return f"{self.success_url}?perfil=ClienteInfo"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        cliente = self.request.user.cliente
+        context['cliente'] = cliente
+        
+        return context
+
+class ClientePerfilViewEditarCPF(LogedMixin, LojaMixin, BaseContextMixin, TemplateView, FormView):
+    template_name = "clienteperfil_editar_CPF.html"
+    form_class = ClienteEditarCPF
+    success_url = reverse_lazy("lojaapp:clienteperfil")
+
+    def form_valid(self, form):
+        cpf_ou_cnpj = form.cleaned_data.get("cpf_ou_cnpj")
+
+        user = self.request.user
+
+        cliente = user.cliente
+        cliente.cpf_ou_cnpj = cpf_ou_cnpj
+        cliente.save()  # Salva as alterações no banco de dados
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+            return f"{self.success_url}?perfil=ClienteInfo"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        cliente = self.request.user.cliente
+        context['cliente'] = cliente
+        
+        return context
+
+class ClientePerfilViewEditarTelefone(LogedMixin, LojaMixin, BaseContextMixin, TemplateView, FormView):
+    template_name = "clienteperfil_editar_telefone.html"
+    form_class = ClienteEditarTelefone
+    success_url = reverse_lazy("lojaapp:clienteperfil")
+
+    def form_valid(self, form):
+        # Alva
+        # telefone = form.cleaned_data.get("telefone")
+        telefone_formatado = form.cleaned_data.get("telefone_formatado")
+
+        user = self.request.user
+        user.save()
+
+        cliente = user.cliente
+        # cliente.telefone = telefone
+        cliente.telefone_formatado = telefone_formatado
+        cliente.save()  # Salva as alterações no banco de dados
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+            return f"{self.success_url}?perfil=ClienteInfo"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        cliente = self.request.user.cliente
+        context['cliente'] = cliente
+        
+        return context
+    
+class ClientePerfilViewAlterarSenha(LogedMixin, LojaMixin, BaseContextMixin, FormView):
+    template_name = "cliente_alterar_senha.html"
+    form_class = ClienteAlterarSenhaForms
+    success_url = reverse_lazy("lojaapp:clienteperfil")
+
+
+    def form_valid(self, form):
+        email = form.cleaned_data.get("email")
+        password = form.cleaned_data.get("senha_antiga")
+        user = authenticate(username=email, password=password)
+
+        senha_nova1 = form.cleaned_data.get("senha_nova")
+        senha_nova2 = form.cleaned_data.get("repita_a_senha_nova")
+
+        if user is not None:
+            if Cliente.objects.filter(user=user).exists():
+                if senha_nova1==senha_nova2:
+                    user.set_password(senha_nova1)
+                    user.save()
+
+                    # Relogue o usuário após mudar a senha
+                    login(self.request, user)
+
+                else:
+                    return render(self.request, self.template_name,
+                                    {"form": form, "error": "campos de senha nova não batem"})
+            else:
+                return render(self.request, self.template_name,
+                                {"form": form, "error": "Cliente nao existe"})
+        else:
+            error_message = "Falha na autenticação. Email: {}, Senha: {}".format(email, password)
+            return render(self.request, self.template_name,
+                            {"form": form, "error": error_message})
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        if "next" in self.request.GET:
+            next_url = self.request.GET.get("next")
+            return next_url
+        else:
+            return self.success_url
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)        
+
+        return context
+
+class DeletarPerfilView(LoginRequiredMixin, DeleteView):
+    model = User
+    template_name = 'confirmar_deletar_perfil.html'
+    success_url = reverse_lazy('lojaapp:home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)        
+
+        return context
+
+    def get_object(self):
+        return self.request.user
+
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 class ClientePedidoDetalheView(LogedMixin, BaseContextMixin, DetailView):
     template_name = "clientepedidodetalhe.html"

@@ -18,25 +18,33 @@ class Checar_PedidoForms(forms.ModelForm):
         }
         widgets = {
             'ordenado_por': TextInput(attrs={
-                'class': "form-control",
+                'class': 'form-control',
                 'style': 'max-width: 100%;',
                 'placeholder': 'Nome Completo'
             }),
             'endereco_envio': TextInput(attrs={
-                'class': "form-control",
+                'class': 'form-control',
                 'style': 'max-width: 100%;',
                 'placeholder': 'Endereço de envio'
             }),
             'telefone': TextInput(attrs={
-                'class': "form-control",
+                'class': 'form-control',
                 'style': 'max-width: 100%;',
                 'placeholder': 'Telefone'
             }),
         }
 
 class ClienteRegistrarForms(forms.ModelForm):
-    senha = forms.CharField(widget = forms.PasswordInput (attrs={'placeholder' : 'Sua Senha', 'class' : "form-control", 'style': 'width: 100%;display: flex;'}))
-    email = forms.CharField(widget = forms.EmailInput (attrs={'placeholder' : 'Seu Email', 'class' : "form-control", 'style': 'width: 100%;display: flex;'}))
+    senha = forms.CharField(widget = forms.PasswordInput (attrs={
+        'placeholder': 'Sua Senha',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;'
+    }))
+    email = forms.CharField(widget = forms.EmailInput (attrs={
+        'placeholder': 'Seu Email',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;'
+    }))
 
 
     telefone_validator = RegexValidator(regex=r'^\(\d{2}\)\s\d{5}-\d{3,4}_?$',message="O número de telefone deve conter DDD mais 8 ou 9 dígitos numéricos.")
@@ -64,12 +72,12 @@ class ClienteRegistrarForms(forms.ModelForm):
         widgets = {
 
             'nome': TextInput(attrs={
-                'class': "form-control",
+                'class': 'form-control',
                 'style': 'max-width: 100%;',
                 'placeholder': 'Nome'
             }),
             'sobrenome': TextInput(attrs={
-                'class': "form-control",
+                'class': 'form-control',
                 'style': 'max-width: 100%;',
                 'placeholder': 'Sobrenome'
             }),
@@ -84,10 +92,16 @@ class ClienteRegistrarForms(forms.ModelForm):
         return cleaned_data
 
 class ClienteEntrarForms(forms.Form):
-    email = forms.CharField(label="E-mail", widget=forms.TextInput(
-            attrs={'placeholder': 'E-mail', 'class': "form-control", 'style': 'width: 100%;display: flex;'}))
-    senha = forms.CharField(widget=forms.PasswordInput(
-            attrs={'placeholder': 'Senha', 'class': "form-control", 'style': 'width: 100%;display: flex;'}))
+    email = forms.CharField(label="E-mail", widget=forms.TextInput(attrs={
+        'placeholder': 'E-mail',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;'
+    }))
+    senha = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Senha',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;'
+    }))
 
 class EnderecoRegistrarForms(forms.ModelForm):
     class Meta:
@@ -97,7 +111,7 @@ class EnderecoRegistrarForms(forms.ModelForm):
         widgets = {
 
             'titulo': TextInput(attrs={
-                'class': "form-control",
+                'class': 'form-control',
                 'style': 'max-width: 300px;',
                 'placeholder': 'Título (opcional)'
             }),
@@ -118,25 +132,88 @@ class EnderecoRegistrarForms(forms.ModelForm):
                 'placeholder': 'Cidade'
             }),
             'bairro': TextInput(attrs={
-                'class': "form-control",
+                'class': 'form-control',
                 'style': 'max-width: 300px;',
                 'placeholder': 'Bairro'
             }),
             'rua': TextInput(attrs={
-                'class': "form-control",
+                'class': 'form-control',
                 'style': 'max-width: 300px;',
                 'placeholder': 'Rua'
             }),
             'numero': TextInput(attrs={
-                'class': "form-control",
+                'class': 'form-control',
                 'style': 'max-width: 300px;',
                 'inputmode': 'numeric',
                 'placeholder': 'Número'
             }),
             'complemento': TextInput(attrs={
-                'class': "form-control",
+                'class': 'form-control',
                 'style': 'max-width: 300px;',
                 'placeholder': 'Complemento'
             }),
 
         }
+
+# TODO: Terminar de "adaptar" (copiar na cara dura) essas paginas
+class ClienteEditarNome(forms.Form):
+    nome = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Nome',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;'
+    }))
+    sobrenome = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Sobrenome',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;'
+    }))
+
+class ClienteEditarEmail(forms.Form):
+    email = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'E-mail',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;'
+    }))
+    
+class ClienteEditarCPF(forms.Form):
+    cpf_validator = RegexValidator(regex=r'^\d{11,14}$',message="O número de CPF ou CNPJ deve conter 11 ou 14 dígitos numéricos.")
+
+    cpf_ou_cnpj = forms.CharField(validators=[cpf_validator],widget=forms.TextInput(attrs={
+        'placeholder': 'CPF ou CNPJ (apenas números)',
+        'class': 'form-control cpf-cnpj',
+        'style': 'width: 100%; display: flex;',
+        'inputmode': 'numeric',
+    }), max_length = 14)
+    
+class ClienteEditarTelefone(forms.Form):
+    telefone_validator = RegexValidator(regex=r'^\(\d{2}\)\s\d{4,5}-\d{4}_?$',message="O número de telefone deve conter DDD mais 8 ou 9 dígitos numéricos.")
+
+    telefone_formatado = forms.CharField(validators=[telefone_validator], widget=TextInput(attrs={
+        'placeholder': 'Telefone (apenas números)',
+        'class': 'form-control phone-number',
+        'style': 'width: 100%; display: flex;',
+        'inputmode': 'numeric',
+        # 'placeholder': '(__) _____-____',
+    }), max_length = 15)
+
+class ClienteAlterarSenhaForms(forms.Form):
+    email = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'E-mail',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;'
+    }))
+    senha_antiga = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Senha antiga',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;'
+    }))
+    senha_nova = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Senha nova',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;'
+    }))
+    repita_a_senha_nova = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Repita a senha nova',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;'
+    }))

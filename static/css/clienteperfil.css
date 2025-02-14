@@ -81,3 +81,25 @@ h3 {
     width:35em;
     position: relative;
 }
+
+.clienteInfoCat {
+    width: 92%;
+}
+
+.edit_button {
+    justify-content: flex-end;
+}
+
+.alterarSenhaBtn {
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.4);
+    padding: 10px;
+
+    color: black;
+}
+
+.alterarSenhaBtn:hover {
+    color: #ff9900;
+    background-color: #151635;
+}
