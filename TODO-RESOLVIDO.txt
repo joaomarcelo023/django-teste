@@ -75,3 +75,5 @@ TODO-ALVAREZ-RESOLVIDO: Roubar janelas pra mudar dados do clienteperfil do excel
 TODO-ALVAREZ-RESOLVIDO: Roubar janelas pra deletar usuario do excellence
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar bug na compra pra seleção de numero de parcelas no mobile
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar essa porra pra ele parar de colocar "+55 " na frente do numero toda vez que é salvo
