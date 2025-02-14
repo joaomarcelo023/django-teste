@@ -77,12 +77,13 @@ class Cliente(models.Model):
     
     def save(self, *args, **kwargs):
         # TODO: Arrumar essa porra pra ele parar de colocar "+55 " na frente do numero toda vez que é salvo
-        if self.telefone[-1] == "_":
-            ddd = f"{self.telefone[1:3]}"
-            telefoneNumero = f"{self.telefone[5:10]}{self.telefone[11:-1]}"
-            self.telefone = f"+55 ({ddd}) {telefoneNumero[:4]}-{telefoneNumero[4:]}"
-        elif self.telefone[-1].isdigit():
-            self.telefone = f"+55 {self.telefone}"
+        if self.telefone[0:3] != "+55":
+            if self.telefone[-1] == "_":
+                ddd = f"{self.telefone[1:3]}"
+                telefoneNumero = f"{self.telefone[5:10]}{self.telefone[11:-1]}"
+                self.telefone = f"+55 ({ddd}) {telefoneNumero[:4]}-{telefoneNumero[4:]}"
+            elif self.telefone[-1].isdigit():
+                self.telefone = f"+55 {self.telefone}"
 
         # Formatar CPF ou CNPJ
         cpf_cnpj = self.cpf_ou_cnpj

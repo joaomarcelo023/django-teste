@@ -999,14 +999,14 @@ class ClientePerfilViewEditarTelefone(LogedMixin, LojaMixin, BaseContextMixin, T
     def form_valid(self, form):
         # Alva
         # telefone = form.cleaned_data.get("telefone")
-        telefone_formatado = form.cleaned_data.get("telefone_formatado")
+        telefone = form.cleaned_data.get("telefone")
 
         user = self.request.user
         user.save()
 
         cliente = user.cliente
         # cliente.telefone = telefone
-        cliente.telefone_formatado = telefone_formatado
+        cliente.telefone = telefone
         cliente.save()  # Salva as alterações no banco de dados
 
         return super().form_valid(form)

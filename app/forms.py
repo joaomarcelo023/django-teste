@@ -188,7 +188,7 @@ class ClienteEditarCPF(forms.Form):
 class ClienteEditarTelefone(forms.Form):
     telefone_validator = RegexValidator(regex=r'^\(\d{2}\)\s\d{4,5}-\d{4}_?$',message="O número de telefone deve conter DDD mais 8 ou 9 dígitos numéricos.")
 
-    telefone_formatado = forms.CharField(validators=[telefone_validator], widget=TextInput(attrs={
+    telefone = forms.CharField(validators=[telefone_validator], widget=TextInput(attrs={
         'placeholder': 'Telefone (apenas números)',
         'class': 'form-control phone-number',
         'style': 'width: 100%; display: flex;',
