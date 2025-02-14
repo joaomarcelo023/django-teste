@@ -1072,7 +1072,7 @@ class ClientePerfilViewAlterarSenha(LogedMixin, LojaMixin, BaseContextMixin, For
 
         return context
 
-class DeletarPerfilView(LoginRequiredMixin, DeleteView):
+class DeletarPerfilView(LoginRequiredMixin, LojaMixin, BaseContextMixin, DeleteView):
     model = User
     template_name = 'confirmar_deletar_perfil.html'
     success_url = reverse_lazy('lojaapp:home')

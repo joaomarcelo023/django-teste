@@ -71,3 +71,5 @@ TODO-ALVAREZ-RESOLVIDO: Arrumar tabela de pedidos anteriores no clienteperfil pr
 TODO-ALVAREZ-RESOLVIDO: Arrumar tabela de pedidos no clientepedidodetalhe pra mobile
 
 TODO-ALVAREZ-RESOLVIDO: Roubar janelas pra mudar dados do clienteperfil do excellence
+
+TODO-ALVAREZ-RESOLVIDO: Roubar janelas pra deletar usuario do excellence

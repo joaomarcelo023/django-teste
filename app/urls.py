@@ -39,7 +39,7 @@ urlpatterns = [
     path("perfil/editar-cpf", ClientePerfilViewEditarCPF.as_view(), name="clienteperfil_editar_cpf"),
     path("perfil/editar-telefone", ClientePerfilViewEditarTelefone.as_view(), name="clienteperfil_editar_telefone"),
     path("perfil/alterar-senha", ClientePerfilViewAlterarSenha.as_view(), name="clienteperfil_alterar_senha"),
-    path("deletar-perfil/", DeletarPerfilView.as_view(), name="deletar-perfil"),
+    path("deletar-perfil/", DeletarPerfilView.as_view(), name="deletar_perfil"),
 
     path("admin-login/", AdminLoginView.as_view(), name="adminlogin"),
     path("admin-home/", AdminHomeView.as_view(), name="adminhome"),

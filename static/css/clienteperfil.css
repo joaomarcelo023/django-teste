@@ -100,6 +100,15 @@ h3 {
 }
 
 .alterarSenhaBtn:hover {
-    color: #ff9900;
-    background-color: #151635;
+    color: #151635;
+    background-color: #ff9900;
+    font-weight: 625;
+}
+
+.divisoria {
+    margin-left: 5%;
+    margin-right: 5%;
+    align-content: center;
+    justify-content: center;
+    line-height: 100%;
 }

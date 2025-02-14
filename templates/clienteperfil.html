@@ -61,8 +61,10 @@
                 <span><span class="font-weight-bold">cadastrado em:&nbsp;</span>{{ cliente.data_criacao }}</span>
             </div>
             <hr class="hrInner">
-            <div class="d-flex justify-content-center alterarSenha">
+            <div class="d-flex justify-content-center">
                 <a class="btn alterarSenhaBtn" href="{% url 'lojaapp:clienteperfil_alterar_senha' %}">Alterar Senha</a>
+                <span class="divisoria">&nbsp;|&nbsp;</span>
+                <a class="btn alterarSenhaBtn" href="{% url 'lojaapp:deletar_perfil' %}">Deletar Conta</a>
             </div>
         </div>
     </div>
