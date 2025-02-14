@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Pesquisar {{ request.GET.query }}{% endblock %}
+{% block title %}{{ request.GET.query }} - CasaHG{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/pesquisar.css' %}">

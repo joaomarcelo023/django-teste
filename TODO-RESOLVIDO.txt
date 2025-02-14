@@ -69,3 +69,5 @@ TODO-ALVAREZ-RESOLVIDO: Arrumar enderecocadastrar pra mobile
 TODO-ALVAREZ-RESOLVIDO: Arrumar tabela de pedidos anteriores no clienteperfil pra mobile
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar tabela de pedidos no clientepedidodetalhe pra mobile
+
+TODO-ALVAREZ-RESOLVIDO: Roubar janelas pra mudar dados do clienteperfil do excellence

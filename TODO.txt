@@ -4,7 +4,7 @@ TODO-Alvarez: Arrumar o produto_detalhe pra mostrar o preço da  caixa e não un
 
 TODO-ALVAREZ: Criar area de admin com dados de produtos (mais visualizados, mais vendidos, etc)
 
-TODO-ALVAREZ: Roubar janelas pra mudar dados do clienteperfil do excellence
+TODO-ALVAREZ: Roubar janelas pra deletar usuario do excellence
 
 TODO-ALVAREZ: Arrumar parcelas no pagseguro checkout
 
