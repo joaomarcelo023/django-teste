@@ -4,6 +4,7 @@ from django.urls import reverse_lazy, reverse
 from django_teste import settings
 from .forms import *
 from .models import *
+from .serializers import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import DeleteView
 from django.http import HttpResponse, JsonResponse
@@ -15,7 +16,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.core.paginator import Paginator
 from rest_framework.response import Response
-from rest_framework import serializers, status
+from rest_framework import serializers, status, generics, permissions
+from rest_framework_api_key.permissions import HasAPIKey
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 import requests
 import decimal
 import json
@@ -1457,6 +1460,21 @@ def ta_pago(_pedido):
                 return True
             
     return False
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+# Testes API
+# List all products or create a new one
+class ProdutoListCreateView(generics.ListCreateAPIView):
+    queryset = TestStatus.objects.all()
+    serializer_class = ProdutoSerializer
+    permission_classes = [HasAPIKey | IsAuthenticatedOrReadOnly]
+    # permission_classes = [permissions.AllowAny]  # Allows all users
+
+# Retrieve, update, or delete a specific product
+class ProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TestStatus.objects.all()
+    serializer_class = ProdutoSerializer
+
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 def testPOST(request):

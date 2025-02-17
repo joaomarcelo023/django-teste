@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_user_agents',
+    'rest_framework',
+    "rest_framework_api_key",
     'app',
 ]
 
@@ -135,9 +137,11 @@ SENDFILE_BACKEND = 'sendfile.backends.simple'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'rest_framework_api_key.permissions.HasAPIKey',
     ],
 }
 # Default primary key field type
@@ -149,3 +153,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 GOOGLE_MAPS_KEY = 'AIzaSyDzhKmxOI3em8ljqwr_NYne89XvTE1inzQ'
 
 PAGSEGURO_TOKEN_SANDBOX = '3f83367b-ce21-4fe4-91b1-a27be2eac7ce7eb5a2b84ff5a4895f10b5717c065b6ca97f-a6ed-4f2a-a97c-989e07fb10cb'
+
+TESTKEY_API_CASAHG = 'Ut80LNz4.CwPHXXKQTm3fYSmPFSPEJKG7cfqNWGnM'
