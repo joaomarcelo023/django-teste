@@ -15,6 +15,7 @@
             {% if carro.carroproduto_set.all%}
                 <h4 class="grande">ITENS DO CARRINHO</h4>
             {% endif %}
+            <!-- TODO: Quantidade é em unidade (Ex: m^2) e não caixa -->
             <div class="table-responsive grande">
                 {% if carro.carroproduto_set.all%}
                     <table class="table">

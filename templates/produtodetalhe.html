@@ -51,7 +51,9 @@
                 <input type="hidden" name="prod_id" value="{{ produto.id }}">
                 <p class="disponibilidadeCompra" {% if produto.em_estoque %}style="color:blue"{% else %}style="color:red"{% endif %}>{% if produto.em_estoque %}Em{% else %}Fora de{% endif %} estoque</p>
                 <hr>
+                <!-- TODO: O preço bruto pode ser “em até 12x, entregando” -->
                 <p class="preco">R${{ produto.preco_unitario_bruto|intcomma }}<span class="unidade">/{{ produto.unidade|format_unit }}</span></p>
+                <!-- TODO: Dinheiro retirando❤️ -->
                 <p class="preco_dinheiro">R${{ preco_dinheiro|intcomma }}/{{ produto.unidade|format_unit }} no dinheiro</p>
                 {% if produto.fechamento_embalagem > 1 %}
                     <div class="infoEmbalagem">

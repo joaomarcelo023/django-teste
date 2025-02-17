@@ -29,6 +29,8 @@
                             <span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
                                 &nbsp;{{ p.unidade|format_unit}}
                             </span>
+                            <!-- TODO: Pode tirar esse preço por caixa -->
+                             <!-- TODO: Dá pra colocar o preço no dinheiro retirando -->
                             {% if p.fechamento_embalagem > 1 %}
                                 <br>
                                 <span class="precoLowHigh">
