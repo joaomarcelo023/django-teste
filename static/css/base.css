@@ -161,6 +161,7 @@ footer .row {
 }
 
 .pequeno .dropdown-menu {
-    right: 0 !important;
-    left: auto !important;
+    /* position: absolute; */
+    right: 0;
+    left: auto;
 }

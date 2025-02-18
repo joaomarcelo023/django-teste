@@ -77,3 +77,7 @@ TODO-ALVAREZ-RESOLVIDO: Roubar janelas pra deletar usuario do excellence
 TODO-ALVAREZ-RESOLVIDO: Arrumar bug na compra pra seleção de numero de parcelas no mobile
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar essa porra pra ele parar de colocar "+55 " na frente do numero toda vez que é salvo
+
+TODO-ALVAREZ-RESOLVIDO: Mudar a forma de navegação por categoria do mobile
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar direção que o menu abre. Não ta abrindo pra direita / dropdown-menu-right não ta indo no mobile

@@ -8,8 +8,6 @@ TODO-ALVAREZ: Arrumar parcelas no pagseguro checkout
 
 TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 
-TODO-ALVAREZ: Mudar a forma de navegação por categoria do mobile
-
 TODO-ALVAREZ: Ta faltando um feedback quando a pessoa clica pra adicionar ao carrinho na tela inicial
 
 "Coisas que precisam estar bem estruturadas:
