@@ -159,3 +159,8 @@ footer .row {
     line-height: 100%;
     font-size: x-small;
 }
+
+.pequeno .dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+}
