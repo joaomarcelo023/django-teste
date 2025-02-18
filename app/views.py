@@ -149,7 +149,7 @@ class ContatoView(LojaMixin, BaseContextMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['banners'] = Banner.objects.all()
+        context['API'] = list(TestStatus.objects.all())[-1]
 
         return context
 
