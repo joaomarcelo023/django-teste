@@ -242,8 +242,9 @@ class Admin(models.Model):
     def __str__(self):
         return self.user.username
 
-class ProdutoAPIKey(AbstractAPIKey):
-    obj = models.ForeignKey(Produto, on_delete=models.CASCADE, related_name="api_keys")
+class APIKey(AbstractAPIKey):
+    criado_em = models.DateTimeField(auto_now_add=True)
+    obj = models.ForeignKey(Empresa, on_delete=models.CASCADE, related_name="api_keys")
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
