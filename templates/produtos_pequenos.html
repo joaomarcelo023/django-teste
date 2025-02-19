@@ -13,7 +13,7 @@
                 <img class="img-fluid zoom-effectmt-3 mb-2 imagemProdutos" src="{{ p.image.url }}" alt="">
             </div>
             <div class="row divInfoProd">
-                <h4>{{ p.descricao|truncatechars:60}}</h4>
+                <h4>{{ p.descricao|truncatechars:60 }}</h4>
                 <div class="container" style="display: flex; padding:0; align-items: center; align-content: center;">
                     <div class="col-8 ml-3 divPreco">
                         <div class="precoUniCaixa">
@@ -21,31 +21,25 @@
                                 R$
                             </span>
                             <span class="{% if p.fechamento_embalagem|gt:1 %}precoHighLow{% else %}precoHighHigh{% endif %}">
-                            {{ p.integer_part_uni|intcomma }}
-                            </span>
-                            <span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
+                                {{ p.integer_part_uni|intcomma }}
+                                </span><span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
                                 ,{{ p.decimal_part_uni}}
                             </span>
                             <span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
                                 &nbsp;{{ p.unidade|format_unit}}
                             </span>
-                            <!-- TODO: Pode tirar esse preço por caixa -->
-                             <!-- TODO: Dá pra colocar o preço no dinheiro retirando -->
-                            {% if p.fechamento_embalagem > 1 %}
-                                <br>
-                                <span class="precoLowHigh">
-                                    R$
-                                </span>
-                                <span class="precoHighHigh">
-                                {{ p.integer_part_caixa|intcomma }}
-                                </span>
-                                <span class="precoLowHigh">
-                                    ,{{ p.decimal_part_caixa}}
-                                </span>
-                                <span class="precoLowHigh">
-                                    &nbsp;caixa
-                                </span>
-                            {% endif %}
+                            <!-- <br>
+                            <span class="precoLowHigh">
+                                R$
+                            </span>
+                            <span class="precoHighHigh">
+                                {{ p.integer_part_desc|intcomma }}
+                                </span><span class="precoLowHigh">
+                                ,{{ p.decimal_part_desc}}
+                            </span>
+                            <span class="precoLowHigh">
+                                &nbsp;no dinheiro retirando
+                            </span> -->
                         </div>
                     </div>
 

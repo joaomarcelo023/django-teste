@@ -85,3 +85,9 @@ TODO-ALVAREZ-RESOLVIDO: Arrumar direção que o menu abre. Não ta abrindo pra d
 TODO-ALVAREZ-RESOLVIDO: O preço bruto pode ser “em até 12x, entregando”
 
 TODO-ALVAREZ-RESOLVIDO: Dinheiro retirando❤️
+
+TODO-ALVAREZ-RESOLVIDO: Pode tirar esse preço por caixa
+
+TODO-ALVAREZ-RESOLVIDO: Dá pra colocar o preço no dinheiro retirando
+
+TODO-ALVAREZ-RESOLVIDO: Ta faltando um feedback quando a pessoa clica pra adicionar ao carrinho na tela inicial

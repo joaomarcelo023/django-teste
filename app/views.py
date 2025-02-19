@@ -106,27 +106,27 @@ class CrazyAlvaPaymentCheckMixin(object):
 class HomeView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "home.html"
 
-    def preprocessar_precos(self, produtos):
-        for produto in produtos:
-            precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
-            venda_parts_caixa = str(precoCaixa).split('.')
-            venda_parts = str(produto.preco_unitario_bruto).split('.')
-            produto.integer_part_uni = venda_parts[0]
-            produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-            produto.integer_part_caixa = venda_parts_caixa[0]
-            produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-        return produtos
+    # def preprocessar_precos(self, produtos):
+    #     for produto in produtos:
+    #         precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
+    #         venda_parts_caixa = str(precoCaixa).split('.')
+    #         venda_parts = str(produto.preco_unitario_bruto).split('.')
+    #         produto.integer_part_uni = venda_parts[0]
+    #         produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+    #         produto.integer_part_caixa = venda_parts_caixa[0]
+    #         produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+    #     return produtos
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         all_produtos = Produto.objects.all().order_by("-id")
-        produto_list = self.preprocessar_precos(all_produtos)
+        produto_list = preprocessar_precos(all_produtos)
 
         paginator = Paginator(produto_list, 20)
         page_number = self.request.GET.get('page')
         context['page_obj'] = paginator.get_page(page_number)
 
-        context['mais_vendidos'] = self.preprocessar_precos(Produto.objects.all().order_by("-quantidade_vendas")[:7])
+        context['mais_vendidos'] = preprocessar_precos(Produto.objects.all().order_by("-quantidade_vendas")[:7])
 
         context['banners'] = Banner.objects.all()
 
@@ -163,16 +163,16 @@ class TodosProdutosView(LojaMixin, BaseContextMixin, TemplateView):
 class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "produtodetalhe.html"
 
-    def preprocessar_precos(self, produtos):
-        for produto in produtos:
-            precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
-            venda_parts_caixa = str(precoCaixa).split('.')
-            venda_parts = str(produto.preco_unitario_bruto).split('.')
-            produto.integer_part_uni = venda_parts[0]
-            produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-            produto.integer_part_caixa = venda_parts_caixa[0]
-            produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-        return produtos
+    # def preprocessar_precos(self, produtos):
+    #     for produto in produtos:
+    #         precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
+    #         venda_parts_caixa = str(precoCaixa).split('.')
+    #         venda_parts = str(produto.preco_unitario_bruto).split('.')
+    #         produto.integer_part_uni = venda_parts[0]
+    #         produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+    #         produto.integer_part_caixa = venda_parts_caixa[0]
+    #         produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+    #     return produtos
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -195,7 +195,7 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
             produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:13])
             produtos_similares_list.pop(produtos_similares_list.index(produto))
 
-        produtos_similares = self.preprocessar_precos(produtos_similares_list)
+        produtos_similares = preprocessar_precos(produtos_similares_list)
         context['produtos_similares'] = produtos_similares
 
         return context
@@ -1167,16 +1167,16 @@ class deletarEnderecoView(LojaMixin, View):
 class PesquisarView(BaseContextMixin, TemplateView):
     template_name = "pesquisar.html"
 
-    def preprocessar_precos(self, produtos):
-        for produto in produtos:
-            precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
-            venda_parts_caixa = str(precoCaixa).split('.')
-            venda_parts = str(produto.preco_unitario_bruto).split('.')
-            produto.integer_part_uni = venda_parts[0]
-            produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-            produto.integer_part_caixa = venda_parts_caixa[0]
-            produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-        return produtos
+    # def preprocessar_precos(self, produtos):
+    #     for produto in produtos:
+    #         precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
+    #         venda_parts_caixa = str(precoCaixa).split('.')
+    #         venda_parts = str(produto.preco_unitario_bruto).split('.')
+    #         produto.integer_part_uni = venda_parts[0]
+    #         produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+    #         produto.integer_part_caixa = venda_parts_caixa[0]
+    #         produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+    #     return produtos
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1198,7 +1198,7 @@ class PesquisarView(BaseContextMixin, TemplateView):
         kw = self.request.GET.get("query")
         
         resultado = Produto.objects.filter(Q(titulo__icontains=kw) | Q(descricao__icontains = kw)).order_by(order)
-        resultadoList = self.preprocessar_precos(resultado)
+        resultadoList = preprocessar_precos(resultado)
 
         resultadoPag = Paginator(resultadoList, 20)
         page_number = self.request.GET.get('page')
@@ -1209,16 +1209,16 @@ class PesquisarView(BaseContextMixin, TemplateView):
 class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "categoria.html"
 
-    def preprocessar_precos(self, produtos):
-        for produto in produtos:
-            precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
-            venda_parts_caixa = str(precoCaixa).split('.')
-            venda_parts = str(produto.preco_unitario_bruto).split('.')
-            produto.integer_part_uni = venda_parts[0]
-            produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-            produto.integer_part_caixa = venda_parts_caixa[0]
-            produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-        return produtos
+    # def preprocessar_precos(self, produtos):
+    #     for produto in produtos:
+    #         precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
+    #         venda_parts_caixa = str(precoCaixa).split('.')
+    #         venda_parts = str(produto.preco_unitario_bruto).split('.')
+    #         produto.integer_part_uni = venda_parts[0]
+    #         produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+    #         produto.integer_part_caixa = venda_parts_caixa[0]
+    #         produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+    #     return produtos
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1243,7 +1243,7 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
             order = "-preco_unitario_bruto"
         
         all_produtos = Produto.objects.filter(Categoria = categoria).order_by(order).all()
-        produto_list = self.preprocessar_precos(all_produtos)
+        produto_list = preprocessar_precos(all_produtos)
         paginator = Paginator(produto_list, 20)
         page_number = self.request.GET.get('page')
         context['page_obj'] = paginator.get_page(page_number)
@@ -1460,6 +1460,7 @@ def ta_pago(_pedido):
                 return True
             
     return False
+
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 # Testes API
@@ -1476,6 +1477,25 @@ class ProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProdutoSerializer
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+def preprocessar_precos(produtos):
+        for produto in produtos:
+            venda_parts = str(produto.preco_unitario_bruto).split('.')
+            precoDesc = round((produto.preco_unitario_bruto * (1 - ((produto.desconto_dinheiro + produto.desconto_retira) / 100))), 2)
+            venda_parts_desc = str(precoDesc).split('.')
+            precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
+            venda_parts_caixa = str(precoCaixa).split('.')
+            # Preço unitario
+            produto.integer_part_uni = venda_parts[0]
+            produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+            # Preço caixa
+            produto.integer_part_caixa = venda_parts_caixa[0]
+            produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+            # Preço unitario com desconto de dinheiro retirada
+            produto.integer_part_desc = venda_parts_desc[0]
+            produto.decimal_part_desc = venda_parts_desc[1] if len(venda_parts_desc) > 1 else '00'  # Adiciona '00' se não houver parte decimal
+
+        return produtos
 
 def testPOST(request):
     if request.method == 'POST':
