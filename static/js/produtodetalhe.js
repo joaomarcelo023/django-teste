@@ -1,7 +1,8 @@
 const quantidadeValor = document.getElementById("quantValue");
 const imgButtons = document.querySelectorAll(".imgWrapper > button");
 const imgButtonsImgs = document.querySelectorAll(".imgWrapper > button > img");
-const imgMain = document.getElementById("mainImg");
+// const imgMain = document.getElementById("mainImg");
+const imgMain = document.querySelectorAll(".mainImg");
 const quantidadeCaixas = document.querySelector(".quantidade_total_caixas");
 const custoCaixas = document.querySelector(".custo_total_caixas");
 const quantidadeCaixasConst = quantidadeCaixas.textContent.replace(",", ".");
@@ -33,7 +34,9 @@ function addUnit() {
 
 imgButtons.forEach(e => {
     e.addEventListener("click", function(event) {
-        imgMain.src = event.target.src;
+        imgMain.forEach(e => {
+            e.src = event.target.src;
+        });        
 
         imgButtonsImgs.forEach(t => {
             t.style.borderBottom = "none";
