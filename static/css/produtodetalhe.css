@@ -131,6 +131,10 @@ hr {
     background-color: #ff9900;
 }
 
+.precoFull {
+    margin-bottom: 0px;
+}
+
 .preco {
     font-weight: 700;
     font-size: x-large;
@@ -147,6 +151,12 @@ hr {
 .unidade {
     font-weight: 400;
     font-size: large;
+}
+
+.condPreco {
+    margin-top: 0px;
+    font-weight: 400;
+    font-size: medium;
 }
 
 .infoEmbalagem {

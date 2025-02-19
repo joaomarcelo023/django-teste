@@ -81,3 +81,7 @@ TODO-ALVAREZ-RESOLVIDO: Arrumar essa porra pra ele parar de colocar "+55 " na fr
 TODO-ALVAREZ-RESOLVIDO: Mudar a forma de navegação por categoria do mobile
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar direção que o menu abre. Não ta abrindo pra direita / dropdown-menu-right não ta indo no mobile
+
+TODO-ALVAREZ-RESOLVIDO: O preço bruto pode ser “em até 12x, entregando”
+
+TODO-ALVAREZ-RESOLVIDO: Dinheiro retirando❤️
