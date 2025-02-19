@@ -29,3 +29,7 @@ def gt(value, arg):
 @register.filter
 def comma_point(value):
     return value.replace(".", ",")
+
+@register.filter
+def prod(value, arg):
+    return float(value) * float(arg)

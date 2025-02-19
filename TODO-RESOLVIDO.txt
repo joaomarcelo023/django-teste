@@ -91,3 +91,5 @@ TODO-ALVAREZ-RESOLVIDO: Pode tirar esse preço por caixa
 TODO-ALVAREZ-RESOLVIDO: Dá pra colocar o preço no dinheiro retirando
 
 TODO-ALVAREZ-RESOLVIDO: Ta faltando um feedback quando a pessoa clica pra adicionar ao carrinho na tela inicial
+
+TODO-ALVAREZ-RESOLVIDO: Quantidade é em unidade (Ex: m^2) e não caixa

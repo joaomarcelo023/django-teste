@@ -2,6 +2,7 @@
 {% load static %}
 {% load humanize %}
 {% load l10n %}
+{% load custom_filters %}
 
 {% block title %}Meu Carrinho - CasaHG{% endblock %}
 
@@ -15,7 +16,7 @@
             {% if carro.carroproduto_set.all%}
                 <h4 class="grande">ITENS DO CARRINHO</h4>
             {% endif %}
-            <!-- TODO: Quantidade é em unidade (Ex: m^2) e não caixa -->
+            
             <div class="table-responsive grande">
                 {% if carro.carroproduto_set.all%}
                     <table class="table">
@@ -39,7 +40,7 @@
                                     <td class="text-center" style="border-left: none; border-right: none;"><img class="prodImage" src="{{ cp.produto.image.url }}"></td>
                                     <td class="text-center" style="border-left: none;"><a href="{% url 'lojaapp:produtodetalhe' cp.produto.slug %}">{{ cp.produto.descricao }}</a></td>
                                     <td class="text-center">R$ {{ cp.preco_unitario|intcomma }}</td>
-                                    <td class="text-center">{{ cp.quantidade }}</td>
+                                    <td class="text-center">{{ cp.quantidade|prod:cp.produto.fechamento_embalagem }}{{ cp.produto.unidade|format_unit }}</td>
                                     <td {% if not carro.carroproduto_set.all%}colspan = "4"{% else %}colspan = "3"{% endif %} class="text-center">R$ {{ cp.subtotal|intcomma }}</td>
                                     <td class="justify-content-center text-center">
                                         <a href="{%url 'lojaapp:manipularcarro' cp.id %}?acao=inc" class="btn btn-success"> + </a>
@@ -49,8 +50,8 @@
                                 </tr>
                             {%endfor%}
                             <tr>
-                                <th colspan = "5" class="text-right">Total:</th>
-                                <th {% if not carro.carroproduto_set.all%}colspan = "4"{% else %}colspan = "3"{% endif %} class="text-center">R$ {{ carro.total|intcomma }}</th>
+                                <th colspan = "5" class="justify-content-center text-right">Total:</th>
+                                <th {% if not carro.carroproduto_set.all%}colspan = "4"{% else %}colspan = "3"{% endif %} class="justify-content-center text-center">R$ {{ carro.total|intcomma }}</th>
                                 {% if carro.carroproduto_set.all%}
                                     <th class="justify-content-center text-center">
                                         <a href="{%url 'lojaapp:limparcarro'%}" class="btn btn-warning"> Limpar carrinho </a>
@@ -97,7 +98,7 @@
                                 </tr>
                                 <tr>
                                     <td class="text-right" style="border-bottom: none; border-top: none; width: 50%;">Quantidade:</td>
-                                    <td class="text-left" style="border-bottom: none; border-top: none; width: 50%;">{{ cp.quantidade }}</td>
+                                    <td class="text-left" style="border-bottom: none; border-top: none; width: 50%;">{{ cp.quantidade|prod:cp.produto.fechamento_embalagem }} {{ cp.produto.unidade|format_unit }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-right" style="border-bottom: none; border-top: none; width: 50%;">Subtotal:</td>
