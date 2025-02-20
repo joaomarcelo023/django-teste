@@ -17,20 +17,25 @@ body {
 
     .numProdCarro {
         position: relative;
-        left: -6px;
-        top: -5px;
+        left: -7px;
+        top: -7px;
         width: 24px;
         height: 24px;
 
         border: 2px solid #ff9900;
         border-radius: 50%;
 
-        color: #ff9900;
+        /* color: #ff9900; */
         background-color: #151635;
         text-align: center;
         line-height: 18px;
 
         margin: 0px;
+    }
+
+    .btn-custom:hover .numProdCarro {
+        border-color: #151635;
+        background-color: #ff9900;
     }
 }
 
