@@ -1,10 +1,6 @@
-TODO-ALVAREZ: colocar descontos direito nos pagamentos
-
 TODO-Alvarez: Arrumar o produto_detalhe pra mostrar o preço da  caixa e não unitario
 
 TODO-ALVAREZ: Criar area de admin com dados de produtos (mais visualizados, mais vendidos, etc)
-
-TODO-ALVAREZ: Arrumar parcelas no pagseguro checkout
 
 TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 

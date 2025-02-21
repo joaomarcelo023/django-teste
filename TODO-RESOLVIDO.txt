@@ -93,3 +93,9 @@ TODO-ALVAREZ-RESOLVIDO: Dá pra colocar o preço no dinheiro retirando
 TODO-ALVAREZ-RESOLVIDO: Ta faltando um feedback quando a pessoa clica pra adicionar ao carrinho na tela inicial
 
 TODO-ALVAREZ-RESOLVIDO: Quantidade é em unidade (Ex: m^2) e não caixa
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar parcelas no pagseguro checkout
+
+TODO-ALVAREZ-RESOLVIDO: Colocar limite de 70 reais nas parcelas
+
+TODO-ALVAREZ-RESOLVIDO: colocar descontos direito nos pagamentos
