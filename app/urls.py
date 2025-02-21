@@ -69,5 +69,8 @@ urlpatterns = [
     # API
     path('api-produtos/', ProdutoListCreateView.as_view(), name='produto-list'),
     path('api-produtos/<int:pk>/', ProdutoDetailView.as_view(), name='produto-detail'),
+
+    path('api_pedido_order/', PedidoOrderListCreateView.as_view(), name='produto-list'),
+    path('api_pedido_order/<int:pk>/', PedidoOrderDetailView.as_view(), name='produto-detail'),
     
 ]

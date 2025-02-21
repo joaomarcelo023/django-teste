@@ -687,18 +687,22 @@ def create_payment(request):
         "reference_id": request.POST["pedido_id"],
         "customer_modifiable": False,
         "items": [],
-        "payment_methods": [],
+        "payment_methods": [
+            { 
+                "type": pedido.forma_de_pagamento 
+            }
+        ],
         "payment_methods_configs": [
             {
                 "type": "CREDIT_CARD",
                 "config_options": [
                     {
-                        "option": "INSTALLMENTS_LIMIT",
-                        "value": "12"
+                        "option": "INTEREST_FREE_INSTALLMENTS",
+                        "value": pedido.parcelas
                     },
                     {
-                        "option": "INTEREST_FREE_INSTALLMENTS",
-                        "value": "12"
+                        "option": "INSTALLMENTS_LIMIT",
+                        "value": pedido.parcelas
                     }
                 ]
             }
@@ -722,32 +726,13 @@ def create_payment(request):
         payload["items"].append(
             {
                 "reference_id": prod.produto.codigo,
-                "name": prod.produto.titulo,
+                "name": prod.produto.descricao,
                 "description": prod.produto.descricao,
                 "quantity": prod.quantidade,
                 "unit_amount": int((prod.subtotal / prod.quantidade) * 100),
                 "image_url": "https://vendashg.pythonanywhere.com" + prod.produto.image.url
             }
         )
-    
-    payload["payment_methods"].append({ "type": pedido.forma_de_pagamento })
-        # "installments": int(pedido.parcelas),
-
-    # TODO: Arrumar essa porra pra uma parcela só e ver se tem como controlar o numero de parcelas
-    # if pedido.parcelas > 1:
-    #     payload["payment_methods_configs"] = [{
-    #         "type": "CREDIT_CARD",
-    #         "config_options": [
-    #             {
-    #                 "option": "INTEREST_FREE_INSTALLMENTS",
-    #                 "value": int(pedido.parcelas)
-    #             },
-    #             {
-    #                 "option": "INSTALLMENTS_LIMIT",
-    #                 "value": int(pedido.parcelas)
-    #             }
-    #         ]
-    #     }]
 
     headers = {
         "accept": "*/*",
@@ -1468,13 +1453,31 @@ def ta_pago(_pedido):
 class ProdutoListCreateView(generics.ListCreateAPIView):
     queryset = TestStatus.objects.all()
     serializer_class = ProdutoSerializer
-    permission_classes = [HasAPIKey | IsAuthenticatedOrReadOnly]
+
+    permission_classes = [HasAPIKey]
+    # permission_classes = [HasAPIKey | IsAuthenticatedOrReadOnly]
     # permission_classes = [permissions.AllowAny]  # Allows all users
 
 # Retrieve, update, or delete a specific product
 class ProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TestStatus.objects.all()
     serializer_class = ProdutoSerializer
+
+    permission_classes = [HasAPIKey]
+
+# List all products or create a new one
+class PedidoOrderListCreateView(generics.ListCreateAPIView):
+    queryset = Pedido_order.objects.all()
+    serializer_class = PedidoOrderSerializer
+
+    permission_classes = [HasAPIKey]
+
+# Retrieve, update, or delete a specific product
+class PedidoOrderDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Pedido_order.objects.all()
+    serializer_class = PedidoOrderSerializer
+
+    permission_classes = [HasAPIKey]
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
