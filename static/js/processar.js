@@ -9,6 +9,9 @@ const DescontosDic = JSON.parse(document.getElementById("descontos-data").textCo
 var TotalCredito = document.getElementById("total-credito-data").textContent;
 var descontoCreditoInit = DescontosDic.desconto_credito;
 
+var vf_check_parcelas = Math.trunc(parseFloat(valorFinal[0].textContent.replace("R$ ", "").replace(",", ".").trim()) / 70);
+// document.querySelector('.test').textContent = valorFinal[0].textContent.replace("R$ ", "").replace(",", ".").trim() + " " + vf_check_parcelas;
+
 optionLabel.forEach(e => {
     e.addEventListener('input', function () {
         optionLabel.forEach(t => {
@@ -90,7 +93,7 @@ optionLabel.forEach(e => {
                 });
 
                 valorFinal.forEach(t => {
-                    t.textContent = e.querySelector('.methods > .credito .total_normal').textContent;
+                    t.textContent = e.querySelector('.methods > .credito .total_normal').textContent.replace("R$", "R$ ");
                 });
                 // if (e.querySelector('.methods > .option_parcelas select').value !== "1") {
                 //     document.querySelector('.desconto_a_vista_row').style.display = "none";
@@ -98,6 +101,18 @@ optionLabel.forEach(e => {
                 // else {
                 //     document.querySelector('.desconto_a_vista_row').style.display = "table-row";
                 // }
+
+                vf_check_parcelas = Math.trunc(parseFloat(valorFinal[0].textContent.replace("R$ ", "").replace(",", ".").trim()) / 70);
+                // document.querySelector('.test').textContent = valorFinal[0].textContent.replace("R$ ", "").replace(",", ".").trim() + " " + vf_check_parcelas;
+                e.querySelectorAll('.methods > .option_parcelas option').forEach(t =>{
+                    if (parseInt(t.value) > vf_check_parcelas){
+                        t.style.display = "none";
+                    }
+                    else {
+                        t.style.display = "block";
+                    }
+                });
+                
             }
             else {
                 e.querySelector('.methods > .option_parcelas select').value = "1";
