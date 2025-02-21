@@ -1,7 +1,18 @@
+# ListCreateAPIView:
+#                               GET     Get a list of objects
+#                               POST    Create a new object
+# RetrieveUpdateDestroyAPIView:
+#                               GET     Get a single object
+#                               PUT	    Replaces an object
+#                               PATCH	Update an object
+#                               DELETE	Delete an object
 import requests
 from django_teste import settings
 
-def postTest(_site, _message):
+def postTest(_message):
+    API_URL_TEST = "http://127.0.0.1:8000/api-produtos/"
+    # API_URL_TEST = "https://vendashg.pythonanywhere.com/api-produtos/"
+
     new_product = {
         "status": _message,
     }
@@ -11,20 +22,23 @@ def postTest(_site, _message):
         "Content-Type": "application/json"
     }
 
-    response = requests.post(_site, json=new_product, headers=headers)
+    response = requests.post(API_URL_TEST, json=new_product, headers=headers)
 
     if response.status_code == 201:
         print("Produto cadastrado com sucesso!")
     else:
         print("Erro ao cadastrar produto:", response.status_code)
 
-def getTest(_site):
+def getTest():
+    API_URL_TEST = "http://127.0.0.1:8000/api-produtos/"
+    # API_URL_TEST = "https://vendashg.pythonanywhere.com/api-produtos/"
+
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
         "Content-Type": "application/json"
     }
 
-    response = requests.get(_site, headers=headers)
+    response = requests.get(API_URL_TEST, headers=headers)
 
     if response.status_code == 200:
         produtos = response.json()
@@ -33,7 +47,47 @@ def getTest(_site):
     else:
         print("Erro ao obter produtos:", response.status_code)
 
-def postPedidoOrder(_site, _message):
+def putTest(_id, _message):
+    API_URL_TEST = "http://127.0.0.1:8000/api-produtos/" + str(_id) + "/"
+    # API_URL_TEST = "https://vendashg.pythonanywhere.com/api-produtos/" + str(_id) + "/"
+
+    update_product = {
+        "status": _message,
+    }
+
+    headers = {
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        "Content-Type": "application/json"
+    }
+
+    response = requests.patch(API_URL_TEST, json=update_product, headers=headers)
+
+    if response.status_code == 200:
+        print("Produto cadastrado com sucesso!")
+    else:
+        print("Erro ao cadastrar produto:", response.status_code)
+
+def getByIdTest(_id):
+    API_URL_TEST = "http://127.0.0.1:8000/api-produtos/" + str(_id) + "/"
+    # API_URL_TEST = "https://vendashg.pythonanywhere.com/api-produtos/" + str(_id) + "/"
+
+    headers = {
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        "Content-Type": "application/json"
+    }
+
+    response = requests.get(API_URL_TEST, headers=headers)
+
+    if response.status_code == 200:
+        produto = response.json()
+        print(f"Produto: {produto['status']}")
+    else:
+        print("Erro ao obter produtos:", response.status_code)
+
+def postPedidoOrder(_message):
+    API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_pedido_order/"
+    # API_URL_PEDIDO_ORDER = "http://vendashg.pythonanywhere.com/api_pedido_order/"
+
     new_product = {
         "status": _message,
     }
@@ -43,20 +97,23 @@ def postPedidoOrder(_site, _message):
         "Content-Type": "application/json"
     }
 
-    response = requests.post(_site, json=new_product, headers=headers)
+    response = requests.post(API_URL_PEDIDO_ORDER, json=new_product, headers=headers)
 
     if response.status_code == 201:
         print("Produto cadastrado com sucesso!")
     else:
         print("Erro ao cadastrar produto:", response.status_code)
 
-def getPedidoOrder(_site):
+def getPedidoOrder():
+    API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_pedido_order/"
+    # API_URL_PEDIDO_ORDER = "http://vendashg.pythonanywhere.com/api_pedido_order/"
+
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
         "Content-Type": "application/json"
     }
 
-    response = requests.get(_site, headers=headers)
+    response = requests.get(API_URL_PEDIDO_ORDER, headers=headers)
 
     if response.status_code == 200:
         produtos = response.json()
@@ -66,14 +123,11 @@ def getPedidoOrder(_site):
         print("Erro ao obter produtos:", response.status_code)
 
 
-API_URL_TEST = "http://127.0.0.1:8000/api-produtos/"
-# API_URL_TEST = "https://vendashg.pythonanywhere.com/api-produtos/"
-
-API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_pedido_order/"
-# API_URL_PEDIDO_ORDER = "http://vendashg.pythonanywhere.com/api_pedido_order/"
-
-# postTest(API_URL_TEST, "cu") # A mensagem é printada na pagina /contato
-# getTest(API_URL_TEST)
+# postTest("cu") # A mensagem é printada na pagina /contato/
+# getTest()
+getByIdTest(10)
+putTest(10, "test")
+getByIdTest(10)
 
 # postPedidoOrder(API_URL_PEDIDO_ORDER, "cu")
-getPedidoOrder(API_URL_PEDIDO_ORDER)
+# getPedidoOrder(API_URL_PEDIDO_ORDER)
