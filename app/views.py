@@ -19,6 +19,7 @@ from rest_framework.response import Response
 from rest_framework import serializers, status, generics, permissions
 from rest_framework_api_key.permissions import HasAPIKey
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.authentication import SessionAuthentication
 import requests
 import decimal
 import json
@@ -1454,6 +1455,7 @@ class ProdutoListCreateView(generics.ListCreateAPIView):
     queryset = TestStatus.objects.all()
     serializer_class = ProdutoSerializer
 
+    authentication_classes = [SessionAuthentication]
     permission_classes = [HasAPIKey]
     # permission_classes = [HasAPIKey | IsAuthenticatedOrReadOnly]
     # permission_classes = [permissions.AllowAny]  # Allows all users
@@ -1474,7 +1476,7 @@ class PedidoOrderListCreateView(generics.ListCreateAPIView):
 
 # Retrieve, update, or delete a specific product
 class PedidoOrderDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Pedido_order.objects.all()
+    queryset = Pedido_order.objects.prefetch_related("pedidoProduto")
     serializer_class = PedidoOrderSerializer
 
     permission_classes = [HasAPIKey]

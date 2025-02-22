@@ -6,7 +6,15 @@ class ProdutoSerializer(serializers.ModelSerializer):
         model = TestStatus # Produto
         fields = '__all__'
 
+class PedidoProdutoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pedido_Produto
+        fields = '__all__'
+
 class PedidoOrderSerializer(serializers.ModelSerializer):
+    pedidoProduto = PedidoProdutoSerializer(many=True, read_only=True)
+
     class Meta:
         model = Pedido_order
         fields = '__all__'
+        extra_fields = ['pedidoProduto']

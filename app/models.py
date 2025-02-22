@@ -188,7 +188,7 @@ class Pedido_order(models.Model):
 
 class Pedido_Produto(models.Model):
     #importante repetir informações do produto para que uma mudança de cadastro não altere a venda
-    pedido = models.ForeignKey(Pedido_order,on_delete=models.CASCADE,default="")
+    pedido = models.ForeignKey(Pedido_order,on_delete=models.CASCADE,related_name="pedidoProduto",default="")
     produto = models.ForeignKey(Produto,on_delete=models.CASCADE,default="")
 
     codigo = models.CharField(max_length=10,default="")

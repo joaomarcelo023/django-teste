@@ -30,8 +30,8 @@ def postTest(_message):
         print("Erro ao cadastrar produto:", response.status_code)
 
 def getTest():
-    API_URL_TEST = "http://127.0.0.1:8000/api-produtos/"
-    # API_URL_TEST = "https://vendashg.pythonanywhere.com/api-produtos/"
+    # API_URL_TEST = "http://127.0.0.1:8000/api-produtos/"
+    API_URL_TEST = "https://vendashg.pythonanywhere.com/api-produtos/"
 
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -121,13 +121,31 @@ def getPedidoOrder():
             print(f"Produto: {produto['id']}")
     else:
         print("Erro ao obter produtos:", response.status_code)
+        
+def getByIdPedidoOrder(_id):
+    API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_pedido_order/" + str(_id) + "/"
+    # API_URL_PEDIDO_ORDER = "https://vendashg.pythonanywhere.com/api_pedido_order/" + str(_id) + "/"
+
+    headers = {
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        "Content-Type": "application/json"
+    }
+
+    response = requests.get(API_URL_PEDIDO_ORDER, headers=headers)
+
+    if response.status_code == 200:
+        produto = response.json()
+        print(f"Produto: {produto}")
+    else:
+        print("Erro ao obter produtos:", response.status_code)
 
 
 # postTest("cu") # A mensagem é printada na pagina /contato/
-# getTest()
-getByIdTest(10)
-putTest(10, "test")
-getByIdTest(10)
+getTest()
+# getByIdTest(10)
+# putTest(10, "Olá")
+# getByIdTest(10)
 
-# postPedidoOrder(API_URL_PEDIDO_ORDER, "cu")
-# getPedidoOrder(API_URL_PEDIDO_ORDER)
+# postPedidoOrder("cu") # Não usar, não ta direito
+# getPedidoOrder()
+# getByIdPedidoOrder(85)
