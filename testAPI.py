@@ -18,7 +18,8 @@ def postTest(_message):
     }
 
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE, # settings.TESTKEY_API_CASAHG,
+        # "Authorization":  settings.TESTKEY_API_CASAHG,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
 
@@ -34,7 +35,8 @@ def getTest():
     API_URL_TEST = "https://vendashg.pythonanywhere.com/api-produtos/"
 
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE, # settings.TESTKEY_API_CASAHG,
+        # "Authorization":  settings.TESTKEY_API_CASAHG,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
 
@@ -48,15 +50,16 @@ def getTest():
         print("Erro ao obter produtos:", response.status_code)
 
 def putTest(_id, _message):
-    API_URL_TEST = "http://127.0.0.1:8000/api-produtos/" + str(_id) + "/"
-    # API_URL_TEST = "https://vendashg.pythonanywhere.com/api-produtos/" + str(_id) + "/"
+    # API_URL_TEST = "http://127.0.0.1:8000/api-produtos/" + str(_id) + "/"
+    API_URL_TEST = "https://vendashg.pythonanywhere.com/api-produtos/" + str(_id) + "/"
 
     update_product = {
         "status": _message,
     }
 
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        # "Authorization":  settings.TESTKEY_API_CASAHG,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
 
@@ -68,11 +71,12 @@ def putTest(_id, _message):
         print("Erro ao cadastrar produto:", response.status_code)
 
 def getByIdTest(_id):
-    API_URL_TEST = "http://127.0.0.1:8000/api-produtos/" + str(_id) + "/"
-    # API_URL_TEST = "https://vendashg.pythonanywhere.com/api-produtos/" + str(_id) + "/"
+    # API_URL_TEST = "http://127.0.0.1:8000/api-produtos/" + str(_id) + "/"
+    API_URL_TEST = "https://vendashg.pythonanywhere.com/api-produtos/" + str(_id) + "/"
 
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        # "Authorization":  settings.TESTKEY_API_CASAHG,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
 
@@ -93,7 +97,8 @@ def postPedidoOrder(_message):
     }
 
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        "Authorization":  settings.TESTKEY_API_CASAHG,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
 
@@ -109,7 +114,8 @@ def getPedidoOrder():
     # API_URL_PEDIDO_ORDER = "http://vendashg.pythonanywhere.com/api_pedido_order/"
 
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        "Authorization":  settings.TESTKEY_API_CASAHG,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
 
@@ -127,7 +133,8 @@ def getByIdPedidoOrder(_id):
     # API_URL_PEDIDO_ORDER = "https://vendashg.pythonanywhere.com/api_pedido_order/" + str(_id) + "/"
 
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        "Authorization":  settings.TESTKEY_API_CASAHG,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
 

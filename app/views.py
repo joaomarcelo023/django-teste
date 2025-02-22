@@ -1455,7 +1455,6 @@ class ProdutoListCreateView(generics.ListCreateAPIView):
     queryset = TestStatus.objects.all()
     serializer_class = ProdutoSerializer
 
-    authentication_classes = [SessionAuthentication]
     permission_classes = [HasAPIKey]
     # permission_classes = [HasAPIKey | IsAuthenticatedOrReadOnly]
     # permission_classes = [permissions.AllowAny]  # Allows all users
