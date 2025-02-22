@@ -10,15 +10,15 @@ import requests
 from django_teste import settings
 
 def postTest(_message):
-    API_URL_TEST = "http://127.0.0.1:8000/api-produtos/"
-    # API_URL_TEST = "https://vendashg.pythonanywhere.com/api-produtos/"
+    # API_URL_TEST = "http://127.0.0.1:8000/api-produtos/"
+    API_URL_TEST = "https://vendashg.pythonanywhere.com/api-produtos/"
 
     new_product = {
         "status": _message,
     }
 
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE, # settings.TESTKEY_API_CASAHG,
         "Content-Type": "application/json"
     }
 
@@ -34,7 +34,7 @@ def getTest():
     API_URL_TEST = "https://vendashg.pythonanywhere.com/api-produtos/"
 
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE, # settings.TESTKEY_API_CASAHG,
         "Content-Type": "application/json"
     }
 
@@ -140,8 +140,8 @@ def getByIdPedidoOrder(_id):
         print("Erro ao obter produtos:", response.status_code)
 
 
-# postTest("cu") # A mensagem é printada na pagina /contato/
-getTest()
+postTest("Fala comigo bb") # A mensagem é printada na pagina /contato/
+# getTest()
 # getByIdTest(10)
 # putTest(10, "Olá")
 # getByIdTest(10)
