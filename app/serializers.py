@@ -1,9 +1,14 @@
 from rest_framework import serializers
 from .models import *
 
+class TestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestStatus
+        fields = '__all__'
+
 class ProdutoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TestStatus # Produto
+        model = Produto
         fields = '__all__'
 
 class PedidoProdutoSerializer(serializers.ModelSerializer):

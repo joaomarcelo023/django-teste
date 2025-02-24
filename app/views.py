@@ -1450,33 +1450,60 @@ def ta_pago(_pedido):
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 # Testes API
+# Test
 # List all products or create a new one
-class ProdutoListCreateView(generics.ListCreateAPIView):
+class TestListCreateView(generics.ListCreateAPIView):
     queryset = TestStatus.objects.all()
-    serializer_class = ProdutoSerializer
+    serializer_class = TestSerializer
 
     permission_classes = [HasAPIKey]
     # permission_classes = [HasAPIKey | IsAuthenticatedOrReadOnly]
     # permission_classes = [permissions.AllowAny]  # Allows all users
 
 # Retrieve, update, or delete a specific product
-class ProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
+class TestDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TestStatus.objects.all()
+    serializer_class = TestSerializer
+
+    permission_classes = [HasAPIKey]
+
+# Produto
+class ProdutoListCreateView(generics.ListCreateAPIView):
+    queryset = Produto.objects.all()
     serializer_class = ProdutoSerializer
 
     permission_classes = [HasAPIKey]
 
-# List all products or create a new one
+class ProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Produto.objects.all()
+    serializer_class = ProdutoSerializer
+    lookup_field = "codigo"
+
+    permission_classes = [HasAPIKey]
+
+# Pedido Order
 class PedidoOrderListCreateView(generics.ListCreateAPIView):
-    queryset = Pedido_order.objects.all()
+    queryset = Pedido_order.objects.prefetch_related("pedidoProduto")
     serializer_class = PedidoOrderSerializer
 
     permission_classes = [HasAPIKey]
 
-# Retrieve, update, or delete a specific product
 class PedidoOrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Pedido_order.objects.prefetch_related("pedidoProduto")
     serializer_class = PedidoOrderSerializer
+
+    permission_classes = [HasAPIKey]
+
+# Pedido Produto
+class PedidoProdutoListCreateView(generics.ListCreateAPIView):
+    queryset = Pedido_Produto.objects.all()
+    serializer_class = PedidoProdutoSerializer
+
+    permission_classes = [HasAPIKey]
+
+class PedidoProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Pedido_Produto.objects.all()
+    serializer_class = PedidoProdutoSerializer
 
     permission_classes = [HasAPIKey]
 

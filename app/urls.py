@@ -67,10 +67,20 @@ urlpatterns = [
     path('testPOST/', testPOST, name='testPOST'),
 
     # API
-    path('api-produtos/', ProdutoListCreateView.as_view(), name='produto-list'),
-    path('api-produtos/<int:pk>/', ProdutoDetailView.as_view(), name='produto-detail'),
+    # Teste
+    path('api_test/', TestListCreateView.as_view(), name='test_list'),
+    path('api_test/<int:pk>/', TestDetailView.as_view(), name='test_detail'),
 
-    path('api_pedido_order/', PedidoOrderListCreateView.as_view(), name='produto-list'),
-    path('api_pedido_order/<int:pk>/', PedidoOrderDetailView.as_view(), name='produto-detail'),
+    # Produto
+    path('api_produtos/', ProdutoListCreateView.as_view(), name='produto_list'),
+    path('api_produtos/<str:codigo>/', ProdutoDetailView.as_view(), name='produto_detail'),
+
+    # Pedido Order
+    path('api_pedido_order/', PedidoOrderListCreateView.as_view(), name='pedido_order_list'),
+    path('api_pedido_order/<int:pk>/', PedidoOrderDetailView.as_view(), name='pedido_order_detail'),
+
+    # Pedido Produto
+    path('api_pedido_produto/', PedidoProdutoListCreateView.as_view(), name='pedido_produto_list'),
+    path('api_pedido_produto/<int:pk>/', PedidoProdutoDetailView.as_view(), name='pedido_produto_detail'),
     
 ]
