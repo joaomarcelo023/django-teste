@@ -202,7 +202,7 @@ def getByCodigoProduto(_codigo):
     else:
         print("Erro ao obter produto:", response.status_code)
 
-postTest("Fala comigo bb") # A mensagem é printada na pagina /contato/
+# postTest("Fala comigo bb") # A mensagem é printada na pagina /contato/
 # getTest()
 # getByIdTest(10)
 # putTest(10, "Olá")
@@ -216,21 +216,23 @@ postTest("Fala comigo bb") # A mensagem é printada na pagina /contato/
 # getByCodigoProduto(143830)
 
 prodData = {
-    "codigo": "12456",
-    "descricao": "Teste da API pra lançamento de produto",
-    "codigo_GTIN": "12456",
-    "preco_unitario_bruto": 69.69,
-    "desconto_dinheiro": 7,
-    "desconto_retira": 9,
-    "fechamento_embalagem": 3.5,
-    "slug": "12456",
+    "codigo": "234567",
+    "descricao": "Teste 2 da API pra lançamento de produto",
+    "codigo_GTIN": "234567",
+    "preco_unitario_bruto": 420,
+    "desconto_dinheiro": 5,
+    "desconto_retira": 5,
+    "unidade": "CM3",
+    "fechamento_embalagem": 1,
+    "em_estoque": True,
+    "slug": "234567",
     "Categoria": 4,
-    "titulo": "Teste da API pra lançamento de produto",    
+    "titulo": "Teste 2 da API pra lançamento de produto",    
     "venda": 0,
 }
 
 prodFiles = {
-    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Bidoof.jpg", "rb"),
+    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Rotom.jpg", "rb"),
 }
 
-# postProduto(prodData, prodFiles)
+postProduto(prodData, prodFiles)
