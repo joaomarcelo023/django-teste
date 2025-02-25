@@ -8,6 +8,7 @@
 #                               DELETE	Delete an object
 import requests
 from django_teste import settings
+# from app import models
 
 def postTest(_message):
     API_URL_TEST = "http://127.0.0.1:8000/api_test/"
@@ -146,22 +147,23 @@ def getByIdPedidoOrder(_id):
     else:
         print("Erro ao obter produtos:", response.status_code)
 
-def postProduto(_produtojson): # Não ta funfando ainda
+def postProduto(_produtodata, _prodfiles): # Não ta funfando ainda
     API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_produtos/"
     # API_URL_PEDIDO_ORDER = "http://vendashg.pythonanywhere.com/api_produtos/"
     
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
         # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
-        "Content-Type": "application/json"
+        # "Content-Type": "application/json"
     }
 
-    response = requests.post(API_URL_PEDIDO_ORDER, json=_produtojson, headers=headers)
+    response = requests.post(API_URL_PEDIDO_ORDER, data=_produtodata, files=_prodfiles, headers=headers)
 
     if response.status_code == 201:
         print("Produto cadastrado com sucesso!")
     else:
         print("Erro ao cadastrar produto:", response.status_code)
+        print(response.text)
 
 def getProduto():
     API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_produtos/"
@@ -181,7 +183,6 @@ def getProduto():
             print(f"Produto: {produto['codigo']}")
     else:
         print("Erro ao obter produtos:", response.status_code)
-        print(response.text)
 
 def getByCodigoProduto(_codigo):
     API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_produtos/" + str(_codigo) + "/"
@@ -201,7 +202,7 @@ def getByCodigoProduto(_codigo):
     else:
         print("Erro ao obter produto:", response.status_code)
 
-# postTest("Fala comigo") # A mensagem é printada na pagina /contato/
+postTest("Fala comigo bb") # A mensagem é printada na pagina /contato/
 # getTest()
 # getByIdTest(10)
 # putTest(10, "Olá")
@@ -212,4 +213,24 @@ def getByCodigoProduto(_codigo):
 # getByIdPedidoOrder(85)
 
 # getProduto()
-getByCodigoProduto(143830)
+# getByCodigoProduto(143830)
+
+prodData = {
+    "codigo": "12456",
+    "descricao": "Teste da API pra lançamento de produto",
+    "codigo_GTIN": "12456",
+    "preco_unitario_bruto": 69.69,
+    "desconto_dinheiro": 7,
+    "desconto_retira": 9,
+    "fechamento_embalagem": 3.5,
+    "slug": "12456",
+    "Categoria": 4,
+    "titulo": "Teste da API pra lançamento de produto",    
+    "venda": 0,
+}
+
+prodFiles = {
+    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Bidoof.jpg", "rb"),
+}
+
+# postProduto(prodData, prodFiles)

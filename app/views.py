@@ -20,6 +20,7 @@ from rest_framework import serializers, status, generics, permissions
 from rest_framework_api_key.permissions import HasAPIKey
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.authentication import SessionAuthentication
+from rest_framework.parsers import MultiPartParser, FormParser
 import requests
 import decimal
 import json
@@ -1471,6 +1472,7 @@ class TestDetailView(generics.RetrieveUpdateDestroyAPIView):
 class ProdutoListCreateView(generics.ListCreateAPIView):
     queryset = Produto.objects.all()
     serializer_class = ProdutoSerializer
+    parser_classes = (MultiPartParser, FormParser)
 
     permission_classes = [HasAPIKey]
 
