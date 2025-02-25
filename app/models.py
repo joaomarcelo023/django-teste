@@ -11,7 +11,6 @@ class Categoria(models.Model):
         return self.titulo + ", id: " + str(self.id)
 
 class Produto(models.Model):
-
     #informações que virão do sistema externo
     codigo = models.CharField(max_length=10) #codigo interno consistente com sistema
     descricao = models.CharField(max_length=200)
@@ -69,6 +68,8 @@ class FotosProduto(models.Model):
     def __str__(self):
         return self.produto.titulo + ": " + str(self.img_num)
 
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
 class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -124,6 +125,7 @@ class Endereco(models.Model):
     def __str__(self):
         return self.titulo + " | " + self.cliente.nome + " " + self.cliente.sobrenome
 
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 class Carro(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL,null=True,blank=True)
@@ -132,7 +134,6 @@ class Carro(models.Model):
 
     def __str__(self):
         return "Carro: " + str(self.id)
-
 
 class CarroProduto(models.Model):
     carro = models.ForeignKey(Carro, on_delete=models.CASCADE)
@@ -146,6 +147,8 @@ class CarroProduto(models.Model):
     def __str__(self):
         return "Carro: " + str(self.carro.id) + " | CarroProduto: " + str(self.id)
 
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
 PEDIDO_STATUS=[
     ("Pedido em Andamento", "Pedido em Andamento"),
     ("Pedido Recebido", "Pedido Recebido"),
@@ -158,7 +161,7 @@ PEDIDO_STATUS=[
     ("Pedido Cancelado", "Pedido Cancelado"),
 ]
 
-class Pedido_order(models.Model):    
+class Pedido_order(models.Model):
     cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE,default="")
     nome_cliente = models.CharField(max_length=200,default="")
     cpf_cnpj = models.CharField(max_length=20, default="") # cpf do cliente formatadinho direitinho
