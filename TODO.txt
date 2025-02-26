@@ -4,8 +4,6 @@ TODO-ALVAREZ: Criar area de admin com dados de produtos (mais visualizados, mais
 
 TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 
-TODO-ALVAREZ: Arrumar o on_delete=models.CASCADE nos ForeignKey pra que nem tudo seja deletado
-
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte
   Interface de home, pesquisa e detalhe do produto bem montadinha

@@ -99,3 +99,5 @@ TODO-ALVAREZ-RESOLVIDO: Arrumar parcelas no pagseguro checkout
 TODO-ALVAREZ-RESOLVIDO: Colocar limite de 70 reais nas parcelas
 
 TODO-ALVAREZ-RESOLVIDO: colocar descontos direito nos pagamentos
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar o on_delete=models.CASCADE nos ForeignKey pra que nem tudo seja deletado
