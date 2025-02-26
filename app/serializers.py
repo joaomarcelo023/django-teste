@@ -11,6 +11,11 @@ class ProdutoSerializer(serializers.ModelSerializer):
         model = Produto
         fields = '__all__'
 
+class FotosProdutoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FotosProduto
+        fields = '__all__'
+
 class PedidoProdutoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pedido_Produto

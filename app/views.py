@@ -96,16 +96,20 @@ class BaseContextMixin(object):
         return context
 
 class CrazyAlvaPaymentCheckMixin(object):
-    def dispatch(self,request,*args, **kwargs):
+    def dispatch(self,request,*args,**kwargs):
         pedidos = list(Pedido_order.objects.filter(pedido_status="Pagamento Processando", local_de_pagamento="online"))
-        pedido_aleatorio = pedidos[randint(0, len(pedidos))]
+        # print(len(pedidos))
+        if len(pedidos):
+            pedido_aleatorio = pedidos[randint(0, len(pedidos))]
 
-        if ta_pago(pedido_aleatorio):
-            pedido_aleatorio.pedido_status = "Pagamento Confirmado"
+            if ta_pago(pedido_aleatorio):
+                pedido_aleatorio.pedido_status = "Pagamento Confirmado"
+
+        return super().dispatch(request,*args,**kwargs)
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-class HomeView(LojaMixin, BaseContextMixin, TemplateView):
+class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, TemplateView):
     template_name = "home.html"
 
     # def preprocessar_precos(self, produtos):
@@ -1479,7 +1483,23 @@ class ProdutoListCreateView(generics.ListCreateAPIView):
 class ProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Produto.objects.all()
     serializer_class = ProdutoSerializer
+    parser_classes = (MultiPartParser, FormParser)
     lookup_field = "codigo"
+
+    permission_classes = [HasAPIKey]
+
+# Fotos Produto
+class FotosProdutoListCreateView(generics.ListCreateAPIView):
+    queryset = FotosProduto.objects.all()
+    serializer_class = FotosProdutoSerializer
+    parser_classes = (MultiPartParser, FormParser)
+
+    permission_classes = [HasAPIKey]
+
+class FotosProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = FotosProduto.objects.all()
+    serializer_class = FotosProdutoSerializer
+    parser_classes = (MultiPartParser, FormParser)
 
     permission_classes = [HasAPIKey]
 

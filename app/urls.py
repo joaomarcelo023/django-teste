@@ -75,6 +75,10 @@ urlpatterns = [
     path('api_produtos/', ProdutoListCreateView.as_view(), name='produto_list'),
     path('api_produtos/<str:codigo>/', ProdutoDetailView.as_view(), name='produto_detail'),
 
+    # Fotos Produto
+    path('api_fotos_produtos/', FotosProdutoListCreateView.as_view(), name='fotos_produto_list'),
+    path('api_fotos_produtos/<int:pk>/', FotosProdutoDetailView.as_view(), name='fotos_produto_detail'),
+
     # Pedido Order
     path('api_pedido_order/', PedidoOrderListCreateView.as_view(), name='pedido_order_list'),
     path('api_pedido_order/<int:pk>/', PedidoOrderDetailView.as_view(), name='pedido_order_detail'),

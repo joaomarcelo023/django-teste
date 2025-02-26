@@ -232,7 +232,7 @@ prodData = {
 }
 
 prodFiles = {
-    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Rotom.jpg", "rb"),
+    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Croagunk.jpg", "rb"),
 }
 
 postProduto(prodData, prodFiles)
