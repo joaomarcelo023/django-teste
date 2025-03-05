@@ -4,6 +4,16 @@ TODO-ALVAREZ: Criar area de admin com dados de produtos (mais visualizados, mais
 
 TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 
+TODO-ALVAREZ: Fazer a API pra lançar em massa o estoque
+
+  TODO-ALVAREZ: Fazer e testar a função pra chunked upload do json
+
+  TODO-ALVAREZ: Aprender a ler o json do estoque
+
+  TODO-ALVAREZ: Adicionar a criação do produto na API de upload
+
+  TODO-ALVAREZ: Testar essa porra
+
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte
   Interface de home, pesquisa e detalhe do produto bem montadinha
