@@ -6,7 +6,7 @@ TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 
 TODO-ALVAREZ: Fazer a API pra lançar em massa o estoque
 
-  TODO-ALVAREZ: Fazer e testar a função pra chunked upload do json
+  TODO-ALVAREZ-RESOLVIDO: Fazer e testar a função pra chunked upload do json
 
   TODO-ALVAREZ: Aprender a ler o json do estoque
 

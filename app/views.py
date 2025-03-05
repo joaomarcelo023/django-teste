@@ -1,30 +1,35 @@
-from django.shortcuts import redirect, render
-from django.views.generic import TemplateView, CreateView, FormView, DetailView, ListView
-from django.urls import reverse_lazy, reverse
-from django_teste import settings
+import os
 from .forms import *
 from .models import *
 from .serializers import *
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django_teste import settings
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy, reverse
+from django.views import View
+from django.views.generic import TemplateView, CreateView, FormView, DetailView, ListView
 from django.views.generic.edit import DeleteView
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
-import os
-from django.views import View
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.core.cache import cache
 from django.core.paginator import Paginator
-from rest_framework.response import Response
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 from rest_framework import serializers, status, generics, permissions
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework_api_key.permissions import HasAPIKey
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.parsers import MultiPartParser, FormParser
+from random import randint
 import requests
 import decimal
 import json
-from random import randint
 
 class AdminRequireMixin(object):
     def dispatch(self, request, *args, **kwargs):
@@ -1487,6 +1492,36 @@ class ProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = "codigo"
 
     permission_classes = [HasAPIKey]
+
+class ChunkedProdutoJsonUploadView(APIView):
+    permission_classes = [HasAPIKey]
+
+    def post(self, request):
+        file_id = request.data.get("file_id")
+        chunk_index = request.data.get("chunk_index")
+        total_chunks = request.data.get("total_chunks")
+        json_chunk = request.data.get("chunk_data")     # JSON chunk as string
+
+        cache_key = f"json_upload_{file_id}_{chunk_index}"
+        cache.set(cache_key, json_chunk)
+
+        if int(chunk_index) + 1 == int(total_chunks):
+            full_json = ""
+            for i in range(int(total_chunks)):
+                chunk = cache.get(f"json_upload_{file_id}_{i}")
+                if chunk:
+                    full_json += chunk
+                    cache.delete(f"json_upload_{file_id}_{i}")
+
+            try:
+                data_str = json.loads(full_json)
+                data = json.loads(data_str)             # Convert JSON string to Python object
+            except json.JSONDecodeError:
+                return Response({"error": "Invalid JSON"}, status=400)
+            
+            return Response({"message": "JSON Upload Complete", "data_len": len(data["ACENAN"])})
+
+        return Response({"message": "Chunk received"})
 
 # Fotos Produto
 class FotosProdutoListCreateView(generics.ListCreateAPIView):

@@ -7,6 +7,7 @@
 #                               PATCH	Update an object
 #                               DELETE	Delete an object
 import requests
+import json
 from django_teste import settings
 # from app import models
 
@@ -202,6 +203,39 @@ def getByCodigoProduto(_codigo):
     else:
         print("Erro ao obter produto:", response.status_code)
 
+def postJson(_arq):
+    API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_upload/"
+    # API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_upload/"
+
+    headers = {
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        "Content-Type": "application/json"
+    }
+
+    large_json = open(_arq, "r").read()
+
+    # large_json = {"data": ["item1", "item2", "item3", "..."]}  # Example JSON
+    json_str = json.dumps(large_json)
+    chunk_size = 1024 * 1024  # 1MB chunks
+    file_id = "json123"
+
+    total_chunks = len(json_str) // chunk_size + 1
+
+    for i in range(total_chunks):
+        chunk = json_str[i * chunk_size: (i + 1) * chunk_size]
+        data = {
+            "file_id": file_id,
+            "chunk_index": i,
+            "total_chunks": total_chunks,
+            "chunk_data": chunk,
+        }
+        response = requests.post(API_URL_PRODUTOS, headers=headers, json=data)
+        
+        print(f"Chunk {i+1}/{total_chunks}: {response.json()}")
+    
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
 # postTest("Fala comigo bb") # A mensagem é printada na pagina /contato/
 # getTest()
 # getByIdTest(10)
@@ -215,24 +249,30 @@ def getByCodigoProduto(_codigo):
 # getProduto()
 # getByCodigoProduto(143830)
 
-prodData = {
-    "codigo": "234567",
-    "descricao": "Teste 2 da API pra lançamento de produto",
-    "codigo_GTIN": "234567",
-    "preco_unitario_bruto": 420,
-    "desconto_dinheiro": 5,
-    "desconto_retira": 5,
-    "unidade": "CM3",
-    "fechamento_embalagem": 1,
-    "em_estoque": True,
-    "slug": "234567",
-    "Categoria": 4,
-    "titulo": "Teste 2 da API pra lançamento de produto",    
-    "venda": 0,
-}
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-prodFiles = {
-    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Croagunk.jpg", "rb"),
-}
+# prodData = {
+#     "codigo": "234567",
+#     "descricao": "Teste 2 da API pra lançamento de produto",
+#     "codigo_GTIN": "234567",
+#     "preco_unitario_bruto": 420,
+#     "desconto_dinheiro": 5,
+#     "desconto_retira": 5,
+#     "unidade": "CM3",
+#     "fechamento_embalagem": 1,
+#     "em_estoque": True,
+#     "slug": "234567",
+#     "Categoria": 4,
+#     "titulo": "Teste 2 da API pra lançamento de produto",    
+#     "venda": 0,
+# }
 
-postProduto(prodData, prodFiles)
+# prodFiles = {
+#     "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Croagunk.jpg", "rb"),
+# }
+
+# postProduto(prodData, prodFiles)
+
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/estoque_ATACADAO.json")
