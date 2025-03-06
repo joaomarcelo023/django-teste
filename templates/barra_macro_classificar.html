@@ -6,7 +6,7 @@
             {% if request.GET.query %}
                 <span>Resultados para <span style="color: #ff9900;">"{{ request.GET.query }}"</span></span>
             {% else %}
-                <span>{{ categoria }}</span>
+                <span>{{ categoria.titulo }}</span>
             {% endif %}
         </div>
 
