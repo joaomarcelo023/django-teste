@@ -149,7 +149,7 @@ def getByIdPedidoOrder(_id):
     else:
         print("Erro ao obter produtos:", response.status_code)
 
-def postProduto(_produtodata, _prodfiles): # Não ta funfando ainda
+def postProduto(_produtodata, _prodfiles):
     API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_produtos/"
     # API_URL_PEDIDO_ORDER = "http://vendashg.pythonanywhere.com/api_produtos/"
     
@@ -165,7 +165,6 @@ def postProduto(_produtodata, _prodfiles): # Não ta funfando ainda
         print("Produto cadastrado com sucesso!")
     else:
         print("Erro ao cadastrar produto:", response.status_code)
-        print(response.text)
 
 def getProduto():
     API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_produtos/"
