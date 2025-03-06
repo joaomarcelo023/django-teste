@@ -25,7 +25,7 @@ from rest_framework.response import Response
 from rest_framework_api_key.permissions import HasAPIKey
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.authentication import SessionAuthentication
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from random import randint
 import requests
 import decimal
@@ -1516,12 +1516,47 @@ class ChunkedProdutoJsonUploadView(APIView):
             try:
                 data_str = json.loads(full_json)
                 data = json.loads(data_str)             # Convert JSON string to Python object
+
+                for i in range(len(data["codigo"])):
+                    categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
+                    img = "produtos/" + data["codigo"][str(i)] + ".jpg"
+                    Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
+                                           preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
+                                           desconto_retira=data["desconto_retira"][str(i)],unidade=data["unidade"][str(i)],fechamento_embalagem=data["fechamento_embalagem"][str(i)],
+                                           em_estoque=data["em_estoque"][str(i)],slug=data["slug"][str(i)],Categoria=categoria_id,titulo=data["titulo"][str(i)],
+                                           image=img,venda=data["venda"][str(i)],)
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
-            return Response({"message": "JSON Upload Complete", "data_len": len(data["ACENAN"])})
+            return Response({"message": "JSON Upload Complete"}) #, "data_len": len(data["ACENAN"])})
 
         return Response({"message": "Chunk received"})
+    
+class ChunkedProdutoImgUploadView(APIView):
+    permission_classes = [HasAPIKey]
+
+    def post(self, request):
+        file_name = request.POST.get("file_name")  # Name of the image file
+        chunk_index = int(request.POST.get("chunk_index", 0))  # Current chunk index
+        total_chunks = int(request.POST.get("total_chunks", 1))  # Total chunks expected
+
+        # Define the target directory
+        upload_dir = os.path.join(settings.MEDIA_ROOT, "produtos")
+        os.makedirs(upload_dir, exist_ok=True)  # Ensure the directory exists
+
+        # Define the temporary file path
+        temp_file_path = os.path.join(upload_dir, file_name)
+
+        # Append the chunk to the file
+        with open(temp_file_path, "ab") as f:
+            f.write(request.FILES["file"].read())
+
+        # If this is the last chunk, return the final file path
+        if chunk_index + 1 == total_chunks:
+            file_url = os.path.join(settings.MEDIA_URL, "produtos", file_name)
+            return JsonResponse({"message": "Upload complete", "file_url": file_url})
+
+        return JsonResponse({"message": "Chunk received", "chunk_index": chunk_index})
 
 # Fotos Produto
 class FotosProdutoListCreateView(generics.ListCreateAPIView):

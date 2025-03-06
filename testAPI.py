@@ -6,6 +6,7 @@
 #                               PUT	    Replaces an object
 #                               PATCH	Update an object
 #                               DELETE	Delete an object
+import os
 import requests
 import json
 from django_teste import settings
@@ -233,7 +234,41 @@ def postJson(_arq):
         response = requests.post(API_URL_PRODUTOS, headers=headers, json=data)
         
         print(f"Chunk {i+1}/{total_chunks}: {response.json()}")
-    
+
+def upload_image(image_path):
+    API_URL_IMG = "http://127.0.0.1:8000/chunked_img_upload/"
+    # API_URL_IMG = "https://vendashg.pythonanywhere.com/chunked_img_upload/"
+
+    headers = {
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        # "Content-Type": "application/json"
+    }
+
+    chunk_size = 1024 * 1024  # 1MB chunks
+
+    file_name = os.path.basename(image_path)
+    total_size = os.path.getsize(image_path)
+    total_chunks = (total_size // chunk_size) + 1
+
+    with open(image_path, "rb") as f:
+        for chunk_index in range(total_chunks):
+            chunk = f.read(chunk_size)
+            files = {"file": (file_name, chunk)}
+            data = {
+                "file_name": file_name,
+                "chunk_index": chunk_index,
+                "total_chunks": total_chunks
+            }
+            response = requests.post(API_URL_IMG, headers=headers, files=files, data=data)
+            print(response.json())
+
+def postImg(_img_dir):
+    for image in os.listdir(_img_dir):
+        image_path = os.path.join(_img_dir, image)
+        if os.path.isfile(image_path):
+            upload_image(image_path)
+
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 # postTest("Fala comigo bb") # A mensagem é printada na pagina /contato/
@@ -275,4 +310,6 @@ def postJson(_arq):
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/estoque_ATACADAO.json")
+# postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/estoque_ATACADAO.json")
+postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test.json")
+postImg("E:/Users/HP/Pictures/pokemonTCGPocket")

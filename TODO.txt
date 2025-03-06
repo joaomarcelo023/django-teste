@@ -10,7 +10,9 @@ TODO-ALVAREZ: Fazer a API pra lançar em massa o estoque
 
   TODO-ALVAREZ: Aprender a ler o json do estoque
 
-  TODO-ALVAREZ: Adicionar a criação do produto na API de upload
+  TODO-ALVAREZ-RESOLVIDO: Adicionar a criação do produto na API de upload
+
+  TODO-ALVAREZ-RESOLVIDO: Fazer metodo pra upload das imagens
 
   TODO-ALVAREZ: Testar essa porra
 

@@ -27,8 +27,8 @@ class Produto(models.Model):
     Categoria = models.ForeignKey(Categoria,on_delete=models.SET_NULL,default="",null=True)
 
     #entrada manual de algum admin
-    titulo = models.CharField(max_length=200)
-    image = models.ImageField(upload_to="produtos")
+    titulo = models.CharField(max_length=200,default="",null=True,blank=True)
+    image = models.ImageField(upload_to="produtos",null=True,blank=True)
 
     # TODO-ALVAREZ deletar de forma responsável
     venda = models.DecimalField(max_digits=10, decimal_places=2)

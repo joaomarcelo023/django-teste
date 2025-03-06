@@ -15,6 +15,8 @@ UNIT_SYMBOLS = {
     "G": "g",
     "MM": "mm",
     "UN": "un",
+    "PC": "pc",
+    "MT": "mt",
 }
 
 @register.filter
