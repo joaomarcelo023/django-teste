@@ -235,7 +235,7 @@ def postJson(_arq):
         
         print(f"Chunk {i+1}/{total_chunks}: {response.json()}")
 
-def upload_image(image_path):
+def upload_image(_image_path):
     API_URL_IMG = "http://127.0.0.1:8000/chunked_img_upload/"
     # API_URL_IMG = "https://vendashg.pythonanywhere.com/chunked_img_upload/"
 
@@ -247,11 +247,11 @@ def upload_image(image_path):
 
     chunk_size = 1024 * 1024  # 1MB chunks
 
-    file_name = os.path.basename(image_path)
-    total_size = os.path.getsize(image_path)
+    file_name = os.path.basename(_image_path)
+    total_size = os.path.getsize(_image_path)
     total_chunks = (total_size // chunk_size) + 1
 
-    with open(image_path, "rb") as f:
+    with open(_image_path, "rb") as f:
         for chunk_index in range(total_chunks):
             chunk = f.read(chunk_size)
             files = {"file": (file_name, chunk)}
