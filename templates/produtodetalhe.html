@@ -13,7 +13,7 @@
 <section class="container">
     <div class="row categoriasRow">
         <div class="col-md-12 categoriasCol">
-            <p class="categoriaSeq"><a href="{% url 'lojaapp:home' %}">Início</a> > <a href="{% url 'lojaapp:categoria' produto.Categoria.slug %}">{{ produto.Categoria }}</a> > {{ produto.descricao }}</p>
+            <p class="categoriaSeq"><a href="{% url 'lojaapp:home' %}">Início</a> > <a href="{% url 'lojaapp:categoria' produto.Categoria.slug %}">{{ produto.Categoria.titulo }}</a> > {{ produto.descricao }}</p>
         </div>
     </div>
     
@@ -33,7 +33,7 @@
         <div class="col-11 ml-auto mr-auto detalheCol">
             <div>
                 <h2>{{ produto.descricao }}</h2>
-                <p class="categoriaText">Categoria: <a href="{% url 'lojaapp:categoria' produto.Categoria.slug %}">{{ produto.Categoria }}</a></p>
+                <p class="categoriaText">Categoria: <a href="{% url 'lojaapp:categoria' produto.Categoria.slug %}">{{ produto.Categoria.titulo }}</a></p>
             </div>
             <hr>
             <div>
@@ -104,7 +104,7 @@
         <div class="col-4 ml-auto mr-auto detalheCol">
             <div>
                 <h2>{{ produto.descricao }}</h2>
-                <p class="categoriaText">Categoria: <a href="{% url 'lojaapp:categoria' produto.Categoria.slug %}">{{ produto.Categoria }}</a></p>
+                <p class="categoriaText">Categoria: <a href="{% url 'lojaapp:categoria' produto.Categoria.slug %}">{{ produto.Categoria.titulo }}</a></p>
             </div>
             <hr>
             <div>
