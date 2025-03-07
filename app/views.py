@@ -26,6 +26,8 @@ from rest_framework_api_key.permissions import HasAPIKey
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from PIL import Image
+from io import BytesIO
 from random import randint
 import requests
 import decimal
@@ -1520,12 +1522,11 @@ class ChunkedProdutoJsonUploadView(APIView):
                 for i in range(len(data["codigo"])):
                     categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
                     # TODO: Não necessariamente a imagem vai ser .jpg
-                    img = "produtos/" + data["codigo"][str(i)] + ".jpg"
+                    img = "produtos/" + data["codigo"][str(i)] + ".webp"
                     Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
                                            preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
                                            desconto_retira=data["desconto_retira"][str(i)],unidade=data["unidade"][str(i)],fechamento_embalagem=data["fechamento_embalagem"][str(i)],
-                                           em_estoque=data["em_estoque"][str(i)],slug=data["slug"][str(i)],Categoria=categoria_id,titulo=data["titulo"][str(i)],
-                                           image=img,venda=data["venda"][str(i)],)
+                                           em_estoque=data["em_estoque"][str(i)],slug=data["slug"][str(i)],Categoria=categoria_id,titulo=data["titulo"][str(i)],image=img,)
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
@@ -1554,11 +1555,59 @@ class ChunkedProdutoImgUploadView(APIView):
 
         # If this is the last chunk, return the final file path
         if chunk_index + 1 == total_chunks:
-            file_url = os.path.join(settings.MEDIA_URL, "produtos", file_name)
+            # Converte pra webp
+            file, ext = os.path.splitext(temp_file_path)
+            image = Image.open(temp_file_path).convert("RGB")
+            image.save(file + ".webp", "webp")
+            converted_file_path = file + ".webp"
+            # Remove o original
+            os.remove(temp_file_path)
+            
+            file_url = os.path.join(settings.MEDIA_URL, "produtos", os.path.basename(converted_file_path))
             return JsonResponse({"message": "Upload complete", "file_url": file_url})
 
         return JsonResponse({"message": "Chunk received", "chunk_index": chunk_index})
 
+class ChunkedProdutoJsonUpdateView(APIView): # TODO
+    permission_classes = [HasAPIKey]
+
+    def post(self, request):
+        file_id = request.data.get("file_id")
+        chunk_index = request.data.get("chunk_index")
+        total_chunks = request.data.get("total_chunks")
+        json_chunk = request.data.get("chunk_data")     # JSON chunk as string
+
+        cache_key = f"json_upload_{file_id}_{chunk_index}"
+        cache.set(cache_key, json_chunk)
+
+        if int(chunk_index) + 1 == int(total_chunks):
+            full_json = ""
+            for i in range(int(total_chunks)):
+                chunk = cache.get(f"json_upload_{file_id}_{i}")
+                if chunk:
+                    full_json += chunk
+                    cache.delete(f"json_upload_{file_id}_{i}")
+
+            try:
+                data_str = json.loads(full_json)
+                data = json.loads(data_str)             # Convert JSON string to Python object
+
+                for i in range(len(data["codigo"])):
+                    categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
+                    # TODO: Não necessariamente a imagem vai ser .jpg
+                    img = "produtos/" + data["codigo"][str(i)] + ".jpg"
+                    Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
+                                           preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
+                                           desconto_retira=data["desconto_retira"][str(i)],unidade=data["unidade"][str(i)],fechamento_embalagem=data["fechamento_embalagem"][str(i)],
+                                           em_estoque=data["em_estoque"][str(i)],slug=data["slug"][str(i)],Categoria=categoria_id,titulo=data["titulo"][str(i)],
+                                           image=img,venda=data["venda"][str(i)],)
+            except json.JSONDecodeError:
+                return Response({"error": "Invalid JSON"}, status=400)
+            
+            return Response({"message": "JSON Upload Complete"})
+
+        return Response({"message": "Chunk received"})
+    
 # Fotos Produto
 class FotosProdutoListCreateView(generics.ListCreateAPIView):
     queryset = FotosProduto.objects.all()

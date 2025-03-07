@@ -31,7 +31,7 @@ class Produto(models.Model):
     titulo = models.CharField(max_length=200,default="",null=True,blank=True)
 
     # TODO-ALVAREZ deletar de forma responsável
-    venda = models.DecimalField(max_digits=10, decimal_places=2)
+    venda = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True)
     garantia = models.CharField(max_length=300,null=True,blank=True)
     return_devolucao = models.CharField(max_length=300,null=True,blank=True)
 

@@ -311,4 +311,4 @@ def postImg(_img_dir):
 
 # postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/estoque_ATACADAO.json")
 postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test.json")
-postImg("E:/Users/HP/Pictures/pokemonTCGPocket")
+# postImg("E:/Users/HP/Pictures/pokemonTCGPocket")
