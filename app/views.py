@@ -1519,6 +1519,7 @@ class ChunkedProdutoJsonUploadView(APIView):
 
                 for i in range(len(data["codigo"])):
                     categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
+                    # TODO: Não necessariamente a imagem vai ser .jpg
                     img = "produtos/" + data["codigo"][str(i)] + ".jpg"
                     Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
                                            preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
