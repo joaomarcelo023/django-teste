@@ -18,9 +18,9 @@ TODO-ALVAREZ: Fazer a API pra lançar em massa o estoque
 
   TODO-ALVAREZ-RESOLVIDO: Fazer metodo pra upload das imagens
 
-  TODO-ALVAREZ: Testar essa porra
+  TODO-ALVAREZ-RESOLVIDO: Testar essa porra
 
-TODO-ALVAREZ: Fazer a API pra atualizar em massa o estoque
+TODO-ALVAREZ-RESOLVIDO: Fazer a API pra atualizar em massa o estoque
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte

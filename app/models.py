@@ -261,6 +261,7 @@ class APIKey(AbstractAPIKey):
 
 class TestStatus(models.Model):
     status = models.CharField(max_length=2000,default="",null=True,blank=True)
+    cu = models.CharField(max_length=2000,default="",null=True,blank=True)
 
     def __str__(self):
-        return str(self.id) + ": " + self.status
+        return str(self.id) + ": " + self.status + ", " + self.cu

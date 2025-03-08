@@ -52,7 +52,7 @@ def getTest():
     else:
         print("Erro ao obter teste:", response.status_code)
 
-def putTest(_id, _message):
+def patchTest(_id, _message):
     API_URL_TEST = "http://127.0.0.1:8000/api_test/" + str(_id) + "/"
     # API_URL_TEST = "https://vendashg.pythonanywhere.com/api_test/" + str(_id) + "/"
 
@@ -234,6 +234,37 @@ def postJson(_arq):
         
         print(f"Chunk {i+1}/{total_chunks}: {response.json()}")
 
+def patchJson(_arq):
+    API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_update/"
+    # API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_update/"
+
+    headers = {
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        "Content-Type": "application/json"
+    }
+
+    large_json = open(_arq, "r").read()
+
+    # large_json = {"data": ["item1", "item2", "item3", "..."]}  # Example JSON
+    json_str = json.dumps(large_json)
+    chunk_size = 1024 * 1024  # 1MB chunks
+    file_id = "json123"
+
+    total_chunks = len(json_str) // chunk_size + 1
+
+    for i in range(total_chunks):
+        chunk = json_str[i * chunk_size: (i + 1) * chunk_size]
+        data = {
+            "file_id": file_id,
+            "chunk_index": i,
+            "total_chunks": total_chunks,
+            "chunk_data": chunk,
+        }
+        response = requests.post(API_URL_PRODUTOS, headers=headers, json=data)
+        
+        print(f"Chunk {i+1}/{total_chunks}: {response.json()}")
+
 def upload_image(_image_path):
     API_URL_IMG = "http://127.0.0.1:8000/chunked_img_upload/"
     # API_URL_IMG = "https://vendashg.pythonanywhere.com/chunked_img_upload/"
@@ -273,7 +304,7 @@ def postImg(_img_dir):
 # postTest("Fala comigo bb") # A mensagem é printada na pagina /contato/
 # getTest()
 # getByIdTest(10)
-# putTest(10, "Olá")
+# patchTest(10, "fala")
 # getByIdTest(10)
 
 # postPedidoOrder("cu") # Não usar, não ta direito
@@ -285,30 +316,30 @@ def postImg(_img_dir):
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-# prodData = {
-#     "codigo": "234567",
-#     "descricao": "Teste 2 da API pra lançamento de produto",
-#     "codigo_GTIN": "234567",
-#     "preco_unitario_bruto": 420,
-#     "desconto_dinheiro": 5,
-#     "desconto_retira": 5,
-#     "unidade": "CM3",
-#     "fechamento_embalagem": 1,
-#     "em_estoque": True,
-#     "slug": "234567",
-#     "Categoria": 4,
-#     "titulo": "Teste 2 da API pra lançamento de produto",    
-#     "venda": 0,
-# }
+prodData = {
+    "codigo": "Moltres",
+    "descricao": "Teste 3 da API pra lançamento de produto",
+    "codigo_GTIN": "Moltres",
+    "preco_unitario_bruto": 420.69,
+    "desconto_dinheiro": 5,
+    "desconto_retira": 5,
+    "unidade": "CM3",
+    "fechamento_embalagem": 1,
+    "em_estoque": True,
+    "slug": "Moltres",
+    "Categoria": 4,
+    "titulo": "Teste 3 da API pra lançamento de produto",   
+}
 
-# prodFiles = {
-#     "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Croagunk.jpg", "rb"),
-# }
+prodFiles = {
+    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Moltres.jpg", "rb"),
+}
 
-# postProduto(prodData, prodFiles)
+postProduto(prodData, prodFiles)
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 # postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/estoque_ATACADAO.json")
-postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test.json")
+# postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test.json")
+# patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test_update.json")
 # postImg("E:/Users/HP/Pictures/pokemonTCGPocket")

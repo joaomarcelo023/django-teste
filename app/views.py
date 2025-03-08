@@ -1487,6 +1487,28 @@ class ProdutoListCreateView(generics.ListCreateAPIView):
 
     permission_classes = [HasAPIKey]
 
+    def perform_create(self, serializer):
+        produto = serializer.save()  # Save the initial model instance
+        
+        # Get the uploaded image
+        image_field = produto.image  # Assuming the image field is named 'image'
+        
+        if image_field:
+            temp_file_path = image_field.path  # Get the file path
+
+            # Converte pra webp
+            file, ext = os.path.splitext(temp_file_path) 
+            image = Image.open(temp_file_path).convert("RGB")
+            new_path = f"{file}.webp"
+            image.save(new_path, "webp")
+
+            # Remove o original
+            os.remove(temp_file_path)
+
+            # Update the model with the new WebP image
+            produto.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+            produto.save()
+
 class ProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Produto.objects.all()
     serializer_class = ProdutoSerializer
@@ -1494,6 +1516,38 @@ class ProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = "codigo"
 
     permission_classes = [HasAPIKey]
+
+    def perform_update(self, serializer):
+        produto = serializer.save()  # Save the updated model instance
+        
+        # Check if an image was updated
+        if "image" in self.request.FILES:  
+            image_field = produto.image  # Get the updated image
+            
+            if image_field:
+                temp_file_path = image_field.path  # Get the file path
+
+                # Converte pra webp
+                file, ext = os.path.splitext(temp_file_path) 
+                image = Image.open(temp_file_path).convert("RGB")
+                new_path = f"{file}.webp"
+                image.save(new_path, "webp")
+
+                # Remove o original
+                os.remove(temp_file_path)
+
+                # Update the model with the new WebP image
+                produto.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+                produto.save()
+
+    def perform_destroy(self, instance):
+        if instance.image:
+            image_path = instance.image.path
+
+            if os.path.exists(image_path):
+                os.remove(image_path)  # Delete the file from storage
+
+        instance.delete()
 
 class ChunkedProdutoJsonUploadView(APIView):
     permission_classes = [HasAPIKey]
@@ -1521,7 +1575,6 @@ class ChunkedProdutoJsonUploadView(APIView):
 
                 for i in range(len(data["codigo"])):
                     categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
-                    # TODO: Não necessariamente a imagem vai ser .jpg
                     img = "produtos/" + data["codigo"][str(i)] + ".webp"
                     Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
                                            preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
@@ -1531,6 +1584,74 @@ class ChunkedProdutoJsonUploadView(APIView):
                 return Response({"error": "Invalid JSON"}, status=400)
             
             return Response({"message": "JSON Upload Complete"}) #, "data_len": len(data["ACENAN"])})
+
+        return Response({"message": "Chunk received"})
+
+class ChunkedProdutoJsonUpdateView(APIView):
+    permission_classes = [HasAPIKey]
+
+    def post(self, request):
+        file_id = request.data.get("file_id")
+        chunk_index = request.data.get("chunk_index")
+        total_chunks = request.data.get("total_chunks")
+        json_chunk = request.data.get("chunk_data")     # JSON chunk as string
+
+        cache_key = f"json_upload_{file_id}_{chunk_index}"
+        cache.set(cache_key, json_chunk)
+
+        if int(chunk_index) + 1 == int(total_chunks):
+            full_json = ""
+            for i in range(int(total_chunks)):
+                chunk = cache.get(f"json_upload_{file_id}_{i}")
+                if chunk:
+                    full_json += chunk
+                    cache.delete(f"json_upload_{file_id}_{i}")
+
+            try:
+                data_str = json.loads(full_json)
+                data = json.loads(data_str)             # Convert JSON string to Python object
+
+                for i in range(len(data["codigo"])):
+                    try:
+                        prod = Produto.objects.get(codigo=data["codigo"][str(i)])
+                        categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
+                        
+                        API_URL_PRODUTO = "http://127.0.0.1:8000/api_produtos/" + str(prod.codigo) + "/"
+                        # API_URL_PRODUTO = "https://vendashg.pythonanywhere.com/api_produtos/" + str(prod.codigo) + "/"
+
+                        headers = {
+                            "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+                            # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+                        }
+
+                        update_data = {
+                            "descricao": data["descricao"][str(i)],
+                            "codigo_GTIN": data["codigo_GTIN"][str(i)],
+                            "preco_unitario_bruto": data["preco_unitario_bruto"][str(i)],
+                            "desconto_dinheiro": data["desconto_dinheiro"][str(i)],
+                            "desconto_retira": data["desconto_retira"][str(i)],
+                            "unidade": data["unidade"][str(i)],
+                            "fechamento_embalagem": data["fechamento_embalagem"][str(i)],
+                            "em_estoque": data["em_estoque"][str(i)],
+                            "slug": data["slug"][str(i)],
+                            "Categoria": categoria_id.id,
+                            "titulo": data["titulo"][str(i)]
+                        }
+
+                        response = requests.patch(API_URL_PRODUTO, data=update_data, headers=headers)
+
+                    except Produto.DoesNotExist:
+                        categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
+                        img = "produtos/" + data["codigo"][str(i)] + ".webp"
+                        Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
+                                            preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
+                                            desconto_retira=data["desconto_retira"][str(i)],unidade=data["unidade"][str(i)],fechamento_embalagem=data["fechamento_embalagem"][str(i)],
+                                            em_estoque=data["em_estoque"][str(i)],slug=data["slug"][str(i)],Categoria=categoria_id,titulo=data["titulo"][str(i)],image=img,)
+                        
+            except json.JSONDecodeError:
+                return Response({"error": "Invalid JSON"}, status=400)
+            
+            return Response({"message": "JSON Upload Complete"})
 
         return Response({"message": "Chunk received"})
     
@@ -1567,46 +1688,6 @@ class ChunkedProdutoImgUploadView(APIView):
             return JsonResponse({"message": "Upload complete", "file_url": file_url})
 
         return JsonResponse({"message": "Chunk received", "chunk_index": chunk_index})
-
-class ChunkedProdutoJsonUpdateView(APIView): # TODO
-    permission_classes = [HasAPIKey]
-
-    def post(self, request):
-        file_id = request.data.get("file_id")
-        chunk_index = request.data.get("chunk_index")
-        total_chunks = request.data.get("total_chunks")
-        json_chunk = request.data.get("chunk_data")     # JSON chunk as string
-
-        cache_key = f"json_upload_{file_id}_{chunk_index}"
-        cache.set(cache_key, json_chunk)
-
-        if int(chunk_index) + 1 == int(total_chunks):
-            full_json = ""
-            for i in range(int(total_chunks)):
-                chunk = cache.get(f"json_upload_{file_id}_{i}")
-                if chunk:
-                    full_json += chunk
-                    cache.delete(f"json_upload_{file_id}_{i}")
-
-            try:
-                data_str = json.loads(full_json)
-                data = json.loads(data_str)             # Convert JSON string to Python object
-
-                for i in range(len(data["codigo"])):
-                    categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
-                    # TODO: Não necessariamente a imagem vai ser .jpg
-                    img = "produtos/" + data["codigo"][str(i)] + ".jpg"
-                    Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
-                                           preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
-                                           desconto_retira=data["desconto_retira"][str(i)],unidade=data["unidade"][str(i)],fechamento_embalagem=data["fechamento_embalagem"][str(i)],
-                                           em_estoque=data["em_estoque"][str(i)],slug=data["slug"][str(i)],Categoria=categoria_id,titulo=data["titulo"][str(i)],
-                                           image=img,venda=data["venda"][str(i)],)
-            except json.JSONDecodeError:
-                return Response({"error": "Invalid JSON"}, status=400)
-            
-            return Response({"message": "JSON Upload Complete"})
-
-        return Response({"message": "Chunk received"})
     
 # Fotos Produto
 class FotosProdutoListCreateView(generics.ListCreateAPIView):
