@@ -316,30 +316,29 @@ def postImg(_img_dir):
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-prodData = {
-    "codigo": "Moltres",
-    "descricao": "Teste 3 da API pra lançamento de produto",
-    "codigo_GTIN": "Moltres",
-    "preco_unitario_bruto": 420.69,
-    "desconto_dinheiro": 5,
-    "desconto_retira": 5,
-    "unidade": "CM3",
-    "fechamento_embalagem": 1,
-    "em_estoque": True,
-    "slug": "Moltres",
-    "Categoria": 4,
-    "titulo": "Teste 3 da API pra lançamento de produto",   
-}
+# prodData = {
+#     "codigo": "Moltres",
+#     "descricao": "Teste 3 da API pra lançamento de produto",
+#     "codigo_GTIN": "Moltres",
+#     "preco_unitario_bruto": 420.69,
+#     "desconto_dinheiro": 5,
+#     "desconto_retira": 5,
+#     "unidade": "CM3",
+#     "fechamento_embalagem": 1,
+#     "em_estoque": True,
+#     "slug": "Moltres",
+#     "Categoria": 4,
+#     "titulo": "Teste 3 da API pra lançamento de produto",   
+# }
 
-prodFiles = {
-    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Moltres.jpg", "rb"),
-}
+# prodFiles = {
+#     "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Moltres.jpg", "rb"),
+# }
 
-postProduto(prodData, prodFiles)
+# postProduto(prodData, prodFiles)
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-# postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/estoque_ATACADAO.json")
 # postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test.json")
 # patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test_update.json")
 # postImg("E:/Users/HP/Pictures/pokemonTCGPocket")
