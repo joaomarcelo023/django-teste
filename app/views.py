@@ -1461,9 +1461,9 @@ def ta_pago(_pedido):
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-# Testes API
-# Test
-# List all products or create a new one
+# API
+## Test
+### List all products or create a new one
 class TestListCreateView(generics.ListCreateAPIView):
     queryset = TestStatus.objects.all()
     serializer_class = TestSerializer
@@ -1472,14 +1472,14 @@ class TestListCreateView(generics.ListCreateAPIView):
     # permission_classes = [HasAPIKey | IsAuthenticatedOrReadOnly]
     # permission_classes = [permissions.AllowAny]  # Allows all users
 
-# Retrieve, update, or delete a specific product
+### Retrieve, update, or delete a specific product
 class TestDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TestStatus.objects.all()
     serializer_class = TestSerializer
 
     permission_classes = [HasAPIKey]
 
-# Produto
+## Produto
 class ProdutoListCreateView(generics.ListCreateAPIView):
     queryset = Produto.objects.all()
     serializer_class = ProdutoSerializer
@@ -1689,7 +1689,7 @@ class ChunkedProdutoImgUploadView(APIView):
 
         return JsonResponse({"message": "Chunk received", "chunk_index": chunk_index})
     
-# Fotos Produto
+## Fotos Produto
 class FotosProdutoListCreateView(generics.ListCreateAPIView):
     queryset = FotosProduto.objects.all()
     serializer_class = FotosProdutoSerializer
@@ -1704,7 +1704,7 @@ class FotosProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     permission_classes = [HasAPIKey]
 
-# Pedido Order
+## Pedido Order
 class PedidoOrderListCreateView(generics.ListCreateAPIView):
     queryset = Pedido_order.objects.prefetch_related("pedidoProduto")
     serializer_class = PedidoOrderSerializer
@@ -1717,7 +1717,7 @@ class PedidoOrderDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     permission_classes = [HasAPIKey]
 
-# Pedido Produto
+## Pedido Produto
 class PedidoProdutoListCreateView(generics.ListCreateAPIView):
     queryset = Pedido_Produto.objects.all()
     serializer_class = PedidoProdutoSerializer

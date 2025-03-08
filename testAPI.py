@@ -10,7 +10,6 @@ import os
 import requests
 import json
 from django_teste import settings
-# from app import models
 
 def postTest(_message):
     API_URL_TEST = "http://127.0.0.1:8000/api_test/"
