@@ -6,6 +6,8 @@
 #                               PUT	    Replaces an object
 #                               PATCH	Update an object
 #                               DELETE	Delete an object
+# Error codes:
+#                               https://www.django-rest-framework.org/api-guide/status-codes/
 import os
 import requests
 import json
