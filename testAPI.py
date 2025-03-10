@@ -12,17 +12,17 @@ import json
 from django_teste import settings
 
 def postTest(_message):
-    API_URL_TEST = "http://127.0.0.1:8000/api_test/"
-    # API_URL_TEST = "https://vendashg.pythonanywhere.com/api_test/"
+    # API_URL_TEST = "http://127.0.0.1:8000/api_test/"
+    API_URL_TEST = "https://vendashg.pythonanywhere.com/api_test/"
 
     new_product = {
         "status": _message,
     }
 
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
-        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
-        "Content-Type": "application/json"
+        #"Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        # "Content-Type": "application/json"
     }
 
     response = requests.post(API_URL_TEST, json=new_product, headers=headers)
@@ -149,13 +149,13 @@ def getByIdPedidoOrder(_id):
         print("Erro ao obter produtos:", response.status_code)
 
 def postProduto(_produtodata, _prodfiles):
-    API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_produtos/"
-    # API_URL_PEDIDO_ORDER = "http://vendashg.pythonanywhere.com/api_produtos/"
+    #API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_produtos/"
+    API_URL_PEDIDO_ORDER = "http://vendashg.pythonanywhere.com/api_produtos/"
     
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
-        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
-        # "Content-Type": "application/json"
+        #"Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        #"Content-Type": "application/json"
     }
 
     response = requests.post(API_URL_PEDIDO_ORDER, data=_produtodata, files=_prodfiles, headers=headers)
@@ -300,7 +300,7 @@ def postImg(_img_dir):
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-# postTest("Fala comigo bb") # A mensagem é printada na pagina /contato/
+# postTest("Fala o que eu posso fazer por você") # A mensagem é printada na pagina /contato/
 # getTest()
 # getByIdTest(10)
 # patchTest(10, "fala")
@@ -315,23 +315,23 @@ def postImg(_img_dir):
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-# prodData = {
-#     "codigo": "Moltres",
-#     "descricao": "Teste 3 da API pra lançamento de produto",
-#     "codigo_GTIN": "Moltres",
+#prodData = {
+#     "codigo": "144144",
+#     "descricao": "GOKU",
+#     "codigo_GTIN": "GOKU",
 #     "preco_unitario_bruto": 420.69,
 #     "desconto_dinheiro": 5,
 #     "desconto_retira": 5,
 #     "unidade": "CM3",
-#     "fechamento_embalagem": 1,
+#    "fechamento_embalagem": 1,
 #     "em_estoque": True,
-#     "slug": "Moltres",
+#     "slug": "GOKU",
 #     "Categoria": 4,
-#     "titulo": "Teste 3 da API pra lançamento de produto",   
+#     "titulo": "GOKU",
 # }
 
-# prodFiles = {
-#     "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Moltres.jpg", "rb"),
+#prodFiles = {
+#     "image": open("C:/Users/panel/OneDrive/Imagens/goku.jpg", "rb"),
 # }
 
 # postProduto(prodData, prodFiles)
