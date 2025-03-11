@@ -32,9 +32,9 @@ TODO-ALVAREZ: Criar Emails
 
   TODO-ALVAREZ: Arrumar email de Pedido recebido
 
-  TODO-ALVAREZ: Arrumar email de Pagamento Confirmado
+  TODO-ALVAREZ: Criar email de Pagamento Confirmado
 
-  TODO-ALVAREZ: Arrumar email de Pedido enviado
+  TODO-ALVAREZ: Criar email de Pedido enviado
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte
