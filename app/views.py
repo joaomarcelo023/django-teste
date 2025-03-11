@@ -16,6 +16,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.core.cache import cache
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.core.paginator import Paginator
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
@@ -26,6 +27,7 @@ from rest_framework_api_key.permissions import HasAPIKey
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from django.template.loader import render_to_string
 from PIL import Image
 from io import BytesIO
 from random import randint
@@ -784,6 +786,8 @@ class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
         # Muda status do pedido
         pedido = Pedido_order.objects.get(id=pedido_id)
 
+        EmailPedidoRealizado(pedido)
+
         if pedido.local_de_pagamento == "online":
             if ta_pago(pedido):
                 pedido.pedido_status = "Pagamento Confirmado"
@@ -825,6 +829,8 @@ class ClienteRegistrarView(LojaMixin, BaseContextMixin, CreateView):
         user = User.objects.create_user(username=email, email=email, password=senha,first_name=nome, last_name=sobrenome)
         form.instance.user = user
         login(self.request, user)
+
+        EmailClienteRegistrado(user)
 
         # Retorne a resposta de sucesso
         return super().form_valid(form)
@@ -1750,6 +1756,43 @@ def preprocessar_precos(produtos):
             produto.decimal_part_desc = venda_parts_desc[1] if len(venda_parts_desc) > 1 else '00'  # Adiciona '00' se não houver parte decimal
 
         return produtos
+
+def EmailClienteRegistrado(_cliente):
+    assunto = "Boas-vindas à CasaHG"
+    text_content = "Obrigado por se cadastrar!"
+    html_content = render_to_string(
+                        "emails/clienteRegistrado.html",
+                        context={"cliente": _cliente},
+                    )
+
+    email = EmailMultiAlternatives(
+        assunto, text_content, settings.EMAIL_HOST_USER, [_cliente.email]
+    )
+    email.attach_alternative(html_content, "text/html")
+    email.send()
+
+def EmailPedidoRealizado(_pedido):
+    assunto = f"Pedido da CasaHG #{_pedido.id}"
+    text_content = f"Pedido #{_pedido.id} realizado"
+    html_content = render_to_string(
+                        "emails/pedidoRealizado.html",
+                        context={"pedido": _pedido},
+                    )
+
+    email = EmailMultiAlternatives(
+        assunto, text_content, settings.EMAIL_HOST_USER, [_pedido.email]
+    )
+    email.attach_alternative(html_content, "text/html")
+    email.send()
+
+def testEmail(_emailCliente):
+    send_mail(
+        "Assunto do email de test",
+        "Corpo do email de teste",
+        settings.EMAIL_HOST_USER,
+        [_emailCliente],
+        fail_silently=False,
+    )
 
 def testPOST(request):
     if request.method == 'POST':

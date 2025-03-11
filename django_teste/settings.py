@@ -157,6 +157,15 @@ PAGSEGURO_TOKEN_SANDBOX = '3f83367b-ce21-4fe4-91b1-a27be2eac7ce7eb5a2b84ff5a4895
 TESTKEY_API_CASAHG = 'Ut80LNz4.CwPHXXKQTm3fYSmPFSPEJKG7cfqNWGnM'
 TESTKEY_API_CASAHG_PYTHONANYWHERE = '83dTsOXC.exzJvrg1TLtAGOJOYkr6IFB0wDgOsWiV'
 
+# TODO: Mudar o EMAIL_HOST_USER e EMAIL_HOST_PASSWORD pro da loja e EMAIL_BACKEND pra versão comentada
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"#"django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"                                   # Use your email provider's SMTP server
+EMAIL_PORT = 587                                                # Typically 587 for TLS or 465 for SSL
+EMAIL_USE_TLS = True                                            # Use TLS (or EMAIL_USE_SSL = True if using port 465)
+EMAIL_HOST_USER = "casahgalva@gmail.com"                        # Your email
+EMAIL_HOST_PASSWORD = "jnzo eljy ukpa ffjs"                     # Use an app password (not your real password)
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER                            # Default sender email
+
 # Max size for uploads
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 500 * 1024 * 1024  # 500MB for JSON
