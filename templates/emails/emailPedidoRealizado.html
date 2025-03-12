@@ -1,0 +1,35 @@
+<div style="border: 2px solid #ff9900; width: 50%;">
+    <header style="color: #ff9900; background-color: #151635; border-bottom: 2px solid #ff9900;">
+        <table style="color: #ff9900; width: 100%;">
+            <tr>
+                <th style="padding-left: 5px;">
+                    <img style="height: 75px;" src="{{ logo }}">
+                </th>
+                <th style="padding-right: 5px;">
+                    <h1 style="height: 100%; align-items: center; margin: 0px; padding: 0px;">Pedido #{{ pedido.id }}</h1>
+                </th>
+            </tr>
+        </table>
+    </header>
+    <section style="margin: 5px;">
+        <h1>Pedido #{{ pedido.id }} realizado com sucesso</h1>
+        <p>Olá, {{ pedido.nome_cliente }}.</p>
+        <br>
+        <p>Equipe CasaHG</p>
+    </section>
+    <footer style="color: #ff9900; background-color: #151635; border-top: 2px solid #ff9900;">
+        <table style="color: #ff9900; width: 100%;">
+            <tr>
+                <th>
+                    <!-- TODO: Preencher href -->
+                    <a href="" style="align-items: center; text-decoration: none;"><img style="height: 75px; margin-bottom: 0px; padding-bottom: 0px;" src="{{ logo }}"></a>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <h1 style="align-items: center; font-size: 12px; margin-top: 0px; padding-top: 0px;">Copyright © 2024 CasaHG | Todos os direitos reservados.</h1>
+                </th>
+            </tr>
+        </table>
+    </footer>
+</div>

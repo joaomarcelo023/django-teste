@@ -145,6 +145,9 @@ class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, Template
 
         context['banners'] = Banner.objects.all()
 
+        # TODO: Apagar esse teste
+        # testEmail("jggenio@gmail.com", User.objects.get(username="Alva"))
+
         return context
 
 class SobreView(LojaMixin, BaseContextMixin, TemplateView):
@@ -1761,8 +1764,11 @@ def EmailClienteRegistrado(_cliente):
     assunto = "Boas-vindas à CasaHG"
     text_content = "Obrigado por se cadastrar!"
     html_content = render_to_string(
-                        "emails/clienteRegistrado.html",
-                        context={"cliente": _cliente},
+                        "emails/emailClienteRegistrado.html",
+                        context={
+                            "cliente": _cliente,
+                            "logo": "https://vendashg.pythonanywhere.com/media/empresas/hg_logo_detalhe.png",
+                        },
                     )
 
     email = EmailMultiAlternatives(
@@ -1775,8 +1781,11 @@ def EmailPedidoRealizado(_pedido):
     assunto = f"Pedido da CasaHG #{_pedido.id}"
     text_content = f"Pedido #{_pedido.id} realizado"
     html_content = render_to_string(
-                        "emails/pedidoRealizado.html",
-                        context={"pedido": _pedido},
+                        "emails/emailPedidoRealizado.html",
+                        context={
+                            "pedido": _pedido,
+                            "logo": "https://vendashg.pythonanywhere.com/media/empresas/hg_logo_detalhe.png",
+                        },
                     )
 
     email = EmailMultiAlternatives(
@@ -1785,14 +1794,30 @@ def EmailPedidoRealizado(_pedido):
     email.attach_alternative(html_content, "text/html")
     email.send()
 
-def testEmail(_emailCliente):
-    send_mail(
-        "Assunto do email de test",
-        "Corpo do email de teste",
-        settings.EMAIL_HOST_USER,
-        [_emailCliente],
-        fail_silently=False,
+def testEmail(_emailCliente, _cliente):
+    assunto = "Boas-vindas à CasaHG"
+    text_content = "Obrigado por se cadastrar!"
+    html_content = render_to_string(
+                        "emails/emailClienteRegistrado.html",
+                        context={
+                            "cliente": _cliente,
+                            "logo": "https://vendashg.pythonanywhere.com/media/empresas/hg_logo_detalhe.png",
+                        },
+                    )
+
+    email = EmailMultiAlternatives(
+        assunto, text_content, settings.EMAIL_HOST_USER, [_emailCliente]
     )
+    email.attach_alternative(html_content, "text/html")
+    email.send()
+
+    # send_mail(
+    #     "Assunto do email de test",
+    #     "Corpo do email de teste",
+    #     settings.EMAIL_HOST_USER,
+    #     [_emailCliente],
+    #     fail_silently=False,
+    # )
 
 def testPOST(request):
     if request.method == 'POST':
