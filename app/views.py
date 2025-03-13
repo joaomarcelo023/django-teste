@@ -1544,7 +1544,7 @@ class ProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
         produto = serializer.save()  # Save the updated model instance
         
         # Check if an image was updated
-        if "image" in self.request.FILES:  
+        if "image" in self.request.FILES:
             image_field = produto.image  # Get the updated image
             
             if image_field:
@@ -1739,6 +1739,26 @@ class PedidoOrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PedidoOrderSerializer
 
     permission_classes = [HasAPIKey]
+
+    def perform_update(self, serializer):
+        pedido_obj = serializer.save()
+        
+        # Check if an image was updated
+        if "pedido_status" in self.request.data:
+            novo_status = pedido_obj.pedido_status
+
+            if novo_status == "Pedido Recebido":
+                    EmailPedidoRealizado(pedido_obj)
+            elif novo_status == "Pagamento Confirmado":
+                    EmailPedidoPagamentoConfirmado(pedido_obj)
+            elif novo_status == "Pedido Caminho":
+                    EmailPedidoEnviado(pedido_obj)
+            elif novo_status == "Pedido Pronta Retirada":
+                    EmailPedidoProntoRetirada(pedido_obj)
+            elif novo_status == "Pagamento Cancelado":
+                    EmailPedidoCancelado(pedido_obj)
+            elif novo_status == "Pagamento Completado":
+                    EmailPedidoCompleto(pedido_obj)
 
 ## Pedido Produto
 class PedidoProdutoListCreateView(generics.ListCreateAPIView):
