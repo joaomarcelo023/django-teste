@@ -157,6 +157,7 @@ PEDIDO_STATUS=[
     ("Pagamento Confirmado", "Pagamento Confirmado"),
     ("Pedido Processando", "Pedido Processando"),
     ("Pedido Caminho", "Pedido Caminho"),
+    ("Pedido Pronta Retirada", "Pedido Pronta Retirada"),
     ("Pedido Completado", "Pedido Completo"),
     ("Pedido Cancelado", "Pedido Cancelado"),
 ]

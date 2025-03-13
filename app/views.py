@@ -1313,6 +1313,7 @@ class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, ListView):
             'PagamentoConfirmado' : Pedido_order.objects.filter(pedido_status="Pagamento Confirmado").order_by("-id"),
             'PedidosProcessando' : Pedido_order.objects.filter(pedido_status="Pedido Processando").order_by("-id"),
             'PedidosCaminho' : Pedido_order.objects.filter(pedido_status="Pedido Caminho").order_by("-id"),
+            'PedidosProntaRetirada' : Pedido_order.objects.filter(pedido_status="Pedido Pronta Retirada").order_by("-id"),
             'PedidosCompletado' : Pedido_order.objects.filter(pedido_status="Pedido Completado").order_by("-id"),
             'PedidosCancelado' : Pedido_order.objects.filter(pedido_status="Pedido Cancelado").order_by("-id"),
         }
