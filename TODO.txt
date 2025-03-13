@@ -26,15 +26,25 @@ TODO-ALVAREZ: Criar Emails
 
   TODO-ALVAREZ-RESOLVIDO: Criar função basica de email
 
-  TODO-ALVAREZ: Criar base pro html dos emails
+  TODO-ALVAREZ-RESOLVIDO: Arrumar email de cadastro
 
-  TODO-ALVAREZ: Arrumar email de cadastro
+  TODO-ALVAREZ-RESOLVIDO: Arrumar email de Pedido recebido
 
-  TODO-ALVAREZ: Arrumar email de Pedido recebido
+  TODO-ALVAREZ-RESOLVIDO: Criar email de Pagamento Confirmado
 
-  TODO-ALVAREZ: Criar email de Pagamento Confirmado
+  TODO-ALVAREZ-RESOLVIDO: Criar email de Pedido Cancelado
 
-  TODO-ALVAREZ: Criar email de Pedido enviado
+  TODO-ALVAREZ-RESOLVIDO: Criar email de Pedido enviado
+
+  TODO-ALVAREZ-RESOLVIDO: Criar email de Pedido pronto para retirada
+
+  TODO-ALVAREZ-RESOLVIDO: Criar email de Pedido Completado
+
+  TODO-ALVAREZ-RESOLVIDO: Criar funções para envio dos emails
+
+  TODO-ALVAREZ: Conectar funções nos views
+
+  TODO-ALVAREZ: Colocar alguem pra rever os textos
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte

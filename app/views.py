@@ -146,7 +146,7 @@ class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, Template
         context['banners'] = Banner.objects.all()
 
         # TODO: Apagar esse teste
-        # testEmail("jggenio@gmail.com", User.objects.get(username="Alva"))
+        # testEmail("jggenio@gmail.com", User.objects.get(username="Alva"), Pedido_order.objects.get(id=96))
 
         return context
 
@@ -1332,6 +1332,19 @@ class AdminPedidoMudarView(AdminRequireMixin, BaseContextMixin, ListView):
         pedido_obj.pedido_status = novo_status
         pedido_obj.save()
 
+        if novo_status == "Pedido Recebido":
+                EmailPedidoRealizado(pedido_obj)
+        elif novo_status == "Pagamento Confirmado":
+                EmailPedidoPagamentoConfirmado(pedido_obj)
+        elif novo_status == "Pedido Caminho":
+                EmailPedidoEnviado(pedido_obj)
+        elif novo_status == "Pedido Pronta Retirada":
+                EmailPedidoProntoRetirada(pedido_obj)
+        elif novo_status == "Pagamento Cancelado":
+                EmailPedidoCancelado(pedido_obj)
+        elif novo_status == "Pagamento Completado":
+                EmailPedidoCompleto(pedido_obj)
+
         return redirect(reverse_lazy("lojaapp:adminpedido", kwargs={"pk" : pedido_id}))
     
 class PesquisarAdminView(AdminRequireMixin, BaseContextMixin, TemplateView):
@@ -1741,6 +1754,7 @@ class PedidoProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
+# Formata o valor do preço dos produtos para mostrar de forma mais interessante no site
 def preprocessar_precos(produtos):
         for produto in produtos:
             venda_parts = str(produto.preco_unitario_bruto).split('.')
@@ -1760,6 +1774,8 @@ def preprocessar_precos(produtos):
 
         return produtos
 
+# Funções de email
+## Email enviado ao cliente ao criar sua conta
 def EmailClienteRegistrado(_cliente):
     assunto = "Boas-vindas à CasaHG"
     text_content = "Obrigado por se cadastrar!"
@@ -1767,7 +1783,7 @@ def EmailClienteRegistrado(_cliente):
                         "emails/emailClienteRegistrado.html",
                         context={
                             "cliente": _cliente,
-                            "logo": "https://vendashg.pythonanywhere.com/media/empresas/hg_logo_detalhe.png",
+                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
                         },
                     )
 
@@ -1777,14 +1793,34 @@ def EmailClienteRegistrado(_cliente):
     email.attach_alternative(html_content, "text/html")
     email.send()
 
+## Emails de status do pedido
 def EmailPedidoRealizado(_pedido):
-    assunto = f"Pedido da CasaHG #{_pedido.id}"
+    assunto = f"Pedido da CasaHG #{_pedido.id} - {_pedido.pedido_status}"
     text_content = f"Pedido #{_pedido.id} realizado"
     html_content = render_to_string(
                         "emails/emailPedidoRealizado.html",
                         context={
                             "pedido": _pedido,
-                            "logo": "https://vendashg.pythonanywhere.com/media/empresas/hg_logo_detalhe.png",
+                            "urlDetalhePedido": "https://vendashg.pythonanywhere.com/perfil/pedido-" + str(_pedido.id),
+                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+                        },
+                    )
+
+    email = EmailMultiAlternatives(
+        assunto, text_content, settings.EMAIL_HOST_USER, [_pedido.email]
+    )
+    email.attach_alternative(html_content, "text/html")
+    email.send()
+    
+def EmailPedidoPagamentoConfirmado(_pedido):
+    assunto = f"Pedido da CasaHG #{_pedido.id} - {_pedido.pedido_status}"
+    text_content = f"Pedido #{_pedido.id} pagamento confirmado"
+    html_content = render_to_string(
+                        "emails/emailPedidoPagamentoConfirmado.html",
+                        context={
+                            "pedido": _pedido,
+                            "urlDetalhePedido": "https://vendashg.pythonanywhere.com/perfil/pedido-" + str(_pedido.id),
+                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
                         },
                     )
 
@@ -1794,14 +1830,98 @@ def EmailPedidoRealizado(_pedido):
     email.attach_alternative(html_content, "text/html")
     email.send()
 
-def testEmail(_emailCliente, _cliente):
-    assunto = "Boas-vindas à CasaHG"
-    text_content = "Obrigado por se cadastrar!"
+def EmailPedidoEnviado(_pedido):
+    assunto = f"Pedido da CasaHG #{_pedido.id} - {_pedido.pedido_status}"
+    text_content = f"Pedido #{_pedido.id} enviado"
     html_content = render_to_string(
-                        "emails/emailClienteRegistrado.html",
+                        "emails/emailPedidoEnviado.html",
                         context={
-                            "cliente": _cliente,
-                            "logo": "https://vendashg.pythonanywhere.com/media/empresas/hg_logo_detalhe.png",
+                            "pedido": _pedido,
+                            "urlDetalhePedido": "https://vendashg.pythonanywhere.com/perfil/pedido-" + str(_pedido.id),
+                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+                        },
+                    )
+
+    email = EmailMultiAlternatives(
+        assunto, text_content, settings.EMAIL_HOST_USER, [_pedido.email]
+    )
+    email.attach_alternative(html_content, "text/html")
+    email.send()
+
+def EmailPedidoProntoRetirada(_pedido):
+    assunto = f"Pedido da CasaHG #{_pedido.id} - {_pedido.pedido_status}"
+    text_content = f"Pedido #{_pedido.id} pronto para retirada"
+    html_content = render_to_string(
+                        "emails/emailPedidoProntoRetirada.html",
+                        context={
+                            "pedido": _pedido,
+                            "urlDetalhePedido": "https://vendashg.pythonanywhere.com/perfil/pedido-" + str(_pedido.id),
+                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+                        },
+                    )
+
+    email = EmailMultiAlternatives(
+        assunto, text_content, settings.EMAIL_HOST_USER, [_pedido.email]
+    )
+    email.attach_alternative(html_content, "text/html")
+    email.send()
+
+def EmailPedidoCancelado(_pedido):
+    assunto = f"Pedido da CasaHG #{_pedido.id} - {_pedido.pedido_status}"
+    text_content = f"Pedido #{_pedido.id} cancelado"
+    html_content = render_to_string(
+                        "emails/emailPedidoCancelado.html",
+                        context={
+                            "pedido": _pedido,
+                            "urlDetalhePedido": "https://vendashg.pythonanywhere.com/perfil/pedido-" + str(_pedido.id),
+                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+                        },
+                    )
+
+    email = EmailMultiAlternatives(
+        assunto, text_content, settings.EMAIL_HOST_USER, [_pedido.email]
+    )
+    email.attach_alternative(html_content, "text/html")
+    email.send()
+
+def EmailPedidoCompleto(_pedido):
+    assunto = f"Pedido da CasaHG #{_pedido.id} - {_pedido.pedido_status}"
+    text_content = f"Pedido #{_pedido.id} completado"
+    html_content = render_to_string(
+                        "emails/emailPedidoCompleto.html",
+                        context={
+                            "pedido": _pedido,
+                            "urlDetalhePedido": "https://vendashg.pythonanywhere.com/perfil/pedido-" + str(_pedido.id),
+                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+                        },
+                    )
+
+    email = EmailMultiAlternatives(
+        assunto, text_content, settings.EMAIL_HOST_USER, [_pedido.email]
+    )
+    email.attach_alternative(html_content, "text/html")
+    email.send()
+
+## Email de teste
+def testEmail(_emailCliente, _cliente, _pedido):
+    # assunto = "Boas-vindas à CasaHG"
+    # text_content = "Obrigado por se cadastrar!"
+    # html_content = render_to_string(
+    #                     "emails/emailClienteRegistrado.html",
+    #                     context={
+    #                         "cliente": _cliente,
+    #                         "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+    #                     },
+    #                 )
+    
+    assunto = f"Pedido da CasaHG #{_pedido.id}"
+    text_content = f"Pedido #{_pedido.id} realizado"
+    html_content = render_to_string(
+                        "emails/emailPedidoRealizado.html",
+                        context={
+                            "pedido": _pedido,
+                            "urlDetalhePedido": "https://vendashg.pythonanywhere.com/perfil/pedido-" + str(_pedido.id),
+                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
                         },
                     )
 
@@ -1819,6 +1939,7 @@ def testEmail(_emailCliente, _cliente):
     #     fail_silently=False,
     # )
 
+# Função para testar requests de POST vindos do site
 def testPOST(request):
     if request.method == 'POST':
         print(request.POST)
