@@ -1832,7 +1832,7 @@ def EmailPedidoRealizado(_pedido):
     )
     email.attach_alternative(html_content, "text/html")
     email.send()
-    
+
 def EmailPedidoPagamentoConfirmado(_pedido):
     assunto = f"Pedido da CasaHG #{_pedido.id} - {_pedido.pedido_status}"
     text_content = f"Pedido #{_pedido.id} pagamento confirmado"

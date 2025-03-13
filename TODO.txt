@@ -12,13 +12,13 @@ TODO-ALVAREZ: Fazer a API pra lançar em massa o estoque
 
   TODO-ALVAREZ-RESOLVIDO: Fazer e testar a função pra chunked upload do json
 
-  TODO-ALVAREZ: Aprender a ler o json do estoque
-
   TODO-ALVAREZ-RESOLVIDO: Adicionar a criação do produto na API de upload
 
   TODO-ALVAREZ-RESOLVIDO: Fazer metodo pra upload das imagens
 
   TODO-ALVAREZ-RESOLVIDO: Testar essa porra
+
+  TODO-ALVAREZ: Aprender a ler o json do estoque
 
 TODO-ALVAREZ: Comenta a porra dos arquivos pra que outras pessoas consigam entender. Tem porra que tu mesmo escreveu que tu não se lembra o que faz (Isso foi escrito pelo Alvarez)
 
@@ -42,7 +42,7 @@ TODO-ALVAREZ: Criar Emails
 
   TODO-ALVAREZ-RESOLVIDO: Criar funções para envio dos emails
 
-  TODO-ALVAREZ: Conectar funções nos views
+  TODO-ALVAREZ-RESOLVIDO: Conectar funções nos views
 
   TODO-ALVAREZ: Colocar alguem pra rever os textos
 
