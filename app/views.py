@@ -1455,33 +1455,6 @@ def test_atualizacao_pag(request):
 
     return True
 
-def ta_pago(_pedido):
-    url = "https://sandbox.api.pagseguro.com/checkouts/" + _pedido.id_PagBank + "?offset=0&limit=10"
-
-    headers = {
-        "accept": "*/*",
-        "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN_SANDBOX,
-    }
-
-    consulta_response = requests.get(url, headers=headers)
-                    
-    if consulta_response.status_code >= 200 and consulta_response.status_code < 300:
-        respJson = consulta_response.json()
-        order_urls = respJson.get("orders")[0].get("links")
-        for dic in order_urls:
-            if dic["rel"] == "GET":
-                consulta_order_url = dic["href"]
-
-        order_response = requests.get(consulta_order_url, headers=headers)
-
-        if order_response.status_code >= 200 and order_response.status_code < 300:
-            status = order_response.json().get("charges")[0].get("status")
-
-            if status == "PAID":
-                return True
-            
-    return False
-
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 # API
@@ -1774,6 +1747,34 @@ class PedidoProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [HasAPIKey]
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+# Verifica que o pedido online ta pago
+def ta_pago(_pedido):
+    url = "https://sandbox.api.pagseguro.com/checkouts/" + _pedido.id_PagBank + "?offset=0&limit=10"
+
+    headers = {
+        "accept": "*/*",
+        "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN_SANDBOX,
+    }
+
+    consulta_response = requests.get(url, headers=headers)
+                    
+    if consulta_response.status_code >= 200 and consulta_response.status_code < 300:
+        respJson = consulta_response.json()
+        order_urls = respJson.get("orders")[0].get("links")
+        for dic in order_urls:
+            if dic["rel"] == "GET":
+                consulta_order_url = dic["href"]
+
+        order_response = requests.get(consulta_order_url, headers=headers)
+
+        if order_response.status_code >= 200 and order_response.status_code < 300:
+            status = order_response.json().get("charges")[0].get("status")
+
+            if status == "PAID":
+                return True
+            
+    return False
 
 # Formata o valor do preço dos produtos para mostrar de forma mais interessante no site
 def preprocessar_precos(produtos):
