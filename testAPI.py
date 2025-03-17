@@ -12,6 +12,7 @@ import os
 import requests
 import json
 from django_teste import settings
+import panda as pd
 
 def postTest(_message):
     # API_URL_TEST = "http://127.0.0.1:8000/api_test/"
@@ -151,12 +152,12 @@ def getByIdPedidoOrder(_id):
         print("Erro ao obter produtos:", response.status_code)
 
 def postProduto(_produtodata, _prodfiles):
-    #API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_produtos/"
-    API_URL_PEDIDO_ORDER = "http://vendashg.pythonanywhere.com/api_produtos/"
+    API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_produtos/"
+    # API_URL_PEDIDO_ORDER = "http://vendashg.pythonanywhere.com/api_produtos/"
     
     headers = {
-        #"Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         #"Content-Type": "application/json"
     }
 
@@ -322,19 +323,18 @@ def postImg(_img_dir):
 #               4 -> Porcelanatos
 #               5 -> Argamassas
 
-#prodData = {
-#     "codigo": "144144",
-#     "descricao": "GOKU",
-#     "codigo_GTIN": "GOKU",
+# prodData = {
+#     "codigo": "SeiLa4",
+#     "descricao": "SeiLa4",
+#     "codigo_GTIN": "SeiLa4",
 #     "preco_unitario_bruto": 420.69,
 #     "desconto_dinheiro": 5,
 #     "desconto_retira": 5,
 #     "unidade": "CM3",
 #    "fechamento_embalagem": 1,
 #     "em_estoque": True,
-#     "slug": "GOKU",
+#     "slug": "SeiLa4",
 #     "Categoria": 4,
-#     "titulo": "GOKU",
 # }
 
 #prodFiles = {
@@ -342,6 +342,8 @@ def postImg(_img_dir):
 # }
 
 # postProduto(prodData, prodFiles)
+
+# postProduto(prodData, None)
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 

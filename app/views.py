@@ -146,7 +146,7 @@ class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, Template
         context['banners'] = Banner.objects.all()
 
         # TODO: Apagar esse teste
-        testEmail("jggenio@gmail.com", User.objects.get(username="Alva"), Pedido_order.objects.get(id=96))
+        # testEmail("jggenio@gmail.com", User.objects.get(username="Alva"), Pedido_order.objects.get(id=96))
 
         return context
 
@@ -1510,13 +1510,14 @@ class ProdutoListCreateView(generics.ListCreateAPIView):
             temp_file_path = image_field.path  # Get the file path
 
             # Converte pra webp
-            file, ext = os.path.splitext(temp_file_path) 
+            file, ext = os.path.splitext(temp_file_path)
             image = Image.open(temp_file_path).convert("RGB")
             new_path = f"{file}.webp"
             image.save(new_path, "webp")
 
             # Remove o original
-            os.remove(temp_file_path)
+            if ext != ".webp":
+                os.remove(temp_file_path)
 
             # Update the model with the new WebP image
             produto.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
@@ -1547,7 +1548,8 @@ class ProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
                 image.save(new_path, "webp")
 
                 # Remove o original
-                os.remove(temp_file_path)
+                if ext != ".webp":
+                    os.remove(temp_file_path)
 
                 # Update the model with the new WebP image
                 produto.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
@@ -1589,10 +1591,9 @@ class ChunkedProdutoJsonUploadView(APIView):
                 for i in range(len(data["codigo"])):
                     categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
                     img = "produtos/" + data["codigo"][str(i)] + ".webp"
-                    Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
-                                           preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
-                                           desconto_retira=data["desconto_retira"][str(i)],unidade=data["unidade"][str(i)],fechamento_embalagem=data["fechamento_embalagem"][str(i)],
-                                           em_estoque=data["em_estoque"][str(i)],slug=data["slug"][str(i)],Categoria=categoria_id,titulo=data["titulo"][str(i)],image=img,)
+                    Produto.objects.create(codigo=data["CODI"][str(i)],descricao=data["DESC"][str(i)],codigo_GTIN=data["CODIO"][str(i)],preco_unitario_bruto=data["PREVE1"][str(i)],
+                                           desconto_dinheiro=data["DESCONTO"][str(i)],desconto_retira=data["FRETEHG"][str(i)],unidade=data["UN"][str(i)],
+                                           fechamento_embalagem=data["MULTIPLOS"][str(i)],em_estoque=True,slug=data["CODI"][str(i)],Categoria=categoria_id,image=img,)
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
@@ -1638,17 +1639,16 @@ class ChunkedProdutoJsonUpdateView(APIView):
                         }
 
                         update_data = {
-                            "descricao": data["descricao"][str(i)],
-                            "codigo_GTIN": data["codigo_GTIN"][str(i)],
-                            "preco_unitario_bruto": data["preco_unitario_bruto"][str(i)],
-                            "desconto_dinheiro": data["desconto_dinheiro"][str(i)],
-                            "desconto_retira": data["desconto_retira"][str(i)],
-                            "unidade": data["unidade"][str(i)],
-                            "fechamento_embalagem": data["fechamento_embalagem"][str(i)],
-                            "em_estoque": data["em_estoque"][str(i)],
-                            "slug": data["slug"][str(i)],
+                            "descricao": data["DESC"][str(i)],
+                            "codigo_GTIN": data["CODIO"][str(i)],
+                            "preco_unitario_bruto": data["PREVE1"][str(i)],
+                            "desconto_dinheiro": data["DESCONTO"][str(i)],
+                            "desconto_retira": data["FRETEHG"][str(i)],
+                            "unidade": data["UN"][str(i)],
+                            "fechamento_embalagem": data["MULTIPLOS"][str(i)],
+                            "em_estoque": True,
+                            "slug": data["CODI"][str(i)],
                             "Categoria": categoria_id.id,
-                            "titulo": data["titulo"][str(i)]
                         }
 
                         response = requests.patch(API_URL_PRODUTO, data=update_data, headers=headers)
@@ -1656,10 +1656,10 @@ class ChunkedProdutoJsonUpdateView(APIView):
                     except Produto.DoesNotExist:
                         categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
                         img = "produtos/" + data["codigo"][str(i)] + ".webp"
-                        Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
-                                            preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
-                                            desconto_retira=data["desconto_retira"][str(i)],unidade=data["unidade"][str(i)],fechamento_embalagem=data["fechamento_embalagem"][str(i)],
-                                            em_estoque=data["em_estoque"][str(i)],slug=data["slug"][str(i)],Categoria=categoria_id,titulo=data["titulo"][str(i)],image=img,)
+                        Produto.objects.create(codigo=data["CODI"][str(i)],descricao=data["DESC"][str(i)],codigo_GTIN=data["CODIO"][str(i)],
+                                               preco_unitario_bruto=data["PREVE1"][str(i)],desconto_dinheiro=data["DESCONTO"][str(i)],
+                                               desconto_retira=data["FRETEHG"][str(i)],unidade=data["UN"][str(i)],fechamento_embalagem=data["MULTIPLOS"][str(i)],
+                                               em_estoque=True,slug=data["CODI"][str(i)],Categoria=categoria_id,image=img,)
                         
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
@@ -1667,7 +1667,7 @@ class ChunkedProdutoJsonUpdateView(APIView):
             return Response({"message": "JSON Upload Complete"})
 
         return Response({"message": "Chunk received"})
-    
+
 class ChunkedProdutoImgUploadView(APIView):
     permission_classes = [HasAPIKey]
 
@@ -1694,14 +1694,16 @@ class ChunkedProdutoImgUploadView(APIView):
             image = Image.open(temp_file_path).convert("RGB")
             image.save(file + ".webp", "webp")
             converted_file_path = file + ".webp"
+
             # Remove o original
-            os.remove(temp_file_path)
+            if ext != ".webp":
+                os.remove(temp_file_path)
             
             file_url = os.path.join(settings.MEDIA_URL, "produtos", os.path.basename(converted_file_path))
             return JsonResponse({"message": "Upload complete", "file_url": file_url})
 
         return JsonResponse({"message": "Chunk received", "chunk_index": chunk_index})
-    
+
 ## Fotos Produto
 class FotosProdutoListCreateView(generics.ListCreateAPIView):
     queryset = FotosProduto.objects.all()
@@ -1841,6 +1843,7 @@ def EmailPedidoRealizado(_pedido):
                         context={
                             "pedido": _pedido,
                             "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Recebido.png",
                             "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
@@ -1859,6 +1862,7 @@ def EmailPedidoPagamentoConfirmado(_pedido):
                         context={
                             "pedido": _pedido,
                             "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pagamento_Confirmado.png",
                             "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
@@ -1877,6 +1881,7 @@ def EmailPedidoEnviado(_pedido):
                         context={
                             "pedido": _pedido,
                             "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Caminho.png",
                             "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
@@ -1895,6 +1900,7 @@ def EmailPedidoProntoRetirada(_pedido):
                         context={
                             "pedido": _pedido,
                             "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Caminho.png",
                             "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
@@ -1913,6 +1919,7 @@ def EmailPedidoCancelado(_pedido):
                         context={
                             "pedido": _pedido,
                             "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Cancelado.png",
                             "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
@@ -1931,6 +1938,7 @@ def EmailPedidoCompleto(_pedido):
                         context={
                             "pedido": _pedido,
                             "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Completado.png",
                             "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )

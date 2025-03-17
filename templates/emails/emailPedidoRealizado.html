@@ -34,7 +34,7 @@
                 <td>{{ pedido.criado_em }}</td>
             </tr>
             <tr>
-                <td>Pedido será enviado para:</td>
+                <td>Pedido será {% if pedido.endereco_envio.cliente.nome == "Casa" and pedido.endereco_envio.cliente.sobrenome == "HG" %}retirado em{% else %}enviado para{% endif %}:</td>
                 <td>{{ pedido.endereco_envio_formatado }}</td>
             </tr>
             <tr>
@@ -49,6 +49,26 @@
                 <th style="border: 1px solid #ff9900; background-color: #151635;"><a href="{{ urlDetalhePedido }}" style="width: 100%; color: #ff9900; text-decoration: none;">Detalhes do pedido</a></td>
             </tr>
         </table>
+        <br>
+        <div>
+            <div style="display: flex;">
+                <div style="width: 25%; text-align: center; color: green;">
+                    <p style="margin-bottom: 0px;">Pedido recebido</p>
+                </div>
+                <div style="width: 25%; text-align: center;">
+                    <p style="margin-bottom: 0px;">Pagamento confirmado</p>
+                </div>
+                <div style="width: 25%; text-align: center;">
+                    <p style="margin-bottom: 0px;">{% if pedido.endereco_envio.cliente.nome == "Casa" and pedido.endereco_envio.cliente.sobrenome == "HG" %}Pedido pronto para retirada{% else %}Pedido à caminho{% endif %}</p>
+                </div>
+                <div style="width: 25%; text-align: center;">
+                    <p style="margin-bottom: 0px;">Pedido completado</p>
+                </div>
+            </div>
+            <div style="width: 100%; height: 144px; margin: 0px; padding: 0px;">
+                <img style="width: 100%; height: 100%; margin: 0px; padding: 0px;" src="{{ statusImg }}">
+            </div>
+        </div>
         <br>
         <p>Equipe CasaHG</p>
     </section>

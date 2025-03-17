@@ -46,7 +46,7 @@ TODO-ALVAREZ: Criar Emails
 
   TODO-ALVAREZ: Colocar alguem pra rever os textos
 
-  TODO-ALVAREZ: Colocar linha do tempo pro cliente acompanhar etapas do pedido nos emails
+  TODO-ALVAREZ-RESOLVIDO: Colocar linha do tempo pro cliente acompanhar etapas do pedido nos emails
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte

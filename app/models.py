@@ -40,6 +40,15 @@ class Produto(models.Model):
     quantidade_vendas = models.PositiveIntegerField(default=0)
     num_fotos = models.SmallIntegerField(default=1,null=True,blank=True)
 
+    
+    def save(self, *args, **kwargs):
+        if not self.titulo:
+            self.titulo = self.descricao
+
+        if not self.image:
+            self.image.name = "produtos/NoImgAvailable.webp"
+
+        super(Produto, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.descricao
