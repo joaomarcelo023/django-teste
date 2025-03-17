@@ -146,7 +146,7 @@ class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, Template
         context['banners'] = Banner.objects.all()
 
         # TODO: Apagar esse teste
-        # testEmail("jggenio@gmail.com", User.objects.get(username="Alva"), Pedido_order.objects.get(id=96))
+        testEmail("jggenio@gmail.com", User.objects.get(username="Alva"), Pedido_order.objects.get(id=96))
 
         return context
 
@@ -795,7 +795,7 @@ class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
             if ta_pago(pedido):
                 pedido.pedido_status = "Pagamento Confirmado"
         else:
-            pedido.pedido_status = "Pagamento Confirmado"
+            pedido.pedido_status = "Pagamento Pendente"
 
         # pedido.pedido_status = pedido_status.replace("_", " ")
         pedido.save()
@@ -1108,6 +1108,23 @@ class ClientePedidoDetalheView(LogedMixin, BaseContextMixin, DetailView):
         # else:
         #     return redirect("/entrar/?next=/perfil/")
         return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        pedido = Pedido_order.objects.get(id=self.kwargs["pk"])
+
+        context["progresso"] = 0
+        if pedido.pedido_status == "Pedido Recebido" or pedido.pedido_status == "Pagamento Pendente"  or pedido.pedido_status == "Pagamento Processando":
+            context["progresso"] = 25
+        elif pedido.pedido_status == "Pagamento Confirmado" or pedido.pedido_status == "Pedido Processando":
+            context["progresso"] = 50
+        elif pedido.pedido_status == "Pedido Caminho" or pedido.pedido_status == "Pedido Pronta Retirada":
+            context["progresso"] = 75
+        elif pedido.pedido_status == "Pedido Completado":
+            context["progresso"] = 100
+
+        return context
 
 class CadastrarEnderecoView(LogedMixin, LojaMixin, BaseContextMixin, CreateView):
     template_name = "enderecocadastrar.html"
@@ -1805,7 +1822,7 @@ def EmailClienteRegistrado(_cliente):
                         "emails/emailClienteRegistrado.html",
                         context={
                             "cliente": _cliente,
-                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -1823,8 +1840,8 @@ def EmailPedidoRealizado(_pedido):
                         "emails/emailPedidoRealizado.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": "https://vendashg.pythonanywhere.com/perfil/pedido-" + str(_pedido.id),
-                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
+                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -1841,8 +1858,8 @@ def EmailPedidoPagamentoConfirmado(_pedido):
                         "emails/emailPedidoPagamentoConfirmado.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": "https://vendashg.pythonanywhere.com/perfil/pedido-" + str(_pedido.id),
-                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
+                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -1859,8 +1876,8 @@ def EmailPedidoEnviado(_pedido):
                         "emails/emailPedidoEnviado.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": "https://vendashg.pythonanywhere.com/perfil/pedido-" + str(_pedido.id),
-                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
+                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -1877,8 +1894,8 @@ def EmailPedidoProntoRetirada(_pedido):
                         "emails/emailPedidoProntoRetirada.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": "https://vendashg.pythonanywhere.com/perfil/pedido-" + str(_pedido.id),
-                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
+                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -1895,8 +1912,8 @@ def EmailPedidoCancelado(_pedido):
                         "emails/emailPedidoCancelado.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": "https://vendashg.pythonanywhere.com/perfil/pedido-" + str(_pedido.id),
-                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
+                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -1913,8 +1930,8 @@ def EmailPedidoCompleto(_pedido):
                         "emails/emailPedidoCompleto.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": "https://vendashg.pythonanywhere.com/perfil/pedido-" + str(_pedido.id),
-                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
+                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -1942,8 +1959,9 @@ def testEmail(_emailCliente, _cliente, _pedido):
                         "emails/emailPedidoRealizado.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": "https://vendashg.pythonanywhere.com/perfil/pedido-" + str(_pedido.id),
-                            "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Recebido.png",
+                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 

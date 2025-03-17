@@ -56,3 +56,12 @@ td a:hover {
     color: #ff9900;
     text-decoration: none;
 }
+
+.estagios {
+    width: 25%;
+    text-align: center;
+}
+
+.estagios p {
+    margin-bottom: 0px;
+}

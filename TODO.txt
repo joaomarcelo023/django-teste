@@ -10,8 +10,6 @@ TODO-ALVAREZ: Colocar <input> no checkout e cadastro pra termos e condições
 
 TODO-ALVAREZ: Deixar homepage mais amigavel (mentir sobre os preços) (olhar site obramax)
 
-TODO-ALVAREZ: Colocar linha do tempo pro cliente acompanhar etapas do pedido na pagina de detalhe pedido
-
 TODO-ALVAREZ: Fazer a API pra lançar em massa o estoque
 
   TODO-ALVAREZ-RESOLVIDO: Fazer e testar a função pra chunked upload do json
