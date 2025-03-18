@@ -8,7 +8,7 @@ class Categoria(models.Model):
     slug = models.SlugField(unique=True)
 
     def __str__(self):
-        return self.titulo + ", id: " + str(self.id)
+        return str(self.id) + "- " + self.titulo
 
 class Produto(models.Model):
     #informações que virão do sistema externo

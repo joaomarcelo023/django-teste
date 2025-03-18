@@ -12,7 +12,7 @@ import os
 import requests
 import json
 from django_teste import settings
-import panda as pd
+# import panda as pd
 
 def postTest(_message):
     # API_URL_TEST = "http://127.0.0.1:8000/api_test/"
@@ -152,8 +152,11 @@ def getByIdPedidoOrder(_id):
         print("Erro ao obter produtos:", response.status_code)
 
 def postProduto(_produtodata, _prodfiles):
-    API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_produtos/"
-    # API_URL_PEDIDO_ORDER = "http://vendashg.pythonanywhere.com/api_produtos/"
+    API_URL_PRODUTO = "http://127.0.0.1:8000/api_produtos/"
+    # API_URL_PRODUTO = "http://vendashg.pythonanywhere.com/api_produtos/"
+
+    API_URL_CATEGORIA = f"http://127.0.0.1:8000/api_categorias/{_produtodata['Categoria'].lower()}/"
+    # API_URL_CATEGORIA = f"http://vendashg.pythonanywhere.com/api_categorias/{}/"
     
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -161,7 +164,11 @@ def postProduto(_produtodata, _prodfiles):
         #"Content-Type": "application/json"
     }
 
-    response = requests.post(API_URL_PEDIDO_ORDER, data=_produtodata, files=_prodfiles, headers=headers)
+    titulo_categoria = requests.get(API_URL_CATEGORIA, headers=headers)
+
+    _produtodata["Categoria"] = titulo_categoria.json()["id"]
+
+    response = requests.post(API_URL_PRODUTO, data=_produtodata, files=_prodfiles, headers=headers)
 
     if response.status_code == 201:
         print("Produto cadastrado com sucesso!")
@@ -169,8 +176,8 @@ def postProduto(_produtodata, _prodfiles):
         print("Erro ao cadastrar produto:", response.status_code)
 
 def getProduto():
-    API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_produtos/"
-    # API_URL_PEDIDO_ORDER = "http://vendashg.pythonanywhere.com/api_produtos/"
+    API_URL_PRODUTO = "http://127.0.0.1:8000/api_produtos/"
+    # API_URL_PRODUTO = "http://vendashg.pythonanywhere.com/api_produtos/"
 
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -178,7 +185,7 @@ def getProduto():
         "Content-Type": "application/json"
     }
 
-    response = requests.get(API_URL_PEDIDO_ORDER, headers=headers)
+    response = requests.get(API_URL_PRODUTO, headers=headers)
 
     if response.status_code == 200:
         produtos = response.json()
@@ -188,8 +195,8 @@ def getProduto():
         print("Erro ao obter produtos:", response.status_code)
 
 def getByCodigoProduto(_codigo):
-    API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_produtos/" + str(_codigo) + "/"
-    # API_URL_PEDIDO_ORDER = "https://vendashg.pythonanywhere.com/api_produtos/" + str(_id) + "/"
+    API_URL_PRODUTO = "http://127.0.0.1:8000/api_produtos/" + str(_codigo) + "/"
+    # API_URL_PRODUTO = "https://vendashg.pythonanywhere.com/api_produtos/" + str(_id) + "/"
 
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -197,7 +204,7 @@ def getByCodigoProduto(_codigo):
         "Content-Type": "application/json"
     }
 
-    response = requests.get(API_URL_PEDIDO_ORDER, headers=headers)
+    response = requests.get(API_URL_PRODUTO, headers=headers)
 
     if response.status_code == 200:
         produto = response.json()
@@ -324,17 +331,17 @@ def postImg(_img_dir):
 #               5 -> Argamassas
 
 # prodData = {
-#     "codigo": "SeiLa4",
-#     "descricao": "SeiLa4",
-#     "codigo_GTIN": "SeiLa4",
+#     "codigo": "SeiLa5",
+#     "descricao": "SeiLa5",
+#     "codigo_GTIN": "SeiLa5",
 #     "preco_unitario_bruto": 420.69,
 #     "desconto_dinheiro": 5,
 #     "desconto_retira": 5,
 #     "unidade": "CM3",
 #    "fechamento_embalagem": 1,
 #     "em_estoque": True,
-#     "slug": "SeiLa4",
-#     "Categoria": 4,
+#     "slug": "SeiLa5",
+#     "Categoria": "Porcelanatos",
 # }
 
 #prodFiles = {

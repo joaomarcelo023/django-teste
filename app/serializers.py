@@ -6,6 +6,11 @@ class TestSerializer(serializers.ModelSerializer):
         model = TestStatus
         fields = '__all__'
 
+class CategoriaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Categoria
+        fields = '__all__'
+
 class ProdutoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Produto

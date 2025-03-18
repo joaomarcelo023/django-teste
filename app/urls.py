@@ -70,6 +70,10 @@ urlpatterns = [
     ## Teste
     path('api_test/', TestListCreateView.as_view(), name='test_list'),
     path('api_test/<int:pk>/', TestDetailView.as_view(), name='test_detail'),
+    
+    ## Categoria
+    path('api_categorias/', CategoriaListView.as_view(), name='categorias_list'),
+    path('api_categorias/<str:slug>/', CategoriaDetailView.as_view(), name='categorias_detail'),
 
     ## Produto
     path('api_produtos/', ProdutoListCreateView.as_view(), name='produto_list'),

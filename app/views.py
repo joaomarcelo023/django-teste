@@ -1492,6 +1492,20 @@ class TestDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     permission_classes = [HasAPIKey]
 
+## Categoria
+class CategoriaListView(generics.ListAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+
+    permission_classes = [HasAPIKey]
+
+class CategoriaDetailView(generics.RetrieveAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+    lookup_field = "slug"
+
+    permission_classes = [HasAPIKey]
+
 ## Produto
 class ProdutoListCreateView(generics.ListCreateAPIView):
     queryset = Produto.objects.all()
@@ -1503,11 +1517,10 @@ class ProdutoListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         produto = serializer.save()  # Save the initial model instance
         
-        # Get the uploaded image
-        image_field = produto.image  # Assuming the image field is named 'image'
+        image_field = produto.image
         
         if image_field:
-            temp_file_path = image_field.path  # Get the file path
+            temp_file_path = image_field.path
 
             # Converte pra webp
             file, ext = os.path.splitext(temp_file_path)
