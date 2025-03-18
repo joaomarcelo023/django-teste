@@ -22,6 +22,8 @@ TODO-ALVAREZ: Fazer a API pra lançar em massa o estoque
 
   TODO-ALVAREZ: Aprender a ler o json do estoque
 
+  TODO-ALVAREZ-RESOLVIDO: Mudar upload das imagens pra receber uma lista com endereços das imagens
+
 TODO-ALVAREZ: Criar Emails
 
   TODO-ALVAREZ-RESOLVIDO: Criar função basica de email

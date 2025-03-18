@@ -302,11 +302,28 @@ def upload_image(_image_path):
             response = requests.post(API_URL_IMG, headers=headers, files=files, data=data)
             print(response.json())
 
-def postImg(_img_dir):
-    for image in os.listdir(_img_dir):
-        image_path = os.path.join(_img_dir, image)
-        if os.path.isfile(image_path):
-            upload_image(image_path)
+def postImg(_imgDir, _imgDic, _imgList):
+    # Escolhe o metodo que melhor servir pra tu
+    # Se quiser testar um sem apagar os outros ou comentar só passar None como valor pros argumentos não usados
+    if _imgDir:
+        # Ex: _imgDir = "C:/Users/panel/OneDrive/Imagens"
+        for image in os.listdir(_imgDir):
+            image_path = os.path.join(_imgDir, image)
+            if os.path.isfile(image_path):
+                upload_image(image_path)
+
+    if _imgDic:
+        # Ex: {"0": "C:/Users/panel/OneDrive/Imagens/goku.jpg", "1": "C:/Users/panel/OneDrive/Imagens/vegeta.jpg"}
+        for i in range(len(_imgDic)):
+            image_path = _imgDic[str(i)]
+            if os.path.isfile(image_path):
+                upload_image(image_path)
+
+    if _imgList:
+        # Ex: _imgList = ["C:/Users/panel/OneDrive/Imagens/goku.jpg", "C:/Users/panel/OneDrive/Imagens/vegeta.jpg"]
+        for image_path in _imgList:
+            if os.path.isfile(image_path):
+                upload_image(image_path)
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
@@ -357,3 +374,12 @@ def postImg(_img_dir):
 # postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test.json")
 # patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test_update.json")
 # postImg("E:/Users/HP/Pictures/pokemonTCGPocket")
+
+# imgDic = {
+#     "0": "C:/djvenv/ProjetoJoaoMarcelo/img/testDicList/Pagamento_Confirmado.png",
+#     "1": "C:/djvenv/ProjetoJoaoMarcelo/img/testDicList/Pedido_Caminho.png"
+# }
+
+# imgList = ["C:/djvenv/ProjetoJoaoMarcelo/img/testDicList/Pedido_Cancelado.png", "C:/djvenv/ProjetoJoaoMarcelo/img/testDicList/Pedido_Recebido.png"]
+
+# postImg("C:/djvenv/ProjetoJoaoMarcelo/img/testDir", imgDic, imgList)
