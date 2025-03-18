@@ -1,0 +1,47 @@
+.errorlist{
+    color: red;
+}
+
+.termos_condicoes_Div {
+    margin-left: 5px;
+}
+
+.termos_condicoes_Div label {
+    font-size: small;
+}
+
+.termos_condicoes_Div span {
+    color: #ff9900;
+    cursor: pointer;
+}
+
+.termos_condicoes_janela {
+    width: 25vw;
+
+    position: absolute;
+    left: 37.5vw;
+    top: 25vh;
+
+    background-color: white;
+    border: 2px solid #ff9900;
+    border-radius: 21px;
+
+    padding: 12px;
+}
+
+.termos_condicoes_janela h4 {
+    width: 98%;
+}
+
+.termos_condicoes_janela_close {
+    width: 2%;
+    height: 16%;
+
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+}
+
+.termos_condicoes_janela li {
+    text-align: justify;
+}

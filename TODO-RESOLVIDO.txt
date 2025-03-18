@@ -110,4 +110,6 @@ TODO-ALVAREZ-RESOLVIDO: Colocar linha do tempo pro cliente acompanhar etapas do 
 
 TODO-ALVAREZ-RESOLVIDO: Colocar <input> no checkout pra termos e condições
 
+TODO-ALVAREZ-RESOLVIDO: Colocar <input> no  cadastro pra termos e condições
+
 TODO-ALVAREZ-RESOLVIDO: Melhorar como a API lida com categoria pra criação de produto individual novo
