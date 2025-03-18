@@ -323,8 +323,12 @@
                         </div>
                     </label>
                 </div>
+                <div class="termos_condicoes_Div">
+                    <!-- TODO: Rever texto -->
+                    <input id="termos_condicoes" type="checkbox" name="condicoes"> <label>Declaro que li e concorco com os <span id="termos_condicoes_btn">termos e condições da compra</span></label>
+                </div>
                 <div class="text-center">
-                    <button class="btn btn-info">Comprar</button>
+                    <button id="btnComprar" class="btn btn-info" disabled>Comprar</button>
                 </div>
             </form>
             <br>
@@ -400,6 +404,37 @@
         </div>
     </div>
 </section>
+
+<div class="termos_condicoes_janela" style="display: none;">
+    <div class="d-flex">
+        <h4>Termos e condições da compra</h4>
+        <span class="termos_condicoes_janela_close"><b>x</b></span>
+    </div>    
+    <ul><b>Regras de entrega</b>
+        <li>
+            O caminhão de entrega vai até o ponto mais próximo do endereço dentro dos limites de espaço e segurança do veiculo
+        </li>
+        <li>
+            Os materiais de entrega serão colocados ao lado do caminhão, sendo responsabilidade do cliente levar o material até o local da obra
+        </li>
+    </ul>
+    <ul><b>Regras de retira</b>
+        <li>
+            A retira da mercadoria só poderá ser feita no endereço escolhido na compra
+        </li>
+        <li>
+            A retira deverá ser feita em 7 dias
+        </li>
+    </ul>
+    <ul><b>Regras de pagamento em dinheiro</b>
+        <li>
+            A compra só será finalizada no ato do pagamento, no caixa de uma das lojas
+        </li>
+        <li>
+            O material não está reservado para compra, podendo acabar os estoques antes do pagamento
+        </li>
+    </ul>
+</div>
 
 <script id="descontos-data" type="application/json">
     {{ descontos|safe }}

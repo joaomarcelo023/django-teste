@@ -107,3 +107,5 @@ TODO-ALVAREZ-RESOLVIDO: Fazer a API pra atualizar em massa o estoque
 TODO-ALVAREZ-RESOLVIDO: Programar o calculo do frete
 
 TODO-ALVAREZ-RESOLVIDO: Colocar linha do tempo pro cliente acompanhar etapas do pedido na pagina de detalhe pedido
+
+TODO-ALVAREZ-RESOLVIDO: Colocar <input> no checkout pra termos e condições

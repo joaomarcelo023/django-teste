@@ -6,7 +6,7 @@ TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 
 TODO-ALVAREZ: Facilidade para saber quanto de estoque tem em cada loja
 
-TODO-ALVAREZ: Colocar <input> no checkout e cadastro pra termos e condições
+TODO-ALVAREZ: Colocar <input> no  cadastro pra termos e condições
 
 TODO-ALVAREZ: Deixar homepage mais amigavel (mentir sobre os preços) (olhar site obramax)
 
