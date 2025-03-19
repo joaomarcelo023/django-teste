@@ -1,3 +1,28 @@
+@media (min-width: 750px) {
+    .termos_condicoes_Div label {
+        font-size: small;
+    }
+
+    .termos_condicoes_janela {
+        width: 25vw;
+        
+        left: 37.5vw;
+        top: 25vh;
+    }
+}
+@media (max-width: 750px) {
+    .termos_condicoes_Div label {
+        font-size: x-small;
+    }
+
+    .termos_condicoes_janela {
+        width: 85vw;
+        
+        left: 7.5vw;
+        top: 33vh;
+    }
+}
+
 .option {
     /* display: flex; */
     align-items: center;
@@ -90,11 +115,14 @@
 }
 
 .termos_condicoes_Div {
+    width: 95%;
     margin-left: 5px;
+    margin-bottom: 5px;
 }
 
 .termos_condicoes_Div label {
-    font-size: small;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .termos_condicoes_Div span {
@@ -103,11 +131,7 @@
 }
 
 .termos_condicoes_janela {
-    width: 25vw;
-
     position: absolute;
-    left: 37.5vw;
-    top: 25vh;
 
     background-color: white;
     border: 2px solid #ff9900;
