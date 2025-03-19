@@ -14,32 +14,44 @@
             </div>
             <div class="row divInfoProd">
                 <h4>{{ p.descricao|truncatechars:60 }}</h4>
-                <div class="container" style="display: flex; padding:0; align-items: center; align-content: center;">
+                <div class="container containerPreco">
                     <div class="col-8 ml-3 divPreco">
                         <div class="precoUniCaixa">
-                            <span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
-                                R$
+                            <span class="precoDin" style="color: #ff9900;">
+                                Preço dinheiro
                             </span>
-                            <span class="{% if p.fechamento_embalagem|gt:1 %}precoHighLow{% else %}precoHighHigh{% endif %}">
-                                {{ p.integer_part_uni|intcomma }}
-                                </span><span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
-                                ,{{ p.decimal_part_uni}}
-                            </span>
-                            <span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
-                                &nbsp;{{ p.unidade|format_unit}}
-                            </span>
-                            <!-- <br>
+                            <br>
                             <span class="precoLowHigh">
                                 R$
                             </span>
                             <span class="precoHighHigh">
                                 {{ p.integer_part_desc|intcomma }}
-                                </span><span class="precoLowHigh">
+                            </span><span class="precoLowHigh">
                                 ,{{ p.decimal_part_desc}}
                             </span>
-                            <span class="precoLowHigh">
-                                &nbsp;no dinheiro retirando
-                            </span> -->
+                            <span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
+                                /{{ p.unidade|format_unit}}
+                            </span>
+                            <hr>
+                            <!-- TODO: Rever titulo -->
+                            <span class="precoDin" style="color: #151635;">
+                                Preço "Algo"
+                            </span>
+                            <br>
+                            <span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
+                                R$
+                            </span>
+                            <span class="{% if p.fechamento_embalagem|gt:1 %}precoHighLow{% else %}precoHighHigh{% endif %}">
+                                {{ p.integer_part_uni|intcomma }}
+                            </span><span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
+                                ,{{ p.decimal_part_uni}}
+                            </span>
+                            <span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
+                                /{{ p.unidade|format_unit}}
+                            </span>
+                            <span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
+                                em até 12x
+                            </span>
                         </div>
                     </div>
 

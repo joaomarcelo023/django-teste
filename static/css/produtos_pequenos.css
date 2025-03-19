@@ -1,6 +1,6 @@
 @media (min-width: 750px) {
     .div-produtos_pequenos {
-        height: 23vw;
+        height: 24vw;
         width: 17vw;
         /* margin-top: 10px; */
         /* margin-right: 1.5vw; */
@@ -33,10 +33,11 @@
         height: 0.825cm;
     }
 }
+
 @media (max-width: 750px) {
     .div-produtos_pequenos {
         /* TODO: ajustar dimensões pro mobile, ta muito pequeno */
-        height: 90vw;
+        height: 108vw;
         width: 45vw;
         /* margin-top: 10px; */
         /* margin-right: 1.5vw; */
@@ -128,6 +129,14 @@
     padding: 0;
 }
 
+.containerPreco {
+    display: flex;
+    padding: 0;
+    margin-bottom: 10px;
+    align-items: center;
+    align-content: center;
+}
+
 .divInfoProd h4 {
     /* height: 0.825cm; */
     overflow: hidden;
@@ -178,6 +187,21 @@
 .divPreco .precoHighHigh {
     font-size: 0.45cm;
     font-weight: bold;
+}
+
+.divPreco .precoDin {
+    font-size: 0.36cm;
+    font-weight: bold;
+}
+
+.precoUniCaixa {
+    margin-bottom: 12px;
+}
+
+.precoUniCaixa hr {
+    background-color: black;
+
+    margin: 0px;
 }
 
 .divAdd {
