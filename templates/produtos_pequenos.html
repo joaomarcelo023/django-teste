@@ -29,7 +29,7 @@
                             </span><span class="precoLowHigh">
                                 ,{{ p.decimal_part_desc}}
                             </span>
-                            <span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
+                            <span class="precoLowHigh">
                                 /{{ p.unidade|format_unit}}
                             </span>
                             <hr>
@@ -38,18 +38,19 @@
                                 Preço "Algo"
                             </span>
                             <br>
-                            <span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
+                            <span class="precoLowHigh">
                                 R$
                             </span>
-                            <span class="{% if p.fechamento_embalagem|gt:1 %}precoHighLow{% else %}precoHighHigh{% endif %}">
+                            <span class="precoLowHigh">
                                 {{ p.integer_part_uni|intcomma }}
-                            </span><span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
+                            </span><span class="precoLowHigh">
                                 ,{{ p.decimal_part_uni}}
                             </span>
-                            <span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
+                            <span class="precoLowHigh">
                                 /{{ p.unidade|format_unit}}
                             </span>
-                            <span class="{% if p.fechamento_embalagem|gt:1 %}precoLowLow{% else %}precoLowHigh{% endif %}">
+                            <br>
+                            <span class="precoLowHigh">
                                 em até 12x
                             </span>
                         </div>

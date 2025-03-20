@@ -25,6 +25,10 @@
         height:24px;
     }
 
+    .divImagemProd {
+        max-height: 60%;
+    }
+
     .imagemProdutos {
         padding: 15px;
     }
@@ -60,6 +64,10 @@
     .icone_adicionar_carrinho {
         width:15px;
         height:15px;
+    }
+
+    .divImagemProd {
+        max-height: 45%;
     }
 
     .imagemProdutos {
@@ -106,16 +114,16 @@
 
 .divImagemProd {
     aspect-ratio: 0.75;
-    max-height: 70%;
     object-fit: scale-down;
-    justify-content: center;
     margin: 0px;
-    padding: 0;
+    padding: 0px;
     height: auto;
     width: auto;
     align-items: center;
     flex-shrink:1;
     justify-content: center;
+    
+    /* border: 1px solid red; */
 }
 
 .imagemProdutos {
@@ -192,10 +200,6 @@
 .divPreco .precoDin {
     font-size: 0.36cm;
     font-weight: bold;
-}
-
-.precoUniCaixa {
-    margin-bottom: 12px;
 }
 
 .precoUniCaixa hr {
