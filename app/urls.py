@@ -33,6 +33,7 @@ urlpatterns = [
     path("registrar/", ClienteRegistrarView.as_view(), name="clienteregistrar"),
     path("logout/", ClienteLogoutView.as_view(), name="clientelogout"),
     path("entrar/", ClienteEntrarView.as_view(), name="clienteentrar"),
+    path("clientereverificaconta/", ClienteReverificaContaView.as_view(), name="clientereverificaconta"),
     path('verifica_user/<str:uidb64>/<str:token>/', verifica_user, name="verifica_user"),
 
     # Perfil cliente

@@ -69,6 +69,17 @@ class LogedMixin(object):
             return redirect(f"/entrar/?next={next}")
         return super().dispatch(request,*args, **kwargs)
 
+class VerifMixin(object):
+    def dispatch(self,request,*args, **kwargs):
+        if request.user.cliente.verificado:
+            pass
+        else:
+            # TODO: Rever texto
+            messages.success(request, 'Conta não verificada')
+            return redirect("lojaapp:home")
+        
+        return super().dispatch(request,*args, **kwargs)
+    
 class CarroComItemsMixin(object):
     def dispatch(self,request,*args, **kwargs):
         carro_id = request.session.get("carro_id")
@@ -430,7 +441,7 @@ class LimparCarroView(LojaMixin, View):
 
         return redirect("lojaapp:meucarro")
 
-class FormaDeEntregaView(LogedMixin, LojaMixin, CarroComItemsMixin, BaseContextMixin, CreateView):
+class FormaDeEntregaView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, BaseContextMixin, CreateView):
     template_name = "forma_de_entrega.html"
     form_class = Checar_PedidoForms
     success_url = reverse_lazy("lojaapp:home")
@@ -508,7 +519,7 @@ def pedido_carro_endereco(request):
         
     return HttpResponse("Invalid request.")
 
-class CheckOutView(LogedMixin, LojaMixin, CarroComItemsMixin, PedidoExisteMixin, BaseContextMixin, CreateView):
+class CheckOutView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, PedidoExisteMixin, BaseContextMixin, CreateView):
     template_name = "processar.html"
     form_class = Checar_PedidoForms
     success_url = reverse_lazy("lojaapp:home")
@@ -844,8 +855,12 @@ class ClienteRegistrarView(LojaMixin, BaseContextMixin, CreateView):
     def get_success_url(self):
         if "next" in self.request.GET:
             next_url = self.request.GET.get("next")
+            # TODO: Rever texto
+            messages.success(self.request, 'Email de verificação enviado')
             return next_url
         else:
+            # TODO: Rever texto
+            messages.success(self.request, 'Email de verificação enviado')
             return self.success_url
 
 def verifica_user(request, uidb64, token):
@@ -853,16 +868,33 @@ def verifica_user(request, uidb64, token):
         uid = urlsafe_base64_decode(uidb64).decode()
         user = User.objects.get(pk=uid)
     except (user.DoesNotExist, ValueError, TypeError):
+        # TODO: Rever texto
         messages.success(request, 'Link de verificação invalido')
         return redirect("lojaapp:home")
 
     if default_token_generator.check_token(user, token):
         user.cliente.verificado = True
         user.cliente.save()
+        # TODO: Rever texto
+        messages.success(request, 'Conta verificada com sucesso')
         return redirect("lojaapp:home")
     else:
+        # TODO: Rever texto
         messages.success(request, 'Link de verificação ou token invalido')
         return redirect("lojaapp:home")
+
+class ClienteReverificaContaView(LojaMixin, View):
+    def dispatch(self, request, *args, **kwargs):
+        usuario = request.user
+
+        if not usuario.cliente.verificado:
+            EmailVerificaCliente(usuario)
+
+            # TODO: Rever texto
+            messages.success(request, 'Email de verificação enviado')
+            return redirect("lojaapp:clienteperfil")
+
+        return super().dispatch(request, *args, **kwargs)
 
 class ClienteLogoutView(LojaMixin, View):
     def get (self, request):
@@ -1864,6 +1896,27 @@ def EmailClienteRegistrado(_cliente):
     text_content = "Obrigado por se cadastrar!"
     html_content = render_to_string(
                         "emails/emailClienteRegistrado.html",
+                        context={
+                            "cliente": _cliente,
+                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "linkVerif": f"https://vendashg.pythonanywhere.com{reverse('lojaapp:verifica_user', kwargs={'uidb64': uid, 'token': token})}",
+                        },
+                    )
+
+    email = EmailMultiAlternatives(
+        assunto, text_content, settings.EMAIL_HOST_USER, [_cliente.email]
+    )
+    email.attach_alternative(html_content, "text/html")
+    email.send()
+    
+def EmailVerificaCliente(_cliente):
+    token = generate_verification_token(_cliente)
+    uid = encode_user_id(_cliente)
+
+    assunto = "Verificação de conta CasaHG"
+    text_content = "Verificação de conta."
+    html_content = render_to_string(
+                        "emails/emailVerificaCLiente.html",
                         context={
                             "cliente": _cliente,
                             "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",

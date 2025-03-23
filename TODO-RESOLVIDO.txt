@@ -113,3 +113,5 @@ TODO-ALVAREZ-RESOLVIDO: Colocar <input> no checkout pra termos e condições
 TODO-ALVAREZ-RESOLVIDO: Colocar <input> no  cadastro pra termos e condições
 
 TODO-ALVAREZ-RESOLVIDO: Melhorar como a API lida com categoria pra criação de produto individual novo
+
+TODO-ALVAREZ-RESOLVIDO: Colocar verificações de usuarios verificados
