@@ -33,6 +33,7 @@ urlpatterns = [
     path("registrar/", ClienteRegistrarView.as_view(), name="clienteregistrar"),
     path("logout/", ClienteLogoutView.as_view(), name="clientelogout"),
     path("entrar/", ClienteEntrarView.as_view(), name="clienteentrar"),
+    path('verifica_user/<str:uidb64>/<str:token>/', verifica_user, name="verifica_user"),
 
     # Perfil cliente
     path("perfil/", ClientePerfilView.as_view(), name="clienteperfil"),
@@ -73,7 +74,7 @@ urlpatterns = [
     
     ## Categoria
     path('api_categorias/', CategoriaListView.as_view(), name='categorias_list'),
-    path('api_categorias/<str:slug>/', CategoriaDetailView.as_view(), name='categorias_detail'),
+    path('api_categorias/<str:titulo>/', CategoriaDetailView.as_view(), name='categorias_detail'),
 
     ## Produto
     path('api_produtos/', ProdutoListCreateView.as_view(), name='produto_list'),

@@ -8,6 +8,8 @@ TODO-ALVAREZ: Facilidade para saber quanto de estoque tem em cada loja
 
 TODO-ALVAREZ: Deixar homepage mais amigavel (mentir sobre os preços) (olhar site obramax)
 
+TODO-ALVAREZ: Colocar verificações de usuarios verificados
+
 TODO-ALVAREZ: Fazer a API pra lançar em massa o estoque
 
   TODO-ALVAREZ-RESOLVIDO: Fazer e testar a função pra chunked upload do json
@@ -47,6 +49,8 @@ TODO-ALVAREZ: Criar Emails
   TODO-ALVAREZ: Colocar alguem pra rever os textos
 
   TODO-ALVAREZ-RESOLVIDO: Colocar linha do tempo pro cliente acompanhar etapas do pedido nos emails
+
+  TODO-ALVAREZ-RESOLVIDO: Seguranca de usuário verificação de login
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte

@@ -1,0 +1,26 @@
+[
+{
+  "model": "rest_framework_api_key.apikey",
+  "pk": "RV0fsbEE.sha512$$f201ce4e5f4ede74a77ad3154b6bafe49d283db54db56bfaf675db483279cac3d46ffe550476771843f88af67006ac7609ea8e6fef702717592baab7525670e1",
+  "fields": {
+    "prefix": "RV0fsbEE",
+    "hashed_key": "sha512$$f201ce4e5f4ede74a77ad3154b6bafe49d283db54db56bfaf675db483279cac3d46ffe550476771843f88af67006ac7609ea8e6fef702717592baab7525670e1",
+    "created": "2025-02-24T18:54:40.820Z",
+    "name": "TestNew",
+    "revoked": false,
+    "expiry_date": null
+  }
+},
+{
+  "model": "rest_framework_api_key.apikey",
+  "pk": "Ut80LNz4.sha512$$0550e07fd52fdc06a09ed1dc7ad149e0705e7036d70c0a6f2ed5919ae2b7cfa3b5b0c132b40410084cedea8e14498dc54d1c3c2e3fe8e469528869f20ba918f3",
+  "fields": {
+    "prefix": "Ut80LNz4",
+    "hashed_key": "sha512$$0550e07fd52fdc06a09ed1dc7ad149e0705e7036d70c0a6f2ed5919ae2b7cfa3b5b0c132b40410084cedea8e14498dc54d1c3c2e3fe8e469528869f20ba918f3",
+    "created": "2025-02-17T23:04:12.870Z",
+    "name": "TestKey",
+    "revoked": false,
+    "expiry_date": null
+  }
+}
+]

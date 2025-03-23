@@ -93,6 +93,8 @@ class Cliente(models.Model):
     telefone = models.CharField(max_length=19,default="")
 
     data_criacao = models.DateTimeField(auto_now_add=True)
+
+    verificado = models.BooleanField(default=False)
     
     def save(self, *args, **kwargs):
         if self.telefone[0:3] != "+55":

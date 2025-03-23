@@ -74,4 +74,8 @@
         </div>
     </div>
 </section>
+
+<div id="messages" data-messages='[{% for message in messages %}{"text": "{{ message }}", "tags": "{{ message.tags }}"}{% if not forloop.last %},{% endif %}{% endfor %}]'></div>
+
+<script src="{% static 'js/home.js' %}"
 {% endblock %}

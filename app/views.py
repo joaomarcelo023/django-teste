@@ -10,10 +10,13 @@ from django.views.generic import TemplateView, CreateView, FormView, DetailView,
 from django.views.generic.edit import DeleteView
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.tokens import default_token_generator
 from django.db.models import Q
 from django.core.cache import cache
 from django.core.mail import send_mail, EmailMultiAlternatives
@@ -845,6 +848,22 @@ class ClienteRegistrarView(LojaMixin, BaseContextMixin, CreateView):
         else:
             return self.success_url
 
+def verifica_user(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+    except (user.DoesNotExist, ValueError, TypeError):
+        messages.success(request, 'Link de verificação invalido')
+        return redirect("lojaapp:home")
+
+    if default_token_generator.check_token(user, token):
+        user.cliente.verificado = True
+        user.cliente.save()
+        return redirect("lojaapp:home")
+    else:
+        messages.success(request, 'Link de verificação ou token invalido')
+        return redirect("lojaapp:home")
+
 class ClienteLogoutView(LojaMixin, View):
     def get (self, request):
         logout(request)
@@ -1502,7 +1521,7 @@ class CategoriaListView(generics.ListAPIView):
 class CategoriaDetailView(generics.RetrieveAPIView):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
-    lookup_field = "slug"
+    lookup_field = "titulo"
 
     permission_classes = [HasAPIKey]
 
@@ -1601,9 +1620,9 @@ class ChunkedProdutoJsonUploadView(APIView):
                 data_str = json.loads(full_json)
                 data = json.loads(data_str)             # Convert JSON string to Python object
 
-                for i in range(len(data["codigo"])):
+                for i in range(len(data["CODI"])):
                     categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
-                    img = "produtos/" + data["codigo"][str(i)] + ".webp"
+                    img = "produtos/" + data["CODI"][str(i)] + ".webp"
                     Produto.objects.create(codigo=data["CODI"][str(i)],descricao=data["DESC"][str(i)],codigo_GTIN=data["CODIO"][str(i)],preco_unitario_bruto=data["PREVE1"][str(i)],
                                            desconto_dinheiro=data["DESCONTO"][str(i)],desconto_retira=data["FRETEHG"][str(i)],unidade=data["UN"][str(i)],
                                            fechamento_embalagem=data["MULTIPLOS"][str(i)],em_estoque=True,slug=data["CODI"][str(i)],Categoria=categoria_id,image=img,)
@@ -1638,9 +1657,9 @@ class ChunkedProdutoJsonUpdateView(APIView):
                 data_str = json.loads(full_json)
                 data = json.loads(data_str)             # Convert JSON string to Python object
 
-                for i in range(len(data["codigo"])):
+                for i in range(len(data["CODI"])):
                     try:
-                        prod = Produto.objects.get(codigo=data["codigo"][str(i)])
+                        prod = Produto.objects.get(codigo=data["CODI"][str(i)])
                         categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
                         
                         API_URL_PRODUTO = "http://127.0.0.1:8000/api_produtos/" + str(prod.codigo) + "/"
@@ -1668,7 +1687,7 @@ class ChunkedProdutoJsonUpdateView(APIView):
 
                     except Produto.DoesNotExist:
                         categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
-                        img = "produtos/" + data["codigo"][str(i)] + ".webp"
+                        img = "produtos/" + data["CODI"][str(i)] + ".webp"
                         Produto.objects.create(codigo=data["CODI"][str(i)],descricao=data["DESC"][str(i)],codigo_GTIN=data["CODIO"][str(i)],
                                                preco_unitario_bruto=data["PREVE1"][str(i)],desconto_dinheiro=data["DESCONTO"][str(i)],
                                                desconto_retira=data["FRETEHG"][str(i)],unidade=data["UN"][str(i)],fechamento_embalagem=data["MULTIPLOS"][str(i)],
@@ -1828,9 +1847,19 @@ def preprocessar_precos(produtos):
 
         return produtos
 
+# Função para tokens de verificação da conta
+def generate_verification_token(user):
+    return default_token_generator.make_token(user)
+
+def encode_user_id(user):
+    return urlsafe_base64_encode(force_bytes(user.pk))
+
 # Funções de email
 ## Email enviado ao cliente ao criar sua conta
 def EmailClienteRegistrado(_cliente):
+    token = generate_verification_token(_cliente)
+    uid = encode_user_id(_cliente)
+
     assunto = "Boas-vindas à CasaHG"
     text_content = "Obrigado por se cadastrar!"
     html_content = render_to_string(
@@ -1838,6 +1867,7 @@ def EmailClienteRegistrado(_cliente):
                         context={
                             "cliente": _cliente,
                             "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "linkVerif": f"https://vendashg.pythonanywhere.com{reverse('lojaapp:verifica_user', kwargs={'uidb64': uid, 'token': token})}",
                         },
                     )
 

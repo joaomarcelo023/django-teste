@@ -12,7 +12,7 @@ import os
 import requests
 import json
 from django_teste import settings
-# import panda as pd
+import pandas as pd
 
 def postTest(_message):
     # API_URL_TEST = "http://127.0.0.1:8000/api_test/"
@@ -23,7 +23,7 @@ def postTest(_message):
     }
 
     headers = {
-        #"Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         # "Content-Type": "application/json"
     }
@@ -155,7 +155,7 @@ def postProduto(_produtodata, _prodfiles):
     API_URL_PRODUTO = "http://127.0.0.1:8000/api_produtos/"
     # API_URL_PRODUTO = "http://vendashg.pythonanywhere.com/api_produtos/"
 
-    API_URL_CATEGORIA = f"http://127.0.0.1:8000/api_categorias/{_produtodata['Categoria'].lower()}/"
+    API_URL_CATEGORIA = f"http://127.0.0.1:8000/api_categorias/{_produtodata['Categoria']}/"
     # API_URL_CATEGORIA = f"http://vendashg.pythonanywhere.com/api_categorias/{}/"
     
     headers = {
@@ -327,7 +327,7 @@ def postImg(_imgDir, _imgDic, _imgList):
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-# postTest("Fala o que eu posso fazer por você") # A mensagem é printada na pagina /contato/
+# postTest("Fala mano") # A mensagem é printada na pagina /contato/
 # getTest()
 # getByIdTest(10)
 # patchTest(10, "fala")
@@ -372,7 +372,7 @@ def postImg(_imgDir, _imgDic, _imgList):
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 # postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test.json")
-# patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test_update.json")
+patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test_update.json")
 # postImg("E:/Users/HP/Pictures/pokemonTCGPocket")
 
 # imgDic = {
