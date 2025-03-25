@@ -11,15 +11,15 @@
 
 {% include "mais_vendidos.html" %}
 
-<div class="container">
+<section class="container">
     <div class="row mt-1 justify-content-center align-items-center">
     {% for p in page_obj %}
-        <div class="col-lg-3 col-md-4 col-sm-12 col-12" style="padding:0px;"> <!-- col-lg-4 -->
+        <div class="col-lg-3 col-md-4 col-sm-12 col" style="padding:0px;"> <!-- col-lg-4 -->
             {% include "produtos_pequenos.html" %}
         </div>
     {% endfor %}
     </div>
-</div>
+</section>
 <br>
 <section class="container">
     <div class="row justify-content-center">
@@ -77,5 +77,5 @@
 
 <div id="messages" data-messages='[{% for message in messages %}{"text": "{{ message }}", "tags": "{{ message.tags }}"}{% if not forloop.last %},{% endif %}{% endfor %}]'></div>
 
-<script src="{% static 'js/home.js' %}"
+<script src="{% static 'js/home.js' %}"></script>
 {% endblock %}
