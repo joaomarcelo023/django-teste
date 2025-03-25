@@ -1,0 +1,24 @@
+{% load static %}
+{% load humanize %}
+{% load l10n %}
+{% localize on %}
+{% load custom_filters %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/adminprodutos_pequenos.css' %}">
+
+<a class="linkProd" href="{% url 'lojaapp:adminprodutodetalhe' p.slug %}">
+    <div class="div-produtos_pequenos container">
+        <div class="divSub-produtos_pequenos">
+            <div class="row divImagemProd">
+                <img class="img-fluid zoom-effectmt-3 mb-2 imagemProdutos" src="{{ p.image.url }}" alt="">
+            </div>
+            <div class="row divInfoProd">
+                <p class="titulo">{{ p.descricao|truncatechars:60 }}</p>
+                <p class="info">{{ p.codigo }}</p>
+                <p class="info" {% if p.em_estoque %}style="color:blue"{% else %}style="color:red"{% endif %}>{% if p.em_estoque %}Em{% else %}Fora de{% endif %} estoque</p>
+            </div>
+        </div>
+    </div>
+</a>
+
+{% endlocalize %}

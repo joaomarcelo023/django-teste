@@ -819,6 +819,7 @@ class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
         for pp in pedidoProduto:
             produto = Produto.objects.get(id=pp.produto.id)
             produto.quantidade_vendas += 1
+            produto.save()
 
         # Cria carro novo
         carro_obj = Carro.objects.create(total=0)
@@ -1346,7 +1347,9 @@ class AdminHomeView(AdminRequireMixin, BaseContextMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["PedidosPendentes"] = Pedido_order.objects.filter(pedido_status="Pedido Recebido").order_by("-id")
+        context["ProdutosMaisVendido"] = Produto.objects.all().order_by("-quantidade_vendas")
+        context["ProdutosMaisVistos"] = Produto.objects.all().order_by("-visualizacao")
+        context["Pedidos"] = Pedido_order.objects.all().order_by("-id")
 
         return context
 
@@ -1415,7 +1418,58 @@ class AdminPedidoMudarView(AdminRequireMixin, BaseContextMixin, ListView):
                 EmailPedidoCompleto(pedido_obj)
 
         return redirect(reverse_lazy("lojaapp:adminpedido", kwargs={"pk" : pedido_id}))
-    
+
+class AdminTodosProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
+    template_name = "admin_paginas/admintodosprodutodetalhe.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        produtos = Produto.objects.all()
+
+        paginator = Paginator(produtos, 20)
+        page_number = self.request.GET.get('page')
+
+        context['produtos'] = paginator.get_page(page_number)
+
+        return context
+
+class AdminProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
+    template_name = "admin_paginas/adminprodutodetalhe.html"
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+
+        url_slug = self.kwargs['slug']
+        produto = Produto.objects.get(slug=url_slug)
+        context['produto'] = produto
+
+        context['preco_embalagem'] = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
+        context['preco_retirada_dinheiro'] = round((produto.preco_unitario_bruto * ((100 - produto.desconto_dinheiro - produto.desconto_retira) / 100)), 2)
+
+        context['fotos_produtos'] = produto.images.all()
+
+        return context
+
+class AdminCategoriasView(AdminRequireMixin, BaseContextMixin, TemplateView):
+    template_name = "admin_paginas/admincategoria.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        categoria_select = self.request.GET.get('categoria', 'Todas')
+        context['Categorias'] = Categoria.objects.all()
+
+        if categoria_select == 'Todas':
+            context["ProdutosMaisVendido"] = Produto.objects.all().order_by("-quantidade_vendas")
+            context["ProdutosMaisVistos"] = Produto.objects.all().order_by("-visualizacao")
+        else:
+            categoria_id = Categoria.objects.get(titulo=categoria_select).id
+            context["ProdutosMaisVendido"] = Produto.objects.filter(Categoria=categoria_id).order_by("-quantidade_vendas")
+            context["ProdutosMaisVistos"] = Produto.objects.filter(Categoria=categoria_id).order_by("-visualizacao")
+
+        return context
+
 class PesquisarAdminView(AdminRequireMixin, BaseContextMixin, TemplateView):
     template_name = "admin_paginas/PesquisarAdmin.html"
 
@@ -1423,8 +1477,25 @@ class PesquisarAdminView(AdminRequireMixin, BaseContextMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         kw = self.request.GET.get("query")
+        pedido = Pedido_order.objects.filter(Q(nome_cliente__icontains = kw) | Q(email__icontains = kw) | Q(id__iexact = kw)).order_by("-id")
+        produto = Produto.objects.filter(Q(codigo__iexact = kw) | Q(codigo_GTIN__iexact = kw) | Q(slug__iexact = kw) | Q(descricao__icontains = kw) | Q(titulo__icontains = kw) | Q(Categoria__titulo__icontains = kw))
+        
+        if produto.exists() and not pedido.exists():
+            context['produto'] = True
+            context['pedido'] = False
 
-        result = Pedido_order.objects.filter(Q(nome_cliente__contains = kw) | Q(email__icontains = kw) | Q(id = kw)).order_by("-id")
+            paginator = Paginator(produto, 20)
+            page_number = self.request.GET.get('page')
+            result = paginator.get_page(page_number)
+        elif pedido.exists() and not produto.exists():
+            context['produto'] = False
+            context['pedido'] = True
+            result = pedido
+        # TODO: Pensar nesse elif
+        # elif pedido.exists() and produto.exists():
+        else:
+            result = None
+
         context['resultados'] = result
 
         return context

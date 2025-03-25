@@ -54,6 +54,9 @@ urlpatterns = [
     path("admin-pedido-<int:pk>/", AdminPedidoView.as_view(), name="adminpedido"),
     path("admin-todos-pedido/", AdminTodosPedidoView.as_view(), name="admintodospedido"),
     path("admin-pedido-mudar/<int:pk>/", AdminPedidoMudarView.as_view(), name="adminpedidomudar"),
+    path("admin-todos-produto/", AdminTodosProdutoView.as_view(), name="admintodosprodutos"),
+    path("admin-produto/<slug:slug>/", AdminProdutoView.as_view(), name="adminprodutodetalhe"),
+    path('admin-categoria/', AdminCategoriasView.as_view(), name="admincategoria"),
     path('admin-pesquisar/', PesquisarAdminView.as_view(), name="adminpesquisar"),
 
     # POST

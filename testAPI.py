@@ -347,32 +347,32 @@ def postImg(_imgDir, _imgDic, _imgList):
 #               4 -> Porcelanatos
 #               5 -> Argamassas
 
-# prodData = {
-#     "codigo": "SeiLa5",
-#     "descricao": "SeiLa5",
-#     "codigo_GTIN": "SeiLa5",
-#     "preco_unitario_bruto": 420.69,
-#     "desconto_dinheiro": 5,
-#     "desconto_retira": 5,
-#     "unidade": "CM3",
-#    "fechamento_embalagem": 1,
-#     "em_estoque": True,
-#     "slug": "SeiLa5",
-#     "Categoria": "Porcelanatos",
-# }
+prodData = {
+    "codigo": "Giratina",
+    "descricao": "Giratina",
+    "codigo_GTIN": "Giratina",
+    "preco_unitario_bruto": 69.69,
+    "desconto_dinheiro": 5,
+    "desconto_retira": 5,
+    "unidade": "CM3",
+   "fechamento_embalagem": 1,
+    "em_estoque": False,
+    "slug": "Giratina",
+    "Categoria": "Pisos Cerâmicos",
+}
 
-#prodFiles = {
-#     "image": open("C:/Users/panel/OneDrive/Imagens/goku.jpg", "rb"),
-# }
+prodFiles = {
+    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Giratina.jpg", "rb"),
+}
 
-# postProduto(prodData, prodFiles)
+postProduto(prodData, prodFiles)
 
 # postProduto(prodData, None)
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 # postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test.json")
-patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test_update.json")
+# patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test_update.json")
 # postImg("E:/Users/HP/Pictures/pokemonTCGPocket")
 
 # imgDic = {

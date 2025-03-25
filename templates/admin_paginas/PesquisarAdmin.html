@@ -1,57 +1,127 @@
 {%extends "admin_paginas/adminbase.html"%}
 {% load humanize %}
 {% load l10n %}
+{% load custom_filters %}
 
 {% block title %}Pesquisar Admin - CasaHG{% endblock %}
 
 {% block content %}
 <section class="container">
-    <div class="row">
-        {% if resultados %}
-            <div class="col-sm-12 mx-auto">
-                <h2 class="text-success">"{{request.GET.query}}"</h2>
-                <table class="table text-center">
-                    <h3>Pedidos</h3>
-                    <tr>
-                        <th></th>
-                        <th class="text-center">Pedido ID</th>
-                        <th class="text-center">User</th>
-                        <th class="text-center">Cliente</th>
-                        <th></th>
-                        <th class="text-center">Valor</th>
-                        <th></th>
-                        <th class="text-center">Data do pedido</th>
-                        <th class="text-center">Status do pedido</th>
-                    </tr>
-                </tr>
-                {% if resultados %}
-                    {% for p in resultados %}
+    {% if resultados %}
+        {% if pedido %}
+            <div class="row">
+                <div class="col-sm-12 mx-auto">
+                    <h2 class="text-success">"{{request.GET.query}}"</h2>
+                    <table class="table text-center">
+                        <h3>Pedidos</h3>
                         <tr>
-                            <td>{{ forloop.counter }}</td>
-                            <td><a href="{% url 'lojaapp:adminpedido' p.id %}">{{ p.id }}</a></td>
-                            <td>{{ p.cliente }}</td>
-                            <td>{{ p.nome_cliente }}</td>
-                            <td colspan="3">R$ {{ p.total_final|intcomma }}</td>
-                            <td>{{ p.criado_em }}</td>
-                            <td>{{ p.pedido_status }}</td>
+                            <th></th>
+                            <th class="text-center">Pedido ID</th>
+                            <th class="text-center">User</th>
+                            <th class="text-center">Cliente</th>
+                            <th></th>
+                            <th class="text-center">Valor</th>
+                            <th></th>
+                            <th class="text-center">Data do pedido</th>
+                            <th class="text-center">Status do pedido</th>
                         </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td colspan="3">-</td>
-                        <td>-</td>
-                        <td>-</td>
                     </tr>
-                {% endif %}
-                </table>
+                    {% if resultados %}
+                        {% for p in resultados %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'lojaapp:adminpedido' p.id %}">{{ p.id }}</a></td>
+                                <td>{{ p.cliente }}</td>
+                                <td>{{ p.nome_cliente }}</td>
+                                <td colspan="3">R$ {{ p.total_final|intcomma }}</td>
+                                <td>{{ p.criado_em }}</td>
+                                <td>{{ p.pedido_status }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td colspan="3">-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    {% endif %}
+                    </table>
+                </div>
             </div>
-        {% else %}
-            <h2 class="text-danger">Pedidos não encontrado</h2>
+        {% elif produto %}
+            <h2 class="text-success">"{{request.GET.query}}"</h2>
+            <section class="container">
+                <div class="row mt-1 justify-content-center align-items-center">
+                {% for p in resultados %}
+                    <div class="col-lg-3 col-md-4 col-sm-12 col-12" style="padding:0px;"> <!-- col-lg-4 -->
+                        {% include "admin_paginas/adminprodutos_pequenos.html" %}
+                    </div>
+                {% endfor %}
+                </div>
+            </section>
+            <br>
+            <section class="container">
+                <div class="row justify-content-center">
+                    <div class="col-3" style="display:flex; justify-content: center;">
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                                {% if resultados.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1">&ll;</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ resultados.previous_page_number }}">&lt;</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&ll;</span>
+                                    </li>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&lt;</span>
+                                    </li>
+                                {% endif %}
+                        
+                                {% for page in resultados.paginator.page_range %}
+                                    {% if page == resultados.number %}
+                                        <li class="page-item active">
+                                            <span class="page-link">{{ page }}</span>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                
+                                {% if resultados.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ resultados.next_page_number }}">&gt;</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ resultados.paginator.num_pages }}">&gg;</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&gt;</span>
+                                    </li>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&gg;</span>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </section>
         {% endif %}
-    </div>
+    {% else %}
+        <div class="row">
+            <h2 class="text-danger">Pesquisa não encontrada</h2>
+        </div>
+    {% endif %}
 </section>    
 {% endblock %}

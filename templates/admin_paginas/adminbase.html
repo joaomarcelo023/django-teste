@@ -68,10 +68,15 @@
                         HOME
                     </a>
 
+                    <a class=" btn btn-custom mt-2 mb-2 mx-3" href="{% url 'lojaapp:admincategoria' %}" style="width:120px; height:60px">
+                        Todas as categorias
+                    </a>
+
+                    <a class=" btn btn-custom mt-2 mb-2 mx-3" href="{% url 'lojaapp:admintodosprodutos' %}" style="width:120px; height:60px">
+                        Todos os produtos
+                    </a>
+
                     <a class=" btn btn-custom mt-2 mb-2 mx-3" href="{% url 'lojaapp:admintodospedido' %}" style="width:120px; height:60px">
-                        <div>
-                            <svg height="20px" width="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19 7.90637V18C19 19.1046 18.1046 20 17 20H7C5.89543 20 5 19.1046 5 18V7.90637M2 10.0001L10.8531 3.80297C11.5417 3.32092 12.4583 3.32092 13.1469 3.80297L22 10.0001" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-                        </div>
                         Todos os pedidos
                     </a>
 
@@ -90,7 +95,7 @@
     <header class="form-custom-background container-fluid grande">
         <div class="form-custom-background">
             <div class="d-flex align-items-center text-center" style="height: 120px;">
-                <div class="col d-flex align-items-center text-center" style="flex: 2;">
+                <div class="col-3 d-flex align-items-center text-center" style="flex: 2;">
                     <a href="{% url 'lojaapp:adminhome' %}" class="mt-3 mb-3 ml-5 me-3">
                             <img style="height:70px; object-fit:cover;" src="{{ empresa.image.url }}" alt="" class="img-fluid">
                     </a>
@@ -115,10 +120,23 @@
                     </form>
 
                     <form class="mt-3 mb-3 me-3">
-                        <a class=" btn btn-custom mt-4 mb-4" href="{% url 'lojaapp:admintodospedido' %}">
-                            <div>
-                                <svg height="20px" width="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19 7.90637V18C19 19.1046 18.1046 20 17 20H7C5.89543 20 5 19.1046 5 18V7.90637M2 10.0001L10.8531 3.80297C11.5417 3.32092 12.4583 3.32092 13.1469 3.80297L22 10.0001" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                        <a class=" btn btn-custom mt-4 mb-4" href="{% url 'lojaapp:admincategoria' %}">
+                            <div class="texto-menu" >
+                                &nbsp;Todos as categorias
                             </div>
+                        </a>
+                    </form>
+
+                    <form class="mt-3 mb-3 me-3">
+                        <a class=" btn btn-custom mt-4 mb-4" href="{% url 'lojaapp:admintodosprodutos' %}">
+                            <div class="texto-menu" >
+                                &nbsp;Todos os produtos
+                            </div>
+                        </a>
+                    </form>
+
+                    <form class="mt-3 mb-3 me-3">
+                        <a class=" btn btn-custom mt-4 mb-4" href="{% url 'lojaapp:admintodospedido' %}">
                             <div class="texto-menu" >
                                 &nbsp;Todos os pedidos
                             </div>
@@ -146,14 +164,16 @@
         {% endblock content %}
     </section>
     <br>
-    <footer class="form-custom-background">
+    <footer class="form-custom-background" style="display: flex; justify-content: center;">
         <div class="row justify-content-center">
-            <div class="col-3" style="display:flex; justify-content: center;">
-                <!-- TODO: Preencher href -->
-                <a href=""><img src="{{ empresa.image.url }}" style="height: 70px;"></a>
+            <div class="col-3" style="display: flex; justify-content: center;">
+                {% for empresa in footer %}
+                    <!-- TODO: Preencher href -->
+                    <a href=""><img src="{{ empresa.image.url }}" style="height: 70px;"></a>
+                {% endfor %}
             </div>
-            <div class="col-12">
-                <h1 class="my-2" style="align-items: center; justify-content: center; font-size: 12px; display:flex;">Copyright © 2024 CasaHG | Todos os direitos reservados.</h1>
+            <div class="col-12" style="display: flex; justify-content: center;">
+                <h1 class="my-2" style="align-items: center; justify-content: center; font-size: 12px; display: flex;">Copyright © 2024 CasaHG | Todos os direitos reservados.</h1>
             </div>
         </div>
     </footer>

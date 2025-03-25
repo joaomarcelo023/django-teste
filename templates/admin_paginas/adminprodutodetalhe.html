@@ -1,0 +1,59 @@
+{% extends "admin_paginas/adminbase.html" %}
+{% load static %}
+{% load humanize %}
+{% load custom_filters %}
+
+{% block title %}Detalhes do produto - CasaHG{% endblock %}
+
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/adminprodutodetalhe.css' %}">
+
+<section class="container">
+    <div class="row">
+        <div class="col-5 imgCol">
+            <div class="imgMain">
+                <img id="mainImg" src="{{ produto.image.url }}" class="img-fluid mainImg">
+            </div>
+            <div class="imgWrapper d-flex">
+                <button><img src="{{ produto.image.url }}" style="border-bottom: 5px solid #ff9900;"></button>
+                {% for foto in fotos_produtos %}
+                    <button><img src="{{ foto.image.url }}"></button>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col detalhesCol">
+            <!-- <h3 class="d-flex justify-content-center">Detalhes do produto</h3> -->
+            <!-- <br> -->
+            <p><span class="font-weight-bold"> Produto: </span>{{ produto.descricao }}</p>
+            <p><span class="font-weight-bold"> Codigo: </span>{{ produto.codigo }}</p>
+            <p><span class="font-weight-bold"> Codigo GTIN: </span>{{ produto.codigo_GTIN }}</p>
+            <p><span class="font-weight-bold"> Categoria: </span>{{ produto.Categoria }}</p>
+            <p><span class="font-weight-bold"> slug: </span>{{ produto.slug }}</p>
+            <p><span class="font-weight-bold"> Em estoque: </span>{{ produto.em_estoque }}</p>
+            <p><span class="font-weight-bold"> Preço unitario: </span>{{ produto.preco_unitario_bruto }}/{{ produto.unidade|format_unit }}</p>
+            <p><span class="font-weight-bold"> Fechamento embalagem: </span>{{ produto.fechamento_embalagem }}{{ produto.unidade|format_unit }}</p>
+            <p><span class="font-weight-bold"> Preço embalagem: </span>{{ preco_embalagem }}/embalagem</p>
+            <p><span class="font-weight-bold"> Desconto dinheiro: </span>{{ produto.desconto_dinheiro }}%</p>
+            <p><span class="font-weight-bold"> Desconto retira: </span>{{ produto.desconto_retira }}%</p>
+            <p><span class="font-weight-bold"> Preço retirada dinheiro: </span>{{ preco_retirada_dinheiro }}/{{ produto.unidade }}</p>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <hr style="background-color: black;">
+    </div>
+
+    <div class="row">
+        <div class="col d-flex">
+            <p>Visualizações: {{ produto.visualizacao }}</p>
+        </div>
+        <div class="col d-flex">
+            <p>Vendas: {{ produto.quantidade_vendas }}</p>
+        </div>
+    </div>
+</section>
+
+<script src="{% static 'js/adminprodutodetalhe.js' %}"></script>
+{% endblock %}

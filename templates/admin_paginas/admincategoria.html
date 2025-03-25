@@ -8,11 +8,26 @@
 
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/adminhome.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/admincategoria.css' %}">
 
 <section class="container">
     <div class="row">
-        <div class="col-4">
+        <div class="col-12">
+            <div style="display: flex; justify-content: flex-end;">
+                <form method="GET" action="">
+                    <select name="categoria" onchange="this.form.submit()">
+                        <option value="Todas" style="text-align: center;" {% if request.GET.categoria == "Todas" %}selected{% endif %}>Todas categorias</option>
+                        {% for cat in Categorias %}
+                            <option value="{{ cat.titulo }}" style="text-align: center;" {% if request.GET.categoria == cat.titulo %}selected{% endif %}>{{ cat.titulo }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
             <h4>Produtos mais vendido</h4>
             <table class="table">
                 <thead>
@@ -39,7 +54,7 @@
             </table>
         </div>
 
-        <div class="col-4">
+        <div class="col-6">
             <h4>Produtos mais vistos</h4>
             <table class="table">
                 <thead>
@@ -65,30 +80,8 @@
                 </tbody>
             </table>
         </div>
-
-        <div class="col-4">
-            <h4>Ultimos pedidos</h4>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Pedido</th>
-                        <th>Cliente</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for p in Pedidos %}
-                        <tr>
-                            <td style="vertical-align: middle;">
-                                <a href="{% url 'lojaapp:adminpedido' p.id %}">{{ p.id }}</a>
-                            </td>
-                            <td style="vertical-align: middle;">{{ p.nome_cliente }}</td>
-                            <td style="vertical-align: middle;">{{ p.pedido_status }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
     </div>
 </section>
+
+<script src="{% static 'js/admincategoria.js' %}"></script>
 {% endblock %}
