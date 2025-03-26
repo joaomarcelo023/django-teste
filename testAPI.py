@@ -213,12 +213,12 @@ def getByCodigoProduto(_codigo):
         print("Erro ao obter produto:", response.status_code)
 
 def postJson(_arq):
-    API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_upload/"
-    # API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_upload/"
+    # API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_upload/"
+    API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_upload/"
 
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
-        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
 
@@ -244,12 +244,12 @@ def postJson(_arq):
         print(f"Chunk {i+1}/{total_chunks}: {response.json()}")
 
 def patchJson(_arq):
-    API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_update/"
-    # API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_update/"
+    # API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_update/"
+    API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_update/"
 
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
-        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
 
@@ -327,7 +327,7 @@ def postImg(_imgDir, _imgDic, _imgList):
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-# postTest("Fala mano") # A mensagem é printada na pagina /contato/
+# postTest("Fala ai") # A mensagem é printada na pagina /contato/
 # getTest()
 # getByIdTest(10)
 # patchTest(10, "fala")
@@ -347,32 +347,32 @@ def postImg(_imgDir, _imgDic, _imgList):
 #               4 -> Porcelanatos
 #               5 -> Argamassas
 
-prodData = {
-    "codigo": "Giratina",
-    "descricao": "Giratina",
-    "codigo_GTIN": "Giratina",
-    "preco_unitario_bruto": 69.69,
-    "desconto_dinheiro": 5,
-    "desconto_retira": 5,
-    "unidade": "CM3",
-   "fechamento_embalagem": 1,
-    "em_estoque": False,
-    "slug": "Giratina",
-    "Categoria": "Pisos Cerâmicos",
-}
+# prodData = {
+#     "codigo": "Giratina",
+#     "descricao": "Giratina",
+#     "codigo_GTIN": "Giratina",
+#     "preco_unitario_bruto": 69.69,
+#     "desconto_dinheiro": 5,
+#     "desconto_retira": 5,
+#     "unidade": "CM3",
+#    "fechamento_embalagem": 1,
+#     "em_estoque": False,
+#     "slug": "Giratina",
+#     "Categoria": "Pisos Cerâmicos",
+# }
 
-prodFiles = {
-    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Giratina.jpg", "rb"),
-}
+# prodFiles = {
+#     "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Giratina.jpg", "rb"),
+# }
 
-postProduto(prodData, prodFiles)
+# postProduto(prodData, prodFiles)
 
 # postProduto(prodData, None)
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-# postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test.json")
-# patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/test_update.json")
+# postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site.json")
+patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site.json")
 # postImg("E:/Users/HP/Pictures/pokemonTCGPocket")
 
 # imgDic = {

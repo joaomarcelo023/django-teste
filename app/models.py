@@ -213,6 +213,7 @@ class Pedido_Produto(models.Model):
     #importante repetir informações do produto para que uma mudança de cadastro não altere a venda
     pedido = models.ForeignKey(Pedido_order,on_delete=models.CASCADE,related_name="pedidoProduto",default="")
     produto = models.ForeignKey(Produto,on_delete=models.SET_NULL,default="",null=True)
+    nome_produto = models.CharField(max_length=200,default="")
 
     codigo = models.CharField(max_length=10,default="")
     descricao = models.CharField(max_length=200,default="")
@@ -228,8 +229,14 @@ class Pedido_Produto(models.Model):
     desconto_unitario = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True,default=0) # em reais
     total_final = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True,default=0) # total parcial com desconto
 
+    def save(self, *args, **kwargs):
+        if not self.nome_produto:
+            self.nome_produto = self.produto.titulo
+
+        super(Pedido_Produto, self).save(*args, **kwargs)
+
     def __str__(self):
-        return "Pedido: " + str(self.pedido.id) + " | Codigo do produto: " + self.codigo + " | Produto: " + self.produto.titulo
+        return "Pedido: " + str(self.pedido.id) + " | Codigo do produto: " + self.codigo + " | Produto: " + self.nome_produto
 
 class Banner(models.Model):    
     title = models.CharField(max_length=100, blank=True)

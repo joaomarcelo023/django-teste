@@ -7,6 +7,7 @@
 
 
 {% block content %}
+<script src="https://cdn.plot.ly/plotly-3.0.1.min.js" charset="utf-8"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'css/adminprodutodetalhe.css' %}">
 
 <section class="container">
@@ -29,7 +30,7 @@
             <p><span class="font-weight-bold"> Produto: </span>{{ produto.descricao }}</p>
             <p><span class="font-weight-bold"> Codigo: </span>{{ produto.codigo }}</p>
             <p><span class="font-weight-bold"> Codigo GTIN: </span>{{ produto.codigo_GTIN }}</p>
-            <p><span class="font-weight-bold"> Categoria: </span>{{ produto.Categoria }}</p>
+            <p><span class="font-weight-bold"> Categoria: </span>{{ produto.Categoria.titulo }}</p>
             <p><span class="font-weight-bold"> slug: </span>{{ produto.slug }}</p>
             <p><span class="font-weight-bold"> Em estoque: </span>{{ produto.em_estoque }}</p>
             <p><span class="font-weight-bold"> Preço unitario: </span>{{ produto.preco_unitario_bruto }}/{{ produto.unidade|format_unit }}</p>
@@ -46,14 +47,29 @@
     </div>
 
     <div class="row">
-        <div class="col d-flex">
-            <p>Visualizações: {{ produto.visualizacao }}</p>
-        </div>
-        <div class="col d-flex">
+        <div class="col">
             <p>Vendas: {{ produto.quantidade_vendas }}</p>
+            <pre id="debug_output">{{ grafico_vendas_data|safe }}</pre>
+            <div class="justify-content-center">
+                <div id="graficoVendas" style="width: 90%; height: 250px;"></div>
+            </div>
+        </div>
+        <div class="col">
+            <p>Visualizações: {{ produto.visualizacao }}</p>
+            <div class="justify-content-center">
+                <div id="graficoVisuli" style="width: 90%; height: 250px;"></div>
+            </div>
         </div>
     </div>
 </section>
+
+<script id="codigo_produto" data-codigo="{{ produto.codigo }}"></script>
+<script id="grafico_vendas_data" type="application/json">
+    {{ grafico_vendas_data|safe }}
+</script>
+<script id="grafico_visuli_data" type="application/json">
+    {{ grafico_visuli_data|safe }}
+</script>
 
 <script src="{% static 'js/adminprodutodetalhe.js' %}"></script>
 {% endblock %}

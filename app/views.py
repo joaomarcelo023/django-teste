@@ -46,6 +46,12 @@ class AdminRequireMixin(object):
         else:
             return redirect("/admin-login/")
         return super().dispatch(request,*args,**kwargs)
+    
+class GeraHistoricoProdutosMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        geraHistoricoProdutos(Produto.objects.all())
+        
+        return super().dispatch(request, *args, **kwargs)
 
 class LojaMixin(object):
     def dispatch(self,request,*args,**kwargs):
@@ -657,7 +663,7 @@ def pedido_carro_pagamento(request):
             # Cria os Pedido_Produto
             for produtosCarro in CarroProduto.objects.filter(carro=pedido.carro):
                 produto = Produto.objects.get(id=produtosCarro.produto.id)
-                Pedido_Produto.objects.create(pedido=pedido, produto=produto, codigo=produto.codigo, 
+                Pedido_Produto.objects.create(pedido=pedido, produto=produto, nome_produto=produto.titulo, codigo=produto.codigo, 
                                               descricao=produto.descricao, codigo_GTIN=produto.codigo_GTIN, preco_unitario_bruto=produto.preco_unitario_bruto, 
                                               desconto_dinheiro=produto.desconto_dinheiro, desconto_retira=produto.desconto_retira, unidade=produto.unidade, 
                                               quantidade=produtosCarro.quantidade, total_bruto=produtosCarro.subtotal_bruto, 
@@ -1343,7 +1349,7 @@ class AdminLoginView(BaseContextMixin, FormView):
             return render(self.request,self.template_name,{"form":self.form_class,"error":"usuario nao corresponde"})
         return super().form_valid(form)
 
-class AdminHomeView(AdminRequireMixin, BaseContextMixin, TemplateView):
+class AdminHomeView(AdminRequireMixin, BaseContextMixin, GeraHistoricoProdutosMixin, TemplateView):
     template_name = "admin_paginas/adminhome.html"
 
     def get_context_data(self, **kwargs):
@@ -1449,6 +1455,18 @@ class AdminProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
         context['preco_retirada_dinheiro'] = round((produto.preco_unitario_bruto * ((100 - produto.desconto_dinheiro - produto.desconto_retira) / 100)), 2)
 
         context['fotos_produtos'] = produto.images.all()
+
+
+        file_path_vendas = os.path.join(settings.MEDIA_ROOT, "data", "vendas.json")
+        file_path_visuli = os.path.join(settings.MEDIA_ROOT, "data", "visualizacao.json")
+        try:
+            with open(file_path_vendas, "r") as file:
+                context['grafico_vendas_data'] = json.load(file)
+            with open(file_path_visuli, "r") as file:
+                context['grafico_visuli_data'] = json.load(file)
+        except:
+            context['grafico_vendas_data'] = {}
+            context['grafico_visuli_data'] = {}
 
         return context
 
@@ -1724,19 +1742,25 @@ class ChunkedProdutoJsonUploadView(APIView):
                 data_str = json.loads(full_json)
                 data = json.loads(data_str)             # Convert JSON string to Python object
 
+                print("cu")
                 for i in range(len(data["codigo"])):
+                    print("init")
                     categoria_id = Categoria.objects.get(titulo=data["categoria"][str(i)])
+                    print("cat")
                     img = "produtos/" + data["codigo"][str(i)] + ".webp"
+                    print("img")
                     if data["em_estoque"][str(i)]:
                         emEst = True
                     else:
                         emEst = False
+                    print("emEst")
                         
                     Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
                                            preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
                                            desconto_retira=data["desconto_retira"][str(i)],unidade=data["unidade"][str(i)],titulo=data["titulo"][str(i)],
                                            fechamento_embalagem=data["fechamento_embalagem"][str(i)],em_estoque=emEst,slug=data["slug"][str(i)],
                                            Categoria=categoria_id,image=img,)
+                    print("tudo")
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
@@ -1803,8 +1827,8 @@ class ChunkedProdutoJsonUpdateView(APIView):
                         response = requests.patch(API_URL_PRODUTO, data=update_data, headers=headers)
 
                     except Produto.DoesNotExist:
-                        categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
-                        img = "produtos/" + data["CODI"][str(i)] + ".webp"
+                        categoria_id = Categoria.objects.get(titulo=data["categoria"][str(i)])
+                        img = "produtos/" + data["codigo"][str(i)] + ".webp"
                         if data["em_estoque"][str(i)]:
                             emEst = True
                         else:
@@ -1970,22 +1994,38 @@ def preprocessar_precos(_produtos):
 
         return _produtos
 
-# 
+# Gera json com historico de vendas e visualizações de cada produto
 def geraHistoricoProdutos(_produtos):
-    data = datetime.datetime.now()
-    mes = f"{data.year}-{data.month}"
+    data = datetime.datetime.now()    
+    mes = f"{data.year}-{data.month - 1}"
 
     file_path_vendas = os.path.join(settings.MEDIA_ROOT, "data", "vendas.json")
-    file_path_visu = os.path.join(settings.MEDIA_ROOT, "data", "visualizacao.json")
+    file_path_visuli = os.path.join(settings.MEDIA_ROOT, "data", "visualizacao.json")
 
-    vendas_dic = json.loads(open(file_path_vendas, "r"))
-    visu_dic = json.loads(open(file_path_visu, "r"))
+    try:
+        with open(file_path_vendas, "r") as file:
+            vendas_dic = json.load(file)
+        with open(file_path_visuli, "r") as file:
+            visuli_dic = json.load(file)
+    except:
+        vendas_dic = {}
+        visuli_dic = {}
 
-    i_vendas = len(vendas_dic["codigo"])
-    i_visu = len(visu_dic["codigo"])
-    
-    
-    return True
+    if mes not in vendas_dic and mes not in visuli_dic:
+        vendas_dic_mes = {mes: {}}
+        visuli_dic_mes = {mes: {}}
+
+        for produto in _produtos:
+            vendas_dic_mes[mes].update({produto.codigo: produto.quantidade_vendas})
+            visuli_dic_mes[mes].update({produto.codigo: produto.visualizacao})
+
+        vendas_dic.update(vendas_dic_mes)
+        visuli_dic.update(visuli_dic_mes)
+
+        with open(file_path_vendas, "w") as file:
+            json.dump(vendas_dic, file, indent=4)
+        with open(file_path_visuli, "w") as file:
+            json.dump(visuli_dic, file, indent=4)
 
 # Função para tokens de verificação da conta
 def generate_verification_token(user):
