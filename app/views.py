@@ -1462,9 +1462,9 @@ class AdminProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
         file_path_visuli = os.path.join(settings.MEDIA_ROOT, "data", "visualizacao.json")
         try:
             with open(file_path_vendas, "r") as file:
-                context['grafico_vendas_data'] = json.load(file)
+                context['grafico_vendas_data'] = json.dumps((json.load(file)))
             with open(file_path_visuli, "r") as file:
-                context['grafico_visuli_data'] = json.load(file)
+                context['grafico_visuli_data'] = json.dumps((json.load(file)))
         except:
             context['grafico_vendas_data'] = {}
             context['grafico_visuli_data'] = {}

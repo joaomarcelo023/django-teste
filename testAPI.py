@@ -156,7 +156,8 @@ def postProduto(_produtodata, _prodfiles):
     API_URL_PRODUTO = "http://127.0.0.1:8000/api_produtos/"
     # API_URL_PRODUTO = "http://vendashg.pythonanywhere.com/api_produtos/"
 
-    API_URL_CATEGORIA = f"http://127.0.0.1:8000/api_categorias/{unicodedata.normalize('NFKD', _produtodata['Categoria']).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")}/"
+    cat_slug = unicodedata.normalize('NFKD', _produtodata['Categoria']).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
+    API_URL_CATEGORIA = f"http://127.0.0.1:8000/api_categorias/{cat_slug}/"
     # API_URL_CATEGORIA = f"http://vendashg.pythonanywhere.com/api_categorias/{}/"
     
     headers = {
@@ -245,12 +246,12 @@ def postJson(_arq):
         print(f"Chunk {i+1}/{total_chunks}: {response.json()}")
 
 def patchJson(_arq):
-    API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_update/"
-    # API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_update/"
+    # API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_update/"
+    API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_update/"
 
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
-        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
 

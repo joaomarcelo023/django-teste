@@ -1,7 +1,5 @@
 TODO-Alvarez: Arrumar o produto_detalhe pra mostrar o preço da  caixa e não unitario
 
-TODO-ALVAREZ: Criar area de admin com dados de produtos (mais visualizados, mais vendidos, etc)
-
 TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 
 TODO-ALVAREZ: Facilidade para saber quanto de estoque tem em cada loja

@@ -49,16 +49,21 @@
     <div class="row">
         <div class="col">
             <p>Vendas: {{ produto.quantidade_vendas }}</p>
-            <pre id="debug_output">{{ grafico_vendas_data|safe }}</pre>
-            <div class="justify-content-center">
-                <div id="graficoVendas" style="width: 90%; height: 250px;"></div>
+            <div class="grafDiv">
+                <div id="graficoVendas" class="grafPequeno"></div>
             </div>
         </div>
         <div class="col">
             <p>Visualizações: {{ produto.visualizacao }}</p>
-            <div class="justify-content-center">
-                <div id="graficoVisuli" style="width: 90%; height: 250px;"></div>
+            <div class="grafDiv">
+                <div id="graficoVisuli" class="grafPequeno"></div>
             </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col grafDiv">
+            <div id="graficoVendasVisuli" class="grafGrande"></div>
         </div>
     </div>
 </section>
