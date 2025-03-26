@@ -82,7 +82,7 @@ urlpatterns = [
 
     ## Produto
     path('api_produtos/', ProdutoListCreateView.as_view(), name='produto_list'),
-    path('api_produtos/<str:codigo>/', ProdutoDetailView.as_view(), name='produto_detail'),
+    path('api_produtos/<str:slug>/', ProdutoDetailView.as_view(), name='produto_detail'),
     path('chunked_json_upload/', ChunkedProdutoJsonUploadView.as_view(), name='chunked_produto_json_upload'),
     path('chunked_json_update/', ChunkedProdutoJsonUpdateView.as_view(), name='chunked_produto_json_update'),
     path('chunked_img_upload/', ChunkedProdutoImgUploadView.as_view(), name='chunked_produto_img_upload'),

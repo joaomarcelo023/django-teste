@@ -34,6 +34,7 @@ from django.template.loader import render_to_string
 from PIL import Image
 from io import BytesIO
 from random import randint
+import unicodedata
 import requests
 import datetime
 import decimal
@@ -1643,7 +1644,7 @@ class CategoriaListView(generics.ListAPIView):
 class CategoriaDetailView(generics.RetrieveAPIView):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
-    lookup_field = "titulo"
+    lookup_field = "slug"
 
     permission_classes = [HasAPIKey]
 
@@ -1795,36 +1796,27 @@ class ChunkedProdutoJsonUpdateView(APIView):
                 for i in range(len(data["codigo"])):
                     try:
                         prod = Produto.objects.get(codigo=data["codigo"][str(i)])
-                        categoria_id = Categoria.objects.get(titulo=data["categoria"][str(i)])
+                        cat_slug = unicodedata.normalize('NFKD', data["categoria"][str(i)]).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
+                        print(cat_slug)
+                        categoria_id = Categoria.objects.get(slug=cat_slug)
                         if data["em_estoque"][str(i)]:
                             emEst = True
                         else:
                             emEst = False
-                        
-                        # TODO: Inverter esses comments
-                        API_URL_PRODUTO = "http://127.0.0.1:8000/api_produtos/" + str(prod.codigo) + "/"
-                        # API_URL_PRODUTO = "https://vendashg.pythonanywhere.com/api_produtos/" + str(prod.codigo) + "/"
 
-                        headers = {
-                            "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
-                            # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
-                        }
+                        prod.descricao = data["descricao"][str(i)]
+                        prod.codigo_GTIN = data["codigo_GTIN"][str(i)]
+                        prod.preco_unitario_bruto = data["preco_unitario_bruto"][str(i)]
+                        prod.desconto_dinheiro = data["desconto_dinheiro"][str(i)]
+                        prod.desconto_retira = data["desconto_retira"][str(i)]
+                        prod.unidade = data["unidade"][str(i)]
+                        prod.fechamento_embalagem = data["fechamento_embalagem"][str(i)]
+                        prod.em_estoque = emEst
+                        prod.slug = data["slug"][str(i)]
+                        prod.Categoria = categoria_id
+                        prod.titulo = data["titulo"][str(i)]
 
-                        update_data = {
-                            "descricao": data["descricao"][str(i)],
-                            "codigo_GTIN": data["codigo_GTIN"][str(i)],
-                            "preco_unitario_bruto": data["preco_unitario_bruto"][str(i)],
-                            "desconto_dinheiro": data["desconto_dinheiro"][str(i)],
-                            "desconto_retira": data["desconto_retira"][str(i)],
-                            "unidade": data["unidade"][str(i)],
-                            "fechamento_embalagem": data["fechamento_embalagem"][str(i)],
-                            "em_estoque": emEst,
-                            "slug": data["slug"][str(i)],
-                            "Categoria": categoria_id.id,
-                            "titulo": data["titulo"][str(i)],
-                        }
-
-                        response = requests.patch(API_URL_PRODUTO, data=update_data, headers=headers)
+                        prod.save()
 
                     except Produto.DoesNotExist:
                         categoria_id = Categoria.objects.get(titulo=data["categoria"][str(i)])
