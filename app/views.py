@@ -35,6 +35,7 @@ from PIL import Image
 from io import BytesIO
 from random import randint
 import requests
+import datetime
 import decimal
 import json
 
@@ -1723,12 +1724,19 @@ class ChunkedProdutoJsonUploadView(APIView):
                 data_str = json.loads(full_json)
                 data = json.loads(data_str)             # Convert JSON string to Python object
 
-                for i in range(len(data["CODI"])):
-                    categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
-                    img = "produtos/" + data["CODI"][str(i)] + ".webp"
-                    Produto.objects.create(codigo=data["CODI"][str(i)],descricao=data["DESC"][str(i)],codigo_GTIN=data["CODIO"][str(i)],preco_unitario_bruto=data["PREVE1"][str(i)],
-                                           desconto_dinheiro=data["DESCONTO"][str(i)],desconto_retira=data["FRETEHG"][str(i)],unidade=data["UN"][str(i)],
-                                           fechamento_embalagem=data["MULTIPLOS"][str(i)],em_estoque=True,slug=data["CODI"][str(i)],Categoria=categoria_id,image=img,)
+                for i in range(len(data["codigo"])):
+                    categoria_id = Categoria.objects.get(titulo=data["categoria"][str(i)])
+                    img = "produtos/" + data["codigo"][str(i)] + ".webp"
+                    if data["em_estoque"][str(i)]:
+                        emEst = True
+                    else:
+                        emEst = False
+                        
+                    Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
+                                           preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
+                                           desconto_retira=data["desconto_retira"][str(i)],unidade=data["unidade"][str(i)],titulo=data["titulo"][str(i)],
+                                           fechamento_embalagem=data["fechamento_embalagem"][str(i)],em_estoque=emEst,slug=data["slug"][str(i)],
+                                           Categoria=categoria_id,image=img,)
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
@@ -1760,11 +1768,16 @@ class ChunkedProdutoJsonUpdateView(APIView):
                 data_str = json.loads(full_json)
                 data = json.loads(data_str)             # Convert JSON string to Python object
 
-                for i in range(len(data["CODI"])):
+                for i in range(len(data["codigo"])):
                     try:
-                        prod = Produto.objects.get(codigo=data["CODI"][str(i)])
-                        categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
+                        prod = Produto.objects.get(codigo=data["codigo"][str(i)])
+                        categoria_id = Categoria.objects.get(titulo=data["categoria"][str(i)])
+                        if data["em_estoque"][str(i)]:
+                            emEst = True
+                        else:
+                            emEst = False
                         
+                        # TODO: Inverter esses comments
                         API_URL_PRODUTO = "http://127.0.0.1:8000/api_produtos/" + str(prod.codigo) + "/"
                         # API_URL_PRODUTO = "https://vendashg.pythonanywhere.com/api_produtos/" + str(prod.codigo) + "/"
 
@@ -1774,16 +1787,17 @@ class ChunkedProdutoJsonUpdateView(APIView):
                         }
 
                         update_data = {
-                            "descricao": data["DESC"][str(i)],
-                            "codigo_GTIN": data["CODIO"][str(i)],
-                            "preco_unitario_bruto": data["PREVE1"][str(i)],
-                            "desconto_dinheiro": data["DESCONTO"][str(i)],
-                            "desconto_retira": data["FRETEHG"][str(i)],
-                            "unidade": data["UN"][str(i)],
-                            "fechamento_embalagem": data["MULTIPLOS"][str(i)],
-                            "em_estoque": True,
-                            "slug": data["CODI"][str(i)],
+                            "descricao": data["descricao"][str(i)],
+                            "codigo_GTIN": data["codigo_GTIN"][str(i)],
+                            "preco_unitario_bruto": data["preco_unitario_bruto"][str(i)],
+                            "desconto_dinheiro": data["desconto_dinheiro"][str(i)],
+                            "desconto_retira": data["desconto_retira"][str(i)],
+                            "unidade": data["unidade"][str(i)],
+                            "fechamento_embalagem": data["fechamento_embalagem"][str(i)],
+                            "em_estoque": emEst,
+                            "slug": data["slug"][str(i)],
                             "Categoria": categoria_id.id,
+                            "titulo": data["titulo"][str(i)],
                         }
 
                         response = requests.patch(API_URL_PRODUTO, data=update_data, headers=headers)
@@ -1791,10 +1805,16 @@ class ChunkedProdutoJsonUpdateView(APIView):
                     except Produto.DoesNotExist:
                         categoria_id = Categoria.objects.get(titulo=data["Categoria"][str(i)])
                         img = "produtos/" + data["CODI"][str(i)] + ".webp"
-                        Produto.objects.create(codigo=data["CODI"][str(i)],descricao=data["DESC"][str(i)],codigo_GTIN=data["CODIO"][str(i)],
-                                               preco_unitario_bruto=data["PREVE1"][str(i)],desconto_dinheiro=data["DESCONTO"][str(i)],
-                                               desconto_retira=data["FRETEHG"][str(i)],unidade=data["UN"][str(i)],fechamento_embalagem=data["MULTIPLOS"][str(i)],
-                                               em_estoque=True,slug=data["CODI"][str(i)],Categoria=categoria_id,image=img,)
+                        if data["em_estoque"][str(i)]:
+                            emEst = True
+                        else:
+                            emEst = False
+
+                        Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
+                                               preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
+                                               desconto_retira=data["desconto_retira"][str(i)],unidade=data["unidade"][str(i)],titulo=data["titulo"][str(i)],
+                                               fechamento_embalagem=data["fechamento_embalagem"][str(i)],em_estoque=emEst,slug=data["codigo"][str(i)],
+                                               Categoria=categoria_id,image=img,)
                         
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
@@ -1931,8 +1951,8 @@ def ta_pago(_pedido):
     return False
 
 # Formata o valor do preço dos produtos para mostrar de forma mais interessante no site
-def preprocessar_precos(produtos):
-        for produto in produtos:
+def preprocessar_precos(_produtos):
+        for produto in _produtos:
             venda_parts = str(produto.preco_unitario_bruto).split('.')
             precoDesc = round((produto.preco_unitario_bruto * (1 - ((produto.desconto_dinheiro + produto.desconto_retira) / 100))), 2)
             venda_parts_desc = str(precoDesc).split('.')
@@ -1948,7 +1968,24 @@ def preprocessar_precos(produtos):
             produto.integer_part_desc = venda_parts_desc[0]
             produto.decimal_part_desc = venda_parts_desc[1] if len(venda_parts_desc) > 1 else '00'  # Adiciona '00' se não houver parte decimal
 
-        return produtos
+        return _produtos
+
+# 
+def geraHistoricoProdutos(_produtos):
+    data = datetime.datetime.now()
+    mes = f"{data.year}-{data.month}"
+
+    file_path_vendas = os.path.join(settings.MEDIA_ROOT, "data", "vendas.json")
+    file_path_visu = os.path.join(settings.MEDIA_ROOT, "data", "visualizacao.json")
+
+    vendas_dic = json.loads(open(file_path_vendas, "r"))
+    visu_dic = json.loads(open(file_path_visu, "r"))
+
+    i_vendas = len(vendas_dic["codigo"])
+    i_visu = len(visu_dic["codigo"])
+    
+    
+    return True
 
 # Função para tokens de verificação da conta
 def generate_verification_token(user):
