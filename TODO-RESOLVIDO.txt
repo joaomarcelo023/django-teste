@@ -117,3 +117,31 @@ TODO-ALVAREZ-RESOLVIDO: Melhorar como a API lida com categoria pra criação de 
 TODO-ALVAREZ-RESOLVIDO: Colocar verificações de usuarios verificados
 
 TODO-ALVAREZ-RESOLVIDO: Criar area de admin com dados de produtos (mais visualizados, mais vendidos, etc)
+
+TODO-ALVAREZ-RESOLVIDO: Deixar homepage mais amigavel (mentir sobre os preços) (olhar site obramax)
+
+TODO-ALVAREZ-RESOLVIDO: Criar Emails
+
+  TODO-ALVAREZ-RESOLVIDO: Criar função basica de email
+
+  TODO-ALVAREZ-RESOLVIDO: Arrumar email de cadastro
+
+  TODO-ALVAREZ-RESOLVIDO: Arrumar email de Pedido recebido
+
+  TODO-ALVAREZ-RESOLVIDO: Criar email de Pagamento Confirmado
+
+  TODO-ALVAREZ-RESOLVIDO: Criar email de Pedido Cancelado
+
+  TODO-ALVAREZ-RESOLVIDO: Criar email de Pedido enviado
+
+  TODO-ALVAREZ-RESOLVIDO: Criar email de Pedido pronto para retirada
+
+  TODO-ALVAREZ-RESOLVIDO: Criar email de Pedido Completado
+
+  TODO-ALVAREZ-RESOLVIDO: Criar funções para envio dos emails
+
+  TODO-ALVAREZ-RESOLVIDO: Conectar funções nos views
+
+  TODO-ALVAREZ-RESOLVIDO: Colocar linha do tempo pro cliente acompanhar etapas do pedido nos emails
+
+  TODO-ALVAREZ-RESOLVIDO: Seguranca de usuário verificação de login

@@ -4,7 +4,7 @@ TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 
 TODO-ALVAREZ: Facilidade para saber quanto de estoque tem em cada loja
 
-TODO-ALVAREZ: Deixar homepage mais amigavel (mentir sobre os preços) (olhar site obramax)
+TODO-ALVAREZ: Colocar alguem pra rever os textos
 
 TODO-ALVAREZ: Fazer a API pra lançar em massa o estoque
 
@@ -16,37 +16,9 @@ TODO-ALVAREZ: Fazer a API pra lançar em massa o estoque
 
   TODO-ALVAREZ-RESOLVIDO: Testar essa porra
 
-  TODO-ALVAREZ: Aprender a ler o json do estoque
+  TODO-ALVAREZ-RESOLVIDO: Aprender a ler o json do estoque
 
   TODO-ALVAREZ-RESOLVIDO: Mudar upload das imagens pra receber uma lista com endereços das imagens
-
-TODO-ALVAREZ: Criar Emails
-
-  TODO-ALVAREZ-RESOLVIDO: Criar função basica de email
-
-  TODO-ALVAREZ-RESOLVIDO: Arrumar email de cadastro
-
-  TODO-ALVAREZ-RESOLVIDO: Arrumar email de Pedido recebido
-
-  TODO-ALVAREZ-RESOLVIDO: Criar email de Pagamento Confirmado
-
-  TODO-ALVAREZ-RESOLVIDO: Criar email de Pedido Cancelado
-
-  TODO-ALVAREZ-RESOLVIDO: Criar email de Pedido enviado
-
-  TODO-ALVAREZ-RESOLVIDO: Criar email de Pedido pronto para retirada
-
-  TODO-ALVAREZ-RESOLVIDO: Criar email de Pedido Completado
-
-  TODO-ALVAREZ-RESOLVIDO: Criar funções para envio dos emails
-
-  TODO-ALVAREZ-RESOLVIDO: Conectar funções nos views
-
-  TODO-ALVAREZ: Colocar alguem pra rever os textos
-
-  TODO-ALVAREZ-RESOLVIDO: Colocar linha do tempo pro cliente acompanhar etapas do pedido nos emails
-
-  TODO-ALVAREZ-RESOLVIDO: Seguranca de usuário verificação de login
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte

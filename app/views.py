@@ -1875,6 +1875,22 @@ class ChunkedProdutoImgUploadView(APIView):
 
         return JsonResponse({"message": "Chunk received", "chunk_index": chunk_index})
 
+class ProdutoStatsView(APIView):
+    permission_classes = [HasAPIKey]
+
+    def get(self, request):
+        file_path_vendas = os.path.join(settings.MEDIA_ROOT, "data", "vendas.json")
+        file_path_visuli = os.path.join(settings.MEDIA_ROOT, "data", "visualizacao.json")
+        try:
+            with open(file_path_vendas, "r") as file:
+                vendas_dic = json.load(file)
+            with open(file_path_visuli, "r") as file:
+                visuli_dic = json.load(file)
+        except:
+            return Response({"error": "Files don't exist"}, status=400)
+        
+        return Response({'Vendas_json': vendas_dic, 'Visualizacao_json': visuli_dic})
+
 ## Fotos Produto
 class FotosProdutoListCreateView(generics.ListCreateAPIView):
     queryset = FotosProduto.objects.all()
