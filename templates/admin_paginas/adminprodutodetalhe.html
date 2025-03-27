@@ -38,7 +38,7 @@
             <p><span class="font-weight-bold"> Preço embalagem: </span>{{ preco_embalagem }}/embalagem</p>
             <p><span class="font-weight-bold"> Desconto dinheiro: </span>{{ produto.desconto_dinheiro }}%</p>
             <p><span class="font-weight-bold"> Desconto retira: </span>{{ produto.desconto_retira }}%</p>
-            <p><span class="font-weight-bold"> Preço retirada dinheiro: </span>{{ preco_retirada_dinheiro }}/{{ produto.unidade }}</p>
+            <p><span class="font-weight-bold"> Preço retirada dinheiro: </span>{{ preco_retirada_dinheiro }}/{{ produto.unidade|format_unit }}</p>
         </div>
     </div>
     <br>
