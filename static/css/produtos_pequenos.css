@@ -85,9 +85,19 @@
     display: flex;
 }
 
+.linkProd button {
+    color: #464646;
+    background-color: #f2f2f2;
+}
+
 .linkProd:hover {
     text-decoration: none;
     box-shadow:  0 5px 18px 5px rgba(255, 153, 0, 0.6);
+}
+
+.linkProd:hover button {
+    color: #464646;
+    background-color: #f2f2f2;
 }
 
 .div-produtos_pequenos {
@@ -118,10 +128,11 @@
     margin: 0px;
     padding: 0px;
     height: auto;
-    width: auto;
+    width: 100%;
     align-items: center;
     flex-shrink:1;
     justify-content: center;
+    object-fit: cover;
 }
 
 .imagemProdutos {
@@ -130,6 +141,7 @@
     width: 100%;
     align-items: center;
     justify-content: center;
+    /* object-fit: cover; */
 }
 
 .divInfoProd {
