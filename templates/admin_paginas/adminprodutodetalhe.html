@@ -27,19 +27,41 @@
         <div class="col detalhesCol">
             <!-- <h3 class="d-flex justify-content-center">Detalhes do produto</h3> -->
             <!-- <br> -->
-            <p><span class="font-weight-bold"> Produto: </span>{{ produto.descricao }}</p>
-            <p><span class="font-weight-bold"> Codigo: </span>{{ produto.codigo }}</p>
-            <p><span class="font-weight-bold"> Codigo GTIN: </span>{{ produto.codigo_GTIN }}</p>
-            <p><span class="font-weight-bold"> Categoria: </span>{{ produto.Categoria.titulo }}</p>
-            <p><span class="font-weight-bold"> slug: </span>{{ produto.slug }}</p>
-            <p><span class="font-weight-bold"> Em estoque: </span>{{ produto.em_estoque }}</p>
-            <p><span class="font-weight-bold"> Preço unitario: </span>{{ produto.preco_unitario_bruto }}/{{ produto.unidade|format_unit }}</p>
-            <p><span class="font-weight-bold"> Fechamento embalagem: </span>{{ produto.fechamento_embalagem }}{{ produto.unidade|format_unit }}</p>
-            <p><span class="font-weight-bold"> Preço embalagem: </span>{{ preco_embalagem }}/embalagem</p>
-            <p><span class="font-weight-bold"> Desconto dinheiro: </span>{{ produto.desconto_dinheiro }}%</p>
-            <p><span class="font-weight-bold"> Desconto retira: </span>{{ produto.desconto_retira }}%</p>
-            <p><span class="font-weight-bold"> Preço retirada dinheiro: </span>{{ preco_retirada_dinheiro }}/{{ produto.unidade|format_unit }}</p>
-        </div>
+            <form action="{% url 'lojaapp:atualiza_produto' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="path" value="{{ request.path }}">
+                <input type="hidden" name="produto" value="{{ produto.codigo }}">
+                <p><span class="font-weight-bold"> Codigo: </span>{{ produto.codigo }}</p>
+                <p><span class="font-weight-bold"> Produto: </span><input name="descricao" value="{{ produto.descricao }}" style="width: 88.8%;"></p>
+                <p><span class="font-weight-bold"> Codigo GTIN: </span><input name="codigo_GTIN" value="{{ produto.codigo_GTIN }}" style="width: 83.25%;"></p>
+                <!-- <p><span class="font-weight-bold"> Categoria: </span><input name="categoria" value="{{ produto.Categoria.titulo }}" style="width: 87%;"></p> -->
+                <p><span class="font-weight-bold"> Categoria: </span>
+                    <select name="categoria" style="width: 87%;">
+                        {% for cat in categorias %}
+                            <option value="{{ cat.slug }}" {% if cat == produto.Categoria %}selected{% endif %}>{{ cat.titulo }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+                <!-- <p><span class="font-weight-bold"> Em estoque: </span><input name="em_estoque" value="{{ produto.em_estoque }}" style="width: 84.75%;"></p> -->
+                <p><span class="font-weight-bold"> Em estoque: </span>
+                    <select name="em_estoque" style="width: 84.75%;">
+                        <option value="True" {% if produto.em_estoque %}selected{% endif %}>True</option>
+                        <option value="False" {% if not produto.em_estoque %}selected{% endif %}>False</option>
+                    </select>
+                </p>
+                <p><span class="font-weight-bold"> Fechamento embalagem: </span><input name="fechamento_embalagem" value="{{ produto.fechamento_embalagem }}" style="width: 64.225%;">{{ produto.unidade|format_unit }}</p>
+                <p><span class="font-weight-bold"> Desconto dinheiro: </span><input name="desconto_dinheiro" value="{{ produto.desconto_dinheiro }}" style="width: 71.6%;">%</p>
+                <p><span class="font-weight-bold"> Desconto retira: </span><input name="desconto_retira" value="{{ produto.desconto_retira }}" style="width: 75.25%;">%</p>
+                <p><span class="font-weight-bold"> Preço unitario: </span><input name="preco_unitario_bruto" value="{{ produto.preco_unitario_bruto }}" style="width: 77%;">/{{ produto.unidade|format_unit }}</p>
+                <p><span class="font-weight-bold"> Preço retirada dinheiro: </span>{{ preco_retirada_dinheiro }}/{{ produto.unidade|format_unit }}</p>
+                <p><span class="font-weight-bold"> Preço embalagem: </span>{{ preco_embalagem }}/embalagem</p>
+                <div class="d-flex justify-content-end">
+                    <button name="salvar" value="False" class="btn btn-danger">Descartar alterações</button>
+                    <span>&emsp;</span>
+                    <button name="salvar" value="True" class="btn btn-success">Salvar alterações</button>
+                </div>
+            </form>
+    </div>
     </div>
     <br>
     <div class="row">

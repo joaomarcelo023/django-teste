@@ -246,12 +246,12 @@ def postJson(_arq):
         print(f"Chunk {i+1}/{total_chunks}: {response.json()}")
 
 def patchJson(_arq):
-    # API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_update/"
-    API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_update/"
+    API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_update/"
+    # API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_update/"
 
     headers = {
-        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
 
@@ -388,7 +388,7 @@ def getProdStats():
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- #
 
 # postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site.json")
-# patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site.json")
+patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site_2.json")
 # postImg("E:/Users/HP/Pictures/pokemonTCGPocket")
 
 # imgDic = {
@@ -402,5 +402,5 @@ def getProdStats():
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-stats = getProdStats()
-print(stats['Vendas_json'])
+# stats = getProdStats()
+# print(stats['Vendas_json'])

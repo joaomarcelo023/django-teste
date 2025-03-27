@@ -138,7 +138,7 @@ class CrazyAlvaPaymentCheckMixin(object):
 
         return super().dispatch(request,*args,**kwargs)
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
 class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, TemplateView):
     template_name = "home.html"
@@ -1334,7 +1334,7 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
         
         return context
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
 class AdminLoginView(BaseContextMixin, FormView):
     template_name = "admin_paginas/adminlogin.html"
@@ -1457,6 +1457,7 @@ class AdminProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
 
         context['fotos_produtos'] = produto.images.all()
 
+        context['categorias'] = Categoria.objects.all()
 
         file_path_vendas = os.path.join(settings.MEDIA_ROOT, "data", "vendas.json")
         file_path_visuli = os.path.join(settings.MEDIA_ROOT, "data", "visualizacao.json")
@@ -1470,6 +1471,26 @@ class AdminProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
             context['grafico_visuli_data'] = {}
 
         return context
+    
+def atualiza_produto(request):
+    if request.method == 'POST':
+        if request.POST["salvar"] == "True":
+            produto = Produto.objects.get(codigo=request.POST["produto"])
+
+            produto.descricao = request.POST["descricao"]
+            produto.codigo_GTIN = request.POST["codigo_GTIN"]
+            produto.Categoria = Categoria.objects.get(slug=request.POST["categoria"])
+            produto.em_estoque = (request.POST["em_estoque"] == "True")
+            produto.preco_unitario_bruto = decimal.Decimal(request.POST["preco_unitario_bruto"].replace(",", "."))
+            produto.fechamento_embalagem = decimal.Decimal(request.POST["fechamento_embalagem"].replace(",", "."))
+            produto.desconto_dinheiro = decimal.Decimal(request.POST["desconto_dinheiro"].replace(",", "."))
+            produto.desconto_retira = decimal.Decimal(request.POST["desconto_retira"].replace(",", "."))
+
+            produto.save()
+
+        return redirect(request.POST["path"])
+
+    return HttpResponse("Invalid request.")
 
 class AdminCategoriasView(AdminRequireMixin, BaseContextMixin, TemplateView):
     template_name = "admin_paginas/admincategoria.html"
@@ -1614,7 +1635,7 @@ def test_atualizacao_pag(request):
 
     return True
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
 # API
 ## Test
@@ -1797,7 +1818,7 @@ class ChunkedProdutoJsonUpdateView(APIView):
                     try:
                         prod = Produto.objects.get(codigo=data["codigo"][str(i)])
                         cat_slug = unicodedata.normalize('NFKD', data["categoria"][str(i)]).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
-                        print(cat_slug)
+                        # print(cat_slug)
                         categoria_id = Categoria.objects.get(slug=cat_slug)
                         if data["em_estoque"][str(i)]:
                             emEst = True
@@ -1952,7 +1973,7 @@ class PedidoProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     permission_classes = [HasAPIKey]
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
 # Verifica que o pedido online ta pago
 def ta_pago(_pedido):

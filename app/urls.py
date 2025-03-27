@@ -65,6 +65,7 @@ urlpatterns = [
     path('pedido_carro_pagamento/', pedido_carro_pagamento, name='pedido_carro_pagamento'),
     path('consultar_checkout_pag/', consultar_checkout_pag, name='consultar_checkout_pag'),
     path('cancelar_checkout_pag/', cancelar_checkout_pag, name='cancelar_checkout_pag'),
+    path('atualiza_produto/', atualiza_produto, name='atualiza_produto'),
 
     # Tests
     path('test_atualizacao_pag/', test_atualizacao_pag, name='test_atualizacao_pag'),
