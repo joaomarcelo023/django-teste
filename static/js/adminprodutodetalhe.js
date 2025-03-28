@@ -1,5 +1,5 @@
-const imgButtons = document.querySelectorAll(".imgWrapper > button");
-const imgButtonsImgs = document.querySelectorAll(".imgWrapper > button > img");
+const imgButtons = document.querySelectorAll(".imgWrapper > .imgButton");
+const imgButtonsImgs = document.querySelectorAll(".imgWrapper > .imgButton > img");
 const imgMain = document.querySelectorAll(".mainImg");
 
 imgButtons.forEach(e => {
