@@ -215,12 +215,12 @@ def getByCodigoProduto(_codigo):
         print("Erro ao obter produto:", response.status_code)
 
 def postJson(_arq):
-    # API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_upload/"
-    API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_upload/"
+    API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_upload/"
+    # API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_upload/"
 
     headers = {
-        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
 
@@ -387,8 +387,8 @@ def getProdStats():
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-# postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site.json")
-patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site_2.json")
+# postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site_filtrados_2.json")
+patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site_filtrados_2.json")
 # postImg("E:/Users/HP/Pictures/pokemonTCGPocket")
 
 # imgDic = {

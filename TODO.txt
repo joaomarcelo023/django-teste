@@ -6,6 +6,8 @@ TODO-ALVAREZ: Facilidade para saber quanto de estoque tem em cada loja
 
 TODO-ALVAREZ: Colocar alguem pra rever os textos
 
+TODO-ALVAREZ: Colocar botão pra adicionar e deletar fotos no adminprodutodetalhe
+
 TODO-ALVAREZ: Fazer a API pra lançar em massa o estoque
 
   TODO-ALVAREZ-RESOLVIDO: Fazer e testar a função pra chunked upload do json

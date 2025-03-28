@@ -1455,6 +1455,9 @@ class AdminProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
         context['preco_embalagem'] = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
         context['preco_retirada_dinheiro'] = round((produto.preco_unitario_bruto * ((100 - produto.desconto_dinheiro - produto.desconto_retira) / 100)), 2)
 
+        context['fotos_disponivel_num'] = ""
+        for n in range(4 - produto.num_fotos):
+            context['fotos_disponivel_num'] += str(n + 1)
         context['fotos_produtos'] = produto.images.all()
 
         context['categorias'] = Categoria.objects.all()
@@ -1764,18 +1767,13 @@ class ChunkedProdutoJsonUploadView(APIView):
                 data_str = json.loads(full_json)
                 data = json.loads(data_str)             # Convert JSON string to Python object
 
-                print("cu")
                 for i in range(len(data["codigo"])):
-                    print("init")
                     categoria_id = Categoria.objects.get(titulo=data["categoria"][str(i)])
-                    print("cat")
                     img = "produtos/" + data["codigo"][str(i)] + ".webp"
-                    print("img")
                     if data["em_estoque"][str(i)]:
                         emEst = True
                     else:
                         emEst = False
-                    print("emEst")
                         
                     Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
                                            preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
@@ -1840,7 +1838,8 @@ class ChunkedProdutoJsonUpdateView(APIView):
                         prod.save()
 
                     except Produto.DoesNotExist:
-                        categoria_id = Categoria.objects.get(titulo=data["categoria"][str(i)])
+                        cat_slug = unicodedata.normalize('NFKD', data["categoria"][str(i)]).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
+                        categoria_id = Categoria.objects.get(slug=cat_slug)
                         img = "produtos/" + data["codigo"][str(i)] + ".webp"
                         if data["em_estoque"][str(i)]:
                             emEst = True
@@ -1911,6 +1910,15 @@ class ProdutoStatsView(APIView):
             return Response({"error": "Files don't exist"}, status=400)
         
         return Response({'Vendas_json': vendas_dic, 'Visualizacao_json': visuli_dic})
+
+def ChecaFotosProdutos():
+    for prod in Produto.objects.all():
+        path = (settings.MEDIA_ROOT + prod.image.url).replace("media/media", "media")
+
+        if not os.path.exists(path):
+            new_path = "media/produtos/NoImgAvailable.webp"
+            prod.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+            prod.save()
 
 ## Fotos Produto
 class FotosProdutoListCreateView(generics.ListCreateAPIView):
