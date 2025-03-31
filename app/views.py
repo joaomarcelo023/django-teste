@@ -160,8 +160,65 @@ class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, Template
         produto_list = preprocessar_precos(all_produtos)
 
         paginator = Paginator(produto_list, 20)
-        page_number = self.request.GET.get('page')
+        page_number = self.request.GET.get('page', 1)
         context['page_obj'] = paginator.get_page(page_number)
+
+        # Não sei se tem uma forma mais eficiente de fazer essa merda
+        if paginator.num_pages > 4:
+            if int(page_number) == 1:
+                context['duasFrente'] = int(page_number) + 2
+                context['tresFrente'] = int(page_number) + 3
+                context['quatroFrente'] = int(page_number) + 4
+                context['duasAtras'] = False
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+            elif int(page_number) == 2:
+                context['duasFrente'] = int(page_number) + 2
+                context['tresFrente'] = int(page_number) + 3
+                context['quatroFrente'] = False
+                context['duasAtras'] = False
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+            elif int(page_number) == (paginator.num_pages - 1):
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = False
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = int(page_number) - 3
+                context['quatroAtras'] = False
+            elif int(page_number) == (paginator.num_pages):
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = False
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = int(page_number) - 3
+                context['quatroAtras'] = int(page_number) - 4
+            else:
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = int(page_number) + 2
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+        elif paginator.num_pages > 2:
+            if int(page_number) == 1:
+                context['duasFrente'] = int(page_number) + 2
+            elif int(page_number) == (paginator.num_pages):
+                context['duasAtras'] = int(page_number) - 2
+            else:
+                context['duasFrente'] = False
+                context['duasAtras'] = False
+            context['tresFrente'] = False
+            context['quatroFrente'] = False
+            context['tresAtras'] = False
+            context['quatroAtras'] = False
+        else:
+            context['duasFrente'] = False
+            context['tresFrente'] = False
+            context['quatroFrente'] = False
+            context['duasAtras'] = False
+            context['tresAtras'] = False
+            context['quatroAtras'] = False
 
         context['mais_vendidos'] = preprocessar_precos(Produto.objects.all().order_by("-quantidade_vendas")[:7])
 
@@ -963,9 +1020,16 @@ class ClientePerfilView(LogedMixin, LojaMixin, BaseContextMixin, TemplateView):
         
         pedidos = Pedido_order.objects.filter(carro__cliente=cliente).order_by("-id")
         paginator = Paginator(pedidos, 6)
-        page_number = self.request.GET.get('page')
+        page_number = self.request.GET.get('page', '1')
         context['pedidos'] = paginator.get_page(page_number)
         # context['pedidos'] = pedidos
+        if paginator.num_pages > 2:
+            context['duasFrente'] = int(page_number) + 2
+            context['duasAtras'] = int(page_number) - 2
+        else:
+            context['duasFrente'] = False
+            context['duasAtras'] = False
+        # print(type(page_number))
 
         enderecos = Endereco.objects.filter(cliente=cliente).order_by("-id")
         context['enderecos'] = enderecos

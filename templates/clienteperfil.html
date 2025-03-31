@@ -207,6 +207,11 @@
                                         <a class="page-link" href="?perfil={{ caixaPerfil }}&page={{ pedidos.next_page_number }}">{{ pedidos.next_page_number }}</a>
                                     </li>
                                 {% elif pedidos.has_previous %}
+                                    {% if duasAtras %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?perfil={{ caixaPerfil }}&page={{ duasAtras }}">{{ duasAtras }}</a>
+                                        </li>
+                                    {% endif %}
                                     <li class="page-item">
                                         <a class="page-link" href="?perfil={{ caixaPerfil }}&page={{ pedidos.previous_page_number }}">{{ pedidos.previous_page_number }}</a>
                                     </li>
@@ -220,6 +225,11 @@
                                     <li class="page-item">
                                         <a class="page-link" href="?perfil={{ caixaPerfil }}&page={{ pedidos.next_page_number }}">{{ pedidos.next_page_number }}</a>
                                     </li>
+                                    {% if duasFrente %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?perfil={{ caixaPerfil }}&page={{ duasFrente }}">{{ duasFrente }}</a>
+                                        </li>
+                                    {% endif %}
                                 {% else %}
                                     <li class="page-item active">
                                         <span class="page-link">{{ pedidos.number }}</span>

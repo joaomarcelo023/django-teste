@@ -8,6 +8,20 @@ TODO-ALVAREZ: Colocar alguem pra rever os textos
 
 TODO-ALVAREZ: Colocar botão pra adicionar e deletar fotos no adminprodutodetalhe
 
+TODO-ALVAREZ: Colocar função ChecaFotosProdutos no processo de upload dos produtos 
+
+TODO-ALVAREZ: Arrumar pagina produtodetalhe
+
+TODO-ALVAREZ: Arrumar layout
+
+  TODO-ALVAREZ-RESOLVIDO: Navbar home mobile expandindo pra direita
+
+  TODO-ALVAREZ: Categorias na home
+
+  TODO-ALVAREZ: link pra pagina do produto no adminprodutodetalhe
+
+  TODO-ALVAREZ: menu admin versão mobile
+
 TODO-ALVAREZ: Fazer a API pra lançar em massa o estoque
 
   TODO-ALVAREZ-RESOLVIDO: Fazer e testar a função pra chunked upload do json
