@@ -20,7 +20,7 @@ TODO-ALVAREZ: Arrumar layout
 
   TODO-ALVAREZ-RESOLVIDO: link pra pagina do produto no adminprodutodetalhe
 
-  TODO-ALVAREZ: menu admin versão mobile
+  TODO-ALVAREZ-RESOLVIDO: menu admin versão mobile
 
 TODO-ALVAREZ: Fazer a API pra lançar em massa o estoque
 
