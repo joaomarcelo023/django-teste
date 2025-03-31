@@ -18,7 +18,7 @@ TODO-ALVAREZ: Arrumar layout
 
   TODO-ALVAREZ: Categorias na home
 
-  TODO-ALVAREZ: link pra pagina do produto no adminprodutodetalhe
+  TODO-ALVAREZ-RESOLVIDO: link pra pagina do produto no adminprodutodetalhe
 
   TODO-ALVAREZ: menu admin versão mobile
 

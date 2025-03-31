@@ -91,6 +91,14 @@
     background-color: transparent;
 } */
 
+.buttons a {
+    justify-content: flex-start;
+}
+
+.buttons .buttonsForm {
+    justify-content: flex-end;
+}
+
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 .grafDiv {
