@@ -1500,7 +1500,7 @@ class AdminTodosProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
         produtos = Produto.objects.all().order_by("-id")
 
         paginator = Paginator(produtos, 20)
-        page_number = self.request.GET.get('page')
+        page_number = self.request.GET.get('page', 1)
 
         context['produtos'] = paginator.get_page(page_number)
         
@@ -1559,7 +1559,6 @@ class AdminTodosProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
             context['duasAtras'] = False
             context['tresAtras'] = False
             context['quatroAtras'] = False
-
 
         return context
 
