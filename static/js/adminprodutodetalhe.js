@@ -23,15 +23,35 @@ const grafico_vendas_data = JSON.parse(document.getElementById('grafico_vendas_d
 const GraficoVisuli = document.getElementById('graficoVisuli');
 const grafico_visuli_data = JSON.parse(document.getElementById('grafico_visuli_data').textContent);
 const GraficoVendasVisuli = document.getElementById('graficoVendasVisuli');
+const mesesVendas = Object.keys(grafico_vendas_data).sort();
+const mesesVisuli = Object.keys(grafico_visuli_data).sort();
 
 let yVendas = [];
-for (let n of Object.keys(grafico_vendas_data)) {
-    yVendas.push(grafico_vendas_data[n]?.[codProd] || 0);
+for (let n = 0; n < mesesVendas.length; n++) {
+    let vendasInit = 0;
+    if (n != 0){
+       vendasInit = grafico_vendas_data[mesesVendas[n - 1]]?.[codProd] || 0;
+    }
+    let vendasFin = grafico_vendas_data[mesesVendas[n]]?.[codProd] || 0;
+
+    yVendas.push(vendasFin - vendasInit);
 }
+// for (let n of Object.keys(grafico_vendas_data)) {
+//     yVendas.push(grafico_vendas_data[n]?.[codProd] || 0);
+// }
 let yVisuli = [];
-for (let n of Object.keys(grafico_visuli_data)) {
-    yVisuli.push(grafico_visuli_data[n]?.[codProd] || 0);
+for (let n = 0; n < mesesVisuli.length; n++) {
+    let visuliInit = 0;
+    if (n !== 0){
+       visuliInit = grafico_visuli_data[mesesVisuli[n - 1]]?.[codProd] || 0;
+    }
+    let visuliFin = grafico_visuli_data[mesesVisuli[n]]?.[codProd] || 0;
+
+    yVisuli.push(visuliFin - visuliInit);
 }
+// for (let n of Object.keys(grafico_visuli_data)) {
+//     yVisuli.push(grafico_visuli_data[n]?.[codProd] || 0);
+// }
 
 // Vendas
 var vendas = {

@@ -120,6 +120,8 @@ TODO-ALVAREZ-RESOLVIDO: Criar area de admin com dados de produtos (mais visualiz
 
 TODO-ALVAREZ-RESOLVIDO: Deixar homepage mais amigavel (mentir sobre os preços) (olhar site obramax)
 
+TODO-ALVAREZ-RESOLVIDO: Arrumar graficos em adminprodutodetalhe pra mostrar valores mensais e não totais
+
 TODO-ALVAREZ-RESOLVIDO: Criar Emails
 
   TODO-ALVAREZ-RESOLVIDO: Criar função basica de email

@@ -12,8 +12,6 @@ TODO-ALVAREZ: Colocar função ChecaFotosProdutos no processo de upload dos prod
 
 TODO-ALVAREZ: Arrumar pagina produtodetalhe
 
-TODO-ALVAREZ: Arrumar graficos em adminprodutodetalhe pra mostrar valores mensais e não totais
-
 TODO-ALVAREZ: Arrumar layout
 
   TODO-ALVAREZ-RESOLVIDO: Navbar home mobile expandindo pra direita
