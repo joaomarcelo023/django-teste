@@ -58,6 +58,7 @@ urlpatterns = [
     path("admin-produto/<slug:slug>/", AdminProdutoView.as_view(), name="adminprodutodetalhe"),
     path('admin-categoria/', AdminCategoriasView.as_view(), name="admincategoria"),
     path('admin-pesquisar/', PesquisarAdminView.as_view(), name="adminpesquisar"),
+    path('ChecaFotosProdutos/', ChecaFotosProdutos, name='ChecaFotosProdutos'),    
 
     # POST
     path('endereco_cadastrar/', endereco_cadastrar, name='endereco_cadastrar'),

@@ -1,0 +1,171 @@
+{% extends "admin_paginas/adminbase.html" %}
+{% load static %}
+{% load humanize %}
+{% load custom_filters %}
+
+{% block title %}Todos os produtos - CasaHG{% endblock %}
+
+
+{% block content %}
+
+<section class="container">
+    <nav class="row d-flex justify-content-end">
+        <form class="col-3" style="padding-left: 7.25%; padding-right: 0px;" action="{% url 'lojaapp:ChecaFotosProdutos' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="path" value="{{ request.path }}">
+            <button class="btn btn-info">Gerar Fotos Faltantes</button>
+        </form>
+    </nav>
+    <div class="row mt-1 justify-content-center align-items-center">
+    {% for p in produtos %}
+        <div class="col-lg-3 col-md-4 col-sm-12 col-12" style="padding:0px;"> <!-- col-lg-4 -->
+            {% include "admin_paginas/adminprodutos_pequenos.html" %}
+        </div>
+    {% endfor %}
+    </div>
+</section>
+<br>
+<section class="container">
+    <div class="row justify-content-center">
+        <div class="col-3" style="display:flex; justify-content: center;">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    {% if produtos.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">&ll;</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ produtos.previous_page_number }}">&lt;</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&ll;</span>
+                        </li>
+                        <li class="page-item disabled">
+                            <span class="page-link">&lt;</span>
+                        </li>
+                    {% endif %}
+
+                    {% if produtos.has_previous and produtos.has_next %}
+                        {% if quatroAtras %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ quatroAtras }}">{{ quatroAtras }}</a>
+                            </li>
+                        {% endif %}
+                        {% if tresAtras %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ tresAtras }}">{{ tresAtras }}</a>
+                            </li>
+                        {% endif %}
+                        {% if duasAtras %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ duasAtras }}">{{ duasAtras }}</a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ produtos.previous_page_number }}">{{ produtos.previous_page_number }}</a>
+                        </li>
+                        <li class="page-item active">
+                            <span class="page-link">{{ produtos.number }}</span>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ produtos.next_page_number }}">{{ produtos.next_page_number }}</a>
+                        </li>
+                        {% if duasFrente %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ duasFrente }}">{{ duasFrente }}</a>
+                            </li>
+                        {% endif %}
+                        {% if tresFrente %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ tresFrente }}">{{ tresFrente }}</a>
+                            </li>
+                        {% endif %}
+                        {% if quatroFrente %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ quatroFrente }}">{{ quatroFrente }}</a>
+                            </li>
+                        {% endif %}
+                    {% elif produtos.has_previous %}
+                        {% if quatroAtras %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ quatroAtras }}">{{ quatroAtras }}</a>
+                            </li>
+                        {% endif %}
+                        {% if tresAtras %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ tresAtras }}">{{ tresAtras }}</a>
+                            </li>
+                        {% endif %}
+                        {% if duasAtras %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ duasAtras }}">{{ duasAtras }}</a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ produtos.previous_page_number }}">{{ produtos.previous_page_number }}</a>
+                        </li>
+                        <li class="page-item active">
+                            <span class="page-link">{{ produtos.number }}</span>
+                        </li>
+                    {% elif produtos.has_next %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ produtos.number }}</span>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ produtos.next_page_number }}">{{ produtos.next_page_number }}</a>
+                        </li>
+                        {% if duasFrente %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ duasFrente }}">{{ duasFrente }}</a>
+                            </li>
+                        {% endif %}
+                        {% if tresFrente %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ tresFrente }}">{{ tresFrente }}</a>
+                            </li>
+                        {% endif %}
+                        {% if quatroFrente %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ quatroFrente }}">{{ quatroFrente }}</a>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ produtos.number }}</span>
+                        </li>
+                    {% endif %}
+            
+                    <!-- {% for page in produtos.paginator.page_range %}
+                        {% if page == produtos.number %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page }}</span>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %} -->
+                    
+                    {% if produtos.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ produtos.next_page_number }}">&gt;</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ produtos.paginator.num_pages }}">&gg;</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&gt;</span>
+                        </li>
+                        <li class="page-item disabled">
+                            <span class="page-link">&gg;</span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+{% endblock %}

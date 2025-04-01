@@ -156,7 +156,7 @@ class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, Template
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        all_produtos = Produto.objects.all().order_by("-id")
+        all_produtos = Produto.objects.all().order_by("-quantidade_vendas")
         produto_list = preprocessar_precos(all_produtos)
 
         paginator = Paginator(produto_list, 20)
@@ -1492,17 +1492,74 @@ class AdminPedidoMudarView(AdminRequireMixin, BaseContextMixin, ListView):
         return redirect(reverse_lazy("lojaapp:adminpedido", kwargs={"pk" : pedido_id}))
 
 class AdminTodosProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
-    template_name = "admin_paginas/admintodosprodutodetalhe.html"
+    template_name = "admin_paginas/admintodosproduto.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        produtos = Produto.objects.all()
+        produtos = Produto.objects.all().order_by("-id")
 
         paginator = Paginator(produtos, 20)
         page_number = self.request.GET.get('page')
 
         context['produtos'] = paginator.get_page(page_number)
+        
+        if paginator.num_pages > 4:
+            if int(page_number) == 1:
+                context['duasFrente'] = int(page_number) + 2
+                context['tresFrente'] = int(page_number) + 3
+                context['quatroFrente'] = int(page_number) + 4
+                context['duasAtras'] = False
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+            elif int(page_number) == 2:
+                context['duasFrente'] = int(page_number) + 2
+                context['tresFrente'] = int(page_number) + 3
+                context['quatroFrente'] = False
+                context['duasAtras'] = False
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+            elif int(page_number) == (paginator.num_pages - 1):
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = False
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = int(page_number) - 3
+                context['quatroAtras'] = False
+            elif int(page_number) == (paginator.num_pages):
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = False
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = int(page_number) - 3
+                context['quatroAtras'] = int(page_number) - 4
+            else:
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = int(page_number) + 2
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+        elif paginator.num_pages > 2:
+            if int(page_number) == 1:
+                context['duasFrente'] = int(page_number) + 2
+            elif int(page_number) == (paginator.num_pages):
+                context['duasAtras'] = int(page_number) - 2
+            else:
+                context['duasFrente'] = False
+                context['duasAtras'] = False
+            context['tresFrente'] = False
+            context['quatroFrente'] = False
+            context['tresAtras'] = False
+            context['quatroAtras'] = False
+        else:
+            context['duasFrente'] = False
+            context['tresFrente'] = False
+            context['quatroFrente'] = False
+            context['duasAtras'] = False
+            context['tresAtras'] = False
+            context['quatroAtras'] = False
+
 
         return context
 
@@ -1975,7 +2032,7 @@ class ProdutoStatsView(APIView):
         
         return Response({'Vendas_json': vendas_dic, 'Visualizacao_json': visuli_dic})
 
-def ChecaFotosProdutos():
+def ChecaFotosProdutos(request):
     for prod in Produto.objects.all():
         path = (settings.MEDIA_ROOT + prod.image.url).replace("media/media", "media")
 
@@ -1983,6 +2040,9 @@ def ChecaFotosProdutos():
             new_path = "media/produtos/NoImgAvailable.webp"
             prod.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
             prod.save()
+
+    if request.method == 'POST':
+        return redirect(request.POST["path"])
 
 ## Fotos Produto
 class FotosProdutoListCreateView(generics.ListCreateAPIView):
