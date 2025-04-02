@@ -21,3 +21,9 @@
         border-bottom: 2px solid #ff9900;
     }
 }
+
+.user {
+    background-color: #151635;
+    color: #ff9900;
+    display: flex;
+}
