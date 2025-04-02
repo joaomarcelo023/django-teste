@@ -1,39 +1,93 @@
-<!-- TODO: Rever texto -->
-<div style="border: 2px solid #ff9900; width: 50%; margin-left: 25%;">
-    <header style="color: #ff9900; background-color: #151635; border-bottom: 2px solid #ff9900;">
-        <table style="color: #ff9900; width: 100%;">
-            <tr>
-                <th style="padding-left: 5px;">
-                    <img style="height: 75px;" src="{{ logo }}">
-                </th>
-                <th style="padding-right: 5px;">
-                    <h1 style="height: 100%; align-items: center; margin: 0px; padding: 0px;">Cadastro</h1>
-                </th>
-            </tr>
-        </table>
-    </header>
-    <section style="margin: 5px; color: black;">
-        <h1>Boas-vindas à CasaHG!</h1>
-        <p>Olá, {{ cliente.first_name }}.</p>
-        <p>Obrigado por se cadastrar conosco.</p>
-        <br>
-        <p>Para finalizar seu cadastro <a href="{{ linkVerif }}">verifique sua conta</a></p>
-        <br>
-        <p>Equipe CasaHG</p>
-    </section>
-    <footer style="color: #ff9900; background-color: #151635; border-top: 2px solid #ff9900;">
-        <table style="color: #ff9900; width: 100%;">
-            <tr>
-                <th>
-                    <!-- TODO: Preencher href -->
-                    <a href="" style="align-items: center; text-decoration: none;"><img style="height: 75px; margin-bottom: 0px; padding-bottom: 0px;" src="{{ logo }}"></a>
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    <h1 style="align-items: center; font-size: 12px; margin-top: 0px; padding-top: 0px;">Copyright © 2024 CasaHG | Todos os direitos reservados.</h1>
-                </th>
-            </tr>
-        </table>
-    </footer>
-</div>
+<!-- TODO-RESOLVIDO: Rever texto -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Verificação de Cadastro - CasaHG</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            border: 2px solid #ff9900;
+            background-color: #ffffff;
+        }
+
+        .header, .footer {
+            background-color: #151635;
+            color: #ff9900;
+            text-align: center;
+            padding: 15px;
+            border-top: 2px solid #ff9900;
+            border-bottom: 2px solid #ff9900;
+        }
+
+        .header img {
+            height: 60px;
+        }
+
+        .header h1 {
+            margin: 10px 0 0;
+            font-size: 24px;
+        }
+
+        .content {
+            padding: 20px;
+            color: #333333;
+        }
+
+        .content h2 {
+            color: #151635;
+        }
+
+        .content a {
+            color: #ff9900;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer img {
+            height: 50px;
+            margin: 10px 0;
+        }
+
+        .footer p {
+            font-size: 12px;
+            margin: 5px 0 0;
+            color: #ff9900;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Cabeçalho -->
+        <div class="header">
+            <img src="{{ logo }}" alt="Logo CasaHG">
+            <h1>Cadastro</h1>
+        </div>
+
+        <!-- Conteúdo -->
+        <div class="content">
+            <h2>Boas-vindas à CasaHG!</h2>
+            <p>Olá, <strong>{{ cliente.first_name }}</strong>,</p>
+            <p>Obrigado por se cadastrar conosco. Estamos felizes em ter você por aqui!</p>
+            <p>Para finalizar seu cadastro, por favor <a href="{{ linkVerif }}">clique aqui para verificar sua conta</a>.</p>
+            <p>Se você não solicitou esse cadastro, ignore este e-mail.</p>
+            <br>
+            <p>Atenciosamente,<br>Equipe CasaHG</p>
+        </div>
+
+        <!-- Rodapé -->
+        <div class="footer">
+            <a href="https://www.casahg.com.br"><img src="{{ logo }}" alt="CasaHG"></a>
+            <p>Copyright © 2024 CasaHG | Todos os direitos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>

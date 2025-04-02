@@ -123,7 +123,7 @@ class Cliente(models.Model):
 
 class Endereco(models.Model):
     cliente = models.ForeignKey(Cliente,on_delete=models.SET_NULL,null=True,blank=True)
-    titulo = models.CharField(max_length=20,null=True,blank=True)
+    titulo = models.CharField(max_length=40,null=True,blank=True)
     cep = models.CharField(max_length=9,null=True,blank=True)
     estado = models.CharField(max_length=3,null=True,blank=True)
     cidade = models.CharField(max_length=35,null=True,blank=True)
@@ -131,7 +131,6 @@ class Endereco(models.Model):
     rua = models.CharField(max_length=35,null=True,blank=True)
     numero = models.CharField(max_length=20,null=True,blank=True)
     complemento = models.CharField(max_length=140,null=True,blank=True)
-
 
     def __str__(self):
         return self.titulo + " | " + self.cliente.nome + " " + self.cliente.sobrenome
