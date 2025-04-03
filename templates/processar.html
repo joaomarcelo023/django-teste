@@ -57,6 +57,7 @@
                         <th colspan="3" class="text-right" style="vertical-align: middle; font-weight: 400; font-size: smaller;">Desconto da forma de pagamento:</th>
                         <th colspan="3" class="text-center desconto_pagamento_cell" style="vertical-align: middle; font-weight: 400; font-size: small;">- R$ {{ desconto_dinheiro|intcomma }}</th>
                     </tr>
+                    <!-- TODO: Desconto de pagamento à vista no dinheiro deve estar somado com desconto de forma de pagamento -->
                     <tr class="desconto_a_vista_row">
                         <th colspan="3" class="text-right" style="vertical-align: middle; font-weight: 400; font-size: smaller;">Desconto de pagamento a vista:</th>
                         <th colspan="3" class="text-center desconto_a_vista_cell" style="vertical-align: middle; font-weight: 400; font-size: small;">- R$ {{ desconto_a_vista|intcomma }}</th>
@@ -411,35 +412,27 @@
     </div>
 </section>
 
-<!-- TODO: Rever texto -->
+<!-- TODO-RESOLVIDO: Rever texto -->
+<!-- TODO: Texto está muito escondido, eu preciso que o cliente leia as regras de acordo com a compra que ele está fazendo -->
 <div class="termos_condicoes_janela" style="display: none;">
-    <div class="d-flex">
-        <h4>Termos e condições da compra</h4>
-        <span class="termos_condicoes_janela_close"><b>x</b></span>
-    </div>    
-    <ul><b>Regras de entrega</b>
-        <li>
-            O caminhão de entrega vai até o ponto mais próximo do endereço dentro dos limites de espaço e segurança do veiculo
-        </li>
-        <li>
-            Os materiais de entrega serão colocados ao lado do caminhão, sendo responsabilidade do cliente levar o material até o local da obra
-        </li>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h4>Termos e Condições da Compra</h4>
+        <span class="termos_condicoes_janela_close" style="cursor: pointer;"><b>x</b></span>
+    </div>
+
+    <ul><strong>Regras de entrega</strong>
+        <li>O caminhão de entrega irá até o ponto mais próximo do endereço, dentro dos limites de espaço e segurança.</li>
+        <li>Os materiais serão descarregados ao lado do caminhão. A movimentação até o local da obra é de responsabilidade do cliente.</li>
     </ul>
-    <ul><b>Regras de retira</b>
-        <li>
-            A retira da mercadoria só poderá ser feita no endereço escolhido na compra
-        </li>
-        <li>
-            A retira deverá ser feita em 7 dias
-        </li>
+
+    <ul><strong>Regras de retirada</strong>
+        <li>A retirada da mercadoria deve ser feita no endereço selecionado no momento da compra.</li>
+        <li>O prazo para retirada é de até 7 dias corridos.</li>
     </ul>
-    <ul><b>Regras de pagamento em dinheiro</b>
-        <li>
-            A compra só será finalizada no ato do pagamento, no caixa de uma das lojas
-        </li>
-        <li>
-            O material não está reservado para compra, podendo acabar os estoques antes do pagamento
-        </li>
+
+    <ul><strong>Regras para pagamento em dinheiro</strong>
+        <li>A compra será finalizada somente após o pagamento no caixa de uma das lojas.</li>
+        <li>O material não será reservado antes do pagamento. Os estoques estão sujeitos à disponibilidade.</li>
     </ul>
 </div>
 
