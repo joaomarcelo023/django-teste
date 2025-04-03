@@ -1,2 +1,0 @@
-python manage.py dumpdata rest_framework_api_key --indent 2 --output=api_keys.json
-python manage.py loaddata api_keys.json

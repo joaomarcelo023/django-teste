@@ -2097,18 +2097,18 @@ class PedidoProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
 def ChecaFotosProdutos(request):
     for prod in Produto.objects.all():
         path = (settings.MEDIA_ROOT + prod.image.url).replace("media/media", "media")
-        print(prod.image.url)
+
         if not os.path.exists(path):
-            new_path = "media/produtos/NoImgAvailable.webp"
-            prod.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+            new_path = "/produtos/NoImgAvailable.webp"
+            prod.image.name = new_path#os.path.relpath(new_path, settings.MEDIA_ROOT)
             prod.save()
         else:
             if prod.image.url == "/media/produtos/NoImgAvailable.webp":
                 pathCodigo = f"{settings.MEDIA_ROOT}/produtos/{prod.codigo}.webp"
-            
+
                 if os.path.exists(pathCodigo):
-                    new_path = f"media/produtos/{prod.codigo}.webp"
-                    prod.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+                    new_path = f"/produtos/{prod.codigo}.webp"
+                    prod.image.name = new_path#os.path.relpath(new_path, settings.MEDIA_ROOT)
                     prod.save()
 
     if request.method == 'POST':
