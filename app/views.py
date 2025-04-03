@@ -143,17 +143,6 @@ class CrazyAlvaPaymentCheckMixin(object):
 class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, TemplateView):
     template_name = "home.html"
 
-    # def preprocessar_precos(self, produtos):
-    #     for produto in produtos:
-    #         precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
-    #         venda_parts_caixa = str(precoCaixa).split('.')
-    #         venda_parts = str(produto.preco_unitario_bruto).split('.')
-    #         produto.integer_part_uni = venda_parts[0]
-    #         produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #         produto.integer_part_caixa = venda_parts_caixa[0]
-    #         produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #     return produtos
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         all_produtos = Produto.objects.all().order_by("-quantidade_vendas")
@@ -220,6 +209,11 @@ class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, Template
             context['tresAtras'] = False
             context['quatroAtras'] = False
 
+        context['produtos_por_categoria'] = {
+            categoria: preprocessar_precos(Produto.objects.filter(Categoria=categoria).order_by("-quantidade_vendas")[:11])
+            for categoria in Categoria.objects.all()
+        }
+        
         context['mais_vendidos'] = preprocessar_precos(Produto.objects.all().order_by("-quantidade_vendas")[:7])
 
         context['banners'] = Banner.objects.all()
@@ -259,17 +253,6 @@ class TodosProdutosView(LojaMixin, BaseContextMixin, TemplateView):
 
 class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "produtodetalhe.html"
-
-    # def preprocessar_precos(self, produtos):
-    #     for produto in produtos:
-    #         precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
-    #         venda_parts_caixa = str(precoCaixa).split('.')
-    #         venda_parts = str(produto.preco_unitario_bruto).split('.')
-    #         produto.integer_part_uni = venda_parts[0]
-    #         produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #         produto.integer_part_caixa = venda_parts_caixa[0]
-    #         produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #     return produtos
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1315,17 +1298,6 @@ class deletarEnderecoView(LojaMixin, View):
 class PesquisarView(BaseContextMixin, TemplateView):
     template_name = "pesquisar.html"
 
-    # def preprocessar_precos(self, produtos):
-    #     for produto in produtos:
-    #         precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
-    #         venda_parts_caixa = str(precoCaixa).split('.')
-    #         venda_parts = str(produto.preco_unitario_bruto).split('.')
-    #         produto.integer_part_uni = venda_parts[0]
-    #         produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #         produto.integer_part_caixa = venda_parts_caixa[0]
-    #         produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #     return produtos
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -1356,17 +1328,6 @@ class PesquisarView(BaseContextMixin, TemplateView):
 
 class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "categoria.html"
-
-    # def preprocessar_precos(self, produtos):
-    #     for produto in produtos:
-    #         precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
-    #         venda_parts_caixa = str(precoCaixa).split('.')
-    #         venda_parts = str(produto.preco_unitario_bruto).split('.')
-    #         produto.integer_part_uni = venda_parts[0]
-    #         produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #         produto.integer_part_caixa = venda_parts_caixa[0]
-    #         produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #     return produtos
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1575,9 +1536,6 @@ class AdminProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
         context['preco_embalagem'] = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
         context['preco_retirada_dinheiro'] = round((produto.preco_unitario_bruto * ((100 - produto.desconto_dinheiro - produto.desconto_retira) / 100)), 2)
 
-        context['fotos_disponivel_num'] = ""
-        for n in range(4 - produto.num_fotos):
-            context['fotos_disponivel_num'] += str(n + 1)
         context['fotos_produtos'] = produto.images.all()
 
         context['categorias'] = Categoria.objects.all()
@@ -2106,6 +2064,60 @@ class PedidoProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
+# Fotos extras pros produtos
+## Lança fotos
+def upload_imagem_extra_produtos(request):
+    if request.method == 'POST':
+        form = ProdutosImagemExtraForm(request.POST, request.FILES)
+        if form.is_valid():
+            produto = Produto.objects.get(codigo=request.POST['produto'])
+            fotoProduto = form.save(commit=False)
+            fotoProduto.produto = produto
+            fotoProduto.save()
+
+            foto = form.cleaned_data.get('image')
+
+            path = (settings.MEDIA_ROOT + fotoProduto.image.url).replace("media/media", "media")
+
+            # meu codigo
+            temp_file_path = path
+
+            # Converte pra webp
+            file, ext = os.path.splitext(temp_file_path)
+            image = Image.open(temp_file_path).convert("RGB")
+            new_path = f"{file}.webp"
+            image.save(new_path, "webp")
+
+            # Remove o original
+            if ext != ".webp":
+                os.remove(temp_file_path)
+
+            # Update the model with the new WebP image
+            fotoProduto.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+            produto.num_fotos -= 1
+            fotoProduto.save()
+
+            return redirect(request.POST["path"])
+        else:
+            print("Form Errors:", form.errors)
+    else:
+        form = ProdutosImagemExtraForm()
+    return redirect(request.POST["path"])
+
+## Deleta fotos
+def delete_imagem_extra_produtos(request):
+    if request.method == 'POST':
+        try:
+            foto = FotosProduto.objects.get(id=request.POST['foto'])
+
+            foto.delete()
+
+            return redirect(request.POST["path"])
+        except foto.DoesNotExist:
+            return Response({'error': 'foto não encontrada'}, status=status.HTTP_400_BAD_REQUEST)
+        
+    return redirect(request.POST["path"])
+
 # Verifica que o pedido online ta pago
 def ta_pago(_pedido):
     url = "https://sandbox.api.pagseguro.com/checkouts/" + _pedido.id_PagBank + "?offset=0&limit=10"
@@ -2365,14 +2377,14 @@ def testEmail(_emailCliente, _cliente, _pedido):
     #                     },
     #                 )
     
-    assunto = f"Pedido da CasaHG #{_pedido.id}"
-    text_content = f"Pedido #{_pedido.id} realizado"
+    assunto = f"Pedido da CasaHG #{_pedido.id} - {_pedido.pedido_status}"
+    text_content = f"Pedido #{_pedido.id} pagamento confirmado"
     html_content = render_to_string(
-                        "emails/emailPedidoRealizado.html",
+                        "emails/emailPedidoPagamentoConfirmado.html",
                         context={
                             "pedido": _pedido,
                             "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Recebido.png",
+                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pagamento_Confirmado.png",
                             "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )

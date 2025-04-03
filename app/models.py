@@ -72,7 +72,7 @@ class FotosProduto(models.Model):
 
         self.image.delete(save=False)
 
-        super().delete(*args, **kwargs)
+        super(FotosProduto, self).delete(*args, **kwargs)
 
     def __str__(self):
         return self.produto.titulo + ": " + str(self.img_num)
