@@ -124,6 +124,20 @@ TODO-ALVAREZ-RESOLVIDO: Arrumar graficos em adminprodutodetalhe pra mostrar valo
 
 TODO-ALVAREZ-RESOLVIDO: Colocar alguem pra rever os textos
 
+TODO-ALVAREZ-RESOLVIDO: Arrumar api FotosProduto pra converter formato das imagens
+
+TODO-ALVAREZ-RESOLVIDO: Melhorar ChecaFotosProdutos pra considerar fotos que foram adicionadas posteriormente
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar layout
+
+  TODO-ALVAREZ-RESOLVIDO: Navbar home mobile expandindo pra direita
+
+  TODO-ALVAREZ-RESOLVIDO: Categorias na home
+
+  TODO-ALVAREZ-RESOLVIDO: link pra pagina do produto no adminprodutodetalhe
+
+  TODO-ALVAREZ-RESOLVIDO: menu admin versão mobile
+
 TODO-ALVAREZ-RESOLVIDO: Colocar botão pra fotos no adminprodutodetalhe
 
   TODO-ALVAREZ-RESOLVIDO: Adicionar

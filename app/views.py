@@ -1982,18 +1982,6 @@ class ProdutoStatsView(APIView):
         
         return Response({'Vendas_json': vendas_dic, 'Visualizacao_json': visuli_dic})
 
-def ChecaFotosProdutos(request):
-    for prod in Produto.objects.all():
-        path = (settings.MEDIA_ROOT + prod.image.url).replace("media/media", "media")
-
-        if not os.path.exists(path):
-            new_path = "media/produtos/NoImgAvailable.webp"
-            prod.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
-            prod.save()
-
-    if request.method == 'POST':
-        return redirect(request.POST["path"])
-
 ## Fotos Produto
 class FotosProdutoListCreateView(generics.ListCreateAPIView):
     queryset = FotosProduto.objects.all()
@@ -2002,12 +1990,60 @@ class FotosProdutoListCreateView(generics.ListCreateAPIView):
 
     permission_classes = [HasAPIKey]
 
+    def perform_create(self, serializer):
+        fotoProduto = serializer.save()  # Save the initial model instance
+        
+        image_field = fotoProduto.image
+        
+        if image_field:
+            temp_file_path = image_field.path
+
+            # Converte pra webp
+            file, ext = os.path.splitext(temp_file_path)
+            image = Image.open(temp_file_path).convert("RGB")
+            new_path = f"{file}.webp"
+            image.save(new_path, "webp")
+
+            # Remove o original
+            if ext != ".webp":
+                os.remove(temp_file_path)
+
+            # Update the model with the new WebP image
+            fotoProduto.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+            fotoProduto.produto.num_fotos -= 1
+            fotoProduto.save()
+
 class FotosProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = FotosProduto.objects.all()
     serializer_class = FotosProdutoSerializer
     parser_classes = (MultiPartParser, FormParser)
 
     permission_classes = [HasAPIKey]
+
+    def perform_update(self, serializer):
+        fotoProduto = serializer.save()  # Save the updated model instance
+        
+        # Check if an image was updated
+        if "image" in self.request.FILES:
+            image_field = fotoProduto.image  # Get the updated image
+            
+            if image_field:
+                temp_file_path = image_field.path  # Get the file path
+
+                # Converte pra webp
+                file, ext = os.path.splitext(temp_file_path) 
+                image = Image.open(temp_file_path).convert("RGB")
+                new_path = f"{file}.webp"
+                image.save(new_path, "webp")
+
+                # Remove o original
+                if ext != ".webp":
+                    os.remove(temp_file_path)
+
+                # Update the model with the new WebP image
+                fotoProduto.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+                fotoProduto.produto.num_fotos -= 1
+                fotoProduto.save()
 
 ## Pedido Order
 class PedidoOrderListCreateView(generics.ListCreateAPIView):
@@ -2057,6 +2093,27 @@ class PedidoProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
+# verifica se todos os produtos tem fotos
+def ChecaFotosProdutos(request):
+    for prod in Produto.objects.all():
+        path = (settings.MEDIA_ROOT + prod.image.url).replace("media/media", "media")
+        print(prod.image.url)
+        if not os.path.exists(path):
+            new_path = "media/produtos/NoImgAvailable.webp"
+            prod.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+            prod.save()
+        else:
+            if prod.image.url == "/media/produtos/NoImgAvailable.webp":
+                pathCodigo = f"{settings.MEDIA_ROOT}/produtos/{prod.codigo}.webp"
+            
+                if os.path.exists(pathCodigo):
+                    new_path = f"media/produtos/{prod.codigo}.webp"
+                    prod.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+                    prod.save()
+
+    if request.method == 'POST':
+        return redirect(request.POST["path"])
+    
 # Fotos extras pros produtos
 ## Lança fotos
 def upload_imagem_extra_produtos(request):
