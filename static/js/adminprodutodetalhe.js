@@ -16,6 +16,13 @@ imgButtons.forEach(e => {
     });
 });
 
+const botao = document.getElementById('fotoExtraProdutoInputButton')
+if (botao) {
+    botao.addEventListener('click', function () {
+        document.getElementById('fotoExtraProdutoInputFile').click();
+    });
+}
+
 // Graficos
 const codProd = document.getElementById("codigo_produto").getAttribute("data-codigo");
 const GraficoVendas = document.getElementById('graficoVendas');

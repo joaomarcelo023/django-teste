@@ -96,6 +96,7 @@
 }
 
 .linkProd:hover button {
+    border-color: #4c4c4c;
     color: #464646;
     background-color: #f2f2f2;
 }

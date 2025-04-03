@@ -55,33 +55,51 @@
     border: none;
 }
 
-/* .imgWrapper form {
+.imgWrapper form {
     height: 100%;
-    width: 75%;
-
-    margin-left: 0%;
-    margin-right: 0%;
-
-    padding: 0%;
-}
-
-.addImgButton {
-    height: 100%;
-    width: 30%;
+    width: 23%;
 
     margin-left: 1%;
     margin-right: 1%;
 
     padding: 0%;
 
+    border: none;
+}
+
+.addImgButton {
+    height: 100%;
+    width: 100%;
+
+    margin: 0px;
+
     background-color: transparent;
     border: none;
-} */
+}
 
 .imgWrapper img {
     height: 100%;
     width: 100%;
 
+    margin: 0px;
+}
+
+.deleteButton {
+    position: relative;
+    z-index: 9;
+
+    height: 7.5%;
+    width: 7.5%;
+
+    background-color: transparent;
+    border-color: transparent;
+
+    padding: 0px;
+    border-radius: 50%;
+}
+
+.deleteIcon {
+    padding: 0px;
     margin: 0px;
 }
 

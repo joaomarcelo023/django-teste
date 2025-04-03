@@ -122,6 +122,14 @@ TODO-ALVAREZ-RESOLVIDO: Deixar homepage mais amigavel (mentir sobre os preços) 
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar graficos em adminprodutodetalhe pra mostrar valores mensais e não totais
 
+TODO-ALVAREZ-RESOLVIDO: Colocar alguem pra rever os textos
+
+TODO-ALVAREZ-RESOLVIDO: Colocar botão pra fotos no adminprodutodetalhe
+
+  TODO-ALVAREZ-RESOLVIDO: Adicionar
+
+  TODO-ALVAREZ-RESOLVIDO: Deletar
+
 TODO-ALVAREZ-RESOLVIDO: Criar Emails
 
   TODO-ALVAREZ-RESOLVIDO: Criar função basica de email

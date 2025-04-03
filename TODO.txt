@@ -4,10 +4,6 @@ TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 
 TODO-ALVAREZ: Facilidade para saber quanto de estoque tem em cada loja
 
-TODO-ALVAREZ: Colocar alguem pra rever os textos
-
-TODO-ALVAREZ: Colocar botão pra adicionar e deletar fotos no adminprodutodetalhe
-
 TODO-ALVAREZ: Colocar função ChecaFotosProdutos no processo de upload dos produtos 
 
 TODO-ALVAREZ: Arrumar pagina produtodetalhe
