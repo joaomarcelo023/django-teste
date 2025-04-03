@@ -82,7 +82,6 @@ class VerifMixin(object):
         if request.user.cliente.verificado:
             pass
         else:
-            # TODO-RESOLVIDO: Rever texto
             messages.success(request, 'Conta não verificada. Verifique seu e-mail para ativar o acesso.')
             return redirect("lojaapp:home")
         
@@ -904,11 +903,9 @@ class ClienteRegistrarView(LojaMixin, BaseContextMixin, CreateView):
     def get_success_url(self):
         if "next" in self.request.GET:
             next_url = self.request.GET.get("next")
-            # TODO-RESOLVIDO: Rever texto
             messages.success(self.request, 'Email de verificação enviado com sucesso')
             return next_url
         else:
-            # TODO-RESOLVIDO: Rever texto
             messages.success(self.request, 'Email de verificação enviado com sucesso')
             return self.success_url
 
@@ -917,18 +914,15 @@ def verifica_user(request, uidb64, token):
         uid = urlsafe_base64_decode(uidb64).decode()
         user = User.objects.get(pk=uid)
     except (user.DoesNotExist, ValueError, TypeError):
-        # TODO-RESOLVIDO: Rever texto
         messages.success(request, 'Link de verificação inválido')
         return redirect("lojaapp:home")
 
     if default_token_generator.check_token(user, token):
         user.cliente.verificado = True
         user.cliente.save()
-        # TODO-RESOLVIDO: Rever texto
         messages.success(request, 'Conta verificada com sucesso')
         return redirect("lojaapp:home")
     else:
-        # TODO-RESOLVIDO: Rever texto
         messages.success(request, 'Link de verificação ou token inválido')
         return redirect("lojaapp:home")
 
@@ -939,7 +933,6 @@ class ClienteReverificaContaView(LojaMixin, View):
         if not usuario.cliente.verificado:
             EmailVerificaCliente(usuario)
 
-            # TODO-RESOLVIDO: Rever texto
             messages.success(request, 'Email de verificação enviado novamente')
             return redirect("lojaapp:clienteperfil")
 
