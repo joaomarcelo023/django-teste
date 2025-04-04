@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 
 {% block title %}{{ categoria.titulo }} - CasaHG{% endblock %}
 
@@ -26,10 +27,10 @@
                     <ul class="pagination">
                         {% if page_obj.has_previous %}
                             <li class="page-item">
-                                <a class="page-link" href="?Classificar={{ request.GET.Classificar }}&page=1">&ll;</a>
+                                <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page=1">&ll;</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" href="?Classificar={{ request.GET.Classificar }}&page={{ page_obj.previous_page_number }}">&lt;</a>
+                                <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ page_obj.previous_page_number }}">&lt;</a>
                             </li>
                         {% else %}
                             <li class="page-item disabled">
@@ -39,25 +40,103 @@
                                 <span class="page-link">&lt;</span>
                             </li>
                         {% endif %}
-                
-                        {% for page in page_obj.paginator.page_range %}
-                            {% if page == page_obj.number %}
-                                <li class="page-item active">
-                                    <span class="page-link">{{ page }}</span>
-                                </li>
-                            {% else %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?Classificar={{ request.GET.Classificar }}&page={{ page }}">{{ page }}</a>
+
+                        {% if page_obj.has_previous and page_obj.has_next %}
+                            {% if quatroAtras %}
+                                <li class="page-item grande">
+                                    <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ quatroAtras }}">{{ quatroAtras }}</a>
                                 </li>
                             {% endif %}
-                        {% endfor %}
+                            {% if tresAtras %}
+                                <li class="page-item grande">
+                                    <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ tresAtras }}">{{ tresAtras }}</a>
+                                </li>
+                            {% endif %}
+                            {% if duasAtras %}
+                                <li class="page-item grande">
+                                    <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ duasAtras }}">{{ duasAtras }}</a>
+                                </li>
+                            {% endif %}
+                            <li class="page-item">
+                                <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                            </li>
+                            <li class="page-item active">
+                                <span class="page-link">{{ page_obj.number }}</span>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                            </li>
+                            {% if duasFrente %}
+                                <li class="page-item grande">
+                                    <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ duasFrente }}">{{ duasFrente }}</a>
+                                </li>
+                            {% endif %}
+                            {% if tresFrente %}
+                                <li class="page-item grande">
+                                    <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ tresFrente }}">{{ tresFrente }}</a>
+                                </li>
+                            {% endif %}
+                            {% if quatroFrente %}
+                                <li class="page-item grande">
+                                    <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ quatroFrente }}">{{ quatroFrente }}</a>
+                                </li>
+                            {% endif %}
+                        {% elif page_obj.has_previous %}
+                            {% if quatroAtras %}
+                                <li class="page-item grande">
+                                    <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ quatroAtras }}">{{ quatroAtras }}</a>
+                                </li>
+                            {% endif %}
+                            {% if tresAtras %}
+                                <li class="page-item grande">
+                                    <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ tresAtras }}">{{ tresAtras }}</a>
+                                </li>
+                            {% endif %}
+                            {% if duasAtras %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ duasAtras }}">{{ duasAtras }}</a>
+                                </li>
+                            {% endif %}
+                            <li class="page-item">
+                                <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                            </li>
+                            <li class="page-item active">
+                                <span class="page-link">{{ page_obj.number }}</span>
+                            </li>
+                        {% elif page_obj.has_next %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page_obj.number }}</span>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                            </li>
+                            {% if duasFrente %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ duasFrente }}">{{ duasFrente }}</a>
+                                </li>
+                            {% endif %}
+                            {% if tresFrente %}
+                                <li class="page-item grande">
+                                    <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ tresFrente }}">{{ tresFrente }}</a>
+                                </li>
+                            {% endif %}
+                            {% if quatroFrente %}
+                                <li class="page-item grande">
+                                    <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ quatroFrente }}">{{ quatroFrente }}</a>
+                                </li>
+                            {% endif %}
+                        {% else %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page_obj.number }}</span>
+                            </li>
+                        {% endif %}
                         
                         {% if page_obj.has_next %}
                             <li class="page-item">
-                                <a class="page-link" href="?Classificar={{ request.GET.Classificar }}&page={{ page_obj.next_page_number }}">&gt;</a>
+                                <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ page_obj.next_page_number }}">&gt;</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" href="?Classificar={{ request.GET.Classificar }}&page={{ page_obj.paginator.num_pages }}">&gg;</a>
+                                <a class="page-link" href="?Classificar={{ request.GET.Classificar|orGet:'Destaque' }}&page={{ page_obj.paginator.num_pages }}">&gg;</a>
                             </li>
                         {% else %}
                             <li class="page-item disabled">
