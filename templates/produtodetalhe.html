@@ -64,7 +64,7 @@
                 {% endif %}
                 <div class="quantSelect justify-content-left d-flex">
                     <div id="minusUnit" class="quantidadeButton" onclick="takeUnit()">-</div>
-                    <input id="quantValue" type="number" inputmode="numeric" min="1" name="quantidade" value="1">
+                    <input class="quantValue" type="number" inputmode="numeric" min="1" name="quantidade" value="1" oninput="inputUnit(value)">
                     <div id="plusUnit" class="quantidadeButton" onclick="addUnit()">+</div>
                     {% if produto.fechamento_embalagem > 1 %}
                         <span class="caixasQuant">caixas</span>
@@ -135,7 +135,7 @@
                 {% endif %}
                 <div class="quantSelect justify-content-left d-flex">
                     <div id="minusUnit" class="quantidadeButton" onclick="takeUnit()">-</div>
-                    <input id="quantValue" type="number" inputmode="numeric" min="1" name="quantidade" value="1">
+                    <input class="quantValue" type="number" inputmode="numeric" min="1" name="quantidade" value="1" oninput="inputUnit(value)">
                     <div id="plusUnit" class="quantidadeButton" onclick="addUnit()">+</div>
                     {% if produto.fechamento_embalagem > 1 %}
                         <span class="caixasQuant">caixas</span>
@@ -158,12 +158,111 @@
             </form>
         </div>
     </div>
+    {% if produto.Categoria.slug == "ceramicas" or produto.Categoria.slug == "porcelanatos" %}
     <br>
     <hr>
     <div class="row extraInfoRow">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non scelerisque sapien. Donec vitae metus sapien. Nam a vestibulum tellus, eu ultricies nulla. Pellentesque in nunc risus. Nunc viverra nisl eget aliquam lacinia. Integer ex mauris, fermentum nec faucibus in, egestas non velit. Ut sapien tellus, maximus nec velit at, maximus ultrices turpis. Nam venenatis congue diam viverra pharetra. Vestibulum nisi sem, consequat vitae felis vel, euismod cursus ipsum. Sed id commodo erat. Nunc condimentum tortor sed enim tincidunt, iaculis laoreet ante laoreet.</p>
-        <p>Fusce interdum ultricies dui. Nulla vehicula mauris vitae purus consequat, molestie rutrum nulla lacinia. Pellentesque volutpat ultrices augue, id convallis dui posuere vitae. Aliquam erat volutpat. Cras nibh quam, tincidunt vitae risus non, blandit mollis odio. Suspendisse ullamcorper congue nibh a cursus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean varius gravida varius. Vivamus lacinia, ipsum in ultricies congue, urna neque feugiat nibh, nec sagittis ex nisi non magna. Nunc arcu arcu, vehicula congue gravida eu, sodales vitae neque. Phasellus ullamcorper, tellus et maximus venenatis, ipsum felis faucibus nunc, eu finibus orci mauris nec odio.</p>
+        <h4>Ficha têcnica</h4>
+        <div class="d-flex justify-content-center">
+            <table class="col-11 table fichaTec">
+                <tr>
+                    <td>Marca</td>
+                    <td colspan="2">
+                        {{ produto.marca }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Formato</td>
+                    <td colspan="2">
+                        {{ produto.formato }} cm
+                    </td>
+                </tr>
+                <tr>
+                    <td>Espessura</td>
+                    <td colspan="2">
+                        {{ produto.espessura }} mm
+                    </td>
+                </tr>
+                <tr>
+                    <td>Junta minima</td>
+                    <td colspan="2">
+                        {{ produto.junta_minima }} mm
+                    </td>
+                </tr>
+                <tr>
+                    <td>Relevo</td>
+                    <td colspan="2">
+                        {% if produto.relevo %}
+                            <span>Sim</span>
+                        {% else %}
+                            <span>Não</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Acabamento superficial</td>
+                    <td colspan="2">
+                        {{ produto.acabamento_superficial }}
+                    </td>
+                </tr>            
+                <tr>
+                    <td>Variação de faces</td>
+                    <td>
+                        {{ produto.get_variacao_faces_display }}:
+                    </td>
+                    <td>
+                        {{ produto.variacao_faces }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Classe tecnica</td>
+                    <td colspan="2">
+                        {{ produto.get_classe_tecnica_absorcao_pisos_display }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Absorção de água</td>
+                    <td colspan="2">
+                        {{ produto.classe_tecnica_absorcao_pisos }} %
+                    </td>
+                </tr>
+                <tr>
+                    <td>Indicação de uso</td>
+                    <td>
+                        {{ produto.get_indicação_uso_display }}:
+                    </td>
+                    <td>
+                        {{ produto.indicação_uso }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Quantidade de peças por caixa</td>
+                    <td colspan="2">
+                        {{ produto.pecas_caixa }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Peso bruto da caixa</td>
+                    <td colspan="2">
+                        {{ produto.peso_bruto_caixa }} kg
+                    </td>
+                </tr>
+                <tr>
+                    <td>Dimensões do palet</td>
+                    <td colspan="2">
+                        {{ produto.palet }} m²
+                    </td>
+                </tr>
+                <!-- <tr>
+                    <td></td>
+                    <td>
+
+                    </td>
+                </tr> -->
+            </table>
+        </div>
     </div>
+    {% endif %}
 </section>
 <br>
 {% if produtos_similares|length > 0 %}

@@ -269,9 +269,9 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
 
         context['fotos_produtos'] = produto.images.all() #FotosProduto.objects.filter(produto=produto)
 
-        produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:12])
+        produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:11])
         if produto in produtos_similares_list:
-            produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:13])
+            produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:12])
             produtos_similares_list.pop(produtos_similares_list.index(produto))
 
         produtos_similares = preprocessar_precos(produtos_similares_list)

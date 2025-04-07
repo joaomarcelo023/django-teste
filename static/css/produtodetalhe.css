@@ -233,3 +233,8 @@ hr {
 .extraInfoRow {
     text-align: justify;
 }
+
+.fichaTec td {
+    text-align: justify;
+    vertical-align: middle;
+}

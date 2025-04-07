@@ -10,25 +10,66 @@ class Categoria(models.Model):
     def __str__(self):
         return str(self.id) + "- " + self.titulo
 
+CLASSE_TECNICA_ABSORCAO_PISOS=[
+    ("0,0 a 0,5","Porcelanato"),
+    ("0,5 a 3,0", "Grês"),
+    ("3,0 a 6,0", "Semi Grês"),
+    ("6,0 a 10,0", "Bllb"),
+    (">10", "Monoporosa"),
+]
+
+ACABAMENTO_SUPERFICIAL_PISOS=[
+    ("Polido", "Polido"),
+    ("Brilho", "Brilho"),
+    ("Acetinado", "Acetinado"),
+    ("Granilha", "Granilha"),
+    ("Antiderrapante", "Antiderrapante"),
+]
+
+VARIACAO_FACES_PISOS=[
+    ("Peças uniformes, onde a variação entre uma peça e outra não é perceptível", "V1"),
+    ("Leve variação, existem diferenças perceptíveis entre as peças, mas as texturas e tons apresentados são muito próximos", "V2"),
+    ("Variação moderada, algumas peças são diferentes umas das outras", "V3"),
+    ("Alta variação, as peças tem uma diferença bem significativa entre elas", "V4"),
+]
+
+INDICACAO_DE_USO_PISOS=[
+    ("Sem tráfego - Indicado para uso em paredes", "LA"),
+    ("Pouco tráfego - Indicado para uso interno, sem acesso a áreas externas, em residências", "LB"),
+    ("Médio tráfego - Indicado para todas as dependências residenciais e comerciais de médio tráfego", "LC"),
+    ("Alto tráfego - Indicado para todas as dependências residenciais e comerciais de alto tráfego", "LD"),
+]
+
 class Produto(models.Model):
     #informações que virão do sistema externo
     codigo = models.CharField(max_length=10) #codigo interno consistente com sistema
+    titulo = models.CharField(max_length=200,default="",null=True,blank=True)
     descricao = models.CharField(max_length=200)
     codigo_GTIN = models.CharField(max_length=14) #se o produto não tiver codigo GTIN cadastrado, usar codigo interno
     preco_unitario_bruto = models.DecimalField(max_digits=10, decimal_places=2) #preço cheio, sem desconto
-    desconto_dinheiro = models.DecimalField(max_digits=10, decimal_places=2) # em %, percentual de desconto para pagamento em dinheiro, aplicado no preco_unitario_bruto
+    desconto_dinheiro = models.DecimalField(max_digits=10,decimal_places=2) # em %, percentual de desconto para pagamento em dinheiro, aplicado no preco_unitario_bruto
     desconto_retira = models.DecimalField(max_digits=10,decimal_places=2)  # em %, percentual de desconto para compras para retirada no depósito, aplicado no preco_unitario_bruto
     unidade = models.CharField(max_length=30,default="un") #unidade em que o produto é comercializado
     fechamento_embalagem = models.DecimalField(max_digits=10, decimal_places=2, default=1.00)
     em_estoque = models.BooleanField(default=True)
 
+    marca = models.CharField(max_length=20,null=True,blank=True)
+    formato = models.CharField(max_length=15,null=True,blank=True)
+    espessura = models.SmallIntegerField(null=True,blank=True)
+    junta_minima = models.SmallIntegerField(null=True,blank=True)
+    relevo = models.BooleanField(null=True,blank=True)
+    acabamento_superficial = models.CharField(max_length=50,choices=ACABAMENTO_SUPERFICIAL_PISOS,null=True,blank=True)
+    variacao_faces = models.CharField(max_length=121,choices=VARIACAO_FACES_PISOS,null=True,blank=True)
+    classe_tecnica_absorcao_pisos = models.CharField(max_length=50,choices=CLASSE_TECNICA_ABSORCAO_PISOS,null=True,blank=True)
+    indicação_uso = models.CharField(max_length=100,choices=INDICACAO_DE_USO_PISOS,null=True,blank=True)
+    pecas_caixa = models.SmallIntegerField(null=True,blank=True)
+    peso_bruto_caixa = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True)
+    palet = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True)
+
     #informações que precisam ser criadas por lógica do sistema externo
     slug = models.SlugField(unique=True)
     Categoria = models.ForeignKey(Categoria,on_delete=models.SET_NULL,default="",null=True)
     image = models.ImageField(upload_to="produtos",null=True,blank=True)
-
-    #entrada manual de algum admin
-    titulo = models.CharField(max_length=200,default="",null=True,blank=True)
 
     # TODO-ALVAREZ deletar de forma responsável
     venda = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True)
