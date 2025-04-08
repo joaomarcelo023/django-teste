@@ -269,6 +269,10 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
 
         context['fotos_produtos'] = produto.images.all() #FotosProduto.objects.filter(produto=produto)
 
+        if produto.Categoria.slug == "porcelanatos" or produto.Categoria.slug == "ceramicas":
+            context['variacao_faces_pisos'] = VARIACAO_FACES_PISOS
+            context['indicacao_uso_pisos'] = INDICACAO_DE_USO_PISOS
+
         produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:11])
         if produto in produtos_similares_list:
             produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:12])
@@ -1309,14 +1313,87 @@ class PesquisarView(BaseContextMixin, TemplateView):
             order = "-preco_unitario_bruto"
 
         kw = self.request.GET.get("query")
+
+        # tamanho_field = Produto._meta.get_field('tamanho')
+        # display_to_value = {label.lower(): value for value, label in tamanho_field.choices}
+        # query_lower = kw.lower()
+        # tamanho_match = display_to_value.get(query_lower)
         
-        resultado = Produto.objects.filter(Q(titulo__icontains=kw) | Q(descricao__icontains = kw)).order_by(order)
+        # filters = (
+        #     Q(nome__icontains=kw) |
+        #     Q(categoria__nome__icontains=kw)
+        # )
+
+        # if tamanho_match:
+        #     filters |= Q(tamanho=tamanho_match)
+        
+        resultado = Produto.objects.filter(Q(titulo__icontains=kw) | Q(descricao__icontains = kw) | Q(codigo__iexact = kw) | Q(codigo_GTIN__iexact = kw)
+                                            | Q(Categoria__titulo__icontains = kw) | Q(slug__iexact = kw) | Q(marca__icontains = kw) | Q(acabamento_superficial__icontains = kw)
+                                            | Q(classe_tecnica_absorcao_pisos__iexact = kw) | Q(variacao_faces__iexact = kw) | Q(indicação_uso__icontains = kw)).order_by(order)
         resultadoList = preprocessar_precos(resultado)
 
         resultadoPag = Paginator(resultadoList, 20)
-        page_number = self.request.GET.get('page')
+        page_number = self.request.GET.get('page', 1)
 
         context["resultado"] = resultadoPag.get_page(page_number)
+
+        # Não sei se tem uma forma mais eficiente de fazer essa merda
+        if resultadoPag.num_pages > 4:
+            if int(page_number) == 1:
+                context['duasFrente'] = int(page_number) + 2
+                context['tresFrente'] = int(page_number) + 3
+                context['quatroFrente'] = int(page_number) + 4
+                context['duasAtras'] = False
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+            elif int(page_number) == 2:
+                context['duasFrente'] = int(page_number) + 2
+                context['tresFrente'] = int(page_number) + 3
+                context['quatroFrente'] = False
+                context['duasAtras'] = False
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+            elif int(page_number) == (resultadoPag.num_pages - 1):
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = False
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = int(page_number) - 3
+                context['quatroAtras'] = False
+            elif int(page_number) == (resultadoPag.num_pages):
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = False
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = int(page_number) - 3
+                context['quatroAtras'] = int(page_number) - 4
+            else:
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = int(page_number) + 2
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+        elif resultadoPag.num_pages > 2:
+            if int(page_number) == 1:
+                context['duasFrente'] = int(page_number) + 2
+            elif int(page_number) == (resultadoPag.num_pages):
+                context['duasAtras'] = int(page_number) - 2
+            else:
+                context['duasFrente'] = False
+                context['duasAtras'] = False
+            context['tresFrente'] = False
+            context['quatroFrente'] = False
+            context['tresAtras'] = False
+            context['quatroAtras'] = False
+        else:
+            context['duasFrente'] = False
+            context['tresFrente'] = False
+            context['quatroFrente'] = False
+            context['duasAtras'] = False
+            context['tresAtras'] = False
+            context['quatroAtras'] = False
+
         return context
 
 class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
@@ -1406,7 +1483,6 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
             context['duasAtras'] = False
             context['tresAtras'] = False
             context['quatroAtras'] = False
-
         
         return context
 
