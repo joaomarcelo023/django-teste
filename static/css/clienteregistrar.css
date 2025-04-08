@@ -42,6 +42,11 @@
     cursor: pointer;
 }
 
+.termos_condicoes_btn {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .termos_condicoes_janela {
     position: absolute;
 
