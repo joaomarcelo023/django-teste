@@ -39,10 +39,6 @@
 
 .termos_condicoes_Div span {
     color: #ff9900;
-    cursor: pointer;
-}
-
-.termos_condicoes_btn {
     text-decoration: underline;
     cursor: pointer;
 }

@@ -127,6 +127,7 @@
 
 .termos_condicoes_Div span {
     color: #ff9900;
+    text-decoration: underline;
     cursor: pointer;
 }
 

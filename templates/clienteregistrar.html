@@ -16,14 +16,13 @@
                 {{ form.as_p }}
 
                 <div class="termos_condicoes_Div my-3">
-                    <div class="d-flex align-items-start">
-                        <input id="termos_condicoes" type="checkbox" name="condicoes" style="margin-top: 5px;">
-                        <label for="termos_condicoes" class="ms-2">
-                            Declaro que li e concordo com os
-                            <span id="termos_condicoes_btn">
-                                termos e condições da compra
-                            </span>.
-                        </label>
+                    <div class="d-flex align-items-start" style="display: table;">
+                        <div style="width: 5%; height: 100%;">
+                            <input id="termos_condicoes" type="checkbox" name="condicoes">
+                        </div>
+                        <div style="display: table;">
+                            <label>Declaro que li e concordo com os <span id="termos_condicoes_btn">termos e condições</span>.</label>
+                        </div>
                     </div>
                 </div>
 
