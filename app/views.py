@@ -1993,42 +1993,17 @@ class ChunkedProdutoJsonUploadView(APIView):
                         emEst = True
                     else:
                         emEst = False
-
-                    # Pega os tuples com todas as opções, transforma eles em dicionarios e faz o match pro valor lido pelo django
-                    if data["classe_tecnica_absorcao_pisos"][str(i)]:
-                        classe_tecnica_absorcao_pisos_field = Produto._meta.get_field('classe_tecnica_absorcao_pisos')
-                        display_to_value_cta = {label.lower(): value for value, label in classe_tecnica_absorcao_pisos_field.choices}
-                        cta = display_to_value_cta.get(data["classe_tecnica_absorcao_pisos"][str(i)].lower())
-                    else:
-                        cta = None
-                    
-                    if data["variacao_faces"][str(i)]:
-                        variacao_faces_field = Produto._meta.get_field('variacao_faces')
-                        display_to_value_va = {label.lower(): value for value, label in variacao_faces_field.choices}
-                        vf = display_to_value_va.get(data["variacao_faces"][str(i)].lower())
-                    else:
-                        vf = None
-                    
-                    if data["indicacao_uso"][str(i)]:
-                        indicacao_uso_field = Produto._meta.get_field('indicacao_uso')
-                        display_to_value_iu = {label.lower(): value for value, label in indicacao_uso_field.choices}
-                        iu = display_to_value_iu.get(data["indicacao_uso"][str(i)].lower())
-                    else:
-                        iu = None
                         
                     Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
                                            preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
                                            desconto_retira=data["desconto_retira"][str(i)],unidade=data["unidade"][str(i)],titulo=data["titulo"][str(i)],
                                            fechamento_embalagem=data["fechamento_embalagem"][str(i)],em_estoque=emEst,slug=data["slug"][str(i)],
-                                           Categoria=categoria_id,image=img,marca=data["marca"][str(i)],formato=data["formato"][str(i)],espessura=data["espessura"][str(i)],
-                                           junta_minima=data["junta_minima"][str(i)],relevo=data["relevo"][str(i)],acabamento_superficial=data["acabamento_superficial"][str(i)],
-                                           classe_tecnica_absorcao_pisos=cta,variacao_faces=vf,indicacao_uso=iu,pecas_caixa=data["pecas_caixa"][str(i)],
-                                           peso_bruto_caixa=data["peso_bruto_caixa"][str(i)],palet=data["palet"][str(i)],)
+                                           Categoria=categoria_id,image=img,)
                     
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
-            return Response({"message": "JSON Upload Complete"}) #, "data_len": len(data["ACENAN"])})
+            return Response({"message": "JSON Upload Complete"})
 
         return Response({"message": "Chunk received"})
 
@@ -2069,11 +2044,78 @@ class ChunkedProdutoJsonUpdateView(APIView):
                         else:
                             emEst = False
 
+                        prod.descricao = data["descricao"][str(i)]
+                        prod.codigo_GTIN = data["codigo_GTIN"][str(i)]
+                        prod.preco_unitario_bruto = data["preco_unitario_bruto"][str(i)]
+                        prod.desconto_dinheiro = data["desconto_dinheiro"][str(i)]
+                        prod.desconto_retira = data["desconto_retira"][str(i)]
+                        prod.unidade = data["unidade"][str(i)]
+                        prod.fechamento_embalagem = data["fechamento_embalagem"][str(i)]
+                        prod.em_estoque = emEst
+                        prod.slug = data["slug"][str(i)]
+                        prod.Categoria = categoria_id
+                        prod.titulo = data["titulo"][str(i)]
+
+                        prod.save()
+
+                    except Produto.DoesNotExist:
+                        cat_slug = unicodedata.normalize('NFKD', data["categoria"][str(i)]).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
+                        categoria_id = Categoria.objects.get(slug=cat_slug)
+
+                        img = "produtos/" + data["codigo"][str(i)] + ".webp"
+
+                        if data["em_estoque"][str(i)]:
+                            emEst = True
+                        else:
+                            emEst = False
+
+                        Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
+                                               preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
+                                               desconto_retira=data["desconto_retira"][str(i)],unidade=data["unidade"][str(i)],titulo=data["titulo"][str(i)],
+                                               fechamento_embalagem=data["fechamento_embalagem"][str(i)],em_estoque=emEst,slug=data["codigo"][str(i)],
+                                               Categoria=categoria_id,image=img,)
+                        
+            except json.JSONDecodeError:
+                return Response({"error": "Invalid JSON"}, status=400)
+            
+            return Response({"message": "JSON Upload Complete"})
+
+        return Response({"message": "Chunk received"})
+
+class ChunkedProdutoPisoFichaTecJsonUploadView(APIView):
+    permission_classes = [HasAPIKey]
+
+    def post(self, request):
+        file_id = request.data.get("file_id")
+        chunk_index = request.data.get("chunk_index")
+        total_chunks = request.data.get("total_chunks")
+        json_chunk = request.data.get("chunk_data")     # JSON chunk as string
+
+        cache_key = f"json_upload_{file_id}_{chunk_index}"
+        cache.set(cache_key, json_chunk)
+
+        if int(chunk_index) + 1 == int(total_chunks):
+            full_json = ""
+            for i in range(int(total_chunks)):
+                chunk = cache.get(f"json_upload_{file_id}_{i}")
+                if chunk:
+                    full_json += chunk
+                    cache.delete(f"json_upload_{file_id}_{i}")
+
+            try:
+                data_str = json.loads(full_json)
+                data = json.loads(data_str)             # Convert JSON string to Python object
+
+                for i in range(len(data["codigo"])):
+                    try:
+                        prod = Produto.objects.get(codigo=data["codigo"][str(i)])
                         # Pega os tuples com todas as opções, transforma eles em dicionarios e faz o match pro valor lido pelo django
                         if data["classe_tecnica_absorcao_pisos"][str(i)]:
+                            dataCTA = unicodedata.normalize('NFKD', data["classe_tecnica_absorcao_pisos"][str(i)]).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
                             classe_tecnica_absorcao_pisos_field = Produto._meta.get_field('classe_tecnica_absorcao_pisos')
-                            display_to_value_cta = {label.lower(): value for value, label in classe_tecnica_absorcao_pisos_field.choices}
-                            cta = display_to_value_cta.get(data["classe_tecnica_absorcao_pisos"][str(i)].lower())
+                            display_to_value_cta = {unicodedata.normalize('NFKD', label).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_"): value 
+                                                    for value, label in classe_tecnica_absorcao_pisos_field.choices}
+                            cta = display_to_value_cta.get(dataCTA)
                         else:
                             cta = None
                         
@@ -2091,17 +2133,6 @@ class ChunkedProdutoJsonUpdateView(APIView):
                         else:
                             iu = None
 
-                        prod.descricao = data["descricao"][str(i)]
-                        prod.codigo_GTIN = data["codigo_GTIN"][str(i)]
-                        prod.preco_unitario_bruto = data["preco_unitario_bruto"][str(i)]
-                        prod.desconto_dinheiro = data["desconto_dinheiro"][str(i)]
-                        prod.desconto_retira = data["desconto_retira"][str(i)]
-                        prod.unidade = data["unidade"][str(i)]
-                        prod.fechamento_embalagem = data["fechamento_embalagem"][str(i)]
-                        prod.em_estoque = emEst
-                        prod.slug = data["slug"][str(i)]
-                        prod.Categoria = categoria_id
-                        prod.titulo = data["titulo"][str(i)]
                         prod.marca = data["marca"][str(i)]
                         prod.formato = data["formato"][str(i)]
                         prod.espessura = data["espessura"][str(i)]
@@ -2118,48 +2149,7 @@ class ChunkedProdutoJsonUpdateView(APIView):
                         prod.save()
 
                     except Produto.DoesNotExist:
-                        cat_slug = unicodedata.normalize('NFKD', data["categoria"][str(i)]).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
-                        categoria_id = Categoria.objects.get(slug=cat_slug)
-
-                        img = "produtos/" + data["codigo"][str(i)] + ".webp"
-
-                        if data["em_estoque"][str(i)]:
-                            emEst = True
-                        else:
-                            emEst = False
-
-                        # Pega os tuples com todas as opções, transforma eles em dicionarios e faz o match pro valor lido pelo django
-                        if data["classe_tecnica_absorcao_pisos"][str(i)]:
-                            classe_tecnica_absorcao_pisos_field = Produto._meta.get_field('classe_tecnica_absorcao_pisos')
-                            display_to_value_cta = {label.lower(): value for value, label in classe_tecnica_absorcao_pisos_field.choices}
-                            cta = display_to_value_cta.get(data["classe_tecnica_absorcao_pisos"][str(i)].lower())
-                        else:
-                            cta = None
-                        
-                        if data["variacao_faces"][str(i)]:
-                            variacao_faces_field = Produto._meta.get_field('variacao_faces')
-                            display_to_value_va = {label.lower(): value for value, label in variacao_faces_field.choices}
-                            vf = display_to_value_va.get(data["variacao_faces"][str(i)].lower())
-                        else:
-                            vf = None
-                        
-                        if data["indicacao_uso"][str(i)]:
-                            indicacao_uso_field = Produto._meta.get_field('indicacao_uso')
-                            display_to_value_iu = {label.lower(): value for value, label in indicacao_uso_field.choices}
-                            iu = display_to_value_iu.get(data["indicacao_uso"][str(i)].lower())
-                        else:
-                            iu = None
-
-                        Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
-                                               preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
-                                               desconto_retira=data["desconto_retira"][str(i)],unidade=data["unidade"][str(i)],titulo=data["titulo"][str(i)],
-                                               fechamento_embalagem=data["fechamento_embalagem"][str(i)],em_estoque=emEst,slug=data["codigo"][str(i)],
-                                               Categoria=categoria_id,image=img,marca=data["marca"][str(i)],formato=data["formato"][str(i)],espessura=data["espessura"][str(i)],
-                                               junta_minima=data["junta_minima"][str(i)],relevo=data["relevo"][str(i)],
-                                               acabamento_superficial=data["acabamento_superficial"][str(i)],
-                                               classe_tecnica_absorcao_pisos=cta,variacao_faces=vf,indicacao_uso=iu,pecas_caixa=data["pecas_caixa"][str(i)],
-                                               peso_bruto_caixa=data["peso_bruto_caixa"][str(i)],palet=data["palet"][str(i)],)
-                        
+                        return Response({"error": "Produto não encontrado"}, status=400)
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
