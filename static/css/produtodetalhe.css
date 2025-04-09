@@ -6,6 +6,43 @@ body {
     background-color: white;
 }
 
+@media (min-width: 750px) {
+    .variacaoFacesWindow, .indicUsoWindow {
+        width: 25vw;
+        
+        left: 33vw;
+    }
+    .variacaoFacesWindow {
+        top: 97.5vh;
+    }
+    .indicUsoWindow {
+        top: 117.5vh;
+    }
+
+    .fichaTec td {
+        text-align: justify;
+    }
+    
+}
+@media (max-width: 750px) {
+    .variacaoFacesWindow, .indicUsoWindow {
+        width: 85vw;
+        
+        left: 7.5vw;
+    }
+    .variacaoFacesWindow {
+        top: 242vh;
+    }
+    .indicUsoWindow {
+        top: 295vh;
+    }
+
+    .fichaTec td {
+        /* text-align: justify; */
+        text-align: center;
+    }
+}
+
 hr {
     background-color: #ff9900;
 }
@@ -232,4 +269,40 @@ hr {
 
 .extraInfoRow {
     text-align: justify;
+}
+
+.fichaTec td {
+    vertical-align: middle;
+}
+
+.fichaTecInfo {
+    cursor: pointer;
+}
+
+.variacaoFacesWindow, .indicUsoWindow {
+    position: absolute;
+
+    background-color: white;
+    border: 2px solid #ff9900;
+    border-radius: 21px;
+
+    padding: 12px;
+}
+
+.variacaoFacesWindow h4, .indicUsoWindow h4 {
+    width: 98%;
+}
+
+.indicUsoJanelaClose, .variacaoFacesJanelaClose {
+    width: 2%;
+    height: 16%;
+
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+}
+
+.variacaoFacesWindow td, .indicUsoWindow td {
+    text-align: justify;
+    vertical-align: middle;
 }

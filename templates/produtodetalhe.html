@@ -64,7 +64,7 @@
                 {% endif %}
                 <div class="quantSelect justify-content-left d-flex">
                     <div id="minusUnit" class="quantidadeButton" onclick="takeUnit()">-</div>
-                    <input id="quantValue" type="number" inputmode="numeric" min="1" name="quantidade" value="1">
+                    <input class="quantValue" type="number" inputmode="numeric" min="1" name="quantidade" value="1" oninput="inputUnit(value)">
                     <div id="plusUnit" class="quantidadeButton" onclick="addUnit()">+</div>
                     {% if produto.fechamento_embalagem > 1 %}
                         <span class="caixasQuant">caixas</span>
@@ -135,7 +135,7 @@
                 {% endif %}
                 <div class="quantSelect justify-content-left d-flex">
                     <div id="minusUnit" class="quantidadeButton" onclick="takeUnit()">-</div>
-                    <input id="quantValue" type="number" inputmode="numeric" min="1" name="quantidade" value="1">
+                    <input class="quantValue" type="number" inputmode="numeric" min="1" name="quantidade" value="1" oninput="inputUnit(value)">
                     <div id="plusUnit" class="quantidadeButton" onclick="addUnit()">+</div>
                     {% if produto.fechamento_embalagem > 1 %}
                         <span class="caixasQuant">caixas</span>
@@ -158,12 +158,147 @@
             </form>
         </div>
     </div>
-    <br>
-    <hr>
-    <div class="row extraInfoRow">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non scelerisque sapien. Donec vitae metus sapien. Nam a vestibulum tellus, eu ultricies nulla. Pellentesque in nunc risus. Nunc viverra nisl eget aliquam lacinia. Integer ex mauris, fermentum nec faucibus in, egestas non velit. Ut sapien tellus, maximus nec velit at, maximus ultrices turpis. Nam venenatis congue diam viverra pharetra. Vestibulum nisi sem, consequat vitae felis vel, euismod cursus ipsum. Sed id commodo erat. Nunc condimentum tortor sed enim tincidunt, iaculis laoreet ante laoreet.</p>
-        <p>Fusce interdum ultricies dui. Nulla vehicula mauris vitae purus consequat, molestie rutrum nulla lacinia. Pellentesque volutpat ultrices augue, id convallis dui posuere vitae. Aliquam erat volutpat. Cras nibh quam, tincidunt vitae risus non, blandit mollis odio. Suspendisse ullamcorper congue nibh a cursus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean varius gravida varius. Vivamus lacinia, ipsum in ultricies congue, urna neque feugiat nibh, nec sagittis ex nisi non magna. Nunc arcu arcu, vehicula congue gravida eu, sodales vitae neque. Phasellus ullamcorper, tellus et maximus venenatis, ipsum felis faucibus nunc, eu finibus orci mauris nec odio.</p>
-    </div>
+    {% if produto.Categoria.slug == "ceramicas" or produto.Categoria.slug == "porcelanatos" %}
+        <br>
+        <hr>
+        <div class="row extraInfoRow">
+            <h4>Ficha têcnica</h4>
+            <div class="d-flex justify-content-center">
+                <table class="col-11 table fichaTec">
+                    {% if produto.marca %}
+                        <tr>
+                            <td>Marca</td>
+                            <td colspan="2">
+                                {{ produto.marca }}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if produto.formato %}
+                        <tr>
+                            <td>Formato</td>
+                            <td colspan="2">
+                                {{ produto.formato }} cm
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if produto.espessura %}
+                        <tr>
+                            <td>Espessura</td>
+                            <td colspan="2">
+                                {{ produto.espessura }} mm
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if produto.junta_minima %}
+                        <tr>
+                            <td>Junta minima</td>
+                            <td colspan="2">
+                                {{ produto.junta_minima }} mm
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if produto.relevo != null %}
+                        <tr>
+                            <td>Relevo</td>
+                            <td colspan="2">
+                                {% if produto.relevo %}
+                                    <span>Sim</span>
+                                {% else %}
+                                    <span>Não</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if produto.acabamento_superficial %}
+                        <tr>
+                            <td>Acabamento superficial</td>
+                            <td colspan="2">
+                                {{ produto.acabamento_superficial }}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if produto.variacao_faces %}          
+                        <tr>
+                            <td>
+                                Variação de faces
+                                <span class="variacaoFacesButton fichaTecInfo">
+                                    <svg width="12px" height="100%" viewBox="0 0 24 46" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 17.75C12.4142 17.75 12.75 17.4142 12.75 17V11C12.75 10.5858 12.4142 10.25 12 10.25C11.5858 10.25 11.25 10.5858 11.25 11V17C11.25 17.4142 11.5858 17.75 12 17.75Z" fill="#000000"></path> <path d="M12 7C12.5523 7 13 7.44772 13 8C13 8.55228 12.5523 9 12 9C11.4477 9 11 8.55228 11 8C11 7.44772 11.4477 7 12 7Z" fill="#000000"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M1.25 12C1.25 6.06294 6.06294 1.25 12 1.25C17.9371 1.25 22.75 6.06294 22.75 12C22.75 17.9371 17.9371 22.75 12 22.75C6.06294 22.75 1.25 17.9371 1.25 12ZM12 2.75C6.89137 2.75 2.75 6.89137 2.75 12C2.75 17.1086 6.89137 21.25 12 21.25C17.1086 21.25 21.25 17.1086 21.25 12C21.25 6.89137 17.1086 2.75 12 2.75Z" fill="#000000"></path> </g></svg>
+                                </span>
+                            </td>
+                            <td>
+                                {{ produto.get_variacao_faces_display }}:
+                            </td>
+                            <td>
+                                {{ produto.variacao_faces }}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if produto.classe_tecnica_absorcao_pisos %}
+                        <tr>
+                            <td>Classe tecnica</td>
+                            <td colspan="2">
+                                {{ produto.get_classe_tecnica_absorcao_pisos_display }}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if produto.classe_tecnica_absorcao_pisos %}
+                        <tr>
+                            <td>Absorção de água</td>
+                            <td colspan="2">
+                                {{ produto.classe_tecnica_absorcao_pisos }} %
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if produto.indicacao_uso %}
+                        <tr>
+                            <td>
+                                Indicação de uso
+                                <span class="indicUsoButton fichaTecInfo">
+                                    <svg width="12px" height="100%" viewBox="0 0 24 46" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 17.75C12.4142 17.75 12.75 17.4142 12.75 17V11C12.75 10.5858 12.4142 10.25 12 10.25C11.5858 10.25 11.25 10.5858 11.25 11V17C11.25 17.4142 11.5858 17.75 12 17.75Z" fill="#000000"></path> <path d="M12 7C12.5523 7 13 7.44772 13 8C13 8.55228 12.5523 9 12 9C11.4477 9 11 8.55228 11 8C11 7.44772 11.4477 7 12 7Z" fill="#000000"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M1.25 12C1.25 6.06294 6.06294 1.25 12 1.25C17.9371 1.25 22.75 6.06294 22.75 12C22.75 17.9371 17.9371 22.75 12 22.75C6.06294 22.75 1.25 17.9371 1.25 12ZM12 2.75C6.89137 2.75 2.75 6.89137 2.75 12C2.75 17.1086 6.89137 21.25 12 21.25C17.1086 21.25 21.25 17.1086 21.25 12C21.25 6.89137 17.1086 2.75 12 2.75Z" fill="#000000"></path> </g></svg>
+                                </span>
+                            </td>
+                            <td>
+                                {{ produto.get_indicacao_uso_display }}:
+                            </td>
+                            <td>
+                                {{ produto.indicacao_uso }}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if produto.pecas_caixa %}
+                        <tr>
+                            <td>Quantidade de peças por caixa</td>
+                            <td colspan="2">
+                                {{ produto.pecas_caixa }}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if produto.peso_bruto_caixa %}
+                        <tr>
+                            <td>Peso bruto da caixa</td>
+                            <td colspan="2">
+                                {{ produto.peso_bruto_caixa }} kg
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if produto.palet %}
+                        <tr>
+                            <td>Dimensões do palet</td>
+                            <td colspan="2">
+                                {{ produto.palet }} m²
+                            </td>
+                        </tr>
+                    {% endif %}
+                    <!-- <tr>
+                        <td></td>
+                        <td>
+
+                        </td>
+                    </tr> -->
+                </table>
+            </div>
+        </div>
+    {% endif %}
 </section>
 <br>
 {% if produtos_similares|length > 0 %}
@@ -174,6 +309,48 @@
             </div>
         </div>
     </section>
+{% endif %}
+
+{% if produto.Categoria.slug == "ceramicas" or produto.Categoria.slug == "porcelanatos" %}
+    <div class="variacaoFacesWindow" style="display: none;">
+        <div class="d-flex">
+            <h4>Variação das faces</h4>
+            <span class="variacaoFacesJanelaClose"><b>x</b></span>
+        </div>
+
+        <table class="table">
+            {% for key, label in variacao_faces_pisos %}
+                <tr>
+                    <td {% if forloop.first %}style="border-top: none;"{% elif forloop.last %}style="border-bottom: none;"{% endif %}>
+                        {{ label }}:
+                    </td>
+                    <td {% if forloop.first %}style="border-top: none;"{% elif forloop.last %}style="border-bottom: none;"{% endif %}>
+                        {{ key }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="indicUsoWindow" style="display: none;">
+        <div class="d-flex">
+            <h4>Indicação de uso</h4>
+            <span class="indicUsoJanelaClose"><b>x</b></span>
+        </div>
+
+        <table class="table">
+            {% for key, label in indicacao_uso_pisos %}
+                <tr>
+                    <td {% if forloop.first %}style="border-top: none;"{% elif forloop.last %}style="border-bottom: none;"{% endif %}>
+                        {{ label }}:
+                    </td>
+                    <td {% if forloop.first %}style="border-top: none;"{% elif forloop.last %}style="border-bottom: none;"{% endif %}>
+                        {{ key }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endif %}
 
 <script src="{% static 'js/produtodetalhe.js' %}"></script>

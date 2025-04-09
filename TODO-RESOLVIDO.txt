@@ -169,3 +169,23 @@ TODO-ALVAREZ-RESOLVIDO: Criar Emails
   TODO-ALVAREZ-RESOLVIDO: Colocar linha do tempo pro cliente acompanhar etapas do pedido nos emails
 
   TODO-ALVAREZ-RESOLVIDO: Seguranca de usuário verificação de login
+
+TODO-ALVAREZ-RESOLVIDO: Fazer a API pra lançar em massa o estoque
+
+  TODO-ALVAREZ-RESOLVIDO: Fazer e testar a função pra chunked upload do json
+
+  TODO-ALVAREZ-RESOLVIDO: Adicionar a criação do produto na API de upload
+
+  TODO-ALVAREZ-RESOLVIDO: Fazer metodo pra upload das imagens
+
+  TODO-ALVAREZ-RESOLVIDO: Testar essa porra
+
+  TODO-ALVAREZ-RESOLVIDO: Aprender a ler o json do estoque
+
+  TODO-ALVAREZ-RESOLVIDO: Mudar upload das imagens pra receber uma lista com endereços das imagens
+
+TODO-Alvarez-RESOLVIDO: Arrumar o produto_detalhe pra mostrar o preço da  caixa e não unitario
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar pagina produtodetalhe
+
+TODO-ALVAREZ-RESOLVIDO: Adicionar ficha tecnica dos pisos na API

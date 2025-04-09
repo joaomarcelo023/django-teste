@@ -209,11 +209,11 @@ class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, Template
             context['quatroAtras'] = False
 
         context['produtos_por_categoria'] = {
-            categoria: preprocessar_precos(Produto.objects.filter(Categoria=categoria).order_by("-quantidade_vendas")[:11])
+            categoria: preprocessar_precos(Produto.objects.filter(Categoria=categoria).order_by("-quantidade_vendas")[:11]) # Tem que ser um numero impar de pordutos
             for categoria in Categoria.objects.all()
         }
         
-        context['mais_vendidos'] = preprocessar_precos(Produto.objects.all().order_by("-quantidade_vendas")[:7])
+        context['mais_vendidos'] = preprocessar_precos(Produto.objects.all().order_by("-quantidade_vendas")[:7]) # Tem que ser um numero impar de pordutos
 
         context['banners'] = Banner.objects.all()
 
@@ -269,9 +269,13 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
 
         context['fotos_produtos'] = produto.images.all() #FotosProduto.objects.filter(produto=produto)
 
-        produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:12])
+        if produto.Categoria.slug == "porcelanatos" or produto.Categoria.slug == "ceramicas":
+            context['variacao_faces_pisos'] = VARIACAO_FACES_PISOS
+            context['indicacao_uso_pisos'] = INDICACAO_DE_USO_PISOS
+
+        produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:11]) # Tem que ser um numero impar de pordutos
         if produto in produtos_similares_list:
-            produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:13])
+            produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:12])
             produtos_similares_list.pop(produtos_similares_list.index(produto))
 
         produtos_similares = preprocessar_precos(produtos_similares_list)
@@ -1309,14 +1313,98 @@ class PesquisarView(BaseContextMixin, TemplateView):
             order = "-preco_unitario_bruto"
 
         kw = self.request.GET.get("query")
+
+        # Metodo pra conseguir pegar produtos atraves da label dos choices em charfields
+        classe_tecnica_absorcao_pisos_field = Produto._meta.get_field('classe_tecnica_absorcao_pisos')
+        variacao_faces_field = Produto._meta.get_field('variacao_faces')
+        indicacao_uso_field = Produto._meta.get_field('indicacao_uso')
+
+        display_to_value = {label.lower(): value for value, label in classe_tecnica_absorcao_pisos_field.choices}
+        display_to_value.update({label.lower(): value for value, label in variacao_faces_field.choices})
+        display_to_value.update({label.lower(): value for value, label in indicacao_uso_field.choices})
+
+        query_lower = kw.lower()
+
+        match = display_to_value.get(query_lower)
         
-        resultado = Produto.objects.filter(Q(titulo__icontains=kw) | Q(descricao__icontains = kw)).order_by(order)
+        filters = (
+            Q(titulo__icontains=kw) | Q(descricao__icontains = kw) | Q(codigo__iexact = kw) | Q(codigo_GTIN__iexact = kw) | Q(Categoria__titulo__icontains = kw)
+            | Q(slug__iexact = kw) | Q(marca__icontains = kw) | Q(acabamento_superficial__icontains = kw) | Q(indicacao_uso__icontains = kw)
+            | Q(classe_tecnica_absorcao_pisos__icontains = kw) | Q(variacao_faces__icontains = kw) # To na duvida se deixa essa linha
+        )
+
+        if match:
+            filters |= (Q(classe_tecnica_absorcao_pisos__iexact = match) | Q(variacao_faces__iexact = match) | Q(indicacao_uso__iexact = match))
+        
+        resultado = Produto.objects.filter(filters).order_by(order)        
+        # resultado = Produto.objects.filter(Q(titulo__icontains=kw) | Q(descricao__icontains = kw) | Q(codigo__iexact = kw) | Q(codigo_GTIN__iexact = kw)
+        #                                     | Q(Categoria__titulo__icontains = kw) | Q(slug__iexact = kw) | Q(marca__icontains = kw) | Q(acabamento_superficial__icontains = kw)
+        #                                     | Q(classe_tecnica_absorcao_pisos__iexact = kw) | Q(variacao_faces__iexact = kw) | Q(indicacao_uso__icontains = kw)).order_by(order)
+        
         resultadoList = preprocessar_precos(resultado)
 
         resultadoPag = Paginator(resultadoList, 20)
-        page_number = self.request.GET.get('page')
+        page_number = self.request.GET.get('page', 1)
 
         context["resultado"] = resultadoPag.get_page(page_number)
+
+        # Não sei se tem uma forma mais eficiente de fazer essa merda
+        if resultadoPag.num_pages > 4:
+            if int(page_number) == 1:
+                context['duasFrente'] = int(page_number) + 2
+                context['tresFrente'] = int(page_number) + 3
+                context['quatroFrente'] = int(page_number) + 4
+                context['duasAtras'] = False
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+            elif int(page_number) == 2:
+                context['duasFrente'] = int(page_number) + 2
+                context['tresFrente'] = int(page_number) + 3
+                context['quatroFrente'] = False
+                context['duasAtras'] = False
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+            elif int(page_number) == (resultadoPag.num_pages - 1):
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = False
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = int(page_number) - 3
+                context['quatroAtras'] = False
+            elif int(page_number) == (resultadoPag.num_pages):
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = False
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = int(page_number) - 3
+                context['quatroAtras'] = int(page_number) - 4
+            else:
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = int(page_number) + 2
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+        elif resultadoPag.num_pages > 2:
+            if int(page_number) == 1:
+                context['duasFrente'] = int(page_number) + 2
+            elif int(page_number) == (resultadoPag.num_pages):
+                context['duasAtras'] = int(page_number) - 2
+            else:
+                context['duasFrente'] = False
+                context['duasAtras'] = False
+            context['tresFrente'] = False
+            context['quatroFrente'] = False
+            context['tresAtras'] = False
+            context['quatroAtras'] = False
+        else:
+            context['duasFrente'] = False
+            context['tresFrente'] = False
+            context['quatroFrente'] = False
+            context['duasAtras'] = False
+            context['tresAtras'] = False
+            context['quatroAtras'] = False
+
         return context
 
 class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
@@ -1344,11 +1432,68 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
             context["classificar"] = "MaiorPreço"
             order = "-preco_unitario_bruto"
         
-        all_produtos = Produto.objects.filter(Categoria = categoria).order_by(order).all()
+        all_produtos = Produto.objects.filter(Categoria=categoria).order_by(order).all()
         produto_list = preprocessar_precos(all_produtos)
         paginator = Paginator(produto_list, 20)
-        page_number = self.request.GET.get('page')
+        page_number = self.request.GET.get('page', 1)
         context['page_obj'] = paginator.get_page(page_number)
+
+        # Não sei se tem uma forma mais eficiente de fazer essa merda
+        if paginator.num_pages > 4:
+            if int(page_number) == 1:
+                context['duasFrente'] = int(page_number) + 2
+                context['tresFrente'] = int(page_number) + 3
+                context['quatroFrente'] = int(page_number) + 4
+                context['duasAtras'] = False
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+            elif int(page_number) == 2:
+                context['duasFrente'] = int(page_number) + 2
+                context['tresFrente'] = int(page_number) + 3
+                context['quatroFrente'] = False
+                context['duasAtras'] = False
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+            elif int(page_number) == (paginator.num_pages - 1):
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = False
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = int(page_number) - 3
+                context['quatroAtras'] = False
+            elif int(page_number) == (paginator.num_pages):
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = False
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = int(page_number) - 3
+                context['quatroAtras'] = int(page_number) - 4
+            else:
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = int(page_number) + 2
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+        elif paginator.num_pages > 2:
+            if int(page_number) == 1:
+                context['duasFrente'] = int(page_number) + 2
+            elif int(page_number) == (paginator.num_pages):
+                context['duasAtras'] = int(page_number) - 2
+            else:
+                context['duasFrente'] = False
+                context['duasAtras'] = False
+            context['tresFrente'] = False
+            context['quatroFrente'] = False
+            context['tresAtras'] = False
+            context['quatroAtras'] = False
+        else:
+            context['duasFrente'] = False
+            context['tresFrente'] = False
+            context['quatroFrente'] = False
+            context['duasAtras'] = False
+            context['tresAtras'] = False
+            context['quatroAtras'] = False
         
         return context
 
@@ -1839,19 +1984,47 @@ class ChunkedProdutoJsonUploadView(APIView):
                 data = json.loads(data_str)             # Convert JSON string to Python object
 
                 for i in range(len(data["codigo"])):
-                    categoria_id = Categoria.objects.get(titulo=data["categoria"][str(i)])
+                    cat_slug = unicodedata.normalize('NFKD', data["categoria"][str(i)]).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
+                    categoria_id = Categoria.objects.get(slug=cat_slug)
+
                     img = "produtos/" + data["codigo"][str(i)] + ".webp"
+
                     if data["em_estoque"][str(i)]:
                         emEst = True
                     else:
                         emEst = False
+
+                    # Pega os tuples com todas as opções, transforma eles em dicionarios e faz o match pro valor lido pelo django
+                    if data["classe_tecnica_absorcao_pisos"][str(i)]:
+                        classe_tecnica_absorcao_pisos_field = Produto._meta.get_field('classe_tecnica_absorcao_pisos')
+                        display_to_value_cta = {label.lower(): value for value, label in classe_tecnica_absorcao_pisos_field.choices}
+                        cta = display_to_value_cta.get(data["classe_tecnica_absorcao_pisos"][str(i)].lower())
+                    else:
+                        cta = None
+                    
+                    if data["variacao_faces"][str(i)]:
+                        variacao_faces_field = Produto._meta.get_field('variacao_faces')
+                        display_to_value_va = {label.lower(): value for value, label in variacao_faces_field.choices}
+                        vf = display_to_value_va.get(data["variacao_faces"][str(i)].lower())
+                    else:
+                        vf = None
+                    
+                    if data["indicacao_uso"][str(i)]:
+                        indicacao_uso_field = Produto._meta.get_field('indicacao_uso')
+                        display_to_value_iu = {label.lower(): value for value, label in indicacao_uso_field.choices}
+                        iu = display_to_value_iu.get(data["indicacao_uso"][str(i)].lower())
+                    else:
+                        iu = None
                         
                     Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
                                            preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
                                            desconto_retira=data["desconto_retira"][str(i)],unidade=data["unidade"][str(i)],titulo=data["titulo"][str(i)],
                                            fechamento_embalagem=data["fechamento_embalagem"][str(i)],em_estoque=emEst,slug=data["slug"][str(i)],
-                                           Categoria=categoria_id,image=img,)
-                    print("tudo")
+                                           Categoria=categoria_id,image=img,marca=data["marca"][str(i)],formato=data["formato"][str(i)],espessura=data["espessura"][str(i)],
+                                           junta_minima=data["junta_minima"][str(i)],relevo=data["relevo"][str(i)],acabamento_superficial=data["acabamento_superficial"][str(i)],
+                                           classe_tecnica_absorcao_pisos=cta,variacao_faces=vf,indicacao_uso=iu,pecas_caixa=data["pecas_caixa"][str(i)],
+                                           peso_bruto_caixa=data["peso_bruto_caixa"][str(i)],palet=data["palet"][str(i)],)
+                    
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
@@ -1887,12 +2060,36 @@ class ChunkedProdutoJsonUpdateView(APIView):
                     try:
                         prod = Produto.objects.get(codigo=data["codigo"][str(i)])
                         cat_slug = unicodedata.normalize('NFKD', data["categoria"][str(i)]).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
+
                         # print(cat_slug)
                         categoria_id = Categoria.objects.get(slug=cat_slug)
+
                         if data["em_estoque"][str(i)]:
                             emEst = True
                         else:
                             emEst = False
+
+                        # Pega os tuples com todas as opções, transforma eles em dicionarios e faz o match pro valor lido pelo django
+                        if data["classe_tecnica_absorcao_pisos"][str(i)]:
+                            classe_tecnica_absorcao_pisos_field = Produto._meta.get_field('classe_tecnica_absorcao_pisos')
+                            display_to_value_cta = {label.lower(): value for value, label in classe_tecnica_absorcao_pisos_field.choices}
+                            cta = display_to_value_cta.get(data["classe_tecnica_absorcao_pisos"][str(i)].lower())
+                        else:
+                            cta = None
+                        
+                        if data["variacao_faces"][str(i)]:
+                            variacao_faces_field = Produto._meta.get_field('variacao_faces')
+                            display_to_value_va = {label.lower(): value for value, label in variacao_faces_field.choices}
+                            vf = display_to_value_va.get(data["variacao_faces"][str(i)].lower())
+                        else:
+                            vf = None
+                        
+                        if data["indicacao_uso"][str(i)]:
+                            indicacao_uso_field = Produto._meta.get_field('indicacao_uso')
+                            display_to_value_iu = {label.lower(): value for value, label in indicacao_uso_field.choices}
+                            iu = display_to_value_iu.get(data["indicacao_uso"][str(i)].lower())
+                        else:
+                            iu = None
 
                         prod.descricao = data["descricao"][str(i)]
                         prod.codigo_GTIN = data["codigo_GTIN"][str(i)]
@@ -1905,23 +2102,63 @@ class ChunkedProdutoJsonUpdateView(APIView):
                         prod.slug = data["slug"][str(i)]
                         prod.Categoria = categoria_id
                         prod.titulo = data["titulo"][str(i)]
+                        prod.marca = data["marca"][str(i)]
+                        prod.formato = data["formato"][str(i)]
+                        prod.espessura = data["espessura"][str(i)]
+                        prod.junta_minima = data["junta_minima"][str(i)]
+                        prod.relevo = data["relevo"][str(i)]
+                        prod.acabamento_superficial = data["acabamento_superficial"][str(i)]
+                        prod.classe_tecnica_absorcao_pisos = cta
+                        prod.variacao_faces = vf
+                        prod.indicacao_uso = iu
+                        prod.pecas_caixa = data["pecas_caixa"][str(i)]
+                        prod.peso_bruto_caixa = data["peso_bruto_caixa"][str(i)]
+                        prod.palet = data["palet"][str(i)]
 
                         prod.save()
 
                     except Produto.DoesNotExist:
                         cat_slug = unicodedata.normalize('NFKD', data["categoria"][str(i)]).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
                         categoria_id = Categoria.objects.get(slug=cat_slug)
+
                         img = "produtos/" + data["codigo"][str(i)] + ".webp"
+
                         if data["em_estoque"][str(i)]:
                             emEst = True
                         else:
                             emEst = False
 
+                        # Pega os tuples com todas as opções, transforma eles em dicionarios e faz o match pro valor lido pelo django
+                        if data["classe_tecnica_absorcao_pisos"][str(i)]:
+                            classe_tecnica_absorcao_pisos_field = Produto._meta.get_field('classe_tecnica_absorcao_pisos')
+                            display_to_value_cta = {label.lower(): value for value, label in classe_tecnica_absorcao_pisos_field.choices}
+                            cta = display_to_value_cta.get(data["classe_tecnica_absorcao_pisos"][str(i)].lower())
+                        else:
+                            cta = None
+                        
+                        if data["variacao_faces"][str(i)]:
+                            variacao_faces_field = Produto._meta.get_field('variacao_faces')
+                            display_to_value_va = {label.lower(): value for value, label in variacao_faces_field.choices}
+                            vf = display_to_value_va.get(data["variacao_faces"][str(i)].lower())
+                        else:
+                            vf = None
+                        
+                        if data["indicacao_uso"][str(i)]:
+                            indicacao_uso_field = Produto._meta.get_field('indicacao_uso')
+                            display_to_value_iu = {label.lower(): value for value, label in indicacao_uso_field.choices}
+                            iu = display_to_value_iu.get(data["indicacao_uso"][str(i)].lower())
+                        else:
+                            iu = None
+
                         Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
                                                preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
                                                desconto_retira=data["desconto_retira"][str(i)],unidade=data["unidade"][str(i)],titulo=data["titulo"][str(i)],
                                                fechamento_embalagem=data["fechamento_embalagem"][str(i)],em_estoque=emEst,slug=data["codigo"][str(i)],
-                                               Categoria=categoria_id,image=img,)
+                                               Categoria=categoria_id,image=img,marca=data["marca"][str(i)],formato=data["formato"][str(i)],espessura=data["espessura"][str(i)],
+                                               junta_minima=data["junta_minima"][str(i)],relevo=data["relevo"][str(i)],
+                                               acabamento_superficial=data["acabamento_superficial"][str(i)],
+                                               classe_tecnica_absorcao_pisos=cta,variacao_faces=vf,indicacao_uso=iu,pecas_caixa=data["pecas_caixa"][str(i)],
+                                               peso_bruto_caixa=data["peso_bruto_caixa"][str(i)],palet=data["palet"][str(i)],)
                         
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
@@ -2097,18 +2334,18 @@ class PedidoProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
 def ChecaFotosProdutos(request):
     for prod in Produto.objects.all():
         path = (settings.MEDIA_ROOT + prod.image.url).replace("media/media", "media")
-        print(prod.image.url)
+
         if not os.path.exists(path):
-            new_path = "media/produtos/NoImgAvailable.webp"
-            prod.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+            new_path = "/produtos/NoImgAvailable.webp"
+            prod.image.name = new_path#os.path.relpath(new_path, settings.MEDIA_ROOT)
             prod.save()
         else:
             if prod.image.url == "/media/produtos/NoImgAvailable.webp":
                 pathCodigo = f"{settings.MEDIA_ROOT}/produtos/{prod.codigo}.webp"
-            
+
                 if os.path.exists(pathCodigo):
-                    new_path = f"media/produtos/{prod.codigo}.webp"
-                    prod.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+                    new_path = f"/produtos/{prod.codigo}.webp"
+                    prod.image.name = new_path#os.path.relpath(new_path, settings.MEDIA_ROOT)
                     prod.save()
 
     if request.method == 'POST':

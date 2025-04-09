@@ -1,0 +1,7 @@
+API Keys:
+    python manage.py dumpdata rest_framework_api_key --indent 2 --output=api_keys.json
+    python manage.py loaddata api_keys.json
+
+Objects:
+    python manage.py dumpdata --natural-primary --natural-foreign --indent 2 > modelsObjects.json
+    python manage.py loaddata modelsObjects.json
