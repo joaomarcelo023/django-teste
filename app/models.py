@@ -10,20 +10,20 @@ class Categoria(models.Model):
     def __str__(self):
         return str(self.id) + "- " + self.titulo
 
-CLASSE_TECNICA_ABSORCAO_PISOS=[
-    ("0,0 a 0,5","Porcelanato"),
-    ("0,5 a 3,0", "Grês"),
-    ("3,0 a 6,0", "Semi Grês"),
-    ("6,0 a 10,0", "Bllb"),
-    (">10", "Monoporosa"),
-]
-
 ACABAMENTO_SUPERFICIAL_PISOS=[
     ("Polido", "Polido"),
     ("Brilho", "Brilho"),
     ("Acetinado", "Acetinado"),
     ("Granilha", "Granilha"),
     ("Antiderrapante", "Antiderrapante"),
+]
+
+CLASSE_TECNICA_ABSORCAO_PISOS=[
+    ("0,0 a 0,5","Porcelanato"),
+    ("0,5 a 3,0", "Grês"),
+    ("3,0 a 6,0", "Semi Grês"),
+    ("6,0 a 10,0", "Bllb"),
+    (">10", "Monoporosa"),
 ]
 
 VARIACAO_FACES_PISOS=[
@@ -61,7 +61,7 @@ class Produto(models.Model):
     acabamento_superficial = models.CharField(max_length=50,choices=ACABAMENTO_SUPERFICIAL_PISOS,null=True,blank=True)
     variacao_faces = models.CharField(max_length=121,choices=VARIACAO_FACES_PISOS,null=True,blank=True)
     classe_tecnica_absorcao_pisos = models.CharField(max_length=50,choices=CLASSE_TECNICA_ABSORCAO_PISOS,null=True,blank=True)
-    indicação_uso = models.CharField(max_length=100,choices=INDICACAO_DE_USO_PISOS,null=True,blank=True)
+    indicacao_uso = models.CharField(max_length=100,choices=INDICACAO_DE_USO_PISOS,null=True,blank=True)
     pecas_caixa = models.SmallIntegerField(null=True,blank=True)
     peso_bruto_caixa = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True)
     palet = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True)

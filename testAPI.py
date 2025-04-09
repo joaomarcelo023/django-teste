@@ -374,7 +374,8 @@ def getProdStats():
 #    "fechamento_embalagem": 1,
 #     "em_estoque": False,
 #     "slug": "Giratina",
-#     "Categoria": "Pisos Cerâmicos",
+#     "Categoria": "Cerâmicas",
+#     "indicação_uso": "LA",
 # }
 
 # prodFiles = {

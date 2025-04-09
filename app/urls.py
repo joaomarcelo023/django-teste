@@ -82,7 +82,7 @@ urlpatterns = [
     
     ## Categoria
     path('api_categorias/', CategoriaListView.as_view(), name='categorias_list'),
-    path('api_categorias/<str:titulo>/', CategoriaDetailView.as_view(), name='categorias_detail'),
+    path('api_categorias/<str:slug>/', CategoriaDetailView.as_view(), name='categorias_detail'),
 
     ## Produto
     path('api_produtos/', ProdutoListCreateView.as_view(), name='produto_list'),

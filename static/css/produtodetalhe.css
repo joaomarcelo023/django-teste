@@ -18,6 +18,11 @@ body {
     .indicUsoWindow {
         top: 117.5vh;
     }
+
+    .fichaTec td {
+        text-align: justify;
+    }
+    
 }
 @media (max-width: 750px) {
     .variacaoFacesWindow, .indicUsoWindow {
@@ -30,6 +35,11 @@ body {
     }
     .indicUsoWindow {
         top: 295vh;
+    }
+
+    .fichaTec td {
+        /* text-align: justify; */
+        text-align: center;
     }
 }
 
@@ -262,7 +272,6 @@ hr {
 }
 
 .fichaTec td {
-    text-align: justify;
     vertical-align: middle;
 }
 
