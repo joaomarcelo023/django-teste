@@ -82,8 +82,7 @@ class VerifMixin(object):
         if request.user.cliente.verificado:
             pass
         else:
-            # TODO: Rever texto
-            messages.success(request, 'Conta não verificada')
+            messages.success(request, 'Conta não verificada. Verifique seu e-mail para ativar o acesso.')
             return redirect("lojaapp:home")
         
         return super().dispatch(request,*args, **kwargs)
@@ -138,31 +137,82 @@ class CrazyAlvaPaymentCheckMixin(object):
 
         return super().dispatch(request,*args,**kwargs)
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
 class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, TemplateView):
     template_name = "home.html"
 
-    # def preprocessar_precos(self, produtos):
-    #     for produto in produtos:
-    #         precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
-    #         venda_parts_caixa = str(precoCaixa).split('.')
-    #         venda_parts = str(produto.preco_unitario_bruto).split('.')
-    #         produto.integer_part_uni = venda_parts[0]
-    #         produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #         produto.integer_part_caixa = venda_parts_caixa[0]
-    #         produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #     return produtos
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        all_produtos = Produto.objects.all().order_by("-id")
+        all_produtos = Produto.objects.all().order_by("-quantidade_vendas")
         produto_list = preprocessar_precos(all_produtos)
 
         paginator = Paginator(produto_list, 20)
-        page_number = self.request.GET.get('page')
+        page_number = self.request.GET.get('page', 1)
         context['page_obj'] = paginator.get_page(page_number)
 
+        # Não sei se tem uma forma mais eficiente de fazer essa merda
+        if paginator.num_pages > 4:
+            if int(page_number) == 1:
+                context['duasFrente'] = int(page_number) + 2
+                context['tresFrente'] = int(page_number) + 3
+                context['quatroFrente'] = int(page_number) + 4
+                context['duasAtras'] = False
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+            elif int(page_number) == 2:
+                context['duasFrente'] = int(page_number) + 2
+                context['tresFrente'] = int(page_number) + 3
+                context['quatroFrente'] = False
+                context['duasAtras'] = False
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+            elif int(page_number) == (paginator.num_pages - 1):
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = False
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = int(page_number) - 3
+                context['quatroAtras'] = False
+            elif int(page_number) == (paginator.num_pages):
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = False
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = int(page_number) - 3
+                context['quatroAtras'] = int(page_number) - 4
+            else:
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = int(page_number) + 2
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+        elif paginator.num_pages > 2:
+            if int(page_number) == 1:
+                context['duasFrente'] = int(page_number) + 2
+            elif int(page_number) == (paginator.num_pages):
+                context['duasAtras'] = int(page_number) - 2
+            else:
+                context['duasFrente'] = False
+                context['duasAtras'] = False
+            context['tresFrente'] = False
+            context['quatroFrente'] = False
+            context['tresAtras'] = False
+            context['quatroAtras'] = False
+        else:
+            context['duasFrente'] = False
+            context['tresFrente'] = False
+            context['quatroFrente'] = False
+            context['duasAtras'] = False
+            context['tresAtras'] = False
+            context['quatroAtras'] = False
+
+        context['produtos_por_categoria'] = {
+            categoria: preprocessar_precos(Produto.objects.filter(Categoria=categoria).order_by("-quantidade_vendas")[:11])
+            for categoria in Categoria.objects.all()
+        }
+        
         context['mais_vendidos'] = preprocessar_precos(Produto.objects.all().order_by("-quantidade_vendas")[:7])
 
         context['banners'] = Banner.objects.all()
@@ -202,17 +252,6 @@ class TodosProdutosView(LojaMixin, BaseContextMixin, TemplateView):
 
 class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "produtodetalhe.html"
-
-    # def preprocessar_precos(self, produtos):
-    #     for produto in produtos:
-    #         precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
-    #         venda_parts_caixa = str(precoCaixa).split('.')
-    #         venda_parts = str(produto.preco_unitario_bruto).split('.')
-    #         produto.integer_part_uni = venda_parts[0]
-    #         produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #         produto.integer_part_caixa = venda_parts_caixa[0]
-    #         produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #     return produtos
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -864,12 +903,10 @@ class ClienteRegistrarView(LojaMixin, BaseContextMixin, CreateView):
     def get_success_url(self):
         if "next" in self.request.GET:
             next_url = self.request.GET.get("next")
-            # TODO: Rever texto
-            messages.success(self.request, 'Email de verificação enviado')
+            messages.success(self.request, 'Email de verificação enviado com sucesso')
             return next_url
         else:
-            # TODO: Rever texto
-            messages.success(self.request, 'Email de verificação enviado')
+            messages.success(self.request, 'Email de verificação enviado com sucesso')
             return self.success_url
 
 def verifica_user(request, uidb64, token):
@@ -877,19 +914,16 @@ def verifica_user(request, uidb64, token):
         uid = urlsafe_base64_decode(uidb64).decode()
         user = User.objects.get(pk=uid)
     except (user.DoesNotExist, ValueError, TypeError):
-        # TODO: Rever texto
-        messages.success(request, 'Link de verificação invalido')
+        messages.success(request, 'Link de verificação inválido')
         return redirect("lojaapp:home")
 
     if default_token_generator.check_token(user, token):
         user.cliente.verificado = True
         user.cliente.save()
-        # TODO: Rever texto
         messages.success(request, 'Conta verificada com sucesso')
         return redirect("lojaapp:home")
     else:
-        # TODO: Rever texto
-        messages.success(request, 'Link de verificação ou token invalido')
+        messages.success(request, 'Link de verificação ou token inválido')
         return redirect("lojaapp:home")
 
 class ClienteReverificaContaView(LojaMixin, View):
@@ -899,8 +933,7 @@ class ClienteReverificaContaView(LojaMixin, View):
         if not usuario.cliente.verificado:
             EmailVerificaCliente(usuario)
 
-            # TODO: Rever texto
-            messages.success(request, 'Email de verificação enviado')
+            messages.success(request, 'Email de verificação enviado novamente')
             return redirect("lojaapp:clienteperfil")
 
         return super().dispatch(request, *args, **kwargs)
@@ -963,9 +996,16 @@ class ClientePerfilView(LogedMixin, LojaMixin, BaseContextMixin, TemplateView):
         
         pedidos = Pedido_order.objects.filter(carro__cliente=cliente).order_by("-id")
         paginator = Paginator(pedidos, 6)
-        page_number = self.request.GET.get('page')
+        page_number = self.request.GET.get('page', '1')
         context['pedidos'] = paginator.get_page(page_number)
         # context['pedidos'] = pedidos
+        if paginator.num_pages > 2:
+            context['duasFrente'] = int(page_number) + 2
+            context['duasAtras'] = int(page_number) - 2
+        else:
+            context['duasFrente'] = False
+            context['duasAtras'] = False
+        # print(type(page_number))
 
         enderecos = Endereco.objects.filter(cliente=cliente).order_by("-id")
         context['enderecos'] = enderecos
@@ -1251,17 +1291,6 @@ class deletarEnderecoView(LojaMixin, View):
 class PesquisarView(BaseContextMixin, TemplateView):
     template_name = "pesquisar.html"
 
-    # def preprocessar_precos(self, produtos):
-    #     for produto in produtos:
-    #         precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
-    #         venda_parts_caixa = str(precoCaixa).split('.')
-    #         venda_parts = str(produto.preco_unitario_bruto).split('.')
-    #         produto.integer_part_uni = venda_parts[0]
-    #         produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #         produto.integer_part_caixa = venda_parts_caixa[0]
-    #         produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #     return produtos
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -1293,17 +1322,6 @@ class PesquisarView(BaseContextMixin, TemplateView):
 class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "categoria.html"
 
-    # def preprocessar_precos(self, produtos):
-    #     for produto in produtos:
-    #         precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
-    #         venda_parts_caixa = str(precoCaixa).split('.')
-    #         venda_parts = str(produto.preco_unitario_bruto).split('.')
-    #         produto.integer_part_uni = venda_parts[0]
-    #         produto.decimal_part_uni = venda_parts[1] if len(venda_parts) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #         produto.integer_part_caixa = venda_parts_caixa[0]
-    #         produto.decimal_part_caixa = venda_parts_caixa[1] if len(venda_parts_caixa) > 1 else '00'  # Adiciona '00' se não houver parte decimal
-    #     return produtos
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -1334,7 +1352,7 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
         
         return context
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
 class AdminLoginView(BaseContextMixin, FormView):
     template_name = "admin_paginas/adminlogin.html"
@@ -1428,17 +1446,73 @@ class AdminPedidoMudarView(AdminRequireMixin, BaseContextMixin, ListView):
         return redirect(reverse_lazy("lojaapp:adminpedido", kwargs={"pk" : pedido_id}))
 
 class AdminTodosProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
-    template_name = "admin_paginas/admintodosprodutodetalhe.html"
+    template_name = "admin_paginas/admintodosproduto.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        produtos = Produto.objects.all()
+        produtos = Produto.objects.all().order_by("-id")
 
         paginator = Paginator(produtos, 20)
-        page_number = self.request.GET.get('page')
+        page_number = self.request.GET.get('page', 1)
 
         context['produtos'] = paginator.get_page(page_number)
+        
+        if paginator.num_pages > 4:
+            if int(page_number) == 1:
+                context['duasFrente'] = int(page_number) + 2
+                context['tresFrente'] = int(page_number) + 3
+                context['quatroFrente'] = int(page_number) + 4
+                context['duasAtras'] = False
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+            elif int(page_number) == 2:
+                context['duasFrente'] = int(page_number) + 2
+                context['tresFrente'] = int(page_number) + 3
+                context['quatroFrente'] = False
+                context['duasAtras'] = False
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+            elif int(page_number) == (paginator.num_pages - 1):
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = False
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = int(page_number) - 3
+                context['quatroAtras'] = False
+            elif int(page_number) == (paginator.num_pages):
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = False
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = int(page_number) - 3
+                context['quatroAtras'] = int(page_number) - 4
+            else:
+                context['duasFrente'] = False
+                context['tresFrente'] = False
+                context['quatroFrente'] = int(page_number) + 2
+                context['duasAtras'] = int(page_number) - 2
+                context['tresAtras'] = False
+                context['quatroAtras'] = False
+        elif paginator.num_pages > 2:
+            if int(page_number) == 1:
+                context['duasFrente'] = int(page_number) + 2
+            elif int(page_number) == (paginator.num_pages):
+                context['duasAtras'] = int(page_number) - 2
+            else:
+                context['duasFrente'] = False
+                context['duasAtras'] = False
+            context['tresFrente'] = False
+            context['quatroFrente'] = False
+            context['tresAtras'] = False
+            context['quatroAtras'] = False
+        else:
+            context['duasFrente'] = False
+            context['tresFrente'] = False
+            context['quatroFrente'] = False
+            context['duasAtras'] = False
+            context['tresAtras'] = False
+            context['quatroAtras'] = False
 
         return context
 
@@ -1457,19 +1531,40 @@ class AdminProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
 
         context['fotos_produtos'] = produto.images.all()
 
+        context['categorias'] = Categoria.objects.all()
 
         file_path_vendas = os.path.join(settings.MEDIA_ROOT, "data", "vendas.json")
         file_path_visuli = os.path.join(settings.MEDIA_ROOT, "data", "visualizacao.json")
         try:
             with open(file_path_vendas, "r") as file:
-                context['grafico_vendas_data'] = json.load(file)
+                context['grafico_vendas_data'] = json.dumps((json.load(file)))
             with open(file_path_visuli, "r") as file:
-                context['grafico_visuli_data'] = json.load(file)
+                context['grafico_visuli_data'] = json.dumps((json.load(file)))
         except:
             context['grafico_vendas_data'] = {}
             context['grafico_visuli_data'] = {}
 
         return context
+    
+def atualiza_produto(request):
+    if request.method == 'POST':
+        if request.POST["salvar"] == "True":
+            produto = Produto.objects.get(codigo=request.POST["produto"])
+
+            produto.descricao = request.POST["descricao"]
+            produto.codigo_GTIN = request.POST["codigo_GTIN"]
+            produto.Categoria = Categoria.objects.get(slug=request.POST["categoria"])
+            produto.em_estoque = (request.POST["em_estoque"] == "True")
+            produto.preco_unitario_bruto = decimal.Decimal(request.POST["preco_unitario_bruto"].replace(",", "."))
+            produto.fechamento_embalagem = decimal.Decimal(request.POST["fechamento_embalagem"].replace(",", "."))
+            produto.desconto_dinheiro = decimal.Decimal(request.POST["desconto_dinheiro"].replace(",", "."))
+            produto.desconto_retira = decimal.Decimal(request.POST["desconto_retira"].replace(",", "."))
+
+            produto.save()
+
+        return redirect(request.POST["path"])
+
+    return HttpResponse("Invalid request.")
 
 class AdminCategoriasView(AdminRequireMixin, BaseContextMixin, TemplateView):
     template_name = "admin_paginas/admincategoria.html"
@@ -1614,7 +1709,7 @@ def test_atualizacao_pag(request):
 
     return True
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
 # API
 ## Test
@@ -1743,18 +1838,13 @@ class ChunkedProdutoJsonUploadView(APIView):
                 data_str = json.loads(full_json)
                 data = json.loads(data_str)             # Convert JSON string to Python object
 
-                print("cu")
                 for i in range(len(data["codigo"])):
-                    print("init")
                     categoria_id = Categoria.objects.get(titulo=data["categoria"][str(i)])
-                    print("cat")
                     img = "produtos/" + data["codigo"][str(i)] + ".webp"
-                    print("img")
                     if data["em_estoque"][str(i)]:
                         emEst = True
                     else:
                         emEst = False
-                    print("emEst")
                         
                     Produto.objects.create(codigo=data["codigo"][str(i)],descricao=data["descricao"][str(i)],codigo_GTIN=data["codigo_GTIN"][str(i)],
                                            preco_unitario_bruto=data["preco_unitario_bruto"][str(i)],desconto_dinheiro=data["desconto_dinheiro"][str(i)],
@@ -1797,7 +1887,7 @@ class ChunkedProdutoJsonUpdateView(APIView):
                     try:
                         prod = Produto.objects.get(codigo=data["codigo"][str(i)])
                         cat_slug = unicodedata.normalize('NFKD', data["categoria"][str(i)]).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
-                        print(cat_slug)
+                        # print(cat_slug)
                         categoria_id = Categoria.objects.get(slug=cat_slug)
                         if data["em_estoque"][str(i)]:
                             emEst = True
@@ -1819,7 +1909,8 @@ class ChunkedProdutoJsonUpdateView(APIView):
                         prod.save()
 
                     except Produto.DoesNotExist:
-                        categoria_id = Categoria.objects.get(titulo=data["categoria"][str(i)])
+                        cat_slug = unicodedata.normalize('NFKD', data["categoria"][str(i)]).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
+                        categoria_id = Categoria.objects.get(slug=cat_slug)
                         img = "produtos/" + data["codigo"][str(i)] + ".webp"
                         if data["em_estoque"][str(i)]:
                             emEst = True
@@ -1875,6 +1966,22 @@ class ChunkedProdutoImgUploadView(APIView):
 
         return JsonResponse({"message": "Chunk received", "chunk_index": chunk_index})
 
+class ProdutoStatsView(APIView):
+    permission_classes = [HasAPIKey]
+
+    def get(self, request):
+        file_path_vendas = os.path.join(settings.MEDIA_ROOT, "data", "vendas.json")
+        file_path_visuli = os.path.join(settings.MEDIA_ROOT, "data", "visualizacao.json")
+        try:
+            with open(file_path_vendas, "r") as file:
+                vendas_dic = json.load(file)
+            with open(file_path_visuli, "r") as file:
+                visuli_dic = json.load(file)
+        except:
+            return Response({"error": "Files don't exist"}, status=400)
+        
+        return Response({'Vendas_json': vendas_dic, 'Visualizacao_json': visuli_dic})
+
 ## Fotos Produto
 class FotosProdutoListCreateView(generics.ListCreateAPIView):
     queryset = FotosProduto.objects.all()
@@ -1883,12 +1990,60 @@ class FotosProdutoListCreateView(generics.ListCreateAPIView):
 
     permission_classes = [HasAPIKey]
 
+    def perform_create(self, serializer):
+        fotoProduto = serializer.save()  # Save the initial model instance
+        
+        image_field = fotoProduto.image
+        
+        if image_field:
+            temp_file_path = image_field.path
+
+            # Converte pra webp
+            file, ext = os.path.splitext(temp_file_path)
+            image = Image.open(temp_file_path).convert("RGB")
+            new_path = f"{file}.webp"
+            image.save(new_path, "webp")
+
+            # Remove o original
+            if ext != ".webp":
+                os.remove(temp_file_path)
+
+            # Update the model with the new WebP image
+            fotoProduto.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+            fotoProduto.produto.num_fotos -= 1
+            fotoProduto.save()
+
 class FotosProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = FotosProduto.objects.all()
     serializer_class = FotosProdutoSerializer
     parser_classes = (MultiPartParser, FormParser)
 
     permission_classes = [HasAPIKey]
+
+    def perform_update(self, serializer):
+        fotoProduto = serializer.save()  # Save the updated model instance
+        
+        # Check if an image was updated
+        if "image" in self.request.FILES:
+            image_field = fotoProduto.image  # Get the updated image
+            
+            if image_field:
+                temp_file_path = image_field.path  # Get the file path
+
+                # Converte pra webp
+                file, ext = os.path.splitext(temp_file_path) 
+                image = Image.open(temp_file_path).convert("RGB")
+                new_path = f"{file}.webp"
+                image.save(new_path, "webp")
+
+                # Remove o original
+                if ext != ".webp":
+                    os.remove(temp_file_path)
+
+                # Update the model with the new WebP image
+                fotoProduto.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+                fotoProduto.produto.num_fotos -= 1
+                fotoProduto.save()
 
 ## Pedido Order
 class PedidoOrderListCreateView(generics.ListCreateAPIView):
@@ -1936,7 +2091,82 @@ class PedidoProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     permission_classes = [HasAPIKey]
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
+
+# verifica se todos os produtos tem fotos
+def ChecaFotosProdutos(request):
+    for prod in Produto.objects.all():
+        path = (settings.MEDIA_ROOT + prod.image.url).replace("media/media", "media")
+        print(prod.image.url)
+        if not os.path.exists(path):
+            new_path = "media/produtos/NoImgAvailable.webp"
+            prod.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+            prod.save()
+        else:
+            if prod.image.url == "/media/produtos/NoImgAvailable.webp":
+                pathCodigo = f"{settings.MEDIA_ROOT}/produtos/{prod.codigo}.webp"
+            
+                if os.path.exists(pathCodigo):
+                    new_path = f"media/produtos/{prod.codigo}.webp"
+                    prod.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+                    prod.save()
+
+    if request.method == 'POST':
+        return redirect(request.POST["path"])
+    
+# Fotos extras pros produtos
+## Lança fotos
+def upload_imagem_extra_produtos(request):
+    if request.method == 'POST':
+        form = ProdutosImagemExtraForm(request.POST, request.FILES)
+        if form.is_valid():
+            produto = Produto.objects.get(codigo=request.POST['produto'])
+            fotoProduto = form.save(commit=False)
+            fotoProduto.produto = produto
+            fotoProduto.save()
+
+            foto = form.cleaned_data.get('image')
+
+            path = (settings.MEDIA_ROOT + fotoProduto.image.url).replace("media/media", "media")
+
+            # meu codigo
+            temp_file_path = path
+
+            # Converte pra webp
+            file, ext = os.path.splitext(temp_file_path)
+            image = Image.open(temp_file_path).convert("RGB")
+            new_path = f"{file}.webp"
+            image.save(new_path, "webp")
+
+            # Remove o original
+            if ext != ".webp":
+                os.remove(temp_file_path)
+
+            # Update the model with the new WebP image
+            fotoProduto.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+            produto.num_fotos -= 1
+            fotoProduto.save()
+
+            return redirect(request.POST["path"])
+        else:
+            print("Form Errors:", form.errors)
+    else:
+        form = ProdutosImagemExtraForm()
+    return redirect(request.POST["path"])
+
+## Deleta fotos
+def delete_imagem_extra_produtos(request):
+    if request.method == 'POST':
+        try:
+            foto = FotosProduto.objects.get(id=request.POST['foto'])
+
+            foto.delete()
+
+            return redirect(request.POST["path"])
+        except foto.DoesNotExist:
+            return Response({'error': 'foto não encontrada'}, status=status.HTTP_400_BAD_REQUEST)
+        
+    return redirect(request.POST["path"])
 
 # Verifica que o pedido online ta pago
 def ta_pago(_pedido):
@@ -2197,14 +2427,14 @@ def testEmail(_emailCliente, _cliente, _pedido):
     #                     },
     #                 )
     
-    assunto = f"Pedido da CasaHG #{_pedido.id}"
-    text_content = f"Pedido #{_pedido.id} realizado"
+    assunto = f"Pedido da CasaHG #{_pedido.id} - {_pedido.pedido_status}"
+    text_content = f"Pedido #{_pedido.id} pagamento confirmado"
     html_content = render_to_string(
-                        "emails/emailPedidoRealizado.html",
+                        "emails/emailPedidoPagamentoConfirmado.html",
                         context={
                             "pedido": _pedido,
                             "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Recebido.png",
+                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pagamento_Confirmado.png",
                             "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )

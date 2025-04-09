@@ -17,29 +17,76 @@
                 <img id="mainImg" src="{{ produto.image.url }}" class="img-fluid mainImg">
             </div>
             <div class="imgWrapper d-flex">
-                <button><img src="{{ produto.image.url }}" style="border-bottom: 5px solid #ff9900;"></button>
+                <button class="imgButton"><img src="{{ produto.image.url }}" style="border-bottom: 5px solid #ff9900;"></button>
                 {% for foto in fotos_produtos %}
-                    <button><img src="{{ foto.image.url }}"></button>
+                    <button class="imgButton">
+                        <img src="{{ foto.image.url }}">
+                        <form action="{% url 'lojaapp:delete_imagem_extra_produtos' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="path" value="{{ request.path }}">
+                            <input type="hidden" name="foto" value="{{ foto.id }}">
+                            <button class="deleteButton">
+                                <svg class="deleteIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="x-circle"> <g> <circle cx="12" cy="12" data-name="--Circle" fill="none" id="_--Circle" r="10" stroke="#ff0000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle> <line fill="none" stroke="#ff0000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="14.5" x2="9.5" y1="9.5" y2="14.5"></line> <line fill="none" stroke="#ff0000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="14.5" x2="9.5" y1="14.5" y2="9.5"></line> </g> </g> </g> </g></svg>
+                            </button>
+                        </form>
+                    </button>
                 {% endfor %}
+                {% if produto.num_fotos|lt:4 %}
+                    <form action="{% url 'lojaapp:upload_imagem_extra_produtos' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="path" value="{{ request.path }}">
+                        <input type="hidden" name="produto" value="{{ produto.codigo }}">
+                        <input id="fotoExtraProdutoInputFile" type="file" name="image" accept=".jpg, .jpeg, .png, .webp" style="display: none;" onchange="this.form.submit()" required>
+                        <button id="fotoExtraProdutoInputButton" class="addImgButton">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M13 4H8.8C7.11984 4 6.27976 4 5.63803 4.32698C5.07354 4.6146 4.6146 5.07354 4.32698 5.63803C4 6.27976 4 7.11984 4 8.8V15.2C4 16.8802 4 17.7202 4.32698 18.362C4.6146 18.9265 5.07354 19.3854 5.63803 19.673C6.27976 20 7.11984 20 8.8 20H15.2C16.8802 20 17.7202 20 18.362 19.673C18.9265 19.3854 19.3854 18.9265 19.673 18.362C20 17.7202 20 16.8802 20 15.2V11" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M4 16L8.29289 11.7071C8.68342 11.3166 9.31658 11.3166 9.70711 11.7071L13 15M13 15L15.7929 12.2071C16.1834 11.8166 16.8166 11.8166 17.2071 12.2071L20 15M13 15L15.25 17.25" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M18.5 3V5.5M18.5 8V5.5M18.5 5.5H16M18.5 5.5H21" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                        </button>
+                    </form>
+                {% endif %}
             </div>
         </div>
 
         <div class="col detalhesCol">
             <!-- <h3 class="d-flex justify-content-center">Detalhes do produto</h3> -->
             <!-- <br> -->
-            <p><span class="font-weight-bold"> Produto: </span>{{ produto.descricao }}</p>
-            <p><span class="font-weight-bold"> Codigo: </span>{{ produto.codigo }}</p>
-            <p><span class="font-weight-bold"> Codigo GTIN: </span>{{ produto.codigo_GTIN }}</p>
-            <p><span class="font-weight-bold"> Categoria: </span>{{ produto.Categoria.titulo }}</p>
-            <p><span class="font-weight-bold"> slug: </span>{{ produto.slug }}</p>
-            <p><span class="font-weight-bold"> Em estoque: </span>{{ produto.em_estoque }}</p>
-            <p><span class="font-weight-bold"> Preço unitario: </span>{{ produto.preco_unitario_bruto }}/{{ produto.unidade|format_unit }}</p>
-            <p><span class="font-weight-bold"> Fechamento embalagem: </span>{{ produto.fechamento_embalagem }}{{ produto.unidade|format_unit }}</p>
-            <p><span class="font-weight-bold"> Preço embalagem: </span>{{ preco_embalagem }}/embalagem</p>
-            <p><span class="font-weight-bold"> Desconto dinheiro: </span>{{ produto.desconto_dinheiro }}%</p>
-            <p><span class="font-weight-bold"> Desconto retira: </span>{{ produto.desconto_retira }}%</p>
-            <p><span class="font-weight-bold"> Preço retirada dinheiro: </span>{{ preco_retirada_dinheiro }}/{{ produto.unidade }}</p>
-        </div>
+            <form action="{% url 'lojaapp:atualiza_produto' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="path" value="{{ request.path }}">
+                <input type="hidden" name="produto" value="{{ produto.codigo }}">
+                <p><span class="font-weight-bold"> Codigo: </span>{{ produto.codigo }}</p>
+                <p><span class="font-weight-bold"> Produto: </span><input name="descricao" value="{{ produto.descricao }}" style="width: 88.8%;"></p>
+                <p><span class="font-weight-bold"> Codigo GTIN: </span><input name="codigo_GTIN" value="{{ produto.codigo_GTIN }}" style="width: 83.25%;"></p>
+                <!-- <p><span class="font-weight-bold"> Categoria: </span><input name="categoria" value="{{ produto.Categoria.titulo }}" style="width: 87%;"></p> -->
+                <p><span class="font-weight-bold"> Categoria: </span>
+                    <select name="categoria" style="width: 87%;">
+                        {% for cat in categorias %}
+                            <option value="{{ cat.slug }}" {% if cat == produto.Categoria %}selected{% endif %}>{{ cat.titulo }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+                <!-- <p><span class="font-weight-bold"> Em estoque: </span><input name="em_estoque" value="{{ produto.em_estoque }}" style="width: 84.75%;"></p> -->
+                <p><span class="font-weight-bold"> Em estoque: </span>
+                    <select name="em_estoque" style="width: 84.75%;">
+                        <option value="True" {% if produto.em_estoque %}selected{% endif %}>True</option>
+                        <option value="False" {% if not produto.em_estoque %}selected{% endif %}>False</option>
+                    </select>
+                </p>
+                <p><span class="font-weight-bold"> Fechamento embalagem: </span><input name="fechamento_embalagem" value="{{ produto.fechamento_embalagem }}" style="width: 64.225%;">{{ produto.unidade|format_unit }}</p>
+                <p><span class="font-weight-bold"> Desconto dinheiro: </span><input name="desconto_dinheiro" value="{{ produto.desconto_dinheiro }}" style="width: 71.6%;">%</p>
+                <p><span class="font-weight-bold"> Desconto retira: </span><input name="desconto_retira" value="{{ produto.desconto_retira }}" style="width: 75.25%;">%</p>
+                <p><span class="font-weight-bold"> Preço unitario: </span><input name="preco_unitario_bruto" value="{{ produto.preco_unitario_bruto }}" style="width: 77%;">/{{ produto.unidade|format_unit }}</p>
+                <p><span class="font-weight-bold"> Preço retirada dinheiro: </span>{{ preco_retirada_dinheiro }}/{{ produto.unidade|format_unit }}</p>
+                <p><span class="font-weight-bold"> Preço embalagem: </span>{{ preco_embalagem }}/embalagem</p>
+                <div class="d-flex buttons">
+                    <a class="btn btn-info" href="{% url 'lojaapp:produtodetalhe' produto.slug %}">Página do produto</a>
+                    <span style="width: 21.65%;"></span>
+                    <div class="buttonsForm">
+                        <button name="salvar" value="False" class="btn btn-danger">Descartar alterações</button>
+                        <span>&emsp;</span>
+                        <button name="salvar" value="True" class="btn btn-success">Salvar alterações</button>
+                    </div>
+                </div>
+            </form>
+    </div>
     </div>
     <br>
     <div class="row">
@@ -49,16 +96,21 @@
     <div class="row">
         <div class="col">
             <p>Vendas: {{ produto.quantidade_vendas }}</p>
-            <pre id="debug_output">{{ grafico_vendas_data|safe }}</pre>
-            <div class="justify-content-center">
-                <div id="graficoVendas" style="width: 90%; height: 250px;"></div>
+            <div class="grafDiv">
+                <div id="graficoVendas" class="grafPequeno"></div>
             </div>
         </div>
         <div class="col">
             <p>Visualizações: {{ produto.visualizacao }}</p>
-            <div class="justify-content-center">
-                <div id="graficoVisuli" style="width: 90%; height: 250px;"></div>
+            <div class="grafDiv">
+                <div id="graficoVisuli" class="grafPequeno"></div>
             </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col grafDiv">
+            <div id="graficoVendasVisuli" class="grafGrande"></div>
         </div>
     </div>
 </section>

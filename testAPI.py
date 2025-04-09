@@ -156,7 +156,8 @@ def postProduto(_produtodata, _prodfiles):
     API_URL_PRODUTO = "http://127.0.0.1:8000/api_produtos/"
     # API_URL_PRODUTO = "http://vendashg.pythonanywhere.com/api_produtos/"
 
-    API_URL_CATEGORIA = f"http://127.0.0.1:8000/api_categorias/{unicodedata.normalize('NFKD', _produtodata['Categoria']).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")}/"
+    cat_slug = unicodedata.normalize('NFKD', _produtodata['Categoria']).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
+    API_URL_CATEGORIA = f"http://127.0.0.1:8000/api_categorias/{cat_slug}/"
     # API_URL_CATEGORIA = f"http://vendashg.pythonanywhere.com/api_categorias/{}/"
     
     headers = {
@@ -214,12 +215,12 @@ def getByCodigoProduto(_codigo):
         print("Erro ao obter produto:", response.status_code)
 
 def postJson(_arq):
-    # API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_upload/"
-    API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_upload/"
+    API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_upload/"
+    # API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_upload/"
 
     headers = {
-        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
 
@@ -326,7 +327,21 @@ def postImg(_imgDir, _imgDic, _imgList):
             if os.path.isfile(image_path):
                 upload_image(image_path)
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+def getProdStats():
+    API_URL_PRODUTOS = "http://127.0.0.1:8000/produto_stats/"
+    # API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/produto_stats/"
+
+    headers = {
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        "Content-Type": "application/json"
+    }
+
+    response = requests.get(API_URL_PRODUTOS, headers=headers)
+
+    return response.json()
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- #
 
 # postTest("Fala ai") # A mensagem é printada na pagina /contato/
 # getTest()
@@ -341,7 +356,7 @@ def postImg(_imgDir, _imgDic, _imgList):
 # getProduto()
 # getByCodigoProduto(143830)
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- #
 
 # Categorias:
 #               3 -> Pisos Cerâmicos
@@ -370,10 +385,10 @@ def postImg(_imgDir, _imgDic, _imgList):
 
 # postProduto(prodData, None)
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-# postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site.json")
-patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site.json")
+# postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site_filtrados_2.json")
+patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site_filtrados_2.json")
 # postImg("E:/Users/HP/Pictures/pokemonTCGPocket")
 
 # imgDic = {
@@ -384,3 +399,8 @@ patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site.json")
 # imgList = ["C:/djvenv/ProjetoJoaoMarcelo/img/testDicList/Pedido_Cancelado.png", "C:/djvenv/ProjetoJoaoMarcelo/img/testDicList/Pedido_Recebido.png"]
 
 # postImg("C:/djvenv/ProjetoJoaoMarcelo/img/testDir", imgDic, imgList)
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- #
+
+# stats = getProdStats()
+# print(stats['Vendas_json'])

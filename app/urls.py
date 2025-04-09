@@ -65,6 +65,10 @@ urlpatterns = [
     path('pedido_carro_pagamento/', pedido_carro_pagamento, name='pedido_carro_pagamento'),
     path('consultar_checkout_pag/', consultar_checkout_pag, name='consultar_checkout_pag'),
     path('cancelar_checkout_pag/', cancelar_checkout_pag, name='cancelar_checkout_pag'),
+    path('atualiza_produto/', atualiza_produto, name='atualiza_produto'),
+    path('ChecaFotosProdutos/', ChecaFotosProdutos, name='ChecaFotosProdutos'),
+    path('upload_imagem_extra_produtos/', upload_imagem_extra_produtos, name='upload_imagem_extra_produtos'),
+    path('delete_imagem_extra_produtos/', delete_imagem_extra_produtos, name='delete_imagem_extra_produtos'),
 
     # Tests
     path('test_atualizacao_pag/', test_atualizacao_pag, name='test_atualizacao_pag'),
@@ -86,6 +90,7 @@ urlpatterns = [
     path('chunked_json_upload/', ChunkedProdutoJsonUploadView.as_view(), name='chunked_produto_json_upload'),
     path('chunked_json_update/', ChunkedProdutoJsonUpdateView.as_view(), name='chunked_produto_json_update'),
     path('chunked_img_upload/', ChunkedProdutoImgUploadView.as_view(), name='chunked_produto_img_upload'),
+    path('produto_stats/', ProdutoStatsView.as_view(), name='produto_stats'),
 
     ## Fotos Produto
     path('api_fotos_produtos/', FotosProdutoListCreateView.as_view(), name='fotos_produto_list'),

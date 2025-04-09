@@ -1,0 +1,108 @@
+{% load static %}
+{% load humanize %}
+{% load l10n %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/home_produtos_categoria.css' %}">
+
+<section class="container-custom BigDivBoy">
+    <button class="arrow-left-produtos-Cat control-produtos grande arrow_left_{{ cat.slug }}" aria-label="Previous image">
+        <svg height="100%" width="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M11 9L8 12M8 12L11 15M8 12H16M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#ff9900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+    </button>
+    <button class="arrow-right-produtos-Cat control-produtos grande arrow_right_{{ cat.slug }}" aria-label="Next image">
+        <svg height="100%" width="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M13 15L16 12M16 12L13 9M16 12H8M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#ff9900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+    </button>
+    <h3 class="titulo-mais-vendidos">
+        <a class="catLink" href="{% url 'lojaapp:categoria' cat.slug %}">
+            <span class="test_{{ cat.slug }}">{{ cat.titulo }}</span> &gt;            
+        </a>
+    </h3>
+    <div class="produtos-wrapper-Cat" id="produtos-wrapperId">
+        <div class="produtos-Subwrapper">
+            {% for p in produtos %}
+                <div class="produtos produtos_{{ cat.slug }}">
+                    {% include "produtos_pequenos.html" %}
+                </div>
+            {% endfor %}
+            <div class="produtos produtos_{{ cat.slug }}">
+                <a class="linkProd linkCat" href="{% url 'lojaapp:categoria' cat.slug %}">
+                    <div class="text-center div-produtos_pequenos container">
+                        <div class="divSub-produtos_pequenos">
+                            <h4>{{ cat.titulo }}</h4>
+                            <svg fill="#000000" height="12.5%" width="100%" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.89 511.89" xml:space="preserve" stroke="#000000" stroke-width="51.189299999999996"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M476.84,248.107L233.64,3.2c-2.027-2.027-4.693-3.2-7.573-3.2H42.6c-5.867,0-10.667,4.8-10.667,10.667 c0,2.88,1.173,5.547,3.093,7.573l237.76,237.44L35.24,493.76c-4.16,4.16-4.16,10.88,0,15.04c2.027,2.027,4.693,3.093,7.573,3.093 H226.28c2.88,0,5.547-1.173,7.573-3.2L476.84,263.04C481,258.987,481,252.267,476.84,248.107z M221.8,490.667H68.52 l226.987-227.52c4.16-4.16,4.16-10.88,0-15.04L68.413,21.333h153.28l232.64,234.347L221.8,490.667z"></path> </g> </g> </g></svg>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function handleClickRightProdutos2(catSlug) {
+        currentProduto = findCurrentRightItem2(catSlug);
+
+        document.querySelectorAll('.produtos_' + catSlug)[currentProduto].scrollIntoView({
+            inline: "start",
+            behavior: "smooth",
+            block: "nearest"
+        });
+    }
+
+    function findCurrentRightItem2(catSlug) {
+        const viewportLeft = window.scrollX;
+        const viewportRight = viewportLeft + window.innerWidth;
+        let maxRight = -Infinity;
+        let currentItemIndex = -1;
+
+        document.querySelectorAll('.produtos_' + catSlug).forEach((produto, index) => {
+            const bounding = produto.getBoundingClientRect();
+            const visibleWidth = Math.min(viewportRight, bounding.right) - Math.max(viewportLeft, bounding.left);
+
+            if (bounding.right > maxRight && bounding.left < viewportRight) {
+                maxRight = bounding.right;
+                currentItemIndex = index;
+            }
+        });
+
+        return currentItemIndex;
+    }
+
+    function handleClickLeftProdutos2(catSlug) {
+        currentProduto = findCurrentLeftItem2(catSlug);
+
+        document.querySelectorAll('.produtos_' + catSlug)[currentProduto].scrollIntoView({
+            inline: "end",
+            behavior: "smooth",
+            block: "nearest"
+        });
+    }
+
+    function findCurrentLeftItem2(catSlug) {
+        const viewportLeft = window.scrollX;
+        const viewportRight = viewportLeft + window.innerWidth;
+        let minLeft = Infinity;
+        let currentItemIndex = -1;
+
+        document.querySelectorAll('.produtos_' + catSlug).forEach((produto, index) => {
+            const bounding = produto.getBoundingClientRect();
+            const visibleWidth = Math.min(viewportRight, bounding.right) - Math.max(viewportLeft, bounding.left);
+
+            if (bounding.left < minLeft && bounding.right > viewportLeft) {
+                minLeft = bounding.left;
+                currentItemIndex = index;
+            }
+        });
+
+        return currentItemIndex;
+    }
+
+    document.querySelector('.arrow_right_' + `{{ cat.slug }}`).addEventListener("click", (event) => {
+        event.preventDefault();
+        handleClickRightProdutos2(`{{ cat.slug }}`);
+    });
+
+    document.querySelector('.arrow_left_' + `{{ cat.slug }}`).addEventListener("click", (event) => {
+        event.preventDefault();
+        handleClickLeftProdutos2(`{{ cat.slug }}`);
+    });
+</script>

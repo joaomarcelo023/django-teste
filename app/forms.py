@@ -1,5 +1,5 @@
 from django import forms
-from .models import Pedido_order, Cliente, Endereco
+from .models import Pedido_order, Cliente, Endereco, FotosProduto
 from django.db.models import fields
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, TextInput, EmailInput
@@ -217,3 +217,8 @@ class ClienteAlterarSenhaForms(forms.Form):
         'class': 'form-control',
         'style': 'width: 100%; display: flex;'
     }))
+
+class ProdutosImagemExtraForm(forms.ModelForm):
+    class Meta:
+        model = FotosProduto
+        fields = ['image']
