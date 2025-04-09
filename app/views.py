@@ -209,11 +209,11 @@ class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, Template
             context['quatroAtras'] = False
 
         context['produtos_por_categoria'] = {
-            categoria: preprocessar_precos(Produto.objects.filter(Categoria=categoria).order_by("-quantidade_vendas")[:11])
+            categoria: preprocessar_precos(Produto.objects.filter(Categoria=categoria).order_by("-quantidade_vendas")[:11]) # Tem que ser um numero impar de pordutos
             for categoria in Categoria.objects.all()
         }
         
-        context['mais_vendidos'] = preprocessar_precos(Produto.objects.all().order_by("-quantidade_vendas")[:7])
+        context['mais_vendidos'] = preprocessar_precos(Produto.objects.all().order_by("-quantidade_vendas")[:7]) # Tem que ser um numero impar de pordutos
 
         context['banners'] = Banner.objects.all()
 
@@ -273,7 +273,7 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
             context['variacao_faces_pisos'] = VARIACAO_FACES_PISOS
             context['indicacao_uso_pisos'] = INDICACAO_DE_USO_PISOS
 
-        produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:11])
+        produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:11]) # Tem que ser um numero impar de pordutos
         if produto in produtos_similares_list:
             produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:12])
             produtos_similares_list.pop(produtos_similares_list.index(produto))
@@ -1314,22 +1314,33 @@ class PesquisarView(BaseContextMixin, TemplateView):
 
         kw = self.request.GET.get("query")
 
-        # tamanho_field = Produto._meta.get_field('tamanho')
-        # display_to_value = {label.lower(): value for value, label in tamanho_field.choices}
-        # query_lower = kw.lower()
-        # tamanho_match = display_to_value.get(query_lower)
-        
-        # filters = (
-        #     Q(nome__icontains=kw) |
-        #     Q(categoria__nome__icontains=kw)
-        # )
+        # Metodo pra conseguir pegar produtos atraves da label dos choices em charfields
+        classe_tecnica_absorcao_pisos_field = Produto._meta.get_field('classe_tecnica_absorcao_pisos')
+        variacao_faces_field = Produto._meta.get_field('variacao_faces')
+        indicação_uso_field = Produto._meta.get_field('indicação_uso')
 
-        # if tamanho_match:
-        #     filters |= Q(tamanho=tamanho_match)
+        display_to_value = {label.lower(): value for value, label in classe_tecnica_absorcao_pisos_field.choices}
+        display_to_value.update({label.lower(): value for value, label in variacao_faces_field.choices})
+        display_to_value.update({label.lower(): value for value, label in indicação_uso_field.choices})
+
+        query_lower = kw.lower()
+
+        match = display_to_value.get(query_lower)
         
-        resultado = Produto.objects.filter(Q(titulo__icontains=kw) | Q(descricao__icontains = kw) | Q(codigo__iexact = kw) | Q(codigo_GTIN__iexact = kw)
-                                            | Q(Categoria__titulo__icontains = kw) | Q(slug__iexact = kw) | Q(marca__icontains = kw) | Q(acabamento_superficial__icontains = kw)
-                                            | Q(classe_tecnica_absorcao_pisos__iexact = kw) | Q(variacao_faces__iexact = kw) | Q(indicação_uso__icontains = kw)).order_by(order)
+        filters = (
+            Q(titulo__icontains=kw) | Q(descricao__icontains = kw) | Q(codigo__iexact = kw) | Q(codigo_GTIN__iexact = kw) | Q(Categoria__titulo__icontains = kw)
+            | Q(slug__iexact = kw) | Q(marca__icontains = kw) | Q(acabamento_superficial__icontains = kw) | Q(indicação_uso__icontains = kw)
+            | Q(classe_tecnica_absorcao_pisos__icontains = kw) | Q(variacao_faces__icontains = kw) # To na duvida se deixa essa linha
+        )
+
+        if match:
+            filters |= (Q(classe_tecnica_absorcao_pisos__iexact = match) | Q(variacao_faces__iexact = match) | Q(indicação_uso__iexact = match))
+        
+        resultado = Produto.objects.filter(filters).order_by(order)        
+        # resultado = Produto.objects.filter(Q(titulo__icontains=kw) | Q(descricao__icontains = kw) | Q(codigo__iexact = kw) | Q(codigo_GTIN__iexact = kw)
+        #                                     | Q(Categoria__titulo__icontains = kw) | Q(slug__iexact = kw) | Q(marca__icontains = kw) | Q(acabamento_superficial__icontains = kw)
+        #                                     | Q(classe_tecnica_absorcao_pisos__iexact = kw) | Q(variacao_faces__iexact = kw) | Q(indicação_uso__icontains = kw)).order_by(order)
+        
         resultadoList = preprocessar_precos(resultado)
 
         resultadoPag = Paginator(resultadoList, 20)

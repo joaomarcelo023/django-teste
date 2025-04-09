@@ -1,10 +1,6 @@
-TODO-Alvarez: Arrumar o produto_detalhe pra mostrar o preço da  caixa e não unitario
-
 TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 
 TODO-ALVAREZ: Facilidade para saber quanto de estoque tem em cada loja
-
-TODO-ALVAREZ: Arrumar pagina produtodetalhe
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte

@@ -184,3 +184,6 @@ TODO-ALVAREZ-RESOLVIDO: Fazer a API pra lançar em massa o estoque
 
   TODO-ALVAREZ-RESOLVIDO: Mudar upload das imagens pra receber uma lista com endereços das imagens
 
+TODO-Alvarez-RESOLVIDO: Arrumar o produto_detalhe pra mostrar o preço da  caixa e não unitario
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar pagina produtodetalhe
