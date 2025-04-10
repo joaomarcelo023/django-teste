@@ -1,5 +1,7 @@
 TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 
+TODO-ALVAREZ: Colocar filtros laterais em paginas tipo pesquisa e categoria
+
 TODO-ALVAREZ: Facilidade para saber quanto de estoque tem em cada loja
 
 "Coisas que precisam estar bem estruturadas:

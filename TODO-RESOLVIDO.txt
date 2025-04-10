@@ -189,3 +189,9 @@ TODO-Alvarez-RESOLVIDO: Arrumar o produto_detalhe pra mostrar o preço da  caixa
 TODO-ALVAREZ-RESOLVIDO: Arrumar pagina produtodetalhe
 
 TODO-ALVAREZ-RESOLVIDO: Adicionar ficha tecnica dos pisos na API
+
+TODO-ALVAREZ-RESOLVIDO: Esconder produtos que estão fora de estoque
+  TODO-ALVAREZ-RESOLVIDO: home.html
+  TODO-ALVAREZ-RESOLVIDO: produtosrelacionados.html
+  TODO-ALVAREZ-RESOLVIDO: pesquisar.html
+  TODO-ALVAREZ-RESOLVIDO: categoria.html
