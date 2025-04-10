@@ -15,8 +15,6 @@ urlpatterns = [
     # Produtos
     path("pesquisar/", PesquisarView.as_view(), name="pesquisar"),
     path("categoria/<slug:slug>/",CategoriaView.as_view(),name="categoria"),
-    # TODO: Apagar /todos-produtos/
-    path("todos-produtos/",TodosProdutosView.as_view(),name="Todosprodutos"),
     path("produtos/<slug:slug>/",ProdutosDetalheView.as_view(),name="produtodetalhe"),
 
     # Compra
