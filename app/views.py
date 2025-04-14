@@ -1299,7 +1299,10 @@ class PesquisarView(BaseContextMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        kw = self.request.GET.get("query")
 
+        # Ordenação (barra_macro_classificar.html)
         classificar_selected = self.request.GET.get("Classificar", "Destaque")
         if classificar_selected == "Destaque":
             context["classificar"] = "Destaque"
@@ -1313,8 +1316,6 @@ class PesquisarView(BaseContextMixin, TemplateView):
         elif classificar_selected ==  "MaiorPreço":
             context["classificar"] = "MaiorPreço"
             order = "-preco_unitario_bruto"
-
-        kw = self.request.GET.get("query")
 
         # Metodo pra conseguir pegar produtos atraves da label dos choices em charfields
         classe_tecnica_absorcao_pisos_field = Produto._meta.get_field('classe_tecnica_absorcao_pisos')
@@ -1332,16 +1333,114 @@ class PesquisarView(BaseContextMixin, TemplateView):
         filters = (
             Q(titulo__icontains=kw) | Q(descricao__icontains = kw) | Q(codigo__iexact = kw) | Q(codigo_GTIN__iexact = kw) | Q(Categoria__titulo__icontains = kw)
             | Q(slug__iexact = kw) | Q(marca__icontains = kw) | Q(acabamento_superficial__icontains = kw) | Q(indicacao_uso__icontains = kw)
-            | Q(classe_tecnica_absorcao_pisos__icontains = kw) | Q(variacao_faces__icontains = kw) # To na duvida se deixa essa linha
+            | Q(classe_tecnica_absorcao_pisos__icontains = kw) | Q(variacao_faces__icontains = kw) # TODO: To na duvida se deixa essa linha
         )
 
         if match:
             filters |= (Q(classe_tecnica_absorcao_pisos__iexact = match) | Q(variacao_faces__iexact = match) | Q(indicacao_uso__iexact = match))
         
-        resultado = Produto.objects.filter(filters, em_estoque=True).order_by(order)        
+        resultado = Produto.objects.filter(filters, em_estoque=True).order_by(order)
         # resultado = Produto.objects.filter(Q(titulo__icontains=kw) | Q(descricao__icontains = kw) | Q(codigo__iexact = kw) | Q(codigo_GTIN__iexact = kw)
         #                                     | Q(Categoria__titulo__icontains = kw) | Q(slug__iexact = kw) | Q(marca__icontains = kw) | Q(acabamento_superficial__icontains = kw)
         #                                     | Q(classe_tecnica_absorcao_pisos__iexact = kw) | Q(variacao_faces__iexact = kw) | Q(indicacao_uso__icontains = kw)).order_by(order)
+        
+        # Filtro (filtro_coluna_maco_produtos.html)
+        precoMax = self.request.GET.get("precoMax")
+        context['Caract_precoMax'] = precoMax
+
+        try:
+            cat_slug = unicodedata.normalize('NFKD', kw).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
+            categoria = Categoria.objects.get(slug=cat_slug)
+            context['categoria'] = categoria
+
+            if categoria.slug == "porcelanatos" or categoria.slug == "ceramicas":
+                context['acabamento_superficial_pisos'] = ACABAMENTO_SUPERFICIAL_PISOS
+                context['classe_tecnica_absorcao_pisos'] = CLASSE_TECNICA_ABSORCAO_PISOS
+                context['variacao_faces_pisos'] = VARIACAO_FACES_PISOS
+                context['indicacao_uso_pisos'] = INDICACAO_DE_USO_PISOS
+
+                Caract_acabamento_superficial_pisos = self.request.GET.getlist("acabamento_superficial_pisos")
+                context['Caract_acabamento_superficial_pisos'] = Caract_acabamento_superficial_pisos
+
+                Caract_classe_tecnica_absorcao_pisos = self.request.GET.getlist("classe_tecnica_absorcao_pisos")
+                context['Caract_classe_tecnica_absorcao_pisos'] = Caract_classe_tecnica_absorcao_pisos
+
+                Caract_variacao_faces_pisos = self.request.GET.getlist("variacao_faces_pisos")
+                context['Caract_variacao_faces_pisos'] = Caract_variacao_faces_pisos
+                
+                Caract_indicacao_uso_pisos = self.request.GET.getlist("indicacao_uso_pisos")
+                context['Caract_indicacao_uso_pisos'] = Caract_indicacao_uso_pisos
+        except:
+            context['categoria'] = None
+            Caract_acabamento_superficial_pisos = None
+            Caract_classe_tecnica_absorcao_pisos = None
+            Caract_variacao_faces_pisos = None            
+            Caract_indicacao_uso_pisos = None
+
+        context["marcas"] = resultado.exclude(marca__isnull=True).values_list("marca", flat=True).distinct()
+        Caract_marcas = self.request.GET.getlist("marcas")
+        context['Caract_marcas'] = Caract_marcas
+        
+        # Coleta produtos dos filtros
+        if precoMax or Caract_marcas or Caract_acabamento_superficial_pisos or Caract_classe_tecnica_absorcao_pisos or Caract_variacao_faces_pisos or Caract_indicacao_uso_pisos:
+            urlGet = ""
+            # TODO: Olhar esse precoMax pra ver se é preco_unitario_bruto ou levando em conta embalagem ou no dinheiro
+            if precoMax:
+                filters &= (Q(preco_unitario_bruto__lte=decimal.Decimal(precoMax.replace("R$", "").replace(" ", "").replace(',', '.'))))
+
+                urlGet += f"&precoMax={precoMax}"
+
+            if Caract_acabamento_superficial_pisos:
+                filters &= (Q(acabamento_superficial__icontains__in=Caract_acabamento_superficial_pisos))
+
+                for n in Caract_acabamento_superficial_pisos:
+                    urlGet += f"&acabamento_superficial_pisos={n}"
+
+            if Caract_classe_tecnica_absorcao_pisos:
+                display_to_value = {label: value for value, label in CLASSE_TECNICA_ABSORCAO_PISOS}
+
+                match = []
+                for cta in Caract_classe_tecnica_absorcao_pisos:
+                    match.append(display_to_value.get(cta))
+
+                filters &= (Q(classe_tecnica_absorcao_pisos__in=match))
+
+                for n in Caract_classe_tecnica_absorcao_pisos:
+                    urlGet += f"&classe_tecnica_absorcao_pisos={n}"
+
+            if Caract_variacao_faces_pisos:
+                display_to_value = {label: value for value, label in VARIACAO_FACES_PISOS}
+
+                match = []
+                for vf in Caract_variacao_faces_pisos:
+                    match.append(display_to_value.get(vf))
+
+                filters &= (Q(variacao_faces__in=match))
+
+                for n in Caract_variacao_faces_pisos:
+                    urlGet += f"&variacao_faces_pisos={n}"
+
+            if Caract_indicacao_uso_pisos:
+                display_to_value = {label: value for value, label in INDICACAO_DE_USO_PISOS}
+
+                match = []
+                for iu in Caract_indicacao_uso_pisos:
+                    match.append(display_to_value.get(iu))
+
+                filters &= (Q(indicacao_uso__in=match))
+
+                for n in Caract_indicacao_uso_pisos:
+                    urlGet += f"&indicacao_uso_pisos={n}"
+
+            if Caract_marcas:
+                filters &= (Q(marca__in=Caract_marcas))
+
+                for n in Caract_marcas:
+                    urlGet += f"&marcas={n}"
+
+            context["urlGet"] = urlGet
+                
+        resultado = Produto.objects.filter(filters, em_estoque=True).order_by(order)
         
         resultadoList = preprocessar_precos(resultado)
 
@@ -1420,6 +1519,13 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
         categoria = Categoria.objects.get(slug=url_slug)
         context['categoria'] = categoria
 
+        if categoria.slug == "porcelanatos" or categoria.slug == "ceramicas":
+            context['acabamento_superficial_pisos'] = ACABAMENTO_SUPERFICIAL_PISOS
+            context['classe_tecnica_absorcao_pisos'] = CLASSE_TECNICA_ABSORCAO_PISOS
+            context['variacao_faces_pisos'] = VARIACAO_FACES_PISOS
+            context['indicacao_uso_pisos'] = INDICACAO_DE_USO_PISOS
+
+        # Ordenação (barra_macro_classificar.html)
         classificar_selected = self.request.GET.get("Classificar", "Destaque")
         if classificar_selected == "Destaque":
             context["classificar"] = "Destaque"
@@ -1433,14 +1539,98 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
         elif classificar_selected ==  "MaiorPreço":
             context["classificar"] = "MaiorPreço"
             order = "-preco_unitario_bruto"
+
+        # Filtro (filtro_coluna_maco_produtos.html)
+        precoMax = self.request.GET.get("precoMax")
+        context['Caract_precoMax'] = precoMax
+
+        Caract_acabamento_superficial_pisos = self.request.GET.getlist("acabamento_superficial_pisos")
+        context['Caract_acabamento_superficial_pisos'] = Caract_acabamento_superficial_pisos
+
+        Caract_classe_tecnica_absorcao_pisos = self.request.GET.getlist("classe_tecnica_absorcao_pisos")
+        context['Caract_classe_tecnica_absorcao_pisos'] = Caract_classe_tecnica_absorcao_pisos
+
+        Caract_variacao_faces_pisos = self.request.GET.getlist("variacao_faces_pisos")
+        context['Caract_variacao_faces_pisos'] = Caract_variacao_faces_pisos
         
-        all_produtos = Produto.objects.filter(Categoria=categoria, em_estoque=True).order_by(order).all()
+        Caract_indicacao_uso_pisos = self.request.GET.getlist("indicacao_uso_pisos")
+        context['Caract_indicacao_uso_pisos'] = Caract_indicacao_uso_pisos
+
+        ## Coleta marcas pro filtro
+        context["marcas"] = Produto.objects.filter(Categoria=categoria, em_estoque=True).exclude(marca__isnull=True).values_list("marca", flat=True).distinct()
+        Caract_marcas = self.request.GET.getlist("marcas")
+        context['Caract_marcas'] = Caract_marcas
+        
+        # Coleta produtos
+        if precoMax or Caract_marcas or Caract_acabamento_superficial_pisos or Caract_classe_tecnica_absorcao_pisos or Caract_variacao_faces_pisos or Caract_indicacao_uso_pisos:
+            filters = (Q(Categoria__slug__iexact = categoria.slug))
+            urlGet = ""
+            # TODO: Olhar esse precoMax pra ver se é preco_unitario_bruto ou levando em conta embalagem ou no dinheiro
+            if precoMax:
+                filters &= (Q(preco_unitario_bruto__lte=decimal.Decimal(precoMax.replace("R$", "").replace(" ", "").replace(',', '.'))))
+
+                urlGet += f"&precoMax={precoMax}"
+
+            if Caract_acabamento_superficial_pisos:
+                filters &= (Q(acabamento_superficial__icontains__in=Caract_acabamento_superficial_pisos))
+
+                for n in Caract_acabamento_superficial_pisos:
+                    urlGet += f"&acabamento_superficial_pisos={n}"
+
+            if Caract_classe_tecnica_absorcao_pisos:
+                display_to_value = {label: value for value, label in CLASSE_TECNICA_ABSORCAO_PISOS}
+
+                match = []
+                for cta in Caract_classe_tecnica_absorcao_pisos:
+                    match.append(display_to_value.get(cta))
+
+                filters &= (Q(classe_tecnica_absorcao_pisos__in=match))
+
+                for n in Caract_classe_tecnica_absorcao_pisos:
+                    urlGet += f"&classe_tecnica_absorcao_pisos={n}"
+
+            if Caract_variacao_faces_pisos:
+                display_to_value = {label: value for value, label in VARIACAO_FACES_PISOS}
+
+                match = []
+                for vf in Caract_variacao_faces_pisos:
+                    match.append(display_to_value.get(vf))
+
+                filters &= (Q(variacao_faces__in=match))
+
+                for n in Caract_variacao_faces_pisos:
+                    urlGet += f"&variacao_faces_pisos={n}"
+
+            if Caract_indicacao_uso_pisos:
+                display_to_value = {label: value for value, label in INDICACAO_DE_USO_PISOS}
+
+                match = []
+                for iu in Caract_indicacao_uso_pisos:
+                    match.append(display_to_value.get(iu))
+
+                filters &= (Q(indicacao_uso__in=match))
+
+                for n in Caract_indicacao_uso_pisos:
+                    urlGet += f"&indicacao_uso_pisos={n}"
+
+            if Caract_marcas:
+                filters &= (Q(marca__in=Caract_marcas))
+
+                for n in Caract_marcas:
+                    urlGet += f"&marcas={n}"
+
+            all_produtos = Produto.objects.filter(filters, em_estoque=True).order_by(order)
+            context["urlGet"] = urlGet
+        else:
+            all_produtos = Produto.objects.filter(Categoria=categoria, em_estoque=True).order_by(order)
         produto_list = preprocessar_precos(all_produtos)
+
+        # Paginação
         paginator = Paginator(produto_list, 20)
         page_number = self.request.GET.get('page', 1)
         context['page_obj'] = paginator.get_page(page_number)
 
-        # Não sei se tem uma forma mais eficiente de fazer essa merda
+        ## Não sei se tem uma forma mais eficiente de fazer essa merda
         if paginator.num_pages > 4:
             if int(page_number) == 1:
                 context['duasFrente'] = int(page_number) + 2

@@ -195,3 +195,5 @@ TODO-ALVAREZ-RESOLVIDO: Esconder produtos que estão fora de estoque
   TODO-ALVAREZ-RESOLVIDO: produtosrelacionados.html
   TODO-ALVAREZ-RESOLVIDO: pesquisar.html
   TODO-ALVAREZ-RESOLVIDO: categoria.html
+
+TODO-ALVAREZ-RESOLVIDO: Colocar filtros laterais em paginas tipo pesquisa e categoria
