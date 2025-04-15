@@ -13,10 +13,18 @@
     .pequeno {
         display: none;
     }
+
+    .productCol {
+        width: 89vw;
+    }
 }
 
 @media only screen and (max-width: 750px) {
     .grande {
         display: none;
+    }
+
+    .productCol {
+        width: 100vw;
     }
 }

@@ -12,8 +12,38 @@
 
         <div style="width: 100%; padding-left: 1%; padding-right: 1%;">
             <form method="GET" action="">
+                <!-- Passa query no caso de pesquisa -->
                 {% if request.GET.query %}
                     <input type="hidden" name="query" value="{{ request.GET.query }}">
+                {% endif %}
+                <!-- Passa infos da coluna de filtro (filtro_coluna_maco_produtos.html) -->
+                {% if request.GET.precoMax %}
+                    <input type="hidden" name="precoMax" value="{{ request.GET.precoMax }}">
+                {% endif %}
+                {% if request.GET.acabamento_superficial_pisos %}
+                    {% for key in Caract_acabamento_superficial_pisos %}
+                        <input type="hidden" name="acabamento_superficial_pisos" value="{{ key }}">
+                    {% endfor %}
+                {% endif %}
+                {% if request.GET.classe_tecnica_absorcao_pisos %}
+                    {% for key in Caract_classe_tecnica_absorcao_pisos %}
+                        <input type="hidden" name="classe_tecnica_absorcao_pisos" value="{{ key }}">
+                    {% endfor %}
+                {% endif %}
+                {% if request.GET.variacao_faces_pisos %}
+                    {% for key in Caract_variacao_faces_pisos %}
+                        <input type="hidden" name="variacao_faces_pisos" value="{{ key }}">
+                    {% endfor %}
+                {% endif %}
+                {% if request.GET.indicacao_uso_pisos %}
+                    {% for key in Caract_indicacao_uso_pisos %}
+                        <input type="hidden" name="indicacao_uso_pisos" value="{{ key }}">
+                    {% endfor %}
+                {% endif %}
+                {% if request.GET.marcas %}
+                    {% for key in Caract_marcas %}
+                        <input type="hidden" name="marcas" value="{{ key }}">
+                    {% endfor %}
                 {% endif %}
                 <label style="width: 58%;">Classificar por:</label>
                 <select name="Classificar" onchange="this.form.submit()" style="height: 75%; width: 40%; margin-left: 2px;">
@@ -41,9 +71,40 @@
 
         <div style="display: flex; justify-content: flex-end; width: 25%; padding-right: 1%;">
             <form method="GET" action="">
+                <!-- Passa query no caso de pesquisa -->
                 {% if request.GET.query %}
                     <input type="hidden" name="query" value="{{ request.GET.query }}">
                 {% endif %}
+                <!-- Passa infos da coluna de filtro (filtro_coluna_maco_produtos.html) -->
+                {% if request.GET.precoMax %}
+                    <input type="hidden" name="precoMax" value="{{ request.GET.precoMax }}">
+                {% endif %}
+                {% if request.GET.acabamento_superficial_pisos %}
+                    {% for key in Caract_acabamento_superficial_pisos %}
+                        <input type="hidden" name="acabamento_superficial_pisos" value="{{ key }}">
+                    {% endfor %}
+                {% endif %}
+                {% if request.GET.classe_tecnica_absorcao_pisos %}
+                    {% for key in Caract_classe_tecnica_absorcao_pisos %}
+                        <input type="hidden" name="classe_tecnica_absorcao_pisos" value="{{ key }}">
+                    {% endfor %}
+                {% endif %}
+                {% if request.GET.variacao_faces_pisos %}
+                    {% for key in Caract_variacao_faces_pisos %}
+                        <input type="hidden" name="variacao_faces_pisos" value="{{ key }}">
+                    {% endfor %}
+                {% endif %}
+                {% if request.GET.indicacao_uso_pisos %}
+                    {% for key in Caract_indicacao_uso_pisos %}
+                        <input type="hidden" name="indicacao_uso_pisos" value="{{ key }}">
+                    {% endfor %}
+                {% endif %}
+                {% if request.GET.marcas %}
+                    {% for key in Caract_marcas %}
+                        <input type="hidden" name="marcas" value="{{ key }}">
+                    {% endfor %}
+                {% endif %}
+
                 <label>Classificar por:</label>
                 <select name="Classificar" onchange="this.form.submit()" style="height: 75%; margin-left: 2px;">
                     <option value="Destaque" {% if request.GET.Classificar == "Destaque" %}selected{% endif %}>Destaque</option>

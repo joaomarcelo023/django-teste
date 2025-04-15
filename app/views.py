@@ -209,11 +209,11 @@ class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, Template
             context['quatroAtras'] = False
 
         context['produtos_por_categoria'] = {
-            categoria: preprocessar_precos(Produto.objects.filter(Categoria=categoria).order_by("-quantidade_vendas")[:11]) # Tem que ser um numero impar de pordutos
+            categoria: preprocessar_precos(Produto.objects.filter(Categoria=categoria, em_estoque=True).order_by("-quantidade_vendas")[:11]) # Tem que ser um numero impar de pordutos
             for categoria in Categoria.objects.all()
         }
         
-        context['mais_vendidos'] = preprocessar_precos(Produto.objects.all().order_by("-quantidade_vendas")[:7]) # Tem que ser um numero impar de pordutos
+        context['mais_vendidos'] = preprocessar_precos(Produto.objects.filter(em_estoque=True).order_by("-quantidade_vendas")[:7]) # Tem que ser um numero impar de pordutos
 
         context['banners'] = Banner.objects.all()
 
@@ -243,13 +243,6 @@ class ContatoView(LojaMixin, BaseContextMixin, TemplateView):
 
         return context
 
-class TodosProdutosView(LojaMixin, BaseContextMixin, TemplateView):
-    template_name = "todos-produtos.html"
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        return context
-
 class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "produtodetalhe.html"
     
@@ -273,9 +266,9 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
             context['variacao_faces_pisos'] = VARIACAO_FACES_PISOS
             context['indicacao_uso_pisos'] = INDICACAO_DE_USO_PISOS
 
-        produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:11]) # Tem que ser um numero impar de pordutos
+        produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria, em_estoque=True).order_by("-quantidade_vendas")[:11]) # Tem que ser um numero impar de pordutos
         if produto in produtos_similares_list:
-            produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria).order_by("-quantidade_vendas")[:12])
+            produtos_similares_list = list(Produto.objects.filter(Categoria=produto.Categoria, em_estoque=True).order_by("-quantidade_vendas")[:12])
             produtos_similares_list.pop(produtos_similares_list.index(produto))
 
         produtos_similares = preprocessar_precos(produtos_similares_list)
@@ -287,93 +280,100 @@ class AddCarroView(LojaMixin, View):
     def get(self,request,*arg,**kwargs):
         produto_id = self.kwargs['prod_id']
         produto_obj = Produto.objects.get(id=produto_id)
+
         carro_id = self.request.session.get("carro_id",None)
-        try:
-            carro_obj = Carro.objects.get(id=carro_id)
-            produto_no_carro = carro_obj.carroproduto_set.filter(produto=produto_obj)
 
-            if produto_no_carro.exists():
-                carroproduto = produto_no_carro.last()
-                carroproduto.quantidade += 1
-                carroproduto.subtotal_bruto += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
-                carroproduto.subtotal += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
-                carroproduto.save()
+        if produto_obj.em_estoque:
+            try:
+                carro_obj = Carro.objects.get(id=carro_id)
+                produto_no_carro = carro_obj.carroproduto_set.filter(produto=produto_obj)
 
-            else:
+                if produto_no_carro.exists():
+                    carroproduto = produto_no_carro.last()
+                    carroproduto.quantidade += 1
+                    carroproduto.subtotal_bruto += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
+                    carroproduto.subtotal += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
+                    carroproduto.save()
+
+                else:
+                    carroproduto = CarroProduto.objects.create(
+                        carro = carro_obj,
+                        produto = produto_obj,
+                        preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
+                        quantidade = 1,
+                        subtotal_bruto = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
+                        subtotal = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
+                    )
+
+                carro_obj.total += carroproduto.subtotal
+                carro_obj.save()
+
+            except Carro.DoesNotExist:
+                carro_obj = Carro.objects.create(total=0)
+                self.request.session['carro_id'] = carro_obj.id
                 carroproduto = CarroProduto.objects.create(
-                    carro = carro_obj,
-                    produto = produto_obj,
-                    preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
-                    quantidade = 1,
-                    subtotal_bruto = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
-                    subtotal = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
+                    carro=carro_obj,
+                    produto=produto_obj,
+                    preco_unitario=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
+                    quantidade=1,
+                    subtotal_bruto=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
+                    subtotal=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
                 )
-
-            carro_obj.total += carroproduto.subtotal
-            carro_obj.save()
-
-
-        except Carro.DoesNotExist:
-            carro_obj = Carro.objects.create(total=0)
-            self.request.session['carro_id'] = carro_obj.id
-            carroproduto = CarroProduto.objects.create(
-                carro=carro_obj,
-                produto=produto_obj,
-                preco_unitario=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
-                quantidade=1,
-                subtotal_bruto=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
-                subtotal=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
-            )
-            carro_obj.total += carroproduto.subtotal
-            carro_obj.save()
+                carro_obj.total += carroproduto.subtotal
+                carro_obj.save()
 
         return redirect("lojaapp:home")
-    
+
+# TODO: Verificar se essa porra é usada, tenho quase certeza que é inutil e não funfa
 class AddCarroView2(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "produtodetalhe.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         produto_id = self.kwargs['prod_id']
         produto_obj = Produto.objects.get(id=produto_id)
+
         carro_id = self.request.session.get("carro_id",None)
-        try:
-            carro_obj = Carro.objects.get(id=carro_id)
-            produto_no_carro = carro_obj.carroproduto_set.filter(produto=produto_obj)
+        
+        if produto_obj.em_estoque:
+            try:
+                carro_obj = Carro.objects.get(id=carro_id)
+                produto_no_carro = carro_obj.carroproduto_set.filter(produto=produto_obj)
 
-            if produto_no_carro.exists():
-                carroproduto = produto_no_carro.last()
-                carroproduto.quantidade += 1
-                carroproduto.subtotal_bruto += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
-                carroproduto.subtotal += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
-                carroproduto.save()
+                if produto_no_carro.exists():
+                    carroproduto = produto_no_carro.last()
+                    carroproduto.quantidade += 1
+                    carroproduto.subtotal_bruto += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
+                    carroproduto.subtotal += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
+                    carroproduto.save()
 
-            else:
+                else:
+                    carroproduto = CarroProduto.objects.create(
+                        carro = carro_obj,
+                        produto = produto_obj,
+                        preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
+                        quantidade = 1,
+                        subtotal_bruto = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
+                        subtotal = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
+                    )
+
+                carro_obj.total += carroproduto.subtotal
+                carro_obj.save()
+
+
+            except Carro.DoesNotExist:
+                carro_obj = Carro.objects.create(total=0)
+                self.request.session['carro_id'] = carro_obj.id
                 carroproduto = CarroProduto.objects.create(
-                    carro = carro_obj,
-                    produto = produto_obj,
-                    preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
-                    quantidade = 1,
-                    subtotal_bruto = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
-                    subtotal = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
+                    carro=carro_obj,
+                    produto=produto_obj,
+                    preco_unitario=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
+                    quantidade=1,
+                    subtotal_bruto=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
+                    subtotal=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
                 )
-
-            carro_obj.total += carroproduto.subtotal
-            carro_obj.save()
-
-
-        except Carro.DoesNotExist:
-            carro_obj = Carro.objects.create(total=0)
-            self.request.session['carro_id'] = carro_obj.id
-            carroproduto = CarroProduto.objects.create(
-                carro=carro_obj,
-                produto=produto_obj,
-                preco_unitario=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
-                quantidade=1,
-                subtotal_bruto=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
-                subtotal=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
-            )
-            carro_obj.total += carroproduto.subtotal
-            carro_obj.save()
+                carro_obj.total += carroproduto.subtotal
+                carro_obj.save()
 
         return context
     
@@ -384,49 +384,51 @@ class AddCarroQuantView(LojaMixin, BaseContextMixin, TemplateView):
 
         produto_obj = Produto.objects.get(id=produto_id)
         carro_id = self.request.session.get("carro_id",None)
-        try:
-            carro_obj = Carro.objects.get(id=carro_id)
-            produto_no_carro = carro_obj.carroproduto_set.filter(produto=produto_obj)
+        if produto_obj.em_estoque:
+            try:
+                carro_obj = Carro.objects.get(id=carro_id)
+                produto_no_carro = carro_obj.carroproduto_set.filter(produto=produto_obj)
 
-            if produto_no_carro.exists():
-                carroproduto = produto_no_carro.last()
-                carroproduto.quantidade += produto_quantidade
-                carroproduto.subtotal_bruto += (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem)
-                carroproduto.subtotal += (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem)
-                carroproduto.save()
+                if produto_no_carro.exists():
+                    carroproduto = produto_no_carro.last()
+                    carroproduto.quantidade += produto_quantidade
+                    carroproduto.subtotal_bruto += (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem)
+                    carroproduto.subtotal += (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem)
+                    carroproduto.save()
 
-            else:
+                else:
+                    carroproduto = CarroProduto.objects.create(
+                    carro = carro_obj,
+                    produto = produto_obj,
+                    preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
+                    quantidade = produto_quantidade,
+                    subtotal_bruto = (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem),
+                    subtotal = (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem)
+
+                    )
+
+                carro_obj.total += carroproduto.subtotal
+                carro_obj.save()
+
+
+            except Carro.DoesNotExist:
+                carro_obj = Carro.objects.create(total=0)
+                self.request.session['carro_id'] = carro_obj.id
                 carroproduto = CarroProduto.objects.create(
-                carro = carro_obj,
-                produto = produto_obj,
-                preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
-                quantidade = produto_quantidade,
-                subtotal_bruto = (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem),
-                subtotal = (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem)
+                    carro = carro_obj,
+                    produto = produto_obj,
+                    preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
+                    quantidade = produto_quantidade,
+                    subtotal_bruto = (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem),
+                    subtotal = (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem)
 
                 )
+                carro_obj.total += carroproduto.subtotal
+                carro_obj.save()
 
-            carro_obj.total += carroproduto.subtotal
-            carro_obj.save()
-
-
-        except Carro.DoesNotExist:
-            carro_obj = Carro.objects.create(total=0)
-            self.request.session['carro_id'] = carro_obj.id
-            carroproduto = CarroProduto.objects.create(
-                carro = carro_obj,
-                produto = produto_obj,
-                preco_unitario = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
-                quantidade = produto_quantidade,
-                subtotal_bruto = (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem),
-                subtotal = (produto_obj.preco_unitario_bruto * produto_quantidade * produto_obj.fechamento_embalagem)
-
-            )
-            carro_obj.total += carroproduto.subtotal
-            carro_obj.save()
-
-        # return context
-        return redirect("lojaapp:meucarro")
+            return redirect("lojaapp:meucarro")
+        
+        return redirect("lojaapp:produtodetalhe", slug=produto_obj.slug)
 
 class MeuCarroView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "meucarro.html"
@@ -1297,7 +1299,10 @@ class PesquisarView(BaseContextMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        kw = self.request.GET.get("query")
 
+        # Ordenação (barra_macro_classificar.html)
         classificar_selected = self.request.GET.get("Classificar", "Destaque")
         if classificar_selected == "Destaque":
             context["classificar"] = "Destaque"
@@ -1311,8 +1316,6 @@ class PesquisarView(BaseContextMixin, TemplateView):
         elif classificar_selected ==  "MaiorPreço":
             context["classificar"] = "MaiorPreço"
             order = "-preco_unitario_bruto"
-
-        kw = self.request.GET.get("query")
 
         # Metodo pra conseguir pegar produtos atraves da label dos choices em charfields
         classe_tecnica_absorcao_pisos_field = Produto._meta.get_field('classe_tecnica_absorcao_pisos')
@@ -1330,16 +1333,114 @@ class PesquisarView(BaseContextMixin, TemplateView):
         filters = (
             Q(titulo__icontains=kw) | Q(descricao__icontains = kw) | Q(codigo__iexact = kw) | Q(codigo_GTIN__iexact = kw) | Q(Categoria__titulo__icontains = kw)
             | Q(slug__iexact = kw) | Q(marca__icontains = kw) | Q(acabamento_superficial__icontains = kw) | Q(indicacao_uso__icontains = kw)
-            | Q(classe_tecnica_absorcao_pisos__icontains = kw) | Q(variacao_faces__icontains = kw) # To na duvida se deixa essa linha
+            | Q(classe_tecnica_absorcao_pisos__icontains = kw) | Q(variacao_faces__icontains = kw) # TODO: To na duvida se deixa essa linha
         )
 
         if match:
             filters |= (Q(classe_tecnica_absorcao_pisos__iexact = match) | Q(variacao_faces__iexact = match) | Q(indicacao_uso__iexact = match))
         
-        resultado = Produto.objects.filter(filters).order_by(order)        
+        resultado = Produto.objects.filter(filters, em_estoque=True).order_by(order)
         # resultado = Produto.objects.filter(Q(titulo__icontains=kw) | Q(descricao__icontains = kw) | Q(codigo__iexact = kw) | Q(codigo_GTIN__iexact = kw)
         #                                     | Q(Categoria__titulo__icontains = kw) | Q(slug__iexact = kw) | Q(marca__icontains = kw) | Q(acabamento_superficial__icontains = kw)
         #                                     | Q(classe_tecnica_absorcao_pisos__iexact = kw) | Q(variacao_faces__iexact = kw) | Q(indicacao_uso__icontains = kw)).order_by(order)
+        
+        # Filtro (filtro_coluna_maco_produtos.html)
+        precoMax = self.request.GET.get("precoMax")
+        context['Caract_precoMax'] = precoMax
+
+        try:
+            cat_slug = unicodedata.normalize('NFKD', kw).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
+            categoria = Categoria.objects.get(slug=cat_slug)
+            context['categoria'] = categoria
+
+            if categoria.slug == "porcelanatos" or categoria.slug == "ceramicas":
+                context['acabamento_superficial_pisos'] = ACABAMENTO_SUPERFICIAL_PISOS
+                context['classe_tecnica_absorcao_pisos'] = CLASSE_TECNICA_ABSORCAO_PISOS
+                context['variacao_faces_pisos'] = VARIACAO_FACES_PISOS
+                context['indicacao_uso_pisos'] = INDICACAO_DE_USO_PISOS
+
+                Caract_acabamento_superficial_pisos = self.request.GET.getlist("acabamento_superficial_pisos")
+                context['Caract_acabamento_superficial_pisos'] = Caract_acabamento_superficial_pisos
+
+                Caract_classe_tecnica_absorcao_pisos = self.request.GET.getlist("classe_tecnica_absorcao_pisos")
+                context['Caract_classe_tecnica_absorcao_pisos'] = Caract_classe_tecnica_absorcao_pisos
+
+                Caract_variacao_faces_pisos = self.request.GET.getlist("variacao_faces_pisos")
+                context['Caract_variacao_faces_pisos'] = Caract_variacao_faces_pisos
+                
+                Caract_indicacao_uso_pisos = self.request.GET.getlist("indicacao_uso_pisos")
+                context['Caract_indicacao_uso_pisos'] = Caract_indicacao_uso_pisos
+        except:
+            context['categoria'] = None
+            Caract_acabamento_superficial_pisos = None
+            Caract_classe_tecnica_absorcao_pisos = None
+            Caract_variacao_faces_pisos = None            
+            Caract_indicacao_uso_pisos = None
+
+        context["marcas"] = resultado.exclude(marca__isnull=True).values_list("marca", flat=True).distinct()
+        Caract_marcas = self.request.GET.getlist("marcas")
+        context['Caract_marcas'] = Caract_marcas
+        
+        # Coleta produtos dos filtros
+        if precoMax or Caract_marcas or Caract_acabamento_superficial_pisos or Caract_classe_tecnica_absorcao_pisos or Caract_variacao_faces_pisos or Caract_indicacao_uso_pisos:
+            urlGet = ""
+            # TODO: Olhar esse precoMax pra ver se é preco_unitario_bruto ou levando em conta embalagem ou no dinheiro
+            if precoMax:
+                filters &= (Q(preco_unitario_bruto__lte=decimal.Decimal(precoMax.replace("R$", "").replace(" ", "").replace(',', '.'))))
+
+                urlGet += f"&precoMax={precoMax}"
+
+            if Caract_acabamento_superficial_pisos:
+                filters &= (Q(acabamento_superficial__icontains__in=Caract_acabamento_superficial_pisos))
+
+                for n in Caract_acabamento_superficial_pisos:
+                    urlGet += f"&acabamento_superficial_pisos={n}"
+
+            if Caract_classe_tecnica_absorcao_pisos:
+                display_to_value = {label: value for value, label in CLASSE_TECNICA_ABSORCAO_PISOS}
+
+                match = []
+                for cta in Caract_classe_tecnica_absorcao_pisos:
+                    match.append(display_to_value.get(cta))
+
+                filters &= (Q(classe_tecnica_absorcao_pisos__in=match))
+
+                for n in Caract_classe_tecnica_absorcao_pisos:
+                    urlGet += f"&classe_tecnica_absorcao_pisos={n}"
+
+            if Caract_variacao_faces_pisos:
+                display_to_value = {label: value for value, label in VARIACAO_FACES_PISOS}
+
+                match = []
+                for vf in Caract_variacao_faces_pisos:
+                    match.append(display_to_value.get(vf))
+
+                filters &= (Q(variacao_faces__in=match))
+
+                for n in Caract_variacao_faces_pisos:
+                    urlGet += f"&variacao_faces_pisos={n}"
+
+            if Caract_indicacao_uso_pisos:
+                display_to_value = {label: value for value, label in INDICACAO_DE_USO_PISOS}
+
+                match = []
+                for iu in Caract_indicacao_uso_pisos:
+                    match.append(display_to_value.get(iu))
+
+                filters &= (Q(indicacao_uso__in=match))
+
+                for n in Caract_indicacao_uso_pisos:
+                    urlGet += f"&indicacao_uso_pisos={n}"
+
+            if Caract_marcas:
+                filters &= (Q(marca__in=Caract_marcas))
+
+                for n in Caract_marcas:
+                    urlGet += f"&marcas={n}"
+
+            context["urlGet"] = urlGet
+                
+        resultado = Produto.objects.filter(filters, em_estoque=True).order_by(order)
         
         resultadoList = preprocessar_precos(resultado)
 
@@ -1418,6 +1519,13 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
         categoria = Categoria.objects.get(slug=url_slug)
         context['categoria'] = categoria
 
+        if categoria.slug == "porcelanatos" or categoria.slug == "ceramicas":
+            context['acabamento_superficial_pisos'] = ACABAMENTO_SUPERFICIAL_PISOS
+            context['classe_tecnica_absorcao_pisos'] = CLASSE_TECNICA_ABSORCAO_PISOS
+            context['variacao_faces_pisos'] = VARIACAO_FACES_PISOS
+            context['indicacao_uso_pisos'] = INDICACAO_DE_USO_PISOS
+
+        # Ordenação (barra_macro_classificar.html)
         classificar_selected = self.request.GET.get("Classificar", "Destaque")
         if classificar_selected == "Destaque":
             context["classificar"] = "Destaque"
@@ -1431,14 +1539,98 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
         elif classificar_selected ==  "MaiorPreço":
             context["classificar"] = "MaiorPreço"
             order = "-preco_unitario_bruto"
+
+        # Filtro (filtro_coluna_maco_produtos.html)
+        precoMax = self.request.GET.get("precoMax")
+        context['Caract_precoMax'] = precoMax
+
+        Caract_acabamento_superficial_pisos = self.request.GET.getlist("acabamento_superficial_pisos")
+        context['Caract_acabamento_superficial_pisos'] = Caract_acabamento_superficial_pisos
+
+        Caract_classe_tecnica_absorcao_pisos = self.request.GET.getlist("classe_tecnica_absorcao_pisos")
+        context['Caract_classe_tecnica_absorcao_pisos'] = Caract_classe_tecnica_absorcao_pisos
+
+        Caract_variacao_faces_pisos = self.request.GET.getlist("variacao_faces_pisos")
+        context['Caract_variacao_faces_pisos'] = Caract_variacao_faces_pisos
         
-        all_produtos = Produto.objects.filter(Categoria=categoria).order_by(order).all()
+        Caract_indicacao_uso_pisos = self.request.GET.getlist("indicacao_uso_pisos")
+        context['Caract_indicacao_uso_pisos'] = Caract_indicacao_uso_pisos
+
+        ## Coleta marcas pro filtro
+        context["marcas"] = Produto.objects.filter(Categoria=categoria, em_estoque=True).exclude(marca__isnull=True).values_list("marca", flat=True).distinct()
+        Caract_marcas = self.request.GET.getlist("marcas")
+        context['Caract_marcas'] = Caract_marcas
+        
+        # Coleta produtos
+        if precoMax or Caract_marcas or Caract_acabamento_superficial_pisos or Caract_classe_tecnica_absorcao_pisos or Caract_variacao_faces_pisos or Caract_indicacao_uso_pisos:
+            filters = (Q(Categoria__slug__iexact = categoria.slug))
+            urlGet = ""
+            # TODO: Olhar esse precoMax pra ver se é preco_unitario_bruto ou levando em conta embalagem ou no dinheiro
+            if precoMax:
+                filters &= (Q(preco_unitario_bruto__lte=decimal.Decimal(precoMax.replace("R$", "").replace(" ", "").replace(',', '.'))))
+
+                urlGet += f"&precoMax={precoMax}"
+
+            if Caract_acabamento_superficial_pisos:
+                filters &= (Q(acabamento_superficial__icontains__in=Caract_acabamento_superficial_pisos))
+
+                for n in Caract_acabamento_superficial_pisos:
+                    urlGet += f"&acabamento_superficial_pisos={n}"
+
+            if Caract_classe_tecnica_absorcao_pisos:
+                display_to_value = {label: value for value, label in CLASSE_TECNICA_ABSORCAO_PISOS}
+
+                match = []
+                for cta in Caract_classe_tecnica_absorcao_pisos:
+                    match.append(display_to_value.get(cta))
+
+                filters &= (Q(classe_tecnica_absorcao_pisos__in=match))
+
+                for n in Caract_classe_tecnica_absorcao_pisos:
+                    urlGet += f"&classe_tecnica_absorcao_pisos={n}"
+
+            if Caract_variacao_faces_pisos:
+                display_to_value = {label: value for value, label in VARIACAO_FACES_PISOS}
+
+                match = []
+                for vf in Caract_variacao_faces_pisos:
+                    match.append(display_to_value.get(vf))
+
+                filters &= (Q(variacao_faces__in=match))
+
+                for n in Caract_variacao_faces_pisos:
+                    urlGet += f"&variacao_faces_pisos={n}"
+
+            if Caract_indicacao_uso_pisos:
+                display_to_value = {label: value for value, label in INDICACAO_DE_USO_PISOS}
+
+                match = []
+                for iu in Caract_indicacao_uso_pisos:
+                    match.append(display_to_value.get(iu))
+
+                filters &= (Q(indicacao_uso__in=match))
+
+                for n in Caract_indicacao_uso_pisos:
+                    urlGet += f"&indicacao_uso_pisos={n}"
+
+            if Caract_marcas:
+                filters &= (Q(marca__in=Caract_marcas))
+
+                for n in Caract_marcas:
+                    urlGet += f"&marcas={n}"
+
+            all_produtos = Produto.objects.filter(filters, em_estoque=True).order_by(order)
+            context["urlGet"] = urlGet
+        else:
+            all_produtos = Produto.objects.filter(Categoria=categoria, em_estoque=True).order_by(order)
         produto_list = preprocessar_precos(all_produtos)
+
+        # Paginação
         paginator = Paginator(produto_list, 20)
         page_number = self.request.GET.get('page', 1)
         context['page_obj'] = paginator.get_page(page_number)
 
-        # Não sei se tem uma forma mais eficiente de fazer essa merda
+        ## Não sei se tem uma forma mais eficiente de fazer essa merda
         if paginator.num_pages > 4:
             if int(page_number) == 1:
                 context['duasFrente'] = int(page_number) + 2

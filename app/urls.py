@@ -15,11 +15,10 @@ urlpatterns = [
     # Produtos
     path("pesquisar/", PesquisarView.as_view(), name="pesquisar"),
     path("categoria/<slug:slug>/",CategoriaView.as_view(),name="categoria"),
-    path("todos-produtos/",TodosProdutosView.as_view(),name="Todosprodutos"),
     path("produtos/<slug:slug>/",ProdutosDetalheView.as_view(),name="produtodetalhe"),
 
     # Compra
-    path("addcarro2-<int:prod_id>/",AddCarroView2.as_view(),name="addcarro"),
+    path("addcarro2-<int:prod_id>/",AddCarroView2.as_view(),name="addcarro2"),
     path("addcarro-<int:prod_id>/", AddCarroView.as_view(), name="addcarro"),
     path("addcarroquant/", AddCarroQuantView.as_view(), name="addcarroquant"),
     path("meu-carro/",MeuCarroView.as_view(),name="meucarro"),

@@ -1,6 +1,10 @@
 TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 
+TODO-ALVAREZ: Colocar prazo de 7 dias (uteis? corridos?) para as entregas
+
 TODO-ALVAREZ: Facilidade para saber quanto de estoque tem em cada loja
+
+TODO-ALVAREZ: Arrumar pagina de contato
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte
