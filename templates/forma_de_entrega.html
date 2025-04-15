@@ -22,6 +22,9 @@
                         <span class="address">{{ e.titulo }}</span>
                         <br>
                         <span class="address">{{ e.rua }}{% if e.numero %} {{ e.numero }}{% endif %}{% if e.complemento %} - {{ e.complemento }}{% endif %}, {{ e.bairro }} - {{ e.cidade }}, {{ e.estado }} - {{ e.cep }}</span>
+                        <br>
+                        <!-- TODO: Questionar esse "até" -->
+                        <span class="price">Previsão de entrega: até {{ dataEntrega }}</span>
                     </div>
                 </label>
             {% endfor %}
@@ -35,6 +38,9 @@
                         <span class="address">{{ e.titulo }} (Retirada na loja)</span>
                         <br>
                         <span class="address">{{ e.rua }}{% if e.numero %} {{ e.numero }}{% endif %}{% if e.complemento %} - {{ e.complemento }}{% endif %}, {{ e.bairro }} - {{ e.cidade }}, {{ e.estado }} - {{ e.cep }}</span>
+                        <br>
+                        <!-- TODO: Questionar esse "até" -->
+                        <span class="price">Previsão de disponibilidade: até {{ dataEntrega }}</span>
                     </div>
                 </label>
             {% endfor %}

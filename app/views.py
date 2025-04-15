@@ -37,6 +37,7 @@ from random import randint
 import unicodedata
 import requests
 import datetime
+import holidays
 import decimal
 import json
 
@@ -517,6 +518,29 @@ class FormaDeEntregaView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, 
 
         context["enderecos"] = Endereco.objects.filter(cliente=self.request.user.cliente).order_by("-id")
         context["enderecosLojas"] = Endereco.objects.filter(cliente=Cliente.objects.get(nome="Casa", sobrenome="HG"))
+
+        # Calculo da data de entrega
+        hoje = datetime.date.today()
+        # if hoje.isoweekday() == 5 or hoje.isoweekday() == 4:
+        #     entregaInterv = datetime.timedelta(days=11)
+        # elif hoje.isoweekday() == 6:
+        #     entregaInterv = datetime.timedelta(days=10)
+        # else:
+        #     entregaInterv = datetime.timedelta(days=9)
+        # dataEntrega = hoje + entregaInterv
+        feriados = holidays.BR('RJ')
+        diasUteis = 0
+        dia = datetime.date.today()
+        interv = datetime.timedelta(days=1)
+
+        while diasUteis < 7:
+            dia += interv
+            
+            if (dia not in feriados) and (dia.isoweekday() < 6):
+                diasUteis += 1
+
+
+        context["dataEntrega"] = dia.strftime("%d/%m/%y")
 
         return context
     
@@ -1441,7 +1465,7 @@ class PesquisarView(BaseContextMixin, TemplateView):
             context["urlGet"] = urlGet
                 
         resultado = Produto.objects.filter(filters, em_estoque=True).order_by(order)
-        
+
         resultadoList = preprocessar_precos(resultado)
 
         resultadoPag = Paginator(resultadoList, 20)
