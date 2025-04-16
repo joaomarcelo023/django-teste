@@ -31,7 +31,7 @@
                             Preço máximo
                         </span>
                         <br>
-                        <input class="precoInput" name="precoMax" onchange="this.form.submit()" placeholder="R$" {% if request.GET.precoMax %}value="{{ request.GET.precoMax }}"{% endif %}>
+                        <input class="precoInput" name="precoMax" onchange="this.form.submit()" placeholder="R$" inputmode="numeric" {% if request.GET.precoMax %}value="{{ request.GET.precoMax }}"{% endif %}>
                     </div>
         
                     {% if categoria.slug == "ceramicas" or categoria.slug == "porcelanatos" %}
@@ -246,4 +246,6 @@
     </div>
 {% endif %}
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
 <script src="{% static 'js/filtro_coluna_macro_produtos.js' %}"></script>

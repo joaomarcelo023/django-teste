@@ -197,3 +197,7 @@ TODO-ALVAREZ-RESOLVIDO: Esconder produtos que estão fora de estoque
   TODO-ALVAREZ-RESOLVIDO: categoria.html
 
 TODO-ALVAREZ-RESOLVIDO: Colocar filtros laterais em paginas tipo pesquisa e categoria
+
+TODO-ALVAREZ-RESOLVIDO: Colocar prazo de 7 dias para as entregas
+
+TODO-ALVAREZ-RESOLVIDO: Tentar colocar um filtro bem basico no filtro de preço
