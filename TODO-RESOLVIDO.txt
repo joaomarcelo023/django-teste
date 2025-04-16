@@ -200,4 +200,9 @@ TODO-ALVAREZ-RESOLVIDO: Colocar filtros laterais em paginas tipo pesquisa e cate
 
 TODO-ALVAREZ-RESOLVIDO: Colocar prazo de 7 dias para as entregas
 
+TODO-ALVAREZ-RESOLVIDO: Arrumar os botões que tão desabilitados só no frontend
+  TODO-ALVAREZ-RESOLVIDO: enderecocadastrar.html
+  
+  TODO-ALVAREZ-RESOLVIDO: Processar
+
 TODO-ALVAREZ-RESOLVIDO: Tentar colocar um filtro bem basico no filtro de preço

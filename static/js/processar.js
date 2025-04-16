@@ -1,3 +1,4 @@
+// TODO: Tenta entender e comentar essa merda
 const optionLabel = document.querySelectorAll('.option');
 const optionTitleLabel = document.querySelector('.option_title');
 const valorFinal = document.querySelectorAll('.valorFinal');
@@ -147,17 +148,22 @@ optionLabel.forEach(e => {
     });
 });
 
+// Termos e condições
+//// Ativa/desativa o botão 
 const termosCondCheck = document.getElementById("termos_condicoes");
 
 termosCondCheck.addEventListener("click", () => {
     if (termosCondCheck.checked) {
         document.getElementById("btnComprar").disabled = false;
+        document.querySelector(".botaoStatusInput").value = 'abled';
     }
     else {
         document.getElementById("btnComprar").disabled = true;
+        document.querySelector(".botaoStatusInput").value = 'disabled';
     }
 });
 
+//// Popup
 const termosCondBtn = document.getElementById("termos_condicoes_btn");
 const termosCondJanela = document.querySelector(".termos_condicoes_janela");
 const termosCondJanelaClose = document.querySelector(".termos_condicoes_janela_close");
@@ -179,3 +185,20 @@ termosCondJanelaClose.addEventListener("click", () => {
         termosCondJanela.style.display = "none";
     }
 });
+
+//// Mensagem caso tente comprar sem concordar com os termos
+window.onload = function () {
+    let messageDiv = document.getElementById("messages");
+    let messages = messageDiv.getAttribute("data-messages");
+
+    if (messages) {
+        try {
+            let parsedMessages = JSON.parse(messages);
+            parsedMessages.forEach(msg => {
+                alert(msg.text);
+            });
+        } catch (error) {
+            console.error("Error parsing messages:", error);
+        }
+    }
+};

@@ -664,94 +664,97 @@ def pedido_carro_pagamento(request):
         try:
             # print(request.POST)
             # usuario = User.objects.get(username=request.user.username)
+            if request.POST["botaoStatus"] == "abled":
+                # Termina de preencher os dados de pagamento
+                pedido = Pedido_order.objects.get(id=request.POST["pedido_id"])
+                carro = pedido.carro
+                produtos = CarroProduto.objects.filter(carro=carro)
+                desc = 0
+                desc_credito_list = [0.07, 0.04, 0.04, 0.01, 0.01, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
-            # Termina de preencher os dados de pagamento
-            pedido = Pedido_order.objects.get(id=request.POST["pedido_id"])
-            carro = pedido.carro
-            produtos = CarroProduto.objects.filter(carro=carro)
-            desc = 0
-            desc_credito_list = [0.07, 0.04, 0.04, 0.01, 0.01, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+                pedido.total_final = decimal.Decimal(request.POST["total_final"])
 
-            pedido.total_final = decimal.Decimal(request.POST["total_final"])
+                pedido.desconto_forma_pagamento = decimal.Decimal(request.POST["desconto_pagamento"])
 
-            pedido.desconto_forma_pagamento = decimal.Decimal(request.POST["desconto_pagamento"])
+                pedido.total_desconto = pedido.desconto_forma_pagamento + pedido.desconto_retirada
 
-            pedido.total_desconto = pedido.desconto_forma_pagamento + pedido.desconto_retirada
+                pedido.local_de_pagamento = request.POST["local_pagamento"]
+                if "metodo_pagamento" in request.POST:
+                    pedido.forma_de_pagamento = request.POST["metodo_pagamento"]
 
-            pedido.local_de_pagamento = request.POST["local_pagamento"]
-            if "metodo_pagamento" in request.POST:
-                pedido.forma_de_pagamento = request.POST["metodo_pagamento"]
+                    if "parcelas" in request.POST:
+                        pedido.parcelas = request.POST["parcelas"]
+                        pedido.valor_parcela = pedido.total_final / decimal.Decimal(request.POST["parcelas"])
+                    else:
+                        pedido.parcelas = 1
+                        pedido.valor_parcela = pedido.total_final
 
-                if "parcelas" in request.POST:
-                    pedido.parcelas = request.POST["parcelas"]
-                    pedido.valor_parcela = pedido.total_final / decimal.Decimal(request.POST["parcelas"])
+                    if pedido.forma_de_pagamento == "DEBIT_CARD" or pedido.forma_de_pagamento == "BOLETO" or pedido.forma_de_pagamento == "PIX":
+                        for prod in produtos:
+                            desc = 0.15                                             # Desconto à vista
+                            if pedido.desconto_retirada:
+                                desc += float(prod.produto.desconto_retira) / 100   # Desconto retirada em loja
+
+                            prod.subtotal = prod.preco_unitario * prod.quantidade * decimal.Decimal(1 - desc)
+                            prod.save()
+
+                            desc = 0
+                    elif pedido.forma_de_pagamento == "CREDIT_CARD":
+                        for prod in produtos:
+                            desc = desc_credito_list[int(pedido.parcelas) - 1]
+                            if pedido.desconto_retirada:
+                                desc += float(prod.produto.desconto_retira) / 100   # Desconto retirada em loja
+
+                            prod.subtotal = prod.preco_unitario * prod.quantidade * decimal.Decimal(1 - desc)
+                            prod.save()
+
+                            desc = 0
                 else:
+                    pedido.forma_de_pagamento = "dinheiro"
                     pedido.parcelas = 1
                     pedido.valor_parcela = pedido.total_final
 
-                if pedido.forma_de_pagamento == "DEBIT_CARD" or pedido.forma_de_pagamento == "BOLETO" or pedido.forma_de_pagamento == "PIX":
                     for prod in produtos:
-                        desc = 0.15                                             # Desconto à vista
+                        desc = float(prod.produto.desconto_dinheiro) / 100          # Desconto dinheiro
+                        desc += 0.15                                                # Desconto à vista
                         if pedido.desconto_retirada:
-                            desc += float(prod.produto.desconto_retira) / 100   # Desconto retirada em loja
+                            desc += float(prod.produto.desconto_retira) / 100       # Desconto retirada em loja
 
                         prod.subtotal = prod.preco_unitario * prod.quantidade * decimal.Decimal(1 - desc)
                         prod.save()
 
                         desc = 0
-                elif pedido.forma_de_pagamento == "CREDIT_CARD":
-                    for prod in produtos:
-                        desc = desc_credito_list[int(pedido.parcelas) - 1]
-                        if pedido.desconto_retirada:
-                            desc += float(prod.produto.desconto_retira) / 100   # Desconto retirada em loja
 
-                        prod.subtotal = prod.preco_unitario * prod.quantidade * decimal.Decimal(1 - desc)
-                        prod.save()
+                pedido.pedido_status = "Pedido Recebido"
 
-                        desc = 0
-            else:
-                pedido.forma_de_pagamento = "dinheiro"
-                pedido.parcelas = 1
-                pedido.valor_parcela = pedido.total_final
-
-                for prod in produtos:
-                    desc = float(prod.produto.desconto_dinheiro) / 100          # Desconto dinheiro
-                    desc += 0.15                                                # Desconto à vista
-                    if pedido.desconto_retirada:
-                        desc += float(prod.produto.desconto_retira) / 100       # Desconto retirada em loja
-
-                    prod.subtotal = prod.preco_unitario * prod.quantidade * decimal.Decimal(1 - desc)
-                    prod.save()
-
-                    desc = 0
-
-            pedido.pedido_status = "Pedido Recebido"
-
-            pedido.save()
-
-            # Cria os Pedido_Produto
-            for produtosCarro in CarroProduto.objects.filter(carro=pedido.carro):
-                produto = Produto.objects.get(id=produtosCarro.produto.id)
-                Pedido_Produto.objects.create(pedido=pedido, produto=produto, nome_produto=produto.titulo, codigo=produto.codigo, 
-                                              descricao=produto.descricao, codigo_GTIN=produto.codigo_GTIN, preco_unitario_bruto=produto.preco_unitario_bruto, 
-                                              desconto_dinheiro=produto.desconto_dinheiro, desconto_retira=produto.desconto_retira, unidade=produto.unidade, 
-                                              quantidade=produtosCarro.quantidade, total_bruto=produtosCarro.subtotal_bruto, 
-                                              desconto_total=(produtosCarro.subtotal_bruto - produtosCarro.subtotal), 
-                                              desconto_unitario=(produtosCarro.subtotal_bruto - produtosCarro.subtotal) / produtosCarro.quantidade, 
-                                              total_final=produtosCarro.subtotal)
-
-            # Direciona pro pagamento
-            if pedido.local_de_pagamento == "online":
-                pedido.pedido_status = "Pagamento Processando"
                 pedido.save()
 
-                return create_payment(request)
+                # Cria os Pedido_Produto
+                for produtosCarro in CarroProduto.objects.filter(carro=pedido.carro):
+                    produto = Produto.objects.get(id=produtosCarro.produto.id)
+                    Pedido_Produto.objects.create(pedido=pedido, produto=produto, nome_produto=produto.titulo, codigo=produto.codigo, 
+                                                descricao=produto.descricao, codigo_GTIN=produto.codigo_GTIN, preco_unitario_bruto=produto.preco_unitario_bruto, 
+                                                desconto_dinheiro=produto.desconto_dinheiro, desconto_retira=produto.desconto_retira, unidade=produto.unidade, 
+                                                quantidade=produtosCarro.quantidade, total_bruto=produtosCarro.subtotal_bruto, 
+                                                desconto_total=(produtosCarro.subtotal_bruto - produtosCarro.subtotal), 
+                                                desconto_unitario=(produtosCarro.subtotal_bruto - produtosCarro.subtotal) / produtosCarro.quantidade, 
+                                                total_final=produtosCarro.subtotal)
+
+                # Direciona pro pagamento
+                if pedido.local_de_pagamento == "online":
+                    pedido.pedido_status = "Pagamento Processando"
+                    pedido.save()
+
+                    return create_payment(request)
+                else:
+                    # pedido.pedido_status = "Pagamento Pendente"
+                    # pedido.save()
+                            
+                    # return redirect(request.POST["path"])
+                    return redirect(f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}")
             else:
-                # pedido.pedido_status = "Pagamento Pendente"
-                # pedido.save()
-                         
-                # return redirect(request.POST["path"])
-                return redirect(f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}")
+                messages.success(request, 'Por favor ler e concordar com os termos e condições da compra.')
+                return redirect(request.POST['path'])
             
         except User.DoesNotExist:
             return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_400_BAD_REQUEST)

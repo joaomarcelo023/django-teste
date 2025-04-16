@@ -90,7 +90,7 @@
                 <input type="hidden" name="pedido_id" value="{{ pedido.id }}">
                 <input id="desconto_pagamento" type="hidden" name="desconto_pagamento" value="{{ desconto_tot_init }}">
                 <input id="total_final" type="hidden" name="total_final" value="{{ total_desc_pagamento }}">
-                <!-- {{form.as_p}} -->
+                <input type="hidden" class="botaoStatusInput" name="botaoStatus" value="disabled">
                 <div>
                     <!-- Pagar em dinheiro -->
                     <label class="option selected">
@@ -441,6 +441,7 @@
 <script id="total-credito-data" type="application/json">
     {{ total_credito|safe }}
 </script>
+<div id="messages" data-messages='[{% for message in messages %}{"text": "{{ message }}", "tags": "{{ message.tags }}"}{% if not forloop.last %},{% endif %}{% endfor %}]'></div>
 <script src="{% static 'js/processar.js' %}"></script>
 {% endblock %}
 
