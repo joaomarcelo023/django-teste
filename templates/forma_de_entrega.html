@@ -40,7 +40,7 @@
                         <span class="address">{{ e.rua }}{% if e.numero %} {{ e.numero }}{% endif %}{% if e.complemento %} - {{ e.complemento }}{% endif %}, {{ e.bairro }} - {{ e.cidade }}, {{ e.estado }} - {{ e.cep }}</span>
                         <br>
                         <!-- TODO: Questionar esse "até" -->
-                        <span class="price">Previsão de disponibilidade: até {{ dataEntrega }}</span>
+                        <span class="price">Previsão de disponibilidade para retirada: até {{ dataAmanha }}</span>
                     </div>
                 </label>
             {% endfor %}

@@ -521,25 +521,24 @@ class FormaDeEntregaView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, 
 
         # Calculo da data de entrega
         hoje = datetime.date.today()
-        # if hoje.isoweekday() == 5 or hoje.isoweekday() == 4:
-        #     entregaInterv = datetime.timedelta(days=11)
-        # elif hoje.isoweekday() == 6:
-        #     entregaInterv = datetime.timedelta(days=10)
-        # else:
-        #     entregaInterv = datetime.timedelta(days=9)
-        # dataEntrega = hoje + entregaInterv
         feriados = holidays.BR('RJ')
         diasUteis = 0
         dia = datetime.date.today()
         interv = datetime.timedelta(days=1)
+        amanha = hoje + datetime.timedelta(days=1)
 
+        ## Calcula o proximo dia util
+        while (amanha in feriados) or (amanha.isoweekday() > 5):
+            amanha += datetime.timedelta(days=1)
+
+        ## Calcula o setimo dia util
         while diasUteis < 7:
             dia += interv
-            
+
             if (dia not in feriados) and (dia.isoweekday() < 6):
                 diasUteis += 1
 
-
+        context["dataAmanha"] = amanha.strftime("%d/%m/%y")
         context["dataEntrega"] = dia.strftime("%d/%m/%y")
 
         return context
