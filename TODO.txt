@@ -4,8 +4,8 @@ TODO-ALVAREZ: Colocar prazo para a retirada em loja dependendo se tem estoque ne
 
 TODO-ALVAREZ: Facilidade para saber quanto de estoque tem em cada loja
 
-TODO-ALVAREZ: Arrumar s botões que tão disbilitados só no frontend
-  TODO-ALVAREZ: enderecocadastrar.html
+TODO-ALVAREZ: Arrumar os botões que tão desabilitados só no frontend
+  TODO-ALVAREZ-RESOLVIDO: enderecocadastrar.html
   
   TODO-ALVAREZ: Processar
 

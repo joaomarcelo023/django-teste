@@ -54,6 +54,7 @@ function fetchAddress(cep) {
 
                     document.getElementById("cidadeWarning").style.display = 'none';
                     document.querySelector(".buttonCadastrar").disabled = false;
+                    document.querySelector(".botaoStatusInput").value = 'abled';
                 }
                 else {
                     document.getElementById("cidadeWarning").style.display = 'block';
@@ -66,6 +67,7 @@ function fetchAddress(cep) {
                     document.getElementById('complemento').value = "";
 
                     document.querySelector(".buttonCadastrar").disabled = true;
+                    document.querySelector(".botaoStatusInput").value = 'disabled';
                 }
             })
             .catch(error => console.error('Erro ao buscar endereço:', error));

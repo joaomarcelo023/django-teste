@@ -1287,24 +1287,31 @@ def endereco_cadastrar(request):
     if request.method == 'POST':
         try:
             print(request.POST)
-            usuario = User.objects.get(username=request.user.username)
-            cliente = Cliente.objects.get(user=usuario)
-            titulo = request.POST["titulo"]
-            cep = request.POST["cep"]
-            estado = request.POST["estado"]
-            cidade = request.POST["cidade"]
-            bairro = request.POST["bairro"]
-            rua = request.POST["rua"]
-            numero = request.POST["numero"]
-            complemento = request.POST["complemento"]
+            if request.POST["botaoStatus"] == "abled":
+                usuario = User.objects.get(username=request.user.username)
+                cliente = Cliente.objects.get(user=usuario)
+                titulo = request.POST["titulo"]
+                cep = request.POST["cep"]
+                estado = request.POST["estado"]
+                cidade = request.POST["cidade"]
+                bairro = request.POST["bairro"]
+                rua = request.POST["rua"]
+                numero = request.POST["numero"]
+                complemento = request.POST["complemento"]
 
-            endereco = Endereco.objects.create(cliente=cliente, titulo=titulo, cep=cep, estado=estado, cidade=cidade, bairro=bairro , rua=rua , numero=numero , complemento=complemento)
-            endereco.save()
+                endereco = Endereco.objects.create(cliente=cliente, titulo=titulo, cep=cep, estado=estado, cidade=cidade, bairro=bairro , rua=rua , numero=numero , complemento=complemento)
+                endereco.save()
 
-            next_url = request.POST.get("next", reverse("lojaapp:clienteperfil"))
-            if  not next_url:
-                next_url = reverse(f"{reverse_lazy('lojaapp:clienteperfil')}?perfil=Endereco")
-            return redirect(next_url)
+                next_url = request.POST.get("next", reverse("lojaapp:clienteperfil"))
+                if not next_url:
+                    next_url = (f"{reverse_lazy('lojaapp:clienteperfil')}?perfil=Endereco")
+                return redirect(next_url)
+            else:
+                if request.POST.get('next', None):
+                    next_url = f"{request.POST['path']}?next={request.POST.get('next')}"
+                else:
+                    next_url = request.POST['path']
+                return redirect(next_url)
         except User.DoesNotExist:
             return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_400_BAD_REQUEST)
         

@@ -1,6 +1,6 @@
 @media (min-width: 750px) {
     .div-produtos_pequenos {
-        height: 24vw;
+        height: 48vh;
         width: 17vw;
         /* margin-top: 10px; */
         /* margin-right: 1.5vw; */
@@ -40,7 +40,7 @@
 
 @media (max-width: 750px) {
     .div-produtos_pequenos {
-        height: 125vw;
+        height: 57.7vh;
         width: 45vw;
         /* margin-top: 10px; */
         /* margin-right: 1.5vw; */
