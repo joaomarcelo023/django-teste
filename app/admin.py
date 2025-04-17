@@ -10,4 +10,8 @@ class FotosProdutoAdmin(admin.ModelAdmin):
         for obj in queryset:
             obj.delete()
 
-admin.site.register([Cliente, Categoria, Produto, FotosProduto, Carro, CarroProduto, Pedido_order, Pedido_Produto, Endereco, Banner, Empresa, Admin, APIKey, TestStatus], FotosProdutoAdmin)
+class ProdutoAdmin(admin.ModelAdmin):
+    filter_horizontal = ('estoque_lojas',)
+
+admin.site.register([Cliente, Categoria, FotosProduto, Carro, CarroProduto, Pedido_order, Pedido_Produto, Endereco, Banner, Empresa, Admin, APIKey, TestStatus], FotosProdutoAdmin)
+admin.site.register(Produto, ProdutoAdmin)

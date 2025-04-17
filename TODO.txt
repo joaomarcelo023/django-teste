@@ -1,7 +1,5 @@
 TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 
-TODO-ALVAREZ: Colocar prazo para a retirada em loja dependendo se tem estoque nela
-
 TODO-ALVAREZ: Facilidade para saber quanto de estoque tem em cada loja
 
 TODO-ALVAREZ: Arrumar pagina de contato

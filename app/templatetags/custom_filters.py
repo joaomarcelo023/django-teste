@@ -46,3 +46,7 @@ def orGet(value, arg):
         return value
     else:
         return arg
+
+@register.filter
+def getByTitulo(value, arg):
+    return value[arg]

@@ -509,11 +509,21 @@ class FormaDeEntregaView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, 
             carro_obj = None
         context["carro"] = carro_obj
 
-        # desconto retirada
+        # desconto retirada / estoque do carrinho nas lojas
+        # TODO: Acho que pode tirar esse desconto retirada
+        estoque_carro = {"estoque_carro": {"Casa HG - Várzea": True, "Casa HG - Magé/Guapimirim": True, "Casa HG - Atacadão Dos Pisos": True}}
+        lojas = Endereco.objects.filter(cliente=Cliente.objects.get(nome="Casa", sobrenome="HG"))
         desc_retirada = 0
         for prod in CarroProduto.objects.filter(carro=carro_obj):
             desc_retirada += prod.preco_unitario * prod.quantidade * (prod.produto.desconto_retira / 100)
-        
+            
+            estoque_prod = prod.produto.estoque_lojas.all()
+            for loja in lojas:
+                if loja not in estoque_prod:
+                    estoque_carro["estoque_carro"][loja.titulo] = False
+
+        context.update(estoque_carro)
+
         context["desconto_retirada"] = str(round(desc_retirada, 2))
 
         context["enderecos"] = Endereco.objects.filter(cliente=self.request.user.cliente).order_by("-id")

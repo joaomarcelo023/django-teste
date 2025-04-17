@@ -2,6 +2,7 @@
 {% load static %}
 {% load humanize %}
 {% load l10n %}
+{% load custom_filters %}
 
 {% block title %}Local de entrega - CasaHG{% endblock %}
 
@@ -39,8 +40,8 @@
                         <br>
                         <span class="address">{{ e.rua }}{% if e.numero %} {{ e.numero }}{% endif %}{% if e.complemento %} - {{ e.complemento }}{% endif %}, {{ e.bairro }} - {{ e.cidade }}, {{ e.estado }} - {{ e.cep }}</span>
                         <br>
-                        <!-- TODO: Questionar esse "até" -->
-                        <span class="price">Previsão de disponibilidade para retirada: até {{ dataAmanha }}</span>
+                        <!-- TODO: Questionar esse "até" e rever esse texto que ta muito longo -->
+                        <span class="price">Previsão de disponibilidade para retirada: {% if estoque_carro|getByTitulo:e.titulo %}até {{ dataAmanha }}{% else %}até {{ dataEntrega }}{% endif %}</span>
                     </div>
                 </label>
             {% endfor %}

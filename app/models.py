@@ -2,6 +2,63 @@ from django.db import models
 from django.contrib.auth.models import User
 from rest_framework_api_key.models import AbstractAPIKey
 
+class Cliente(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    nome = models.CharField(max_length=200,default="")
+    sobrenome = models.CharField(max_length=200,default="")
+
+    cpf_ou_cnpj = models.CharField(max_length=14,default="")
+    cpf_ou_cnpj_formatado = models.CharField(max_length=20, default="")
+    bool_cpf_cnpj = models.BooleanField(default=False)
+
+    email = models.EmailField(default="")
+    telefone = models.CharField(max_length=19,default="")
+
+    data_criacao = models.DateTimeField(auto_now_add=True)
+
+    verificado = models.BooleanField(default=False)
+    
+    def save(self, *args, **kwargs):
+        if self.telefone[0:3] != "+55":
+            if self.telefone[-1] == "_":
+                ddd = f"{self.telefone[1:3]}"
+                telefoneNumero = f"{self.telefone[5:10]}{self.telefone[11:-1]}"
+                self.telefone = f"+55 ({ddd}) {telefoneNumero[:4]}-{telefoneNumero[4:]}"
+            elif self.telefone[-1].isdigit():
+                self.telefone = f"+55 {self.telefone}"
+
+        # Formatar CPF ou CNPJ
+        cpf_cnpj = self.cpf_ou_cnpj
+        if len(cpf_cnpj) == 11:  # CPF
+            self.cpf_ou_cnpj_formatado = f"{cpf_cnpj[:3]}.{cpf_cnpj[3:6]}.{cpf_cnpj[6:9]}-{cpf_cnpj[9:]}"
+            self.bool_cpf_cnpj = True
+        elif len(cpf_cnpj) == 14:  # CNPJ
+            self.cpf_ou_cnpj_formatado = f"{cpf_cnpj[:2]}.{cpf_cnpj[2:5]}.{cpf_cnpj[5:8]}/{cpf_cnpj[8:12]}-{cpf_cnpj[12:]}"
+            self.bool_cpf_cnpj = False
+        else:
+            self.cpf_ou_cnpj_formatado = cpf_cnpj  # Caso não atenda os formatos esperados
+
+        super(Cliente, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.nome} {self.sobrenome}"
+
+class Endereco(models.Model):
+    cliente = models.ForeignKey(Cliente,on_delete=models.SET_NULL,null=True,blank=True)
+    titulo = models.CharField(max_length=40,null=True,blank=True)
+    cep = models.CharField(max_length=9,null=True,blank=True)
+    estado = models.CharField(max_length=3,null=True,blank=True)
+    cidade = models.CharField(max_length=35,null=True,blank=True)
+    bairro = models.CharField(max_length=35,null=True,blank=True)
+    rua = models.CharField(max_length=35,null=True,blank=True)
+    numero = models.CharField(max_length=20,null=True,blank=True)
+    complemento = models.CharField(max_length=140,null=True,blank=True)
+
+    def __str__(self):
+        return self.titulo + " | " + self.cliente.nome + " " + self.cliente.sobrenome
+
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 class Categoria(models.Model):
     titulo = models.CharField(max_length=200)
@@ -46,12 +103,13 @@ class Produto(models.Model):
     titulo = models.CharField(max_length=200,default="",null=True,blank=True)
     descricao = models.CharField(max_length=200)
     codigo_GTIN = models.CharField(max_length=14) #se o produto não tiver codigo GTIN cadastrado, usar codigo interno
-    preco_unitario_bruto = models.DecimalField(max_digits=10, decimal_places=2) #preço cheio, sem desconto
+    preco_unitario_bruto = models.DecimalField(max_digits=10,decimal_places=2) #preço cheio, sem desconto
     desconto_dinheiro = models.DecimalField(max_digits=10,decimal_places=2) # em %, percentual de desconto para pagamento em dinheiro, aplicado no preco_unitario_bruto
     desconto_retira = models.DecimalField(max_digits=10,decimal_places=2)  # em %, percentual de desconto para compras para retirada no depósito, aplicado no preco_unitario_bruto
     unidade = models.CharField(max_length=30,default="un") #unidade em que o produto é comercializado
-    fechamento_embalagem = models.DecimalField(max_digits=10, decimal_places=2, default=1.00)
+    fechamento_embalagem = models.DecimalField(max_digits=10,decimal_places=2,default=1.00)
     em_estoque = models.BooleanField(default=True)
+    estoque_lojas = models.ManyToManyField(Endereco, related_name='estoqueLojas', blank=True)
 
     marca = models.CharField(max_length=20,null=True,blank=True)
     formato = models.CharField(max_length=15,null=True,blank=True)
@@ -117,64 +175,6 @@ class FotosProduto(models.Model):
 
     def __str__(self):
         return self.produto.titulo + ": " + str(self.img_num)
-
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
-
-class Cliente(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    nome = models.CharField(max_length=200,default="")
-    sobrenome = models.CharField(max_length=200,default="")
-
-    cpf_ou_cnpj = models.CharField(max_length=14,default="")
-    cpf_ou_cnpj_formatado = models.CharField(max_length=20, default="")
-    bool_cpf_cnpj = models.BooleanField(default=False)
-
-    email = models.EmailField(default="")
-    telefone = models.CharField(max_length=19,default="")
-
-    data_criacao = models.DateTimeField(auto_now_add=True)
-
-    verificado = models.BooleanField(default=False)
-    
-    def save(self, *args, **kwargs):
-        if self.telefone[0:3] != "+55":
-            if self.telefone[-1] == "_":
-                ddd = f"{self.telefone[1:3]}"
-                telefoneNumero = f"{self.telefone[5:10]}{self.telefone[11:-1]}"
-                self.telefone = f"+55 ({ddd}) {telefoneNumero[:4]}-{telefoneNumero[4:]}"
-            elif self.telefone[-1].isdigit():
-                self.telefone = f"+55 {self.telefone}"
-
-        # Formatar CPF ou CNPJ
-        cpf_cnpj = self.cpf_ou_cnpj
-        if len(cpf_cnpj) == 11:  # CPF
-            self.cpf_ou_cnpj_formatado = f"{cpf_cnpj[:3]}.{cpf_cnpj[3:6]}.{cpf_cnpj[6:9]}-{cpf_cnpj[9:]}"
-            self.bool_cpf_cnpj = True
-        elif len(cpf_cnpj) == 14:  # CNPJ
-            self.cpf_ou_cnpj_formatado = f"{cpf_cnpj[:2]}.{cpf_cnpj[2:5]}.{cpf_cnpj[5:8]}/{cpf_cnpj[8:12]}-{cpf_cnpj[12:]}"
-            self.bool_cpf_cnpj = False
-        else:
-            self.cpf_ou_cnpj_formatado = cpf_cnpj  # Caso não atenda os formatos esperados
-
-        super(Cliente, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.nome} {self.sobrenome}"
-
-class Endereco(models.Model):
-    cliente = models.ForeignKey(Cliente,on_delete=models.SET_NULL,null=True,blank=True)
-    titulo = models.CharField(max_length=40,null=True,blank=True)
-    cep = models.CharField(max_length=9,null=True,blank=True)
-    estado = models.CharField(max_length=3,null=True,blank=True)
-    cidade = models.CharField(max_length=35,null=True,blank=True)
-    bairro = models.CharField(max_length=35,null=True,blank=True)
-    rua = models.CharField(max_length=35,null=True,blank=True)
-    numero = models.CharField(max_length=20,null=True,blank=True)
-    complemento = models.CharField(max_length=140,null=True,blank=True)
-
-    def __str__(self):
-        return self.titulo + " | " + self.cliente.nome + " " + self.cliente.sobrenome
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 

@@ -206,3 +206,5 @@ TODO-ALVAREZ-RESOLVIDO: Arrumar os botões que tão desabilitados só no fronten
   TODO-ALVAREZ-RESOLVIDO: Processar
 
 TODO-ALVAREZ-RESOLVIDO: Tentar colocar um filtro bem basico no filtro de preço
+
+TODO-ALVAREZ-RESOLVIDO: Colocar prazo para a retirada em loja dependendo se tem estoque nela
