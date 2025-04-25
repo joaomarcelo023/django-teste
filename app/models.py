@@ -97,6 +97,9 @@ INDICACAO_DE_USO_PISOS=[
     ("Alto tráfego - Indicado para todas as dependências residenciais e comerciais de alto tráfego", "LD"),
 ]
 
+def estoque_loja():
+    return {"Casa HG - Várzea": 0, "Casa HG - Magé/Guapimirim": 0, "Casa HG - Atacadão Dos Pisos": 0}
+
 class Produto(models.Model):
     #informações que virão do sistema externo
     codigo = models.CharField(max_length=10) #codigo interno consistente com sistema
@@ -108,8 +111,9 @@ class Produto(models.Model):
     desconto_retira = models.DecimalField(max_digits=10,decimal_places=2)  # em %, percentual de desconto para compras para retirada no depósito, aplicado no preco_unitario_bruto
     unidade = models.CharField(max_length=30,default="un") #unidade em que o produto é comercializado
     fechamento_embalagem = models.DecimalField(max_digits=10,decimal_places=2,default=1.00)
-    em_estoque = models.BooleanField(default=True)
-    estoque_lojas = models.ManyToManyField(Endereco, related_name='estoqueLojas', blank=True)
+    em_estoque = models.BooleanField(default=False)
+    # estoque_lojas = models.ManyToManyField(Endereco, related_name='estoqueLojas', blank=True)
+    estoque_lojas = models.JSONField(default=estoque_loja)
 
     marca = models.CharField(max_length=20,null=True,blank=True)
     formato = models.CharField(max_length=15,null=True,blank=True)
@@ -147,10 +151,14 @@ class Produto(models.Model):
         if not self.image:
             self.image.name = "produtos/NoImgAvailable.webp"
 
+        for estoque_loja in self.estoque_lojas.values():
+            if estoque_loja > 0:
+                self.em_estoque = True
+
         super(Produto, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.descricao
+        return f"{self.codigo} - {self.descricao}"
 
 class FotosProduto(models.Model):
     produto = models.ForeignKey(Produto,related_name="images",on_delete=models.CASCADE,default="")

@@ -306,6 +306,36 @@ def pisosFichaTecJson(_arq):
         
         print(f"Chunk {i+1}/{total_chunks}: {response.json()}")
 
+def estoquelojasJson(_arq):
+    API_URL_ESTOQUE = "http://127.0.0.1:8000/chunked_estoque_json_upload/"
+    # API_URL_ESTOQUE = "https://vendashg.pythonanywhere.com/chunked_estoque_json_upload/"
+
+    headers = {
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        "Content-Type": "application/json"
+    }
+
+    large_json = open(_arq, "r", encoding='utf-8').read()
+
+    json_str = json.dumps(large_json)
+    chunk_size = 1024 * 1024  # 1MB chunks
+    file_id = "json123"
+
+    total_chunks = len(json_str) // chunk_size + 1
+
+    for i in range(total_chunks):
+        chunk = json_str[i * chunk_size: (i + 1) * chunk_size]
+        data = {
+            "file_id": file_id,
+            "chunk_index": i,
+            "total_chunks": total_chunks,
+            "chunk_data": chunk,
+        }
+        response = requests.post(API_URL_ESTOQUE, headers=headers, json=data)
+        
+        print(f"Chunk {i+1}/{total_chunks}: {response.json()}")
+
 def upload_image(_image_path):
     API_URL_IMG = "http://127.0.0.1:8000/chunked_img_upload/"
     # API_URL_IMG = "https://vendashg.pythonanywhere.com/chunked_img_upload/"
@@ -420,7 +450,8 @@ def getProdStats():
 
 # postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site_filtrados_2.json")
 # patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site_filtrados_2.json")
-pisosFichaTecJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site_3.json")
+estoquelojasJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/estoque_master_2.json")
+# pisosFichaTecJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site_3.json")
 # postImg("E:/Users/HP/Pictures/pokemonTCGPocket")
 
 # imgDic = {

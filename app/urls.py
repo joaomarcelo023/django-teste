@@ -88,6 +88,7 @@ urlpatterns = [
     path('api_produtos/<str:slug>/', ProdutoDetailView.as_view(), name='produto_detail'),
     path('chunked_json_upload/', ChunkedProdutoJsonUploadView.as_view(), name='chunked_produto_json_upload'),
     path('chunked_json_update/', ChunkedProdutoJsonUpdateView.as_view(), name='chunked_produto_json_update'),
+    path('chunked_estoque_json_upload/', ChunkedEstoqueJsonUploadView.as_view(), name='chunked_estoque_json_upload'),
     path('chunked_piso_ficha_tec_json_upload/', ChunkedProdutoPisoFichaTecJsonUploadView.as_view(), name='chunked_piso_ficha_tec_json_upload'),    
     path('chunked_img_upload/', ChunkedProdutoImgUploadView.as_view(), name='chunked_produto_img_upload'),
     path('produto_stats/', ProdutoStatsView.as_view(), name='produto_stats'),
