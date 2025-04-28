@@ -261,6 +261,8 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
         
         context['preco_caixa'] = round(produto.preco_unitario_bruto * produto.fechamento_embalagem, 2)
 
+        context['limite_estoque'] = sum(produto.estoque_lojas.values())
+
         context['fotos_produtos'] = produto.images.all() #FotosProduto.objects.filter(produto=produto)
 
         if produto.Categoria.slug == "porcelanatos" or produto.Categoria.slug == "ceramicas":

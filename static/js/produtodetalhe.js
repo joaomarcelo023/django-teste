@@ -10,7 +10,7 @@ const quantidadeCaixasConst = quantidadeCaixas[0].textContent.replace(",", ".");
 const custoCaixasConst = custoCaixas[0].textContent.replace(",", ".");
 
 function takeUnit() {
-    if (parseInt(quantidadeValor[1].value) > 1) {
+    if (parseInt(quantidadeValor[1].value) > parseInt(quantidadeValor[1].min)) {
         quant = parseInt(quantidadeValor[1].value) - 1;
 
         quantidadeValor.forEach(qv => {
@@ -22,24 +22,42 @@ function takeUnit() {
 }
 
 function addUnit() {
-    quant = parseInt(quantidadeValor[1].value) + 1;
+    if (parseInt(quantidadeValor[1].value) < parseInt(quantidadeValor[1].max)) {
+        quant = parseInt(quantidadeValor[1].value) + 1;
 
-    quantidadeValor.forEach(qv => {
-        qv.value = quant;
-    });
+        quantidadeValor.forEach(qv => {
+            qv.value = quant;
+        });
 
-    inputUnit(quant)
+        inputUnit(quant)
+    }
 }
 
 function inputUnit(quant) {
-    if (quantidadeCaixas[0] || quantidadeCaixas[1]) {
-        quantidadeCaixas.forEach(qc => {
-            qc.textContent = ((parseFloat(quantidadeCaixasConst) * quant).toFixed(2)).replace(".", ",");
+    if (quant >= parseInt(quantidadeValor[0].min) && quant <= parseInt(quantidadeValor[0].max)){
+        if (quantidadeCaixas[0] || quantidadeCaixas[1]) {
+            quantidadeCaixas.forEach(qc => {
+                qc.textContent = ((parseFloat(quantidadeCaixasConst) * quant).toFixed(2)).replace(".", ",");
+            });
+        }
+        custoCaixas.forEach(cc => {
+            cc.textContent = ((parseFloat(custoCaixasConst) * quant).toFixed(2)).replace(".", ",");
         });
     }
-    custoCaixas.forEach(cc => {
-        cc.textContent = ((parseFloat(custoCaixasConst) * quant).toFixed(2)).replace(".", ",");
-    });
+    else if (quant < parseInt(quantidadeValor[0].min)) {
+        quantidadeValor.forEach(qv => {
+            qv.value = 1;
+        });
+
+        inputUnit(1)
+    }
+    else if (quant > parseInt(quantidadeValor[0].max)) {
+        quantidadeValor.forEach(qv => {
+            qv.value = parseInt(quantidadeValor[0].max);
+        });
+
+        inputUnit(parseInt(quantidadeValor[0].max))
+    }
 }
 
 imgButtons.forEach(e => {

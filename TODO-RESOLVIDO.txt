@@ -208,3 +208,7 @@ TODO-ALVAREZ-RESOLVIDO: Arrumar os botões que tão desabilitados só no fronten
 TODO-ALVAREZ-RESOLVIDO: Tentar colocar um filtro bem basico no filtro de preço
 
 TODO-ALVAREZ-RESOLVIDO: Colocar prazo para a retirada em loja dependendo se tem estoque nela
+
+TODO-ALVAREZ-RESOLVIDO: Facilidade para saber quanto de estoque tem em cada loja
+
+TODO-ALVAREZ-RESOLVIDO: Colocar limite de compra no produto detalhe pro limite do estoque total
