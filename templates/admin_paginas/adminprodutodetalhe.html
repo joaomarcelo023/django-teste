@@ -70,6 +70,10 @@
                         <option value="False" {% if not produto.em_estoque %}selected{% endif %}>False</option>
                     </select>
                 </p>
+                <p><span class="font-weight-bold"> Estoque - Várzea: </span><input name="varzea_disponivel" value="{{ produto.estoque_lojas|getByTitulo:'Casa HG - Várzea' }}" style="width: 78.85%;"></p>
+                <p><span class="font-weight-bold"> Estoque - Magé/Guapimirim: </span><input name="guapi_disponivel" value="{{ produto.estoque_lojas|getByTitulo:'Casa HG - Magé/Guapimirim' }}" style="width: 64.85%;"></p>
+                <p><span class="font-weight-bold"> Estoque - Atacadão Dos Pisos: </span><input name="prata_disponivel" value="{{ produto.estoque_lojas|getByTitulo:'Casa HG - Atacadão Dos Pisos' }}" style="width: 63.75%;"></p>
+                <p><span class="font-weight-bold"> Estoque - Total: </span>{{ estoque_total }}</p>
                 <p><span class="font-weight-bold"> Fechamento embalagem: </span><input name="fechamento_embalagem" value="{{ produto.fechamento_embalagem }}" style="width: 64.225%;">{{ produto.unidade|format_unit }}</p>
                 <p><span class="font-weight-bold"> Desconto dinheiro: </span><input name="desconto_dinheiro" value="{{ produto.desconto_dinheiro }}" style="width: 71.6%;">%</p>
                 <p><span class="font-weight-bold"> Desconto retira: </span><input name="desconto_retira" value="{{ produto.desconto_retira }}" style="width: 75.25%;">%</p>
@@ -86,9 +90,143 @@
                     </div>
                 </div>
             </form>
+        </div>
     </div>
-    </div>
+
     <br>
+
+    <div class="row justify-content-center">
+        <hr class="col-11" style="background-color: black;">
+    </div>
+
+    {% if produto.Categoria.slug == "ceramicas" or produto.Categoria.slug == "porcelanatos" %}
+        <div class="row fichaTecnica">
+            <h4>Ficha têcnica</h4>
+            <div class="d-flex justify-content-center">
+                <form class="col-11" action="{% url 'lojaapp:atualiza_ficha_produto' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="path" value="{{ request.path }}">
+                    <input type="hidden" name="produto" value="{{ produto.codigo }}">
+                    <table class="table">
+                        <tr>
+                            <td class="font-weight-bold">Marca:</td>
+                            <td colspan="2">
+                                <input name="marca" value="{% if produto.marca %}{{ produto.marca }}{% endif %}" style="width: 100%;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Formato:</td>
+                            <td colspan="2">
+                                <span style="width: 100%;"><input name="formato" value="{% if produto.formato %}{{ produto.formato }}{% endif %}" inputmode="numeric" style="width: 92.5%;"> cm</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Espessura:</td>
+                            <td colspan="2">
+                                <span style="width: 100%;"><input name="espessura" value="{% if produto.espessura %}{{ produto.espessura }}{% endif %}" inputmode="numeric" style="width: 92.5%;"> mm</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Junta minima:</td>
+                            <td colspan="2">
+                                <span style="width: 100%;"><input name="junta_minima" value="{% if produto.junta_minima %}{{ produto.junta_minima }}{% endif %}" inputmode="numeric" style="width: 92.5%;"> mm</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Relevo:</td>
+                            <td colspan="2">
+                                <select name="relevo" style="width: 100%;">
+                                    <option value="None" {% if not produto.relevo %}selected{% endif %}>-</option>
+                                    <option value="True" {% if produto.relevo == True %}selected{% endif %}>Sim</option>
+                                    <option value="False" {% if produto.relevo == False %}selected{% endif %}>Não</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Acabamento superficial:</td>
+                            <td colspan="2">
+                                <select name="acabamento_superficial" style="width: 100%;">
+                                    <option value="None" {% if not produto.acabamento_superficial %}selected{% endif %}>-</option>
+                                    {% for key, label in acabamento_superficial_pisos %}
+                                        <option value="{{ key }}" {% if produto.acabamento_superficial == label %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Variação de faces:</td>
+                            <td colspan="2">
+                                <select name="variacao_faces" style="width: 100%;">
+                                    <option value="None" {% if not produto.variacao_faces %}selected{% endif %}>-</option>
+                                    {% for key, label in variacao_faces_pisos %}
+                                        <option value="{{ key }}" {% if produto.get_variacao_faces_display == label %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Classe tecnica:</td>
+                            <td colspan="2">
+                                <select name="classe_tecnica_absorcao_pisos" style="width: 100%;">
+                                    <option value="None" {% if not produto.classe_tecnica_absorcao_pisos %}selected{% endif %}>-</option>
+                                    {% for key, label in classe_tecnica_absorcao %}
+                                        <option value="{{ key }}" {% if produto.get_classe_tecnica_absorcao_pisos_display == label %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Absorção de água:</td>
+                            <td colspan="2">
+                                <span style="width: 100%;">{{ produto.classe_tecnica_absorcao_pisos }} %</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Indicação de uso:</td>
+                            <td colspan="2">
+                                <select name="indicacao_uso" style="width: 100%;">
+                                    <option value="None" {% if not produto.indicacao_uso %}selected{% endif %}>-</option>
+                                    {% for key, label in indicacao_uso_pisos %}
+                                        <option value="{{ key }}" {% if produto.get_indicacao_uso_display == label %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Quantidade de peças por caixa:</td>
+                            <td colspan="2">
+                                <input name="pecas_caixa" value="{% if produto.pecas_caixa %}{{ produto.pecas_caixa }}{% endif %}" inputmode="numeric" style="width: 100%;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Peso bruto da caixa:</td>
+                            <td colspan="2">
+                                <span style="width: 100%;"><input name="peso_bruto_caixa" value="{% if produto.peso_bruto_caixa %}{{ produto.peso_bruto_caixa }}{% endif %}" inputmode="numeric" style="width: 92.5%;"> kg</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Dimensões do palet:</td>
+                            <td colspan="2">
+                                <span style="width: 100%;"><input name="palet" value="{% if produto.palet %}{{ produto.palet }}{% endif %}" inputmode="numeric" style="width: 92.5%;"> m²</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button name="salvar" value="False" class="btn btn-danger" style="width: 100%;">Descartar alterações</button>
+                            </td>
+                            <td>
+                                <button name="salvar" value="True" class="btn btn-success" style="width: 100%;">Salvar alterações</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+    <br>
+
     <div class="row">
         <hr style="background-color: black;">
     </div>

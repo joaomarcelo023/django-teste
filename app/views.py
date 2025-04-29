@@ -1916,9 +1916,17 @@ class AdminProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
         context['preco_embalagem'] = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
         context['preco_retirada_dinheiro'] = round((produto.preco_unitario_bruto * ((100 - produto.desconto_dinheiro - produto.desconto_retira) / 100)), 2)
 
+        context['estoque_total'] = sum(produto.estoque_lojas.values())
+
         context['fotos_produtos'] = produto.images.all()
 
         context['categorias'] = Categoria.objects.all()
+
+        if produto.Categoria.slug == "porcelanatos" or produto.Categoria.slug == "ceramicas":
+            context['acabamento_superficial_pisos'] = ACABAMENTO_SUPERFICIAL_PISOS
+            context['classe_tecnica_absorcao'] = CLASSE_TECNICA_ABSORCAO_PISOS
+            context['variacao_faces_pisos'] = VARIACAO_FACES_PISOS
+            context['indicacao_uso_pisos'] = INDICACAO_DE_USO_PISOS
 
         file_path_vendas = os.path.join(settings.MEDIA_ROOT, "data", "vendas.json")
         file_path_visuli = os.path.join(settings.MEDIA_ROOT, "data", "visualizacao.json")
@@ -1942,6 +1950,11 @@ def atualiza_produto(request):
             produto.codigo_GTIN = request.POST["codigo_GTIN"]
             produto.Categoria = Categoria.objects.get(slug=request.POST["categoria"])
             produto.em_estoque = (request.POST["em_estoque"] == "True")
+            produto.estoque_lojas = {
+                                        "Casa HG - Várzea": request.POST["varzea_disponivel"],
+                                        "Casa HG - Magé/Guapimirim": request.POST["guapi_disponivel"],
+                                        "Casa HG - Atacadão Dos Pisos": request.POST["prata_disponivel"]
+                                    }
             produto.preco_unitario_bruto = decimal.Decimal(request.POST["preco_unitario_bruto"].replace(",", "."))
             produto.fechamento_embalagem = decimal.Decimal(request.POST["fechamento_embalagem"].replace(",", "."))
             produto.desconto_dinheiro = decimal.Decimal(request.POST["desconto_dinheiro"].replace(",", "."))
@@ -1949,6 +1962,57 @@ def atualiza_produto(request):
 
             produto.save()
 
+        return redirect(request.POST["path"])
+
+    return HttpResponse("Invalid request.")
+
+def atualiza_ficha_produto(request):
+    if request.method == 'POST':
+        if request.POST["salvar"] == "True":
+            produto = Produto.objects.get(codigo=request.POST["produto"])
+
+            requestCopy = request.POST.copy()
+            for key, value in requestCopy.items():
+                if value == 'None' or value == '':
+                    requestCopy[key] = None
+
+            produto.marca = requestCopy["marca"]
+            produto.formato = requestCopy["formato"]
+            
+            if requestCopy["espessura"]:
+                produto.espessura = int(requestCopy["espessura"])
+            else:
+                produto.espessura = requestCopy["espessura"]
+
+            if requestCopy["junta_minima"]:
+                produto.junta_minima = int(requestCopy["junta_minima"])
+            else:
+                produto.junta_minima = requestCopy["junta_minima"]
+
+            produto.relevo = requestCopy["relevo"]
+            produto.acabamento_superficial = requestCopy["acabamento_superficial"]
+            produto.variacao_faces = requestCopy["variacao_faces"]
+            produto.classe_tecnica_absorcao_pisos = requestCopy["classe_tecnica_absorcao_pisos"]
+            produto.indicacao_uso = requestCopy["indicacao_uso"]
+            
+
+            if requestCopy["pecas_caixa"]:
+                produto.pecas_caixa = int(requestCopy["pecas_caixa"])
+            else:
+                produto.pecas_caixa = requestCopy["pecas_caixa"]
+
+            if requestCopy["peso_bruto_caixa"]:
+                produto.peso_bruto_caixa = decimal.Decimal(requestCopy["peso_bruto_caixa"].replace(",", "."))
+            else:
+                produto.peso_bruto_caixa = requestCopy["peso_bruto_caixa"]
+
+            if requestCopy["palet"]:
+                produto.palet = decimal.Decimal(requestCopy["palet"].replace(",", "."))
+            else:
+                produto.palet = requestCopy["palet"]
+
+            produto.save()
+            
         return redirect(request.POST["path"])
 
     return HttpResponse("Invalid request.")
