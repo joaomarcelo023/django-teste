@@ -37,13 +37,13 @@ class FotosProdutoSerializer(serializers.ModelSerializer):
 
 class PedidoProdutoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Pedido_Produto
+        model = PedidoProduto
         fields = '__all__'
 
 class PedidoOrderSerializer(serializers.ModelSerializer):
     pedidoProduto = PedidoProdutoSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Pedido_order
+        model = PedidoOrder
         fields = '__all__'
         extra_fields = ['pedidoProduto']

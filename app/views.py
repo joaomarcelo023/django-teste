@@ -103,7 +103,7 @@ class PedidoExisteMixin(object):
     def dispatch(self,request,*args, **kwargs):
         carro_id = request.session.get("carro_id")
         carro_obj = Carro.objects.get(id=carro_id)
-        pedido = Pedido_order.objects.filter(carro=carro_obj)
+        pedido = PedidoOrder.objects.filter(carro=carro_obj)
 
         if pedido:
             pass
@@ -128,7 +128,7 @@ class BaseContextMixin(object):
 
 class CrazyAlvaPaymentCheckMixin(object):
     def dispatch(self,request,*args,**kwargs):
-        pedidos = list(Pedido_order.objects.filter(pedido_status="Pagamento Processando", local_de_pagamento="online"))
+        pedidos = list(PedidoOrder.objects.filter(pedido_status="Pagamento Processando", local_de_pagamento="online"))
         # print(len(pedidos))
         if len(pedidos):
             pedido_aleatorio = pedidos[randint(0, len(pedidos))]
@@ -148,6 +148,7 @@ class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, Template
         all_produtos = Produto.objects.all().order_by("-quantidade_vendas")
         produto_list = preprocessar_precos(all_produtos)
 
+        # TODO: Deletar esse paginator se for ficar com a aparencia separada por categoria
         paginator = Paginator(produto_list, 20)
         page_number = self.request.GET.get('page', 1)
         context['page_obj'] = paginator.get_page(page_number)
@@ -219,7 +220,7 @@ class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, Template
         context['banners'] = Banner.objects.all()
 
         # TODO: Apagar esse teste
-        # testEmail("jggenio@gmail.com", User.objects.get(username="Alva"), Pedido_order.objects.get(id=96))
+        # testEmail("jggenio@gmail.com", User.objects.get(username="Alva"), PedidoOrder.objects.get(id=96))
 
         return context
 
@@ -473,7 +474,7 @@ class ManipularCarroView(LojaMixin, View):
             carro_obj.save()
             cp_obj.delete()
 
-            order = Pedido_order.objects.filter(carro=carro_obj)
+            order = PedidoOrder.objects.filter(carro=carro_obj)
             if order:
                 order.delete()
 
@@ -491,7 +492,7 @@ class LimparCarroView(LojaMixin, View):
             carro.total = 0
             carro.save()
 
-            order = Pedido_order.objects.filter(carro=carro)
+            order = PedidoOrder.objects.filter(carro=carro)
             if order:
                 order.delete()
 
@@ -499,7 +500,8 @@ class LimparCarroView(LojaMixin, View):
 
 class FormaDeEntregaView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, BaseContextMixin, CreateView):
     template_name = "forma_de_entrega.html"
-    form_class = Checar_PedidoForms
+    # TODO: Acho que pode tirar
+    # form_class = Checar_PedidoForms
     success_url = reverse_lazy("lojaapp:home")
 
     def get_context_data(self, **kwargs):
@@ -563,9 +565,9 @@ class FormaDeEntregaView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, 
 def pedido_carro_endereco(request):
     if request.method == 'POST':
         try:
-            # if Pedido_order.objects.filter(carro=request.POST["carro_id"]):
+            # if PedidoOrder.objects.filter(carro=request.POST["carro_id"]):
                 # print(request.POST)
-                # Pedido_order.objects.get(carro=request.POST["carro_id"]).delete()
+                # PedidoOrder.objects.get(carro=request.POST["carro_id"]).delete()
             # print(request.POST)
 
             usuario = User.objects.get(username=request.user.username)
@@ -594,8 +596,8 @@ def pedido_carro_endereco(request):
                 endereco_envio_formatado = f"{endereco_envio.rua}, {endereco_envio.bairro} - {endereco_envio.cep} {endereco_envio.cidade}/{endereco_envio.estado}"
 
             
-            if Pedido_order.objects.filter(carro=request.POST["carro_id"]):
-                pedido = Pedido_order.objects.get(carro=request.POST["carro_id"])
+            if PedidoOrder.objects.filter(carro=request.POST["carro_id"]):
+                pedido = PedidoOrder.objects.get(carro=request.POST["carro_id"])
                 pedido.endereco_envio = endereco_envio
                 pedido.endereco_envio_formatado = endereco_envio_formatado
                 pedido.total_bruto = total_bruto
@@ -603,7 +605,7 @@ def pedido_carro_endereco(request):
                 pedido.desconto_retirada = desconto_retirada
                 pedido.total_final = total_final
             else:
-                pedido = Pedido_order.objects.create(cliente=cliente, nome_cliente=nome_cliente, cpf_cnpj=cpf_cnpj, telefone=telefone, email=email, carro=carro, pedido_status=pedido_status, total_bruto=total_bruto, total_final=total_final, frete=frete, desconto_retirada=desconto_retirada, endereco_envio=endereco_envio, endereco_envio_formatado=endereco_envio_formatado)
+                pedido = PedidoOrder.objects.create(cliente=cliente, nome_cliente=nome_cliente, cpf_cnpj=cpf_cnpj, telefone=telefone, email=email, carro=carro, pedido_status=pedido_status, total_bruto=total_bruto, total_final=total_final, frete=frete, desconto_retirada=desconto_retirada, endereco_envio=endereco_envio, endereco_envio_formatado=endereco_envio_formatado)
             pedido.save()
 
             return redirect('lojaapp:checkout')
@@ -614,7 +616,8 @@ def pedido_carro_endereco(request):
 
 class CheckOutView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, PedidoExisteMixin, BaseContextMixin, CreateView):
     template_name = "processar.html"
-    form_class = Checar_PedidoForms
+    # TODO: Acho que pode tirar
+    # form_class = Checar_PedidoForms
     success_url = reverse_lazy("lojaapp:home")
 
     def get_context_data(self, **kwargs):
@@ -626,7 +629,7 @@ class CheckOutView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, Pedido
             carro_obj = None
         context["carro"] = carro_obj
 
-        pedido = Pedido_order.objects.get(carro=carro_obj)
+        pedido = PedidoOrder.objects.get(carro=carro_obj)
         context["pedido"] = pedido
     
         # descontos formas de pagamento
@@ -662,19 +665,20 @@ class CheckOutView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, Pedido
 
         return context
 
-    def form_valid(self,form):
-        carro_id = self.request.session.get("carro_id")
-        if carro_id:
-            carro_obj = Carro.objects.get(id=carro_id)
-            form.instance.carro = carro_obj
-            form.instance.subtotal = carro_obj.total
-            form.instance.desconto = 0
-            form.instance.total = carro_obj.total
-            form.instance.pedido_status = "Pedido Recebido"
-            del self.request.session['carro_id']
-        else:
-            return redirect("lojaapp:home")
-        return super().form_valid(form)
+    # TODO: Acho que pode tirar
+    # def form_valid(self,form):
+    #     carro_id = self.request.session.get("carro_id")
+    #     if carro_id:
+    #         carro_obj = Carro.objects.get(id=carro_id)
+    #         form.instance.carro = carro_obj
+    #         form.instance.subtotal = carro_obj.total
+    #         form.instance.desconto = 0
+    #         form.instance.total = carro_obj.total
+    #         form.instance.pedido_status = "Pedido Recebido"
+    #         del self.request.session['carro_id']
+    #     else:
+    #         return redirect("lojaapp:home")
+    #     return super().form_valid(form)
 
 def pedido_carro_pagamento(request):
     if request.method == 'POST':
@@ -683,7 +687,7 @@ def pedido_carro_pagamento(request):
             # usuario = User.objects.get(username=request.user.username)
             if request.POST["botaoStatus"] == "abled":
                 # Termina de preencher os dados de pagamento
-                pedido = Pedido_order.objects.get(id=request.POST["pedido_id"])
+                pedido = PedidoOrder.objects.get(id=request.POST["pedido_id"])
                 carro = pedido.carro
                 produtos = CarroProduto.objects.filter(carro=carro)
                 desc = 0
@@ -746,10 +750,10 @@ def pedido_carro_pagamento(request):
 
                 pedido.save()
 
-                # Cria os Pedido_Produto
+                # Cria os PedidoProduto
                 for produtosCarro in CarroProduto.objects.filter(carro=pedido.carro):
                     produto = Produto.objects.get(id=produtosCarro.produto.id)
-                    Pedido_Produto.objects.create(pedido=pedido, produto=produto, nome_produto=produto.titulo, codigo=produto.codigo, 
+                    PedidoProduto.objects.create(pedido=pedido, produto=produto, nome_produto=produto.titulo, codigo=produto.codigo, 
                                                 descricao=produto.descricao, codigo_GTIN=produto.codigo_GTIN, preco_unitario_bruto=produto.preco_unitario_bruto, 
                                                 desconto_dinheiro=produto.desconto_dinheiro, desconto_retira=produto.desconto_retira, unidade=produto.unidade, 
                                                 quantidade=produtosCarro.quantidade, total_bruto=produtosCarro.subtotal_bruto, 
@@ -779,7 +783,7 @@ def pedido_carro_pagamento(request):
     return HttpResponse("Invalid request.")
 
 def create_payment(request):
-    pedido = Pedido_order.objects.get(id=request.POST["pedido_id"])
+    pedido = PedidoOrder.objects.get(id=request.POST["pedido_id"])
     carro = pedido.carro
     produtos = CarroProduto.objects.filter(carro=carro)
 
@@ -895,9 +899,8 @@ class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
         pedido_id = self.request.GET.get("id")
         # pedido_status = self.request.GET.get("status")
 
-        # TODO: Acho que só funfa automaticamente pra cartão de credito
         # Muda status do pedido
-        pedido = Pedido_order.objects.get(id=pedido_id)
+        pedido = PedidoOrder.objects.get(id=pedido_id)
 
         EmailPedidoRealizado(pedido)
 
@@ -911,7 +914,7 @@ class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
         pedido.save()
 
         # Aumenta a quantidade de venda de cada produto
-        pedidoProduto = Pedido_Produto.objects.filter(pedido=pedido)
+        pedidoProduto = PedidoProduto.objects.filter(pedido=pedido)
         for pp in pedidoProduto:
             produto = Produto.objects.get(id=pp.produto.id)
             produto.quantidade_vendas += 1
@@ -1043,7 +1046,7 @@ class ClientePerfilView(LogedMixin, LojaMixin, BaseContextMixin, TemplateView):
         context['cliente'] = cliente
 
         
-        pedidos = Pedido_order.objects.filter(carro__cliente=cliente).order_by("-id")
+        pedidos = PedidoOrder.objects.filter(carro__cliente=cliente).order_by("-id")
         paginator = Paginator(pedidos, 6)
         page_number = self.request.GET.get('page', '1')
         context['pedidos'] = paginator.get_page(page_number)
@@ -1244,13 +1247,13 @@ class DeletarPerfilView(LoginRequiredMixin, LojaMixin, BaseContextMixin, DeleteV
 
 class ClientePedidoDetalheView(LogedMixin, BaseContextMixin, DetailView):
     template_name = "clientepedidodetalhe.html"
-    model = Pedido_order
+    model = PedidoOrder
     context_object_name = "pedido_obj"
 
     def dispatch(self, request, *args, **kwargs):
         # if request.user.is_authenticated and request.user.cliente:
         order_id = self.kwargs["pk"]
-        pedido = Pedido_order.objects.get(id=order_id)
+        pedido = PedidoOrder.objects.get(id=order_id)
         if request.user.cliente != pedido.carro.cliente:
             return redirect("lojaapp:clienteperfil")
 
@@ -1261,7 +1264,7 @@ class ClientePedidoDetalheView(LogedMixin, BaseContextMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        pedido = Pedido_order.objects.get(id=self.kwargs["pk"])
+        pedido = PedidoOrder.objects.get(id=self.kwargs["pk"])
 
         context["progresso"] = 0
         if pedido.pedido_status == "Pedido Recebido" or pedido.pedido_status == "Pagamento Pendente"  or pedido.pedido_status == "Pagamento Processando":
@@ -1434,7 +1437,6 @@ class PesquisarView(BaseContextMixin, TemplateView):
         # Coleta produtos dos filtros
         if precoMax or Caract_marcas or Caract_acabamento_superficial_pisos or Caract_classe_tecnica_absorcao_pisos or Caract_variacao_faces_pisos or Caract_indicacao_uso_pisos:
             urlGet = ""
-            # TODO: Olhar esse precoMax pra ver se é preco_unitario_bruto ou levando em conta embalagem ou no dinheiro
             if precoMax:
                 filters &= (Q(preco_unitario_bruto__lte=decimal.Decimal(precoMax.replace("R$", "").replace(" ", "").replace(',', '.'))))
 
@@ -1615,7 +1617,6 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
         if precoMax or Caract_marcas or Caract_acabamento_superficial_pisos or Caract_classe_tecnica_absorcao_pisos or Caract_variacao_faces_pisos or Caract_indicacao_uso_pisos:
             filters = (Q(Categoria__slug__iexact = categoria.slug))
             urlGet = ""
-            # TODO: Olhar esse precoMax pra ver se é preco_unitario_bruto ou levando em conta embalagem ou no dinheiro
             if precoMax:
                 filters &= (Q(preco_unitario_bruto__lte=decimal.Decimal(precoMax.replace("R$", "").replace(" ", "").replace(',', '.'))))
 
@@ -1762,14 +1763,14 @@ class AdminHomeView(AdminRequireMixin, BaseContextMixin, GeraHistoricoProdutosMi
         context = super().get_context_data(**kwargs)
         context["ProdutosMaisVendido"] = Produto.objects.all().order_by("-quantidade_vendas")
         context["ProdutosMaisVistos"] = Produto.objects.all().order_by("-visualizacao")
-        context["Pedidos"] = Pedido_order.objects.all().order_by("-id")
+        context["Pedidos"] = PedidoOrder.objects.all().order_by("-id")
 
         return context
 
 class AdminPedidoView(AdminRequireMixin, BaseContextMixin, DetailView):
     template_name = "admin_paginas/adminpedidodetalhe.html"
 
-    model = Pedido_order
+    model = PedidoOrder
 
     context_object_name = "pedido_obj"
 
@@ -1781,7 +1782,7 @@ class AdminPedidoView(AdminRequireMixin, BaseContextMixin, DetailView):
 class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, ListView):
     template_name = "admin_paginas/admintodospedido.html"
 
-    queryset = Pedido_order.objects.all().order_by("-id")
+    queryset = PedidoOrder.objects.all().order_by("-id")
     # context_object_name = "todospedido"
 
     def get_context_data(self, **kwargs):
@@ -1790,16 +1791,16 @@ class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, ListView):
         pedidoType_select = self.request.GET.get('pedidos', 'Todos')
 
         context = {
-            'PedidosAndamento' : Pedido_order.objects.filter(pedido_status="Pedido  em Andamento").order_by("-id"),
-            'PedidosRecebido' : Pedido_order.objects.filter(pedido_status="Pedido Recebido").order_by("-id"),
-            'PagamentoPendente' : Pedido_order.objects.filter(pedido_status="Pagamento Pendente").order_by("-id"),
-            'PagamentoProcessando' : Pedido_order.objects.filter(pedido_status="Pagamento Processando").order_by("-id"),
-            'PagamentoConfirmado' : Pedido_order.objects.filter(pedido_status="Pagamento Confirmado").order_by("-id"),
-            'PedidosProcessando' : Pedido_order.objects.filter(pedido_status="Pedido Processando").order_by("-id"),
-            'PedidosCaminho' : Pedido_order.objects.filter(pedido_status="Pedido Caminho").order_by("-id"),
-            'PedidosProntaRetirada' : Pedido_order.objects.filter(pedido_status="Pedido Pronta Retirada").order_by("-id"),
-            'PedidosCompletado' : Pedido_order.objects.filter(pedido_status="Pedido Completado").order_by("-id"),
-            'PedidosCancelado' : Pedido_order.objects.filter(pedido_status="Pedido Cancelado").order_by("-id"),
+            'PedidosAndamento' : PedidoOrder.objects.filter(pedido_status="Pedido  em Andamento").order_by("-id"),
+            'PedidosRecebido' : PedidoOrder.objects.filter(pedido_status="Pedido Recebido").order_by("-id"),
+            'PagamentoPendente' : PedidoOrder.objects.filter(pedido_status="Pagamento Pendente").order_by("-id"),
+            'PagamentoProcessando' : PedidoOrder.objects.filter(pedido_status="Pagamento Processando").order_by("-id"),
+            'PagamentoConfirmado' : PedidoOrder.objects.filter(pedido_status="Pagamento Confirmado").order_by("-id"),
+            'PedidosProcessando' : PedidoOrder.objects.filter(pedido_status="Pedido Processando").order_by("-id"),
+            'PedidosCaminho' : PedidoOrder.objects.filter(pedido_status="Pedido Caminho").order_by("-id"),
+            'PedidosProntaRetirada' : PedidoOrder.objects.filter(pedido_status="Pedido Pronta Retirada").order_by("-id"),
+            'PedidosCompletado' : PedidoOrder.objects.filter(pedido_status="Pedido Completado").order_by("-id"),
+            'PedidosCancelado' : PedidoOrder.objects.filter(pedido_status="Pedido Cancelado").order_by("-id"),
         }
         
         statusList = []
@@ -1812,7 +1813,7 @@ class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, ListView):
 class AdminPedidoMudarView(AdminRequireMixin, BaseContextMixin, ListView):
     def post(self,request,*args,**kwargs):
         pedido_id = self.kwargs["pk"]
-        pedido_obj = Pedido_order.objects.get(id=pedido_id)
+        pedido_obj = PedidoOrder.objects.get(id=pedido_id)
         novo_status = request.POST.get("status")
         pedido_obj.pedido_status = novo_status
         pedido_obj.save()
@@ -2043,7 +2044,7 @@ class PesquisarAdminView(AdminRequireMixin, BaseContextMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         kw = self.request.GET.get("query")
-        pedido = Pedido_order.objects.filter(Q(nome_cliente__icontains = kw) | Q(email__icontains = kw) | Q(id__iexact = kw)).order_by("-id")
+        pedido = PedidoOrder.objects.filter(Q(nome_cliente__icontains = kw) | Q(email__icontains = kw) | Q(id__iexact = kw)).order_by("-id")
         produto = Produto.objects.filter(Q(codigo__iexact = kw) | Q(codigo_GTIN__iexact = kw) | Q(slug__iexact = kw) | Q(descricao__icontains = kw) | Q(titulo__icontains = kw) | Q(Categoria__titulo__icontains = kw))
         
         if produto.exists() and not pedido.exists():
@@ -2070,7 +2071,7 @@ def consultar_checkout_pag(request):
     if request.method == 'POST':
         # print(request.POST)
         if request.POST["checkout_id"]:
-            pedido = Pedido_order.objects.get(id=request.POST["pedido_id"])
+            pedido = PedidoOrder.objects.get(id=request.POST["pedido_id"])
 
             url = "https://sandbox.api.pagseguro.com/checkouts/" + request.POST["checkout_id"] + "?offset=0&limit=10"
 
@@ -2110,7 +2111,7 @@ def consultar_checkout_pag(request):
 def cancelar_checkout_pag(request):
     if request.method == 'POST':
         # print(request.POST)
-        # pedido = Pedido_order.objects.get(id=request.POST["pedido_id"])
+        # pedido = PedidoOrder.objects.get(id=request.POST["pedido_id"])
         url = "https://internal.sandbox.api.pagseguro.com/charges/" + request.POST["id_cancel"] + "/cancel"
         # internal.
 
@@ -2135,7 +2136,7 @@ def cancelar_checkout_pag(request):
 def test_atualizacao_pag(request):
     # if request.method == 'POST':
     #     pedido_id = "52"
-    #     pedido = Pedido_order.objects.get(id=pedido_id)
+    #     pedido = PedidoOrder.objects.get(id=pedido_id)
 
     #     notification_code = request.POST.get("notificationCode")
     #     notification_type = request.POST.get("notificationType")
@@ -2627,13 +2628,13 @@ class FotosProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 ## Pedido Order
 class PedidoOrderListCreateView(generics.ListCreateAPIView):
-    queryset = Pedido_order.objects.prefetch_related("pedidoProduto")
+    queryset = PedidoOrder.objects.prefetch_related("pedidoProduto")
     serializer_class = PedidoOrderSerializer
 
     permission_classes = [HasAPIKey]
 
 class PedidoOrderDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Pedido_order.objects.prefetch_related("pedidoProduto")
+    queryset = PedidoOrder.objects.prefetch_related("pedidoProduto")
     serializer_class = PedidoOrderSerializer
 
     permission_classes = [HasAPIKey]
@@ -2660,13 +2661,13 @@ class PedidoOrderDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 ## Pedido Produto
 class PedidoProdutoListCreateView(generics.ListCreateAPIView):
-    queryset = Pedido_Produto.objects.all()
+    queryset = PedidoProduto.objects.all()
     serializer_class = PedidoProdutoSerializer
 
     permission_classes = [HasAPIKey]
 
 class PedidoProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Pedido_Produto.objects.all()
+    queryset = PedidoProduto.objects.all()
     serializer_class = PedidoProdutoSerializer
 
     permission_classes = [HasAPIKey]

@@ -13,6 +13,6 @@ class FotosProdutoAdmin(admin.ModelAdmin):
 # class ProdutoAdmin(admin.ModelAdmin):
 #     filter_horizontal = ('estoque_lojas',)
 
-admin.site.register([Cliente, Endereco, Categoria, Produto, Carro, CarroProduto, Pedido_order, Pedido_Produto, Banner, Empresa, Admin, APIKey, TestStatus])
+admin.site.register([Cliente, Endereco, Categoria, Produto, Carro, CarroProduto, PedidoOrder, PedidoProduto, Banner, Empresa, Admin, APIKey, TestStatus])
 admin.site.register(FotosProduto, FotosProdutoAdmin)
 # admin.site.register(Produto, ProdutoAdmin)

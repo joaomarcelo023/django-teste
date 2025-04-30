@@ -2,8 +2,6 @@ TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 
 TODO-ALVAREZ: Arrumar pagina de contato
 
-TODO-ALVAREZ: Olhar segurança dos forms
-
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte
   Interface de home, pesquisa e detalhe do produto bem montadinha

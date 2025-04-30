@@ -221,7 +221,7 @@ PEDIDO_STATUS=[
     ("Pedido Cancelado", "Pedido Cancelado"),
 ]
 
-class Pedido_order(models.Model):
+class PedidoOrder(models.Model):
     cliente = models.ForeignKey(Cliente,on_delete=models.SET_NULL,default="",null=True)
     nome_cliente = models.CharField(max_length=200,default="")
     cpf_cnpj = models.CharField(max_length=20, default="") # cpf do cliente formatadinho direitinho
@@ -251,15 +251,12 @@ class Pedido_order(models.Model):
 
     id_PagBank = models.CharField(max_length=200,default="",null=True,blank=True)
 
-    # TODO-ALVAREZ deletar de forma responsável
-    ordenado_por = models.CharField(max_length=200,null=True,blank=True)
-
     def __str__(self):
         return "Pedido: " + str(self.id) + " | Status: " + self.pedido_status + " | Cliente: " + self.nome_cliente
 
-class Pedido_Produto(models.Model):
+class PedidoProduto(models.Model):
     #importante repetir informações do produto para que uma mudança de cadastro não altere a venda
-    pedido = models.ForeignKey(Pedido_order,on_delete=models.CASCADE,related_name="pedidoProduto",default="")
+    pedido = models.ForeignKey(PedidoOrder,on_delete=models.CASCADE,related_name="pedidoProduto",default="")
     produto = models.ForeignKey(Produto,on_delete=models.SET_NULL,default="",null=True)
     nome_produto = models.CharField(max_length=200,default="")
 
@@ -281,7 +278,7 @@ class Pedido_Produto(models.Model):
         if not self.nome_produto:
             self.nome_produto = self.produto.titulo
 
-        super(Pedido_Produto, self).save(*args, **kwargs)
+        super(PedidoProduto, self).save(*args, **kwargs)
 
     def __str__(self):
         return "Pedido: " + str(self.pedido.id) + " | Codigo do produto: " + self.codigo + " | Produto: " + self.nome_produto

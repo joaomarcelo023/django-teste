@@ -1,38 +1,39 @@
 from django import forms
-from .models import Pedido_order, Cliente, Endereco, FotosProduto
+from .models import PedidoOrder, Cliente, Endereco, FotosProduto
 from django.db.models import fields
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, TextInput, EmailInput
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 
-class Checar_PedidoForms(forms.ModelForm):
-    class Meta:
-        model = Pedido_order
-        fields = ['ordenado_por',"endereco_envio","telefone"]
+# TODO: Acho que esse checar_PedidoForms não é utilizado
+# class Checar_PedidoForms(forms.ModelForm):
+#     class Meta:
+#         model = PedidoOrder
+#         fields = ['ordenado_por',"endereco_envio","telefone"]
 
-        labels = {
-            'ordenado_por': 'Nome do recebedor',
-            'endereco_envio': 'Endereço de envio',
-            'telefone': 'Telefone'
-        }
-        widgets = {
-            'ordenado_por': TextInput(attrs={
-                'class': 'form-control',
-                'style': 'max-width: 100%;',
-                'placeholder': 'Nome Completo'
-            }),
-            'endereco_envio': TextInput(attrs={
-                'class': 'form-control',
-                'style': 'max-width: 100%;',
-                'placeholder': 'Endereço de envio'
-            }),
-            'telefone': TextInput(attrs={
-                'class': 'form-control',
-                'style': 'max-width: 100%;',
-                'placeholder': 'Telefone'
-            }),
-        }
+#         labels = {
+#             'ordenado_por': 'Nome do recebedor',
+#             'endereco_envio': 'Endereço de envio',
+#             'telefone': 'Telefone'
+#         }
+#         widgets = {
+#             'ordenado_por': TextInput(attrs={
+#                 'class': 'form-control',
+#                 'style': 'max-width: 100%;',
+#                 'placeholder': 'Nome Completo'
+#             }),
+#             'endereco_envio': TextInput(attrs={
+#                 'class': 'form-control',
+#                 'style': 'max-width: 100%;',
+#                 'placeholder': 'Endereço de envio'
+#             }),
+#             'telefone': TextInput(attrs={
+#                 'class': 'form-control',
+#                 'style': 'max-width: 100%;',
+#                 'placeholder': 'Telefone'
+#             }),
+#         }
 
 class ClienteRegistrarForms(forms.ModelForm):
     senha = forms.CharField(widget = forms.PasswordInput (attrs={
@@ -155,7 +156,6 @@ class EnderecoRegistrarForms(forms.ModelForm):
 
         }
 
-# TODO: Terminar de "adaptar" (copiar na cara dura) essas paginas
 class ClienteEditarNome(forms.Form):
     nome = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': 'Nome',
