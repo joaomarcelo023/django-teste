@@ -1443,7 +1443,7 @@ class PesquisarView(BaseContextMixin, TemplateView):
                 urlGet += f"&precoMax={precoMax}"
 
             if Caract_acabamento_superficial_pisos:
-                filters &= (Q(acabamento_superficial__icontains__in=Caract_acabamento_superficial_pisos))
+                filters &= (Q(acabamento_superficial__in=Caract_acabamento_superficial_pisos))
 
                 for n in Caract_acabamento_superficial_pisos:
                     urlGet += f"&acabamento_superficial_pisos={n}"
@@ -1623,7 +1623,7 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
                 urlGet += f"&precoMax={precoMax}"
 
             if Caract_acabamento_superficial_pisos:
-                filters &= (Q(acabamento_superficial__icontains__in=Caract_acabamento_superficial_pisos))
+                filters &= (Q(acabamento_superficial__in=Caract_acabamento_superficial_pisos))
 
                 for n in Caract_acabamento_superficial_pisos:
                     urlGet += f"&acabamento_superficial_pisos={n}"
