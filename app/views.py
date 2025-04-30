@@ -2044,6 +2044,7 @@ class PesquisarAdminView(AdminRequireMixin, BaseContextMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         kw = self.request.GET.get("query")
+        desamb = self.request.GET.get("desambiguidade")
         pedido = PedidoOrder.objects.filter(Q(nome_cliente__icontains = kw) | Q(email__icontains = kw) | Q(id__iexact = kw)).order_by("-id")
         produto = Produto.objects.filter(Q(codigo__iexact = kw) | Q(codigo_GTIN__iexact = kw) | Q(slug__iexact = kw) | Q(descricao__icontains = kw) | Q(titulo__icontains = kw) | Q(Categoria__titulo__icontains = kw))
         
@@ -2058,8 +2059,22 @@ class PesquisarAdminView(AdminRequireMixin, BaseContextMixin, TemplateView):
             context['produto'] = False
             context['pedido'] = True
             result = pedido
-        # TODO: Pensar nesse elif
-        # elif pedido.exists() and produto.exists():
+        elif pedido.exists() and produto.exists():
+            if desamb == "produto":
+                context['produto'] = True
+                context['pedido'] = False
+
+                paginator = Paginator(produto, 20)
+                page_number = self.request.GET.get('page')
+                result = paginator.get_page(page_number)
+            elif desamb == "pedido":
+                context['produto'] = False
+                context['pedido'] = True
+                result = pedido
+            else:
+                context['produto'] = True
+                context['pedido'] = True
+                result = None
         else:
             result = None
 

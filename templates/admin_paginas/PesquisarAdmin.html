@@ -1,4 +1,5 @@
 {%extends "admin_paginas/adminbase.html"%}
+{% load static %}
 {% load humanize %}
 {% load l10n %}
 {% load custom_filters %}
@@ -6,12 +7,24 @@
 {% block title %}Pesquisar Admin - CasaHG{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/PesquisarAdmin.css' %}">
+
 <section class="container">
     {% if resultados %}
-        {% if pedido %}
+        {% if pedido and produto %}
+            <h2 class="text-success">"{{ request.GET.query }}"</h2>
+            <div class="row">
+                <div class="col-12 justify-content-center">
+                    <form method="GET">
+                        <input type="hidden" name="query" value="{{ request.GET.query }}">
+                        <p>Você está procurando <button class="desambiguiBtn" name="desambiguidade" value="produto">Produto {{ request.GET.query }}</button> ou <button class="desambiguiBtn" name="desambiguidade" value="pedido">Pedido {{ request.GET.query }}</button></p>
+                    </form>
+                </div>
+            </div>
+        {% elif pedido %}
             <div class="row">
                 <div class="col-sm-12 mx-auto">
-                    <h2 class="text-success">"{{request.GET.query}}"</h2>
+                    <h2 class="text-success">"{{ request.GET.query }}"</h2>
                     <table class="table text-center">
                         <h3>Pedidos</h3>
                         <tr>
@@ -53,7 +66,7 @@
                 </div>
             </div>
         {% elif produto %}
-            <h2 class="text-success">"{{request.GET.query}}"</h2>
+            <h2 class="text-success">"{{ request.GET.query }}"</h2>
             <section class="container">
                 <div class="row mt-1 justify-content-center align-items-center">
                 {% for p in resultados %}
