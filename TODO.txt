@@ -4,6 +4,14 @@ TODO-ALVAREZ: Ver celery pros emails
 
 TODO-ALVAREZ: Arrumar pagina de contato
 
+TODO-ALVAREZ: Arrumar o limite de quantidade no produto detalhe, o valor em estoque é a quantidade total na unidade do produto (ex.: m2) e não em caixas
+
+TODO-ALVAREZ: Mudar botão de + e - em produto detalhe pra imagens ou svg pra não dar pra dar highlight
+
+TODO-ALVAREZ: Ta com um problema de algoritmo significativo no meucarro
+
+TODO-ALVAREZ: Melhorar carroseis no mobile pro usuario ver que tem um carrosel e não só dois produtos
+
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte
   Interface de home, pesquisa e detalhe do produto bem montadinha

@@ -539,7 +539,7 @@ class FormaDeEntregaView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, 
 
         # Calculo da data de entrega
         hoje = datetime.date.today()
-        feriados = holidays.BR('RJ')
+        feriados = holidays.BR(state='RJ')
         diasUteis = 0
         dia = datetime.date.today()
         interv = datetime.timedelta(days=1)
