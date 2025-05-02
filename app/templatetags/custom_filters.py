@@ -38,7 +38,7 @@ def comma_point(value):
 
 @register.filter
 def prod(value, arg):
-    return float(value) * float(arg)
+    return round((float(value) * float(arg)), 2)
 
 @register.filter
 def orGet(value, arg):

@@ -216,3 +216,5 @@ TODO-ALVAREZ-RESOLVIDO: Colocar limite de compra no produto detalhe pro limite d
 TODO-ALVAREZ-RESOLVIDO: Atualizar admin produto detalhe
 
 TODO-ALVAREZ-RESOLVIDO: Datetime/holidays ta dando pau no pythonanywhere
+
+TODO-ALVAREZ-RESOLVIDO: Ta com um problema de algoritmo significativo no meucarro
