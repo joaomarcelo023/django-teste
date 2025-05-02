@@ -1,5 +1,7 @@
 TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 
+TODO-ALVAREZ: Ver celery pros emails
+
 TODO-ALVAREZ: Arrumar pagina de contato
 
 "Coisas que precisam estar bem estruturadas:

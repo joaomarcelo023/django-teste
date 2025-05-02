@@ -151,9 +151,13 @@ class Produto(models.Model):
         if not self.image:
             self.image.name = "produtos/NoImgAvailable.webp"
 
+        t = 0
         for estoque_loja in self.estoque_lojas.values():
-            if estoque_loja > 0:
+            t += estoque_loja
+            if t > 0:
                 self.em_estoque = True
+            else:
+                self.em_estoque = False
 
         super(Produto, self).save(*args, **kwargs)
 

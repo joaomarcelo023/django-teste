@@ -309,7 +309,7 @@ class AddCarroView(LojaMixin, View):
                         subtotal = produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
                     )
 
-                carro_obj.total += carroproduto.subtotal
+                carro_obj.total += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
                 carro_obj.save()
 
             except Carro.DoesNotExist:
@@ -323,7 +323,7 @@ class AddCarroView(LojaMixin, View):
                     subtotal_bruto=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem,
                     subtotal=produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
                 )
-                carro_obj.total += carroproduto.subtotal
+                carro_obj.total += produto_obj.preco_unitario_bruto * produto_obj.fechamento_embalagem
                 carro_obj.save()
 
         return redirect("lojaapp:home")
@@ -498,10 +498,9 @@ class LimparCarroView(LojaMixin, View):
 
         return redirect("lojaapp:meucarro")
 
-class FormaDeEntregaView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, BaseContextMixin, CreateView):
+class FormaDeEntregaView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, BaseContextMixin, TemplateView):
     template_name = "forma_de_entrega.html"
-    # TODO: Acho que pode tirar
-    # form_class = Checar_PedidoForms
+    # form_class = Checar_PedidoForms # TODO: Acho que pode tirar
     success_url = reverse_lazy("lojaapp:home")
 
     def get_context_data(self, **kwargs):
@@ -614,10 +613,9 @@ def pedido_carro_endereco(request):
         
     return HttpResponse("Invalid request.")
 
-class CheckOutView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, PedidoExisteMixin, BaseContextMixin, CreateView):
-    template_name = "processar.html"
-    # TODO: Acho que pode tirar
-    # form_class = Checar_PedidoForms
+class CheckOutView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, PedidoExisteMixin, BaseContextMixin, TemplateView):
+    template_name = "processar.html"    
+    # form_class = Checar_PedidoForms # TODO: Acho que pode tirar
     success_url = reverse_lazy("lojaapp:home")
 
     def get_context_data(self, **kwargs):
