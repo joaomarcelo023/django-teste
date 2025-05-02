@@ -218,3 +218,5 @@ TODO-ALVAREZ-RESOLVIDO: Atualizar admin produto detalhe
 TODO-ALVAREZ-RESOLVIDO: Datetime/holidays ta dando pau no pythonanywhere
 
 TODO-ALVAREZ-RESOLVIDO: Ta com um problema de algoritmo significativo no meucarro
+
+TODO-ALVAREZ-RESOLVIDO: Mudar botão de + e - em produto detalhe pra imagens ou svg pra não dar pra dar highlight
