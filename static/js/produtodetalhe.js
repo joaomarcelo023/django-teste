@@ -1,9 +1,8 @@
 // Controle de quantidade
 const quantidadeValor = document.querySelectorAll(".quantValue");
-const quantidadePorCaixa = document.querySelectorAll(".quantidade_embalagem");
-const quantidadePorCaixasConst = quantidadePorCaixa[0].textContent.replace(",", ".");
 const quantidadeCaixas = document.querySelectorAll(".quantidade_total_caixas");
-const quantidadeCaixasConst = quantidadeCaixas[0].textContent.replace(",", ".");
+// const quantidadeCaixasConst = quantidadeCaixas[0].textContent.replace(",", ".");
+const quantidadeCaixasConst = document.getElementById("quantidadePorCaixa").getAttribute("data-quantidadePorCaixa").replace(",", ".");
 const custoCaixas = document.querySelectorAll(".custo_total_caixas");
 const custoCaixasConst = custoCaixas[0].textContent.replace(",", ".");
 
@@ -33,30 +32,39 @@ function addUnit() {
 }
 
 function inputUnit(quant) {
-    // if (quant >= parseInt(quantidadeValor[0].min) && quant <= parseInt(quantidadeValor[0].max)){
-    if (quant >= parseInt(quantidadeValor[0].min) && (parseFloat(quantidadeCaixasConst) * quant) <= (parseInt(quantidadeValor[0].max))){
-        if (quantidadeCaixas[0] || quantidadeCaixas[1]) {
-            quantidadeCaixas.forEach(qc => {
-                qc.textContent = ((parseFloat(quantidadeCaixasConst) * quant).toFixed(2)).replace(".", ",");
+    if (!Number.isInteger(Number(quant))) {
+        quantidadeValor.forEach(qv => {
+            qv.value = Math.round(quant);
+        });
+
+        inputUnit(Math.round(quant))
+    }
+    else{
+        // if (quant >= parseInt(quantidadeValor[0].min) && quant <= parseInt(quantidadeValor[0].max)){
+        if (quant >= parseInt(quantidadeValor[0].min) && (parseFloat(quantidadeCaixasConst) * quant) <= (parseInt(quantidadeValor[0].max))){
+            if (quantidadeCaixas[0] || quantidadeCaixas[1]) {
+                quantidadeCaixas.forEach(qc => {
+                    qc.textContent = ((parseFloat(quantidadeCaixasConst) * quant).toFixed(2)).replace(".", ",");
+                });
+            }
+            custoCaixas.forEach(cc => {
+                cc.textContent = ((parseFloat(custoCaixasConst) * quant).toFixed(2)).replace(".", ",");
             });
         }
-        custoCaixas.forEach(cc => {
-            cc.textContent = ((parseFloat(custoCaixasConst) * quant).toFixed(2)).replace(".", ",");
-        });
-    }
-    else if (quant < parseInt(quantidadeValor[0].min)) {
-        quantidadeValor.forEach(qv => {
-            qv.value = 1;
-        });
+        else if (quant < parseInt(quantidadeValor[0].min)) {
+            quantidadeValor.forEach(qv => {
+                qv.value = 1;
+            });
 
-        inputUnit(1)
-    }
-    else if ((parseFloat(quantidadeCaixasConst) * quant) > (parseInt(quantidadeValor[0].max))) {
-        quantidadeValor.forEach(qv => {
-            qv.value = parseInt(quantidadeValor[0].max) / parseFloat(quantidadeCaixasConst);
-        });
+            inputUnit(1)
+        }
+        else if ((parseFloat(quantidadeCaixasConst) * quant) > (parseInt(quantidadeValor[0].max))) {
+            quantidadeValor.forEach(qv => {
+                qv.value = parseInt(quantidadeValor[0].max) / parseFloat(quantidadeCaixasConst);
+            });
 
-        inputUnit(parseInt(quantidadeValor[0].max) / parseFloat(quantidadeCaixasConst))
+            inputUnit(parseInt(quantidadeValor[0].max) / parseFloat(quantidadeCaixasConst))
+        }
     }
 }
 

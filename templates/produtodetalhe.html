@@ -55,7 +55,7 @@
                 <p class="condPreco"> em até 12x, entregando</p>
                 
                 <p class="preco_dinheiro">R${{ preco_dinheiro|intcomma }}/{{ produto.unidade|format_unit }} no dinheiro retirando</p>
-                {% if produto.fechamento_embalagem > 1 %}
+                {% if produto.fechamento_embalagem|gt:1 %}
                     <div class="infoEmbalagem">
                         <span><span class="quantidade_embalagem">{{ produto.fechamento_embalagem }}</span>{{ produto.unidade|format_unit }} por caixa</span>
                         <br>
@@ -66,7 +66,7 @@
                     <div id="minusUnit" class="quantidadeButton" onclick="takeUnit()">-</div>
                     <input class="quantValue" type="number" inputmode="numeric" min="1" max="{{ limite_estoque }}" name="quantidade" value="1" oninput="inputUnit(value)">
                     <div id="plusUnit" class="quantidadeButton" onclick="addUnit()">+</div>
-                    {% if produto.fechamento_embalagem > 1 %}
+                    {% if produto.fechamento_embalagem|gt:1 %}
                         <span class="caixasQuant">caixas</span>
                     {% endif %}
                 </div>
@@ -126,7 +126,7 @@
                 <p class="condPreco"> em até 12x, entregando</p>
                 
                 <p class="preco_dinheiro">R${{ preco_dinheiro|intcomma }}/{{ produto.unidade|format_unit }} no dinheiro retirando</p>
-                {% if produto.fechamento_embalagem > 1 %}
+                {% if produto.fechamento_embalagem|gt:1 %}
                     <div class="infoEmbalagem">
                         <span><span class="quantidade_embalagem">{{ produto.fechamento_embalagem }}</span>{{ produto.unidade|format_unit }} por caixa</span>
                         <br>
@@ -135,9 +135,9 @@
                 {% endif %}
                 <div class="quantSelect justify-content-left d-flex">
                     <div id="minusUnit" class="quantidadeButton" onclick="takeUnit()">-</div>
-                    <input class="quantValue" type="number" inputmode="numeric" min="1" max="{{ limite_estoque }}" name="quantidade" value="1" oninput="inputUnit(value)">
+                    <input class="quantValue" type="number" inputmode="numeric" min="1" max="{{ limite_estoque }}" step="1" name="quantidade" value="1" oninput="inputUnit(value)">
                     <div id="plusUnit" class="quantidadeButton" onclick="addUnit()">+</div>
-                    {% if produto.fechamento_embalagem > 1 %}
+                    {% if produto.fechamento_embalagem|gt:1 %}
                         <span class="caixasQuant">caixas</span>
                     {% endif %}
                 </div>
@@ -354,5 +354,6 @@
     </div>
 {% endif %}
 
+<div id="quantidadePorCaixa" data-quantidadePorCaixa='{{ produto.fechamento_embalagem }}'></div>
 <script src="{% static 'js/produtodetalhe.js' %}"></script>
 {% endblock %}
