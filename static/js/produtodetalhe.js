@@ -20,7 +20,7 @@ function takeUnit() {
 
 function addUnit() {
     // if (parseInt(quantidadeValor[1].value) < parseInt(quantidadeValor[1].max)) {
-    if (parseFloat(quantidadeCaixas[0].textContent.replace(",", ".")) < (parseInt(quantidadeValor[1].max))) {
+    if (parseFloat(quantidadeCaixas[0].textContent.replace(",", ".")) < (parseFloat(quantidadeValor[1].max.replace(",", ".")))) {
         quant = parseInt(quantidadeValor[1].value) + 1;
 
         quantidadeValor.forEach(qv => {
@@ -39,9 +39,9 @@ function inputUnit(quant) {
 
         inputUnit(Math.round(quant))
     }
-    else{
+    else {
         // if (quant >= parseInt(quantidadeValor[0].min) && quant <= parseInt(quantidadeValor[0].max)){
-        if (quant >= parseInt(quantidadeValor[0].min) && (parseFloat(quantidadeCaixasConst) * quant) <= (parseInt(quantidadeValor[0].max))){
+        if (quant >= parseInt(quantidadeValor[0].min) && (parseFloat(quantidadeCaixasConst) * quant).toFixed(2) <= (parseFloat(quantidadeValor[1].max.replace(",", ".")))){
             if (quantidadeCaixas[0] || quantidadeCaixas[1]) {
                 quantidadeCaixas.forEach(qc => {
                     qc.textContent = ((parseFloat(quantidadeCaixasConst) * quant).toFixed(2)).replace(".", ",");
@@ -58,12 +58,12 @@ function inputUnit(quant) {
 
             inputUnit(1)
         }
-        else if ((parseFloat(quantidadeCaixasConst) * quant) > (parseInt(quantidadeValor[0].max))) {
+        else if ((parseFloat(quantidadeCaixasConst) * quant).toFixed(2) > (parseFloat(quantidadeValor[1].max.replace(",", ".")))) {
             quantidadeValor.forEach(qv => {
-                qv.value = parseInt(quantidadeValor[0].max) / parseFloat(quantidadeCaixasConst);
+                qv.value = parseFloat(quantidadeValor[0].max.replace(",", ".")) / parseFloat(quantidadeCaixasConst);
             });
 
-            inputUnit(parseInt(quantidadeValor[0].max) / parseFloat(quantidadeCaixasConst))
+            inputUnit(parseFloat(quantidadeValor[0].max.replace(",", ".")) / parseFloat(quantidadeCaixasConst))
         }
     }
 }

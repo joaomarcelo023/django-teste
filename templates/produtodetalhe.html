@@ -135,7 +135,7 @@
                 {% endif %}
                 <div class="quantSelect justify-content-left d-flex">
                     <div id="minusUnit" class="quantidadeButton" onclick="takeUnit()">-</div>
-                    <input class="quantValue" type="number" inputmode="numeric" min="1" max="{{ limite_estoque }}" step="1" name="quantidade" value="1" oninput="inputUnit(value)">
+                    <input class="quantValue" type="number" inputmode="numeric" min="1" max="{{ limite_estoque }}" name="quantidade" value="1" oninput="inputUnit(value)">
                     <div id="plusUnit" class="quantidadeButton" onclick="addUnit()">+</div>
                     {% if produto.fechamento_embalagem|gt:1 %}
                         <span class="caixasQuant">caixas</span>
