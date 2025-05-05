@@ -456,11 +456,13 @@ class ManipularCarroView(LojaMixin, View):
         carro_obj = cp_obj.carro
 
         if acao =="inc":
-            cp_obj.quantidade += 1
-            cp_obj.subtotal += cp_obj.preco_unitario
-            cp_obj.save()
-            carro_obj.total += cp_obj.preco_unitario
-            carro_obj.save()
+            if (cp_obj.quantidade * cp_obj.produto.fechamento_embalagem) < sum(cp_obj.produto.estoque_lojas.values()):
+                cp_obj.quantidade += 1
+                cp_obj.subtotal += cp_obj.preco_unitario
+                cp_obj.subtotal_bruto += cp_obj.preco_unitario
+                cp_obj.save()
+                carro_obj.total += cp_obj.preco_unitario
+                carro_obj.save()
         elif acao =="dcr":
             cp_obj.quantidade -= 1
             cp_obj.subtotal -= cp_obj.preco_unitario
