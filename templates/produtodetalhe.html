@@ -57,7 +57,7 @@
                 <p class="preco_dinheiro">R${{ preco_dinheiro|intcomma }}/{{ produto.unidade|format_unit }} no dinheiro retirando</p>
                 {% if produto.fechamento_embalagem > 1 %}
                     <div class="infoEmbalagem">
-                        <span>{{ produto.fechamento_embalagem }}{{ produto.unidade|format_unit }} por caixa</span>
+                        <span><span class="quantidade_embalagem">{{ produto.fechamento_embalagem }}</span>{{ produto.unidade|format_unit }} por caixa</span>
                         <br>
                         <span>R${{ preco_caixa }} a caixa</span>
                     </div>
@@ -128,7 +128,7 @@
                 <p class="preco_dinheiro">R${{ preco_dinheiro|intcomma }}/{{ produto.unidade|format_unit }} no dinheiro retirando</p>
                 {% if produto.fechamento_embalagem > 1 %}
                     <div class="infoEmbalagem">
-                        <span>{{ produto.fechamento_embalagem }}{{ produto.unidade|format_unit }} por caixa</span>
+                        <span><span class="quantidade_embalagem">{{ produto.fechamento_embalagem }}</span>{{ produto.unidade|format_unit }} por caixa</span>
                         <br>
                         <span>R${{ preco_caixa }} a caixa</span>
                     </div>
