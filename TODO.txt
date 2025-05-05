@@ -4,8 +4,6 @@ TODO-ALVAREZ: Ver celery pros emails
 
 TODO-ALVAREZ: Arrumar pagina de contato
 
-TODO-ALVAREZ: Melhorar carroseis no mobile pro usuario ver que tem um carrosel e não só dois produtos
-
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte
   Interface de home, pesquisa e detalhe do produto bem montadinha
