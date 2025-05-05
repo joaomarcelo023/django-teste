@@ -2479,8 +2479,8 @@ class ChunkedProdutoPisoFichaTecJsonUploadView(APIView):
                     except Produto.DoesNotExist:
                         continue
                     # Pega os tuples com todas as opções, transforma eles em dicionarios e faz o match pro valor lido pelo django
-                    if data["classe_tecnica_absorcao_pisos"][str(i)]:
-                        dataCTA = unicodedata.normalize('NFKD', data["classe_tecnica_absorcao_pisos"][str(i)]).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
+                    if data["Classe tecnica (absorcao)"][str(i)]:
+                        dataCTA = unicodedata.normalize('NFKD', data["Classe tecnica (absorcao)"][str(i)]).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
                         classe_tecnica_absorcao_pisos_field = Produto._meta.get_field('classe_tecnica_absorcao_pisos')
                         display_to_value_cta = {unicodedata.normalize('NFKD', label).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_"): value 
                                                 for value, label in classe_tecnica_absorcao_pisos_field.choices}
@@ -2488,32 +2488,32 @@ class ChunkedProdutoPisoFichaTecJsonUploadView(APIView):
                     else:
                         cta = None
                     
-                    if data["variacao_faces"][str(i)]:
+                    if data["Variacao de faces"][str(i)]:
                         variacao_faces_field = Produto._meta.get_field('variacao_faces')
                         display_to_value_va = {label.lower(): value for value, label in variacao_faces_field.choices}
-                        vf = display_to_value_va.get(data["variacao_faces"][str(i)].lower())
+                        vf = display_to_value_va.get(data["Variacao de faces"][str(i)].lower())
                     else:
                         vf = None
                     
-                    if data["indicacao_uso"][str(i)]:
+                    if data["Indicacao de uso"][str(i)]:
                         indicacao_uso_field = Produto._meta.get_field('indicacao_uso')
                         display_to_value_iu = {label.lower(): value for value, label in indicacao_uso_field.choices}
-                        iu = display_to_value_iu.get(data["indicacao_uso"][str(i)].lower())
+                        iu = display_to_value_iu.get(data["Indicacao de uso"][str(i)].lower())
                     else:
                         iu = None
 
-                    prod.marca = data["marca"][str(i)]
-                    prod.formato = data["formato"][str(i)]
-                    prod.espessura = data["espessura"][str(i)]
-                    prod.junta_minima = data["junta_minima"][str(i)]
-                    prod.relevo = data["relevo"][str(i)]
-                    prod.acabamento_superficial = data["acabamento_superficial"][str(i)]
+                    prod.marca = data["Marca"][str(i)]
+                    prod.formato = data["Formato"][str(i)]
+                    prod.espessura = data["Espessura"][str(i)]
+                    prod.junta_minima = data["Junta Minima"][str(i)]
+                    prod.relevo = data["Relevo"][str(i)]
+                    prod.acabamento_superficial = data["Acabamento superficial"][str(i)]
                     prod.classe_tecnica_absorcao_pisos = cta
                     prod.variacao_faces = vf
                     prod.indicacao_uso = iu
-                    prod.pecas_caixa = data["pecas_caixa"][str(i)]
-                    prod.peso_bruto_caixa = data["peso_bruto_caixa"][str(i)]
-                    prod.palet = data["palet"][str(i)]
+                    prod.pecas_caixa = data["Pecas Caixa"][str(i)]
+                    prod.peso_bruto_caixa = data["Peso Bruto Caixa"][str(i)]
+                    prod.palet = data["Palet"][str(i)]
 
                     prod.save()
                     
