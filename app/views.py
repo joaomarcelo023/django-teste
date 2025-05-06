@@ -34,6 +34,7 @@ from django.template.loader import render_to_string
 from PIL import Image
 from io import BytesIO
 from random import randint
+# from threading import Thread
 import unicodedata
 import requests
 import datetime
@@ -947,6 +948,7 @@ class ClienteRegistrarView(LojaMixin, BaseContextMixin, CreateView):
         form.instance.user = user
         login(self.request, user)
 
+        # Thread(target=EmailClienteRegistrado, args=user).start()
         EmailClienteRegistrado(user)
 
         # Retorne a resposta de sucesso
@@ -955,10 +957,10 @@ class ClienteRegistrarView(LojaMixin, BaseContextMixin, CreateView):
     def get_success_url(self):
         if "next" in self.request.GET:
             next_url = self.request.GET.get("next")
-            messages.success(self.request, 'Email de verificação enviado com sucesso')
+            messages.success(self.request, 'Email de verificação enviado')
             return next_url
         else:
-            messages.success(self.request, 'Email de verificação enviado com sucesso')
+            messages.success(self.request, 'Email de verificação enviado')
             return self.success_url
 
 def verifica_user(request, uidb64, token):
@@ -1826,7 +1828,7 @@ class AdminPedidoMudarView(AdminRequireMixin, BaseContextMixin, ListView):
                 EmailPedidoEnviado(pedido_obj)
         elif novo_status == "Pedido Pronta Retirada":
                 EmailPedidoProntoRetirada(pedido_obj)
-        elif novo_status == "Pagamento Cancelado":
+        elif novo_status == "Pedido Cancelado":
                 EmailPedidoCancelado(pedido_obj)
         elif novo_status == "Pagamento Completado":
                 EmailPedidoCompleto(pedido_obj)
