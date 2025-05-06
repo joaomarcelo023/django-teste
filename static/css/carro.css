@@ -32,6 +32,8 @@
     margin: 0px;
     
     text-align: center;
+    
+    /* object-fit: scale-down; */
 }
 
 .grande .table, th, td {
@@ -98,6 +100,8 @@ th a {
     margin: 0px;
     
     text-align: center;
+    
+    object-fit: contain;
 }
 
 .pequeno .table {

@@ -224,3 +224,5 @@ TODO-ALVAREZ-RESOLVIDO: Mudar botão de + e - em produto detalhe pra imagens ou 
 TODO-ALVAREZ-RESOLVIDO: Arrumar o limite de quantidade no produto detalhe, o valor em estoque é a quantidade total na unidade do produto (ex.: m2) e não em caixas
 
 TODO-ALVAREZ-RESOLVIDO: Melhorar carroseis no mobile pro usuario ver que tem um carrosel e não só dois produtos
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar imagens pra não se distorcerem

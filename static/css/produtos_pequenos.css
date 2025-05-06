@@ -136,7 +136,7 @@
 }
 
 .imagemProdutos {
-    object-fit: scale-down;
+    object-fit: contain;
     height: 100%;
     width: 100%;
     align-items: center;
