@@ -57,8 +57,7 @@
                         <th colspan="3" class="text-right" style="vertical-align: middle; font-weight: 400; font-size: smaller;">Desconto da forma de pagamento:</th>
                         <th colspan="3" class="text-center desconto_pagamento_cell" style="vertical-align: middle; font-weight: 400; font-size: small;">- R$ {{ desconto_dinheiro|intcomma }}</th>
                     </tr>
-                    <!-- TODO: Desconto de pagamento à vista no dinheiro deve estar somado com desconto de forma de pagamento -->
-                    <tr class="desconto_a_vista_row">
+                    <tr class="desconto_a_vista_row" style="display: none;">
                         <th colspan="3" class="text-right" style="vertical-align: middle; font-weight: 400; font-size: smaller;">Desconto de pagamento a vista:</th>
                         <th colspan="3" class="text-center desconto_a_vista_cell" style="vertical-align: middle; font-weight: 400; font-size: small;">- R$ {{ desconto_a_vista|intcomma }}</th>
                     </tr>
@@ -386,9 +385,9 @@
                     {% endif %}
                     <tr class="desconto_pagamento_row">
                         <th colspan="4" class="text-right" style="vertical-align: middle; font-weight: 400;">Desconto da forma de pagamento:</th>
-                        <th colspan="3" class="text-center desconto_pagamento_cell" style="vertical-align: middle; font-weight: 400;">- R$ {{ desconto_dinheiro|intcomma }}</th>
+                        <th colspan="3" class="text-center desconto_pagamento_cell" style="vertical-align: middle; font-weight: 400;">- R$ {{ desconto_dinheiro_a_vista|intcomma }}</th>
                     </tr>
-                    <tr class="desconto_a_vista_row">
+                    <tr class="desconto_a_vista_row" style="display: none;">
                         <th colspan="4" class="text-right" style="vertical-align: middle; font-weight: 400;">Desconto de pagamento a vista:</th>
                         <th colspan="3" class="text-center desconto_a_vista_cell" style="vertical-align: middle; font-weight: 400;">- R$ {{ desconto_a_vista|intcomma }}</th>
                     </tr>

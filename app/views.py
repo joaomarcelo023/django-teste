@@ -646,6 +646,8 @@ class CheckOutView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, Pedido
         desc_a_vista = pedido.total_bruto * decimal.Decimal(0.15)
         context["desconto_a_vista"] = decimal.Decimal(round(desc_a_vista, 2))
 
+        context['desconto_dinheiro_a_vista'] = decimal.Decimal(round(desc_dinheiro, 2) + round(desc_a_vista, 2))
+
         context["desconto_tot_init"] = str(round(float(desc_dinheiro + desc_a_vista), 2)).replace(",", ".")
 
         context["descontos"] = json.dumps({

@@ -3,6 +3,7 @@ const optionLabel = document.querySelectorAll('.option');
 const optionTitleLabel = document.querySelector('.option_title');
 const valorFinal = document.querySelectorAll('.valorFinal');
 const descontoPagameto = document.querySelectorAll('.desconto_pagamento_cell');
+let descontoVistaBool = true;
 
 const DescontosDic = JSON.parse(document.getElementById("descontos-data").textContent);
 // document.querySelector('.test').textContent = parseFloat(DescontosDic).toFixed(2);
@@ -29,8 +30,15 @@ optionLabel.forEach(e => {
         e.classList.add("selected");
 
         if (e.querySelector('input').value !== "dinheiro") {
-            document.querySelectorAll('.desconto_pagamento_row').forEach(t => {
+            // document.querySelectorAll('.desconto_pagamento_row').forEach(t => {
+            //     t.style.display = "none";
+            // });
+            document.querySelectorAll('.desconto_a_vista_row').forEach(t => {
                 t.style.display = "none";
+            });
+            document.querySelectorAll('.desconto_pagamento_cell').forEach(t => {
+                // t.textContent = `- R$ ${String(DescontosDic.desconto_dinheiro).replace(".", ",")}`;
+                t.textContent = document.querySelector('.desconto_a_vista_cell').textContent;
             });
         }
         else {
@@ -38,11 +46,12 @@ optionLabel.forEach(e => {
                 t.style.display = "table-row";
             });
             document.querySelectorAll('.desconto_pagamento_cell').forEach(t => {
-                t.textContent = `- R$ ${String(DescontosDic.desconto_dinheiro).replace(".", ",")}`;
+                // t.textContent = `- R$ ${String(DescontosDic.desconto_dinheiro).replace(".", ",")}`;
+                t.textContent = `- R$ ${String(DescontosDic.desconto_dinheiro + parseFloat(document.querySelector('.desconto_a_vista_cell').textContent.replace("- R$", "").replace(".", "").replace(",", ".").trim())).replace(".", ",")}`;
             });
-            document.querySelectorAll('.desconto_a_vista_row').forEach(t => {
-                t.style.display = "table-row";
-            });
+            // document.querySelectorAll('.desconto_a_vista_row').forEach(t => {
+            //     t.style.display = "table-row";
+            // });
             
             // e.querySelectorAll('.methods > .option_parcelas select').forEach(t => {
             //     t.value = "1";
@@ -89,9 +98,10 @@ optionLabel.forEach(e => {
                     });
                 }
                 
-                document.querySelectorAll('.desconto_a_vista_row').forEach(t => {
-                    t.style.display = "none";
-                });
+                // document.querySelectorAll('.desconto_a_vista_row').forEach(t => {
+                //     t.style.display = "none";
+                // });
+                descontoVistaBool = false;
 
                 valorFinal.forEach(t => {
                     t.textContent = e.querySelector('.methods > .credito .total_normal').textContent.replace("R$", "R$ ");
@@ -117,9 +127,10 @@ optionLabel.forEach(e => {
             }
             else {
                 e.querySelector('.methods > .option_parcelas select').value = "1";
-                document.querySelectorAll('.desconto_a_vista_row').forEach(t => {
-                    t.style.display = "table-row";
-                });
+                // document.querySelectorAll('.desconto_a_vista_row').forEach(t => {
+                //     t.style.display = "table-row";
+                // });
+                descontoVistaBool = true;
 
                 // TotalCredito = parseFloat(TotalCredito) + parseFloat(descontoCreditoInit) - parseFloat((DescontosDic.desc_credito_list[0] * DescontosDic.total_bruto));
                 // e.querySelector('.methods > .credito .total_credito').textContent = `R$${(parseFloat(TotalCredito).toFixed(2)).replace(".", ",").trim()}`;
@@ -131,7 +142,7 @@ optionLabel.forEach(e => {
         }
 
         // Olhar melhor pro mobile
-        document.getElementById("total_final").value = valorFinal.textContent.replace("R$", "").replace(".", "").replace(",", ".").trim()
+        document.getElementById("total_final").value = valorFinal[0].textContent.replace("R$", "").replace(".", "").replace(",", ".").trim()
         let desconto_pagamento_row = document.querySelectorAll('.desconto_pagamento_row');
         if (desconto_pagamento_row[0].style.display === "none") {
             descontoPagameto[0].textContent = "- R$ 0,00";
@@ -139,12 +150,15 @@ optionLabel.forEach(e => {
         if (desconto_pagamento_row[1].style.display === "none") {
             descontoPagameto[1].textContent = "- R$ 0,00";
         }
-        let descontoPagamentoTot = parseFloat(descontoPagameto[0].textContent.replace("- R$", "").replace(".", "").replace(",", ".").trim());
-        let desconto_a_vista_row = document.querySelectorAll('.desconto_a_vista_row');
-        if ((desconto_a_vista_row[0].style.display !== "none") || (desconto_a_vista_row[1].style.display !== "none")) {
-            descontoPagamentoTot += parseFloat(document.querySelector('.desconto_a_vista_cell').textContent.replace("- R$", "").replace(".", "").replace(",", ".").trim());
-        }
-        document.getElementById("desconto_pagamento").value = descontoPagamentoTot;
+        // let descontoPagamentoTot = parseFloat(descontoPagameto[0].textContent.replace("- R$", "").replace(".", "").replace(",", ".").trim());
+        // let desconto_a_vista_row = document.querySelectorAll('.desconto_a_vista_row');
+        // if ((desconto_a_vista_row[0].style.display !== "none") || (desconto_a_vista_row[1].style.display !== "none")) {
+        // if (descontoVistaBool) {
+        //     descontoPagamentoTot += parseFloat(document.querySelector('.desconto_a_vista_cell').textContent.replace("- R$", "").replace(".", "").replace(",", ".").trim());
+        // }
+        // document.querySelector(".test").textContent = parseFloat(descontoPagameto[1].textContent.replace("- R$", "").replace(".", "").replace(",", ".").trim());
+        // document.getElementById("desconto_pagamento").value = descontoPagamentoTot;
+        document.getElementById("desconto_pagamento").value = parseFloat(descontoPagameto[0].textContent.replace("- R$", "").replace(".", "").replace(",", ".").trim());
     });
 });
 
