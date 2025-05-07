@@ -122,7 +122,9 @@ class BaseContextMixin(object):
             produtos = list(CarroProduto.objects.filter(carro=carro_obj))
             if produtos:
                 context["numProdCarro"] = len(produtos)
+
         context['todoscategorias'] = Categoria.objects.all()
+
         context['footer'] = Empresa.objects.all()
 
         return context
@@ -894,7 +896,7 @@ def create_payment(request):
         # TODO: Melhorar essa tela de erro pra versão final
         return HttpResponse(f"Error: {response.status_code} - {response.text}")
 
-class PedidoConfirmadoView(LogedMixin, LojaMixin, BaseContextMixin, TemplateView):
+class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
     template_name = "pedidoConfirmado.html"
 
     def get_context_data(self, **kwargs):
@@ -925,8 +927,10 @@ class PedidoConfirmadoView(LogedMixin, LojaMixin, BaseContextMixin, TemplateView
 
         # Cria carro novo
         carro_obj = Carro.objects.create(total=0)
+        carro_obj.cliente = self.request.user.cliente
         carro_obj.save()
         self.request.session['carro_id'] = carro_obj.id
+        context["numProdCarro"] = 0
 
         return context
 
