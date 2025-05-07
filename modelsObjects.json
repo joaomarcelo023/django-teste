@@ -73,7 +73,7 @@
   "model": "contenttypes.contenttype",
   "fields": {
     "app_label": "app",
-    "model": "pedido_order"
+    "model": "pedidoorder"
   }
 },
 {
@@ -108,7 +108,7 @@
   "model": "contenttypes.contenttype",
   "fields": {
     "app_label": "app",
-    "model": "pedido_produto"
+    "model": "pedidoproduto"
   }
 },
 {
@@ -228,14 +228,6 @@
 },
 {
   "model": "sessions.session",
-  "pk": "4z09ujr7i7z700b93k3ven2az957jb20",
-  "fields": {
-    "session_data": "eyJjYXJyb19pZCI6MTI0fQ:1uAtFM:9RbYdPIt3I5HqHFo7LO2_UIB6L45aeOhwTH6JH-Aeo0",
-    "expire_date": "2025-05-16T16:28:20.638Z"
-  }
-},
-{
-  "model": "sessions.session",
   "pk": "5njib8u8ve1tk8cw7ag3a2yhzqzev829",
   "fields": {
     "session_data": ".eJxVjDsOgzAQRO_iOrLkLP6lTJ8zoPXuEpNEWDJQodw9JqKhmeK9mdkUYa2lH1ndoruoHtcl9-ss9Y-UUSeWkN4y7YJfOD2LpjItdUx6r-jDzvpRWD73o3s6yDjntu6sQ6bIQwACuZLDEGIL7kB8BzhYsAnAeAvCxAFFYmpUrGneo_r-AAgXPQQ:1tzKWz:q22x15LIgfI_TYLW6ThWjmotAvWnnYBSOvCR2BtZhhY",
@@ -320,6 +312,14 @@
   "fields": {
     "session_data": "eyJjYXJyb19pZCI6OTl9:1ty9NA:V_keaTqRUQ26UnIINzFhnb7HhxAApXIAxzmI8k6OEWQ",
     "expire_date": "2025-04-11T13:03:44.821Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "crl3wg8f32imrlj5d90f3j4dc5s2vpbv",
+  "fields": {
+    "session_data": "eyJjYXJyb19pZCI6MTMwfQ:1uC2UD:LUhs4hmB5elnKWLVuKQF5TY2BnWjHjzZ_nI4XiNd4wY",
+    "expire_date": "2025-05-19T20:32:25.324Z"
   }
 },
 {
@@ -476,6 +476,22 @@
 },
 {
   "model": "sessions.session",
+  "pk": "leykryg119spxkfr2p4ey41jnh1u9h66",
+  "fields": {
+    "session_data": "eyJjYXJyb19pZCI6MTI2fQ:1uAtlO:kNoMvp1PNLhdm-YvGE4VJCnCMPr2ju2-aYoYElS4tqY",
+    "expire_date": "2025-05-16T17:01:26.062Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "li0jpzpjdavg7zkg4k6clppzfta6yyer",
+  "fields": {
+    "session_data": "eyJjYXJyb19pZCI6MTI1fQ:1uAtTZ:8hXhsU8IklmocBF3-t3EPZqvoNHTPz_-2AXbYLOszKA",
+    "expire_date": "2025-05-16T16:43:01.494Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "ly7546ts9cadynkfrs9mq3w0cz1dktcs",
   "fields": {
     "session_data": "eyJjYXJyb19pZCI6MTEwfQ:1u5ADB:JlbLmv5f1JlUrhj9VCmQgkqO1j7bf9URBOZPSaMmhk8",
@@ -620,6 +636,22 @@
 },
 {
   "model": "sessions.session",
+  "pk": "wecvla3xgvf6jpekl5pbqta6hz20h4vx",
+  "fields": {
+    "session_data": ".eJxVjMsOgjAUBf-la9P09gHBpXu_obmP1qKGJgVWxH9XDBu2M3POphhbq3EUdQVnLyriupS4zqn9mXLqxAj5laZdyBOnR9Vcp6WNpPdEH3bW9yrpfTva00HBufzWYDzJYMLQo8-YXXYAib0BA0K9JMwA0mWBga0NxIE7D7YTcj4EJFKfLxhHPL4:1uCKWl:ZYZk1EmN2mt6ElSdfnA1d0LrxLk8cZ_-mw9dTWDhj00",
+    "expire_date": "2025-05-20T15:48:15.753Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "wex4u0rep8aqz7clpmmcqnlxx0cbq6wo",
+  "fields": {
+    "session_data": "eyJjYXJyb19pZCI6MTI4fQ:1uAvUa:JQv6279Hd4-GNwbcxWuZ-G7iv2S7cquTWTjTbBr8hHc",
+    "expire_date": "2025-05-16T18:52:12.556Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "x0neb2rxpojyj4g4pjt0bcg48qjilj7x",
   "fields": {
     "session_data": ".eJxVjMEOwiAQRP-FsyHBLQU8evcbyLK7laqBpLQn479Lkx70Mod5b-atIm5rjluTJc6sLsqo02-XkJ5SdsAPLPeqqZZ1mZPeFX3Qpm-V5XU93L-DjC339WBHZAo8eSCQM43ofejBA4gbACcLNgEYZ0GY2KNISL0Vazp3qD5f-Ec4qA:1rlJaJ:2yY7xmpCiC_M8Tphrs2nIjWLE8PTz_COyW7daNHIp8E",
@@ -632,6 +664,22 @@
   "fields": {
     "session_data": "eyJjYXJyb19pZCI6OTV9:1txnqQ:ojUspvFZl76YmxesWGtxTsfX0uOiMh4HvhXOEusvgck",
     "expire_date": "2025-04-10T14:04:30.037Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "xcaohgivvj0tfbx1b1iugzitdzkr0dxb",
+  "fields": {
+    "session_data": "eyJjYXJyb19pZCI6MTI3fQ:1uAtx8:-me9YcalxKFXReAjrkPVovGPttXyZT53QZd-kaqD3v4",
+    "expire_date": "2025-05-16T17:13:34.248Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "yho12kwcp6clf3ivji29c4obltpzlnku",
+  "fields": {
+    "session_data": "eyJjYXJyb19pZCI6MTI5fQ:1uBzSk:Nj2yyc5xI7lTeHCNobPfi2c9wCmxpjHHqmvXVNYPX3k",
+    "expire_date": "2025-05-19T17:18:42.815Z"
   }
 },
 {
@@ -712,51 +760,6 @@
 },
 {
   "model": "app.endereco",
-  "pk": 1,
-  "fields": {
-    "cliente": 16,
-    "titulo": "casa",
-    "cep": "25953-380",
-    "estado": "RJ",
-    "cidade": "Teresópolis",
-    "bairro": "Várzea",
-    "rua": "Rua Padre Tintorio",
-    "numero": "408",
-    "complemento": "casa 13"
-  }
-},
-{
-  "model": "app.endereco",
-  "pk": 2,
-  "fields": {
-    "cliente": 16,
-    "titulo": "casa do caralho",
-    "cep": "25953-370",
-    "estado": "RJ",
-    "cidade": "Teresópolis",
-    "bairro": "Parque São Luiz",
-    "rua": "Rua Oswaldo Cruz",
-    "numero": "1001",
-    "complemento": "atrás do cemitério indigena, bem do lado do bar"
-  }
-},
-{
-  "model": "app.endereco",
-  "pk": 7,
-  "fields": {
-    "cliente": 16,
-    "titulo": "Country core funeral",
-    "cep": "25953-380",
-    "estado": "RJ",
-    "cidade": "Teresópolis",
-    "bairro": "Várzea",
-    "rua": "Rua Padre Tintorio",
-    "numero": "408",
-    "complemento": "Siga pela estrada da fazenda abandonada, até o velho cemitério atrás do chaparral, vai ver uma cruz invertida na entrada da casa derrubada."
-  }
-},
-{
-  "model": "app.endereco",
   "pk": 21,
   "fields": {
     "cliente": 19,
@@ -775,7 +778,7 @@
   "pk": 22,
   "fields": {
     "cliente": 19,
-    "titulo": "Casa HG – Magé/Guapimirim",
+    "titulo": "Casa HG - Magé/Guapimirim",
     "cep": "25940-000",
     "estado": "RJ",
     "cidade": "Teresópolis",
@@ -813,6 +816,21 @@
     "rua": "Rua Cupertino Durão",
     "numero": "84",
     "complemento": "Apt 201"
+  }
+},
+{
+  "model": "app.endereco",
+  "pk": 59,
+  "fields": {
+    "cliente": 16,
+    "titulo": "Minha casa",
+    "cep": "25953-380",
+    "estado": "RJ",
+    "cidade": "Teresópolis",
+    "bairro": "Várzea",
+    "rua": "Rua Padre Tintorio",
+    "numero": "408",
+    "complemento": "Casa 13"
   }
 },
 {
@@ -904,7 +922,7 @@
     "fechamento_embalagem": "2.50",
     "em_estoque": true,
     "estoque_lojas": {
-      "Casa HG - Várzea": 0.0,
+      "Casa HG - Várzea": 5.0,
       "Casa HG - Magé/Guapimirim": 5.0,
       "Casa HG - Atacadão Dos Pisos": 0.0
     },
@@ -926,7 +944,7 @@
     "venda": "0.00",
     "garantia": null,
     "return_devolucao": null,
-    "visualizacao": 166,
+    "visualizacao": 173,
     "quantidade_vendas": 0,
     "num_fotos": 3
   }
@@ -946,9 +964,9 @@
     "fechamento_embalagem": "1.00",
     "em_estoque": true,
     "estoque_lojas": {
-      "Casa HG - Várzea": 175.0,
-      "Casa HG - Magé/Guapimirim": 141.0,
-      "Casa HG - Atacadão Dos Pisos": 205.0
+      "Casa HG - Várzea": 99.0,
+      "Casa HG - Magé/Guapimirim": 65.0,
+      "Casa HG - Atacadão Dos Pisos": 69.0
     },
     "marca": null,
     "formato": null,
@@ -1326,7 +1344,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 66.33,
-      "Casa HG - Atacadão Dos Pisos": 124.62
+      "Casa HG - Atacadão Dos Pisos": 122.61
     },
     "marca": null,
     "formato": null,
@@ -1346,7 +1364,7 @@
     "venda": null,
     "garantia": null,
     "return_devolucao": null,
-    "visualizacao": 2,
+    "visualizacao": 4,
     "quantidade_vendas": 0,
     "num_fotos": 1
   }
@@ -1490,9 +1508,9 @@
     "desconto_retira": "6.00",
     "unidade": "M2",
     "fechamento_embalagem": "1.87",
-    "em_estoque": true,
+    "em_estoque": false,
     "estoque_lojas": {
-      "Casa HG - Várzea": 18.7,
+      "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
       "Casa HG - Atacadão Dos Pisos": 0.0
     },
@@ -1514,7 +1532,7 @@
     "venda": null,
     "garantia": null,
     "return_devolucao": null,
-    "visualizacao": 4,
+    "visualizacao": 11,
     "quantidade_vendas": 0,
     "num_fotos": 1
   }
@@ -1556,7 +1574,7 @@
     "venda": null,
     "garantia": null,
     "return_devolucao": null,
-    "visualizacao": 0,
+    "visualizacao": 2,
     "quantidade_vendas": 0,
     "num_fotos": 1
   }
@@ -1578,7 +1596,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 48.62
+      "Casa HG - Atacadão Dos Pisos": 41.14
     },
     "marca": null,
     "formato": null,
@@ -1620,7 +1638,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 55.8,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 122.45
+      "Casa HG - Atacadão Dos Pisos": 113.15
     },
     "marca": null,
     "formato": null,
@@ -1658,7 +1676,7 @@
     "desconto_retira": "5.00",
     "unidade": "M2",
     "fechamento_embalagem": "1.55",
-    "em_estoque": true,
+    "em_estoque": false,
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
@@ -1828,9 +1846,9 @@
     "fechamento_embalagem": "2.50",
     "em_estoque": true,
     "estoque_lojas": {
-      "Casa HG - Várzea": 255.0,
-      "Casa HG - Magé/Guapimirim": 167.5,
-      "Casa HG - Atacadão Dos Pisos": 150.0
+      "Casa HG - Várzea": 250.0,
+      "Casa HG - Magé/Guapimirim": 145.0,
+      "Casa HG - Atacadão Dos Pisos": 155.0
     },
     "marca": null,
     "formato": null,
@@ -1871,7 +1889,7 @@
     "em_estoque": true,
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
-      "Casa HG - Magé/Guapimirim": 25.0,
+      "Casa HG - Magé/Guapimirim": 10.0,
       "Casa HG - Atacadão Dos Pisos": 2.5
     },
     "marca": null,
@@ -1914,7 +1932,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 382.5,
       "Casa HG - Magé/Guapimirim": 157.5,
-      "Casa HG - Atacadão Dos Pisos": 1022.5
+      "Casa HG - Atacadão Dos Pisos": 1002.5
     },
     "marca": null,
     "formato": null,
@@ -1955,7 +1973,7 @@
     "em_estoque": true,
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
-      "Casa HG - Magé/Guapimirim": 16.08,
+      "Casa HG - Magé/Guapimirim": 6.03,
       "Casa HG - Atacadão Dos Pisos": 0.0
     },
     "marca": null,
@@ -1998,7 +2016,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 78.39,
       "Casa HG - Magé/Guapimirim": 78.39,
-      "Casa HG - Atacadão Dos Pisos": 120.6
+      "Casa HG - Atacadão Dos Pisos": 108.54
     },
     "marca": null,
     "formato": null,
@@ -2122,7 +2140,7 @@
     "fechamento_embalagem": "2.01",
     "em_estoque": true,
     "estoque_lojas": {
-      "Casa HG - Várzea": 92.46,
+      "Casa HG - Várzea": 88.44,
       "Casa HG - Magé/Guapimirim": 86.43,
       "Casa HG - Atacadão Dos Pisos": 132.66
     },
@@ -2164,7 +2182,7 @@
     "fechamento_embalagem": "2.01",
     "em_estoque": true,
     "estoque_lojas": {
-      "Casa HG - Várzea": 84.42,
+      "Casa HG - Várzea": 80.4,
       "Casa HG - Magé/Guapimirim": 36.18,
       "Casa HG - Atacadão Dos Pisos": 16.08
     },
@@ -2204,7 +2222,7 @@
     "desconto_retira": "8.00",
     "unidade": "M2",
     "fechamento_embalagem": "2.01",
-    "em_estoque": true,
+    "em_estoque": false,
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
@@ -2250,7 +2268,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 103.53
+      "Casa HG - Atacadão Dos Pisos": 95.41
     },
     "marca": null,
     "formato": null,
@@ -2290,9 +2308,9 @@
     "fechamento_embalagem": "2.50",
     "em_estoque": true,
     "estoque_lojas": {
-      "Casa HG - Várzea": 1312.5,
-      "Casa HG - Magé/Guapimirim": 45.0,
-      "Casa HG - Atacadão Dos Pisos": 1262.5
+      "Casa HG - Várzea": 1305.0,
+      "Casa HG - Magé/Guapimirim": 227.5,
+      "Casa HG - Atacadão Dos Pisos": 1212.5
     },
     "marca": null,
     "formato": null,
@@ -2334,7 +2352,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 422.5,
       "Casa HG - Magé/Guapimirim": 120.0,
-      "Casa HG - Atacadão Dos Pisos": 1395.5
+      "Casa HG - Atacadão Dos Pisos": 1387.5
     },
     "marca": null,
     "formato": null,
@@ -2374,9 +2392,9 @@
     "fechamento_embalagem": "2.01",
     "em_estoque": true,
     "estoque_lojas": {
-      "Casa HG - Várzea": 10.05,
+      "Casa HG - Várzea": 0.06,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 0.0
+      "Casa HG - Atacadão Dos Pisos": 12.0
     },
     "marca": null,
     "formato": null,
@@ -2416,7 +2434,7 @@
     "fechamento_embalagem": "2.50",
     "em_estoque": true,
     "estoque_lojas": {
-      "Casa HG - Várzea": 70.0,
+      "Casa HG - Várzea": 30.0,
       "Casa HG - Magé/Guapimirim": 0.0,
       "Casa HG - Atacadão Dos Pisos": 0.0
     },
@@ -2460,7 +2478,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 442.5,
       "Casa HG - Magé/Guapimirim": 1717.5,
-      "Casa HG - Atacadão Dos Pisos": 597.5
+      "Casa HG - Atacadão Dos Pisos": 575.0
     },
     "marca": null,
     "formato": null,
@@ -2501,8 +2519,8 @@
     "em_estoque": true,
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
-      "Casa HG - Magé/Guapimirim": 30.15,
-      "Casa HG - Atacadão Dos Pisos": 132.66
+      "Casa HG - Magé/Guapimirim": 22.11,
+      "Casa HG - Atacadão Dos Pisos": 60.3
     },
     "marca": null,
     "formato": null,
@@ -2624,9 +2642,9 @@
     "desconto_retira": "7.00",
     "unidade": "M2",
     "fechamento_embalagem": "2.50",
-    "em_estoque": true,
+    "em_estoque": false,
     "estoque_lojas": {
-      "Casa HG - Várzea": 10.0,
+      "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
       "Casa HG - Atacadão Dos Pisos": 0.0
     },
@@ -2670,7 +2688,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 110.0,
-      "Casa HG - Atacadão Dos Pisos": 72.5
+      "Casa HG - Atacadão Dos Pisos": 55.0
     },
     "marca": null,
     "formato": null,
@@ -2750,7 +2768,7 @@
     "desconto_retira": "8.00",
     "unidade": "M2",
     "fechamento_embalagem": "2.50",
-    "em_estoque": true,
+    "em_estoque": false,
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
@@ -2795,8 +2813,8 @@
     "em_estoque": true,
     "estoque_lojas": {
       "Casa HG - Várzea": 187.5,
-      "Casa HG - Magé/Guapimirim": 60.0,
-      "Casa HG - Atacadão Dos Pisos": 155.0
+      "Casa HG - Magé/Guapimirim": 47.5,
+      "Casa HG - Atacadão Dos Pisos": 152.5
     },
     "marca": null,
     "formato": null,
@@ -2858,8 +2876,8 @@
     "venda": null,
     "garantia": null,
     "return_devolucao": null,
-    "visualizacao": 0,
-    "quantidade_vendas": 0,
+    "visualizacao": 5,
+    "quantidade_vendas": 2,
     "num_fotos": 1
   }
 },
@@ -2918,7 +2936,7 @@
     "desconto_retira": "6.00",
     "unidade": "M2",
     "fechamento_embalagem": "1.87",
-    "em_estoque": true,
+    "em_estoque": false,
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
@@ -2960,7 +2978,7 @@
     "desconto_retira": "5.00",
     "unidade": "M2",
     "fechamento_embalagem": "1.87",
-    "em_estoque": true,
+    "em_estoque": false,
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
@@ -3258,7 +3276,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 114.07
+      "Casa HG - Atacadão Dos Pisos": 110.33
     },
     "marca": null,
     "formato": null,
@@ -3426,7 +3444,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 120.96
+      "Casa HG - Atacadão Dos Pisos": 115.87
     },
     "marca": null,
     "formato": null,
@@ -3636,7 +3654,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 1305.36,
       "Casa HG - Magé/Guapimirim": 176.12,
-      "Casa HG - Atacadão Dos Pisos": 1087.8
+      "Casa HG - Atacadão Dos Pisos": 1054.13
     },
     "marca": null,
     "formato": null,
@@ -3678,7 +3696,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 0.0
+      "Casa HG - Atacadão Dos Pisos": 302.4
     },
     "marca": null,
     "formato": null,
@@ -3762,7 +3780,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 77.79
+      "Casa HG - Atacadão Dos Pisos": 310.89
     },
     "marca": null,
     "formato": null,
@@ -3804,7 +3822,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 290.08,
       "Casa HG - Magé/Guapimirim": 134.68,
-      "Casa HG - Atacadão Dos Pisos": 46.62
+      "Casa HG - Atacadão Dos Pisos": 44.03
     },
     "marca": null,
     "formato": null,
@@ -3846,7 +3864,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 284.9,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 59.57
+      "Casa HG - Atacadão Dos Pisos": 54.39
     },
     "marca": null,
     "formato": null,
@@ -3888,7 +3906,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 150.22,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 181.3
+      "Casa HG - Atacadão Dos Pisos": 160.58
     },
     "marca": null,
     "formato": null,
@@ -3972,7 +3990,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 60.48,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 297.36
+      "Casa HG - Atacadão Dos Pisos": 267.12
     },
     "marca": null,
     "formato": null,
@@ -4014,7 +4032,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 60.48,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 55.44
+      "Casa HG - Atacadão Dos Pisos": 47.88
     },
     "marca": null,
     "formato": null,
@@ -4056,7 +4074,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 32.55
+      "Casa HG - Atacadão Dos Pisos": 34.1
     },
     "marca": null,
     "formato": null,
@@ -4097,7 +4115,7 @@
     "em_estoque": true,
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
-      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Magé/Guapimirim": 77.7,
       "Casa HG - Atacadão Dos Pisos": 911.68
     },
     "marca": null,
@@ -4140,7 +4158,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 25.9
+      "Casa HG - Atacadão Dos Pisos": 23.31
     },
     "marca": null,
     "formato": null,
@@ -4434,7 +4452,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 22.68,
-      "Casa HG - Atacadão Dos Pisos": 257.04
+      "Casa HG - Atacadão Dos Pisos": 196.56
     },
     "marca": null,
     "formato": null,
@@ -4476,7 +4494,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 287.48
+      "Casa HG - Atacadão Dos Pisos": 294.84
     },
     "marca": null,
     "formato": null,
@@ -4622,7 +4640,7 @@
     "venda": null,
     "garantia": null,
     "return_devolucao": null,
-    "visualizacao": 0,
+    "visualizacao": 3,
     "quantidade_vendas": 0,
     "num_fotos": 1
   }
@@ -4644,7 +4662,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 269.36
+      "Casa HG - Atacadão Dos Pisos": 230.51
     },
     "marca": null,
     "formato": null,
@@ -4684,7 +4702,7 @@
     "fechamento_embalagem": "2.59",
     "em_estoque": true,
     "estoque_lojas": {
-      "Casa HG - Várzea": 264.18,
+      "Casa HG - Várzea": 261.59,
       "Casa HG - Magé/Guapimirim": 292.67,
       "Casa HG - Atacadão Dos Pisos": 810.67
     },
@@ -4812,7 +4830,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 53.77
+      "Casa HG - Atacadão Dos Pisos": 48.11
     },
     "marca": null,
     "formato": null,
@@ -4854,7 +4872,7 @@
     "estoque_lojas": {
       "Casa HG - Várzea": 0.0,
       "Casa HG - Magé/Guapimirim": 0.0,
-      "Casa HG - Atacadão Dos Pisos": 2018.4
+      "Casa HG - Atacadão Dos Pisos": 2016.08
     },
     "marca": null,
     "formato": null,
@@ -4871,6 +4889,1980 @@
     "slug": "143847",
     "Categoria": 3,
     "image": "produtos/143847.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 1,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 133,
+  "fields": {
+    "codigo": "145255",
+    "titulo": "PORC VIA ROSA AR72088 A RT CX2,59 72X72 GRA LE/LF TEXAS",
+    "descricao": "PORC VIA ROSA AR72088 A RT CX2,59 72X72 GRA LE/LF TEXAS",
+    "codigo_GTIN": "7899109837067",
+    "preco_unitario_bruto": "66.06",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.59",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 388.5
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145255",
+    "Categoria": 4,
+    "image": "produtos/145255.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 134,
+  "fields": {
+    "codigo": "145335",
+    "titulo": "PORC ROX PTR 71736 A RT CX2,52 71X71 PO LB/LR CINZA REAL",
+    "descricao": "PORC ROX PTR 71736 A RT CX2,52 71X71 PO LB/LR CINZA REAL",
+    "codigo_GTIN": "145335",
+    "preco_unitario_bruto": "75.54",
+    "desconto_dinheiro": "6.00",
+    "desconto_retira": "5.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.52",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 181.44
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145335",
+    "Categoria": 4,
+    "image": "produtos/145335.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 135,
+  "fields": {
+    "codigo": "145596",
+    "titulo": "PORC ROX RXPTR71738 A CX2,52 RT 71X71 PO LB/LR FENZI",
+    "descricao": "PORC ROX RXPTR71738 A CX2,52 RT 71X71 PO LB/LR FENZI",
+    "codigo_GTIN": "145596",
+    "preco_unitario_bruto": "72.47",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "5.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.52",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 239.4
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145596",
+    "Categoria": 4,
+    "image": "produtos/145596.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 136,
+  "fields": {
+    "codigo": "146290",
+    "titulo": "PORC ROX AR72768 A RT CX2,59 72X72 LE/LF NAVARRA",
+    "descricao": "PORC ROX AR72768 A RT CX2,59 72X72 LE/LF NAVARRA",
+    "codigo_GTIN": "146290",
+    "preco_unitario_bruto": "70.28",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.59",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 233.1
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "146290",
+    "Categoria": 4,
+    "image": "produtos/146290.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 137,
+  "fields": {
+    "codigo": "142261",
+    "titulo": "CRISTALATO GALES RT A LB CX2,20 74X74 POLIDO CECAFI",
+    "descricao": "CRISTALATO GALES RT A LB CX2,20 74X74 POLIDO CECAFI",
+    "codigo_GTIN": "7908064306836",
+    "preco_unitario_bruto": "54.79",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.20",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 6.6
+    },
+    "marca": "3",
+    "formato": "1",
+    "espessura": 1,
+    "junta_minima": 1,
+    "relevo": false,
+    "acabamento_superficial": "Polido",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "0,5 a 3,0",
+    "indicacao_uso": "Sem tráfego - Indicado para uso em paredes",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "4.00",
+    "palet": "2.00",
+    "slug": "142261",
+    "Categoria": 3,
+    "image": "produtos/142261.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 1,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 138,
+  "fields": {
+    "codigo": "142302",
+    "titulo": "CRISTALATO BREDA RT A LB CX2,20 74X74 POLIDO IDEALLE",
+    "descricao": "CRISTALATO BREDA RT A LB CX2,20 74X74 POLIDO IDEALLE",
+    "codigo_GTIN": "7908064307024",
+    "preco_unitario_bruto": "54.79",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.20",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 19.8,
+      "Casa HG - Atacadão Dos Pisos": 0.0
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "142302",
+    "Categoria": 3,
+    "image": "produtos/142302.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 139,
+  "fields": {
+    "codigo": "143848",
+    "titulo": "CRISTALATO CARMELO LISBOA LB RT PO CX2,20  74X74 CECAFE",
+    "descricao": "CRISTALATO CARMELO LISBOA LB RT PO CX2,20  74X74 CECAFE",
+    "codigo_GTIN": "143848",
+    "preco_unitario_bruto": "54.79",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.20",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 57.2,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 24.2
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "143848",
+    "Categoria": 3,
+    "image": "produtos/143848.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 140,
+  "fields": {
+    "codigo": "144545",
+    "titulo": "CRISTALATO CALACATA LIGHT ACET CX2,20 86X86 LZ LUME A RT HD",
+    "descricao": "CRISTALATO CALACATA LIGHT ACET CX2,20 86X86 LZ LUME A RT HD",
+    "codigo_GTIN": "144545",
+    "preco_unitario_bruto": "48.47",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.20",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 85.8,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 59.4
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "144545",
+    "Categoria": 3,
+    "image": "produtos/144545.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 141,
+  "fields": {
+    "codigo": "144546",
+    "titulo": "CRISTALATO LUME CONCRETO GRIS HD A RT CX2,20 86X86 PEI4",
+    "descricao": "CRISTALATO LUME CONCRETO GRIS HD A RT CX2,20 86X86 PEI4",
+    "codigo_GTIN": "144546",
+    "preco_unitario_bruto": "50.56",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.20",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 103.4,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 288.2
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "144546",
+    "Categoria": 3,
+    "image": "produtos/144546.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 142,
+  "fields": {
+    "codigo": "144754",
+    "titulo": "CRISTALATO MANCHESTER RT A LB CX2,20 74X74 POLIDO IDEALLE",
+    "descricao": "CRISTALATO MANCHESTER RT A LB CX2,20 74X74 POLIDO IDEALLE",
+    "codigo_GTIN": "144754",
+    "preco_unitario_bruto": "54.79",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.20",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 50.6,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 0.0
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "144754",
+    "Categoria": 3,
+    "image": "produtos/144754.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 143,
+  "fields": {
+    "codigo": "144771",
+    "titulo": "CRISTALATO LUME SALVATORE GRIS AC CX2,20 86X86  PEI4",
+    "descricao": "CRISTALATO LUME SALVATORE GRIS AC CX2,20 86X86  PEI4",
+    "codigo_GTIN": "144771",
+    "preco_unitario_bruto": "49.15",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.20",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 105.6,
+      "Casa HG - Magé/Guapimirim": 61.6,
+      "Casa HG - Atacadão Dos Pisos": 338.8
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "144771",
+    "Categoria": 3,
+    "image": "produtos/144771.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 144,
+  "fields": {
+    "codigo": "145458",
+    "titulo": "CRISTALATO CARRARA BIANCO ACET CX2,84 75X75 A LZ LUME RT",
+    "descricao": "CRISTALATO CARRARA BIANCO ACET CX2,84 75X75 A LZ LUME RT",
+    "codigo_GTIN": "145458",
+    "preco_unitario_bruto": "45.69",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 102.24,
+      "Casa HG - Magé/Guapimirim": 147.68,
+      "Casa HG - Atacadão Dos Pisos": 312.4
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145458",
+    "Categoria": 3,
+    "image": "produtos/145458.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 145,
+  "fields": {
+    "codigo": "145460",
+    "titulo": "CRISTALATO CALABRIA BROWN POL CX2,81 75X75 RT A LW LUME",
+    "descricao": "CRISTALATO CALABRIA BROWN POL CX2,81 75X75 RT A LW LUME",
+    "codigo_GTIN": "145460",
+    "preco_unitario_bruto": "65.14",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.81",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 47.77,
+      "Casa HG - Magé/Guapimirim": 103.97,
+      "Casa HG - Atacadão Dos Pisos": 0.0
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145460",
+    "Categoria": 3,
+    "image": "produtos/145460.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 146,
+  "fields": {
+    "codigo": "145461",
+    "titulo": "CRISTALATO BRISTOL ACERO ACET CX2,84 75X75 RT A LZ LUME",
+    "descricao": "CRISTALATO BRISTOL ACERO ACET CX2,84 75X75 RT A LZ LUME",
+    "codigo_GTIN": "145461",
+    "preco_unitario_bruto": "44.31",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 136.32,
+      "Casa HG - Magé/Guapimirim": 187.44,
+      "Casa HG - Atacadão Dos Pisos": 400.44
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145461",
+    "Categoria": 3,
+    "image": "produtos/145461.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 147,
+  "fields": {
+    "codigo": "145462",
+    "titulo": "CRISTALATO ALPES WHITE ACET CX2,84 75X75 RT A LZ LUME",
+    "descricao": "CRISTALATO ALPES WHITE ACET CX2,84 75X75 RT A LZ LUME",
+    "codigo_GTIN": "145462",
+    "preco_unitario_bruto": "45.69",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 107.92,
+      "Casa HG - Magé/Guapimirim": 39.76,
+      "Casa HG - Atacadão Dos Pisos": 562.32
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145462",
+    "Categoria": 3,
+    "image": "produtos/145462.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 148,
+  "fields": {
+    "codigo": "145463",
+    "titulo": "CRISTALATO BOSCO MARFIM ACET CX2,84 75X75 RT A LZ LUME",
+    "descricao": "CRISTALATO BOSCO MARFIM ACET CX2,84 75X75 RT A LZ LUME",
+    "codigo_GTIN": "145463",
+    "preco_unitario_bruto": "46.34",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 312.4,
+      "Casa HG - Magé/Guapimirim": 198.8,
+      "Casa HG - Atacadão Dos Pisos": 1314.92
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145463",
+    "Categoria": 3,
+    "image": "produtos/145463.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 149,
+  "fields": {
+    "codigo": "145464",
+    "titulo": "CRISTALATO SALVATORE ARENA ACET CX2,84 75X75 RT A LZ LUME",
+    "descricao": "CRISTALATO SALVATORE ARENA ACET CX2,84 75X75 RT A LZ LUME",
+    "codigo_GTIN": "145464",
+    "preco_unitario_bruto": "40.41",
+    "desconto_dinheiro": "6.00",
+    "desconto_retira": "5.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 56.8,
+      "Casa HG - Magé/Guapimirim": 68.16,
+      "Casa HG - Atacadão Dos Pisos": 25.56
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145464",
+    "Categoria": 3,
+    "image": "produtos/145464.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 150,
+  "fields": {
+    "codigo": "145472",
+    "titulo": "CRISTALATO CALACATA GOLD POL CX2,14 85X85 RT A LW LUME",
+    "descricao": "CRISTALATO CALACATA GOLD POL CX2,14 85X85 RT A LW LUME",
+    "codigo_GTIN": "145472",
+    "preco_unitario_bruto": "62.36",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.14",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 357.38,
+      "Casa HG - Magé/Guapimirim": 14.98,
+      "Casa HG - Atacadão Dos Pisos": 102.72
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145472",
+    "Categoria": 3,
+    "image": "produtos/145472.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 151,
+  "fields": {
+    "codigo": "145473",
+    "titulo": "CRISTALATO FIRENZE BLANCO POL CX2,81 75X75 RT A LW LUME",
+    "descricao": "CRISTALATO FIRENZE BLANCO POL CX2,81 75X75 RT A LW LUME",
+    "codigo_GTIN": "145473",
+    "preco_unitario_bruto": "53.38",
+    "desconto_dinheiro": "17.37",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.81",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 820.52,
+      "Casa HG - Magé/Guapimirim": 84.3,
+      "Casa HG - Atacadão Dos Pisos": 396.21
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145473",
+    "Categoria": 3,
+    "image": "produtos/145473.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 152,
+  "fields": {
+    "codigo": "145474",
+    "titulo": "CRISTALATO YORK GRIS OUTSIDE CX 2,20 86X86 RT LM LUME",
+    "descricao": "CRISTALATO YORK GRIS OUTSIDE CX 2,20 86X86 RT LM LUME",
+    "codigo_GTIN": "145474",
+    "preco_unitario_bruto": "48.47",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.20",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 112.2,
+      "Casa HG - Magé/Guapimirim": 85.8,
+      "Casa HG - Atacadão Dos Pisos": 440.0
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145474",
+    "Categoria": 3,
+    "image": "produtos/145474.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 153,
+  "fields": {
+    "codigo": "145489",
+    "titulo": "CRISTALATO CARRARA BIANCO POL CX 2,81 75X75 RT LW LUME",
+    "descricao": "CRISTALATO CARRARA BIANCO POL CX 2,81 75X75 RT LW LUME",
+    "codigo_GTIN": "145489",
+    "preco_unitario_bruto": "50.56",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.81",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 154.55,
+      "Casa HG - Magé/Guapimirim": 205.13,
+      "Casa HG - Atacadão Dos Pisos": 382.16
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145489",
+    "Categoria": 3,
+    "image": "produtos/145489.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 154,
+  "fields": {
+    "codigo": "145555",
+    "titulo": "CRISTALATO LUME THASSOS GRIS RT CX 2,84 HD 75X75 LZ AC",
+    "descricao": "CRISTALATO LUME THASSOS GRIS RT CX 2,84 HD 75X75 LZ AC",
+    "codigo_GTIN": "145555",
+    "preco_unitario_bruto": "48.47",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 68.16,
+      "Casa HG - Magé/Guapimirim": 51.12,
+      "Casa HG - Atacadão Dos Pisos": 218.08
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145555",
+    "Categoria": 3,
+    "image": "produtos/145555.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 155,
+  "fields": {
+    "codigo": "145556",
+    "titulo": "CRISTALATO LUME BOSTON GRIS RT CX 2,84 HD 75X75 LZ AC",
+    "descricao": "CRISTALATO LUME BOSTON GRIS RT CX 2,84 HD 75X75 LZ AC",
+    "codigo_GTIN": "145556",
+    "preco_unitario_bruto": "47.08",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 269.8,
+      "Casa HG - Magé/Guapimirim": 124.96,
+      "Casa HG - Atacadão Dos Pisos": 514.04
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145556",
+    "Categoria": 3,
+    "image": "produtos/145556.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 156,
+  "fields": {
+    "codigo": "145590",
+    "titulo": "CRISTALATO LUME ONICE WHITE POL RT CX2,81 75X75 A LW HD",
+    "descricao": "CRISTALATO LUME ONICE WHITE POL RT CX2,81 75X75 A LW HD",
+    "codigo_GTIN": "145590",
+    "preco_unitario_bruto": "55.42",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.81",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 11.24
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145590",
+    "Categoria": 3,
+    "image": "produtos/145590.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 157,
+  "fields": {
+    "codigo": "145602",
+    "titulo": "CRISTALATO LUME MANHATTAN CX2,20 AC 86X86 LX 29525",
+    "descricao": "CRISTALATO LUME MANHATTAN CX2,20 AC 86X86 LX 29525",
+    "codigo_GTIN": "145602",
+    "preco_unitario_bruto": "49.15",
+    "desconto_dinheiro": "6.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.20",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 105.6,
+      "Casa HG - Magé/Guapimirim": 26.4,
+      "Casa HG - Atacadão Dos Pisos": 877.8
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145602",
+    "Categoria": 3,
+    "image": "produtos/145602.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 158,
+  "fields": {
+    "codigo": "145721",
+    "titulo": "CRISTALATO URBANO CONCRETO CX2,20 86X86 LZ LUME RT",
+    "descricao": "CRISTALATO URBANO CONCRETO CX2,20 86X86 LZ LUME RT",
+    "codigo_GTIN": "145721",
+    "preco_unitario_bruto": "52.64",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.20",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 59.4,
+      "Casa HG - Atacadão Dos Pisos": 761.2
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145721",
+    "Categoria": 3,
+    "image": "produtos/145721.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 159,
+  "fields": {
+    "codigo": "145723",
+    "titulo": "CRISTALATO LUME SAO TOME CX2,84 75X75 RT  LZ",
+    "descricao": "CRISTALATO LUME SAO TOME CX2,84 75X75 RT  LZ",
+    "codigo_GTIN": "145723",
+    "preco_unitario_bruto": "49.15",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 14.2,
+      "Casa HG - Atacadão Dos Pisos": 218.68
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145723",
+    "Categoria": 3,
+    "image": "produtos/145723.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 160,
+  "fields": {
+    "codigo": "145729",
+    "titulo": "CRISTALATO LUME ALLURE CREMA CX 2,20 86X86 LZ",
+    "descricao": "CRISTALATO LUME ALLURE CREMA CX 2,20 86X86 LZ",
+    "codigo_GTIN": "145729",
+    "preco_unitario_bruto": "51.25",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.20",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 398.2
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145729",
+    "Categoria": 3,
+    "image": "produtos/145729.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 161,
+  "fields": {
+    "codigo": "145730",
+    "titulo": "CRISTALATO LUME LONDRES CX 2,20 AC 86X86 LZ",
+    "descricao": "CRISTALATO LUME LONDRES CX 2,20 AC 86X86 LZ",
+    "codigo_GTIN": "145730",
+    "preco_unitario_bruto": "51.25",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.20",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 453.2
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145730",
+    "Categoria": 3,
+    "image": "produtos/145730.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 162,
+  "fields": {
+    "codigo": "145731",
+    "titulo": "CRISTALATO LUME PETRA NATURAL CX 2,84 75X75 LM RT",
+    "descricao": "CRISTALATO LUME PETRA NATURAL CX 2,84 75X75 LM RT",
+    "codigo_GTIN": "145731",
+    "preco_unitario_bruto": "47.08",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 45.44
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145731",
+    "Categoria": 3,
+    "image": "produtos/145731.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 163,
+  "fields": {
+    "codigo": "145732",
+    "titulo": "CRISTALATO LUME ALLURE CREMA CX 2,14 85X85 LW PO",
+    "descricao": "CRISTALATO LUME ALLURE CREMA CX 2,14 85X85 LW PO",
+    "codigo_GTIN": "145732",
+    "preco_unitario_bruto": "61.51",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "5.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.14",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 261.08,
+      "Casa HG - Magé/Guapimirim": 102.72,
+      "Casa HG - Atacadão Dos Pisos": 62.06
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145732",
+    "Categoria": 3,
+    "image": "produtos/145732.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 164,
+  "fields": {
+    "codigo": "145746",
+    "titulo": "CRISTALATO LUME RT PALAZZO CX 2,84 75X75 LZ",
+    "descricao": "CRISTALATO LUME RT PALAZZO CX 2,84 75X75 LZ",
+    "codigo_GTIN": "145746",
+    "preco_unitario_bruto": "46.44",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "5.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 65.32,
+      "Casa HG - Atacadão Dos Pisos": 167.56
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145746",
+    "Categoria": 3,
+    "image": "produtos/145746.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 165,
+  "fields": {
+    "codigo": "145749",
+    "titulo": "CRISTALATO LUME RT MANHATTAN CX2,14 85X85 PO LW",
+    "descricao": "CRISTALATO LUME RT MANHATTAN CX2,14 85X85 PO LW",
+    "codigo_GTIN": "145749",
+    "preco_unitario_bruto": "60.97",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.14",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 98.44,
+      "Casa HG - Atacadão Dos Pisos": 55.64
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145749",
+    "Categoria": 3,
+    "image": "produtos/145749.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 166,
+  "fields": {
+    "codigo": "145878",
+    "titulo": "CRISTALATO LUME ARENITO GRIGIO OUT CX2,84 RT 75X75 A LM",
+    "descricao": "CRISTALATO LUME ARENITO GRIGIO OUT CX2,84 RT 75X75 A LM",
+    "codigo_GTIN": "145878",
+    "preco_unitario_bruto": "47.75",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 19.88
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145878",
+    "Categoria": 3,
+    "image": "produtos/145878.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 167,
+  "fields": {
+    "codigo": "145885",
+    "titulo": "CRISTALATO LUME DENVER CIMENTO RT CX 2,84 75X75 LZ AC",
+    "descricao": "CRISTALATO LUME DENVER CIMENTO RT CX 2,84 75X75 LZ AC",
+    "codigo_GTIN": "145885",
+    "preco_unitario_bruto": "51.97",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 68.16,
+      "Casa HG - Atacadão Dos Pisos": 366.36
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145885",
+    "Categoria": 3,
+    "image": "produtos/145885.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 168,
+  "fields": {
+    "codigo": "145886",
+    "titulo": "CRISTALATO LUME VANCOUVER RT CX 2,84 75X75 LM AC",
+    "descricao": "CRISTALATO LUME VANCOUVER RT CX 2,84 75X75 LM AC",
+    "codigo_GTIN": "145886",
+    "preco_unitario_bruto": "51.97",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 124.96
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145886",
+    "Categoria": 3,
+    "image": "produtos/145886.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 169,
+  "fields": {
+    "codigo": "145887",
+    "titulo": "CRISTALATO LUME ONIX CRISTAL AC CX2,84 75X75 LW",
+    "descricao": "CRISTALATO LUME ONIX CRISTAL AC CX2,84 75X75 LW",
+    "codigo_GTIN": "145887",
+    "preco_unitario_bruto": "46.34",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 130.64,
+      "Casa HG - Atacadão Dos Pisos": 460.08
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145887",
+    "Categoria": 3,
+    "image": "produtos/145887.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 170,
+  "fields": {
+    "codigo": "145888",
+    "titulo": "CRISTALATO LUME TRAVERTINO ROMANO POL CX2,81 75X75 LW",
+    "descricao": "CRISTALATO LUME TRAVERTINO ROMANO POL CX2,81 75X75 LW",
+    "codigo_GTIN": "145888",
+    "preco_unitario_bruto": "53.38",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.81",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 185.46,
+      "Casa HG - Magé/Guapimirim": 120.83,
+      "Casa HG - Atacadão Dos Pisos": 309.1
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145888",
+    "Categoria": 3,
+    "image": "produtos/145888.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 171,
+  "fields": {
+    "codigo": "145895",
+    "titulo": "CRISTALATO LUME PULPIS BEGE AC CX2,84 75X75 LZ",
+    "descricao": "CRISTALATO LUME PULPIS BEGE AC CX2,84 75X75 LZ",
+    "codigo_GTIN": "145895",
+    "preco_unitario_bruto": "49.15",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 184.6,
+      "Casa HG - Magé/Guapimirim": 96.56,
+      "Casa HG - Atacadão Dos Pisos": 559.48
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145895",
+    "Categoria": 3,
+    "image": "produtos/145895.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 172,
+  "fields": {
+    "codigo": "145937",
+    "titulo": "CRISTALATO CALABRIA GRIS POL CX2,81 75X75 RT A LW LUME",
+    "descricao": "CRISTALATO CALABRIA GRIS POL CX2,81 75X75 RT A LW LUME",
+    "codigo_GTIN": "145937",
+    "preco_unitario_bruto": "65.14",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.81",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 59.01,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 0.0
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145937",
+    "Categoria": 3,
+    "image": "produtos/145937.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 173,
+  "fields": {
+    "codigo": "145938",
+    "titulo": "CRISTALATO ALVORADA GRIS CX 2,84 75X75 RT LM LUME",
+    "descricao": "CRISTALATO ALVORADA GRIS CX 2,84 75X75 RT LM LUME",
+    "codigo_GTIN": "145938",
+    "preco_unitario_bruto": "48.47",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.84",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 127.8,
+      "Casa HG - Atacadão Dos Pisos": 28.4
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145938",
+    "Categoria": 3,
+    "image": "produtos/145938.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 174,
+  "fields": {
+    "codigo": "145978",
+    "titulo": "CRISTALATO CALACATA ORO PO CX2,14 85X85 A LW PLANA",
+    "descricao": "CRISTALATO CALACATA ORO PO CX2,14 85X85 A LW PLANA",
+    "codigo_GTIN": "145978",
+    "preco_unitario_bruto": "70.28",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.14",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 0.0,
+      "Casa HG - Atacadão Dos Pisos": 248.24
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145978",
+    "Categoria": 3,
+    "image": "produtos/145978.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 175,
+  "fields": {
+    "codigo": "145991",
+    "titulo": "CRISTALATO CREMA DELICATO PO CX2,81 75X75 RT A LW LUME",
+    "descricao": "CRISTALATO CREMA DELICATO PO CX2,81 75X75 RT A LW LUME",
+    "codigo_GTIN": "145991",
+    "preco_unitario_bruto": "51.25",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "6.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.81",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 75.87,
+      "Casa HG - Magé/Guapimirim": 50.58,
+      "Casa HG - Atacadão Dos Pisos": 216.37
+    },
+    "marca": null,
+    "formato": null,
+    "espessura": null,
+    "junta_minima": null,
+    "relevo": null,
+    "acabamento_superficial": null,
+    "variacao_faces": null,
+    "classe_tecnica_absorcao_pisos": null,
+    "indicacao_uso": null,
+    "pecas_caixa": null,
+    "peso_bruto_caixa": null,
+    "palet": null,
+    "slug": "145991",
+    "Categoria": 3,
+    "image": "produtos/145991.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 176,
+  "fields": {
+    "codigo": "146036",
+    "titulo": "CRISTALATO BLACK SUPREME PO CX2,81 75X75 RT A LW LUME",
+    "descricao": "CRISTALATO BLACK SUPREME PO CX2,81 75X75 RT A LW LUME",
+    "codigo_GTIN": "146036",
+    "preco_unitario_bruto": "70.28",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.81",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 120.83,
+      "Casa HG - Magé/Guapimirim": 106.78,
+      "Casa HG - Atacadão Dos Pisos": 429.93
+    },
+    "marca": "1",
+    "formato": "1",
+    "espessura": 1,
+    "junta_minima": 1,
+    "relevo": false,
+    "acabamento_superficial": "Polido",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "0,5 a 3,0",
+    "indicacao_uso": "Sem tráfego - Indicado para uso em paredes",
+    "pecas_caixa": 1,
+    "peso_bruto_caixa": "1.00",
+    "palet": "1.00",
+    "slug": "146036",
+    "Categoria": 3,
+    "image": "produtos/146036.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 177,
+  "fields": {
+    "codigo": "146037",
+    "titulo": "CRISTALATO NERO PORTORO PO CX2,81 75X75 RT A LW LUME",
+    "descricao": "CRISTALATO NERO PORTORO PO CX2,81 75X75 RT A LW LUME",
+    "codigo_GTIN": "146037",
+    "preco_unitario_bruto": "70.28",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.81",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 118.02,
+      "Casa HG - Magé/Guapimirim": 129.26,
+      "Casa HG - Atacadão Dos Pisos": 179.84
+    },
+    "marca": "1",
+    "formato": "1",
+    "espessura": 1,
+    "junta_minima": 1,
+    "relevo": false,
+    "acabamento_superficial": "Polido",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "0,5 a 3,0",
+    "indicacao_uso": "Sem tráfego - Indicado para uso em paredes",
+    "pecas_caixa": 1,
+    "peso_bruto_caixa": "1.00",
+    "palet": "1.00",
+    "slug": "146037",
+    "Categoria": 3,
+    "image": "produtos/146037.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 178,
+  "fields": {
+    "codigo": "146038",
+    "titulo": "CRISTALATO NEVADA PO CX2,81 75X75 RT A LW LUME",
+    "descricao": "CRISTALATO NEVADA PO CX2,81 75X75 RT A LW LUME",
+    "codigo_GTIN": "146038",
+    "preco_unitario_bruto": "56.20",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.81",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 0.0,
+      "Casa HG - Magé/Guapimirim": 33.72,
+      "Casa HG - Atacadão Dos Pisos": 202.32
+    },
+    "marca": "1",
+    "formato": "1",
+    "espessura": 1,
+    "junta_minima": 1,
+    "relevo": false,
+    "acabamento_superficial": "Polido",
+    "variacao_faces": "Leve variação, existem diferenças perceptíveis entre as peças, mas as texturas e tons apresentados são muito próximos",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Sem tráfego - Indicado para uso em paredes",
+    "pecas_caixa": 1,
+    "peso_bruto_caixa": "1.00",
+    "palet": "1.00",
+    "slug": "146038",
+    "Categoria": 3,
+    "image": "produtos/146038.webp",
+    "venda": null,
+    "garantia": null,
+    "return_devolucao": null,
+    "visualizacao": 0,
+    "quantidade_vendas": 0,
+    "num_fotos": 1
+  }
+},
+{
+  "model": "app.produto",
+  "pk": 179,
+  "fields": {
+    "codigo": "146043",
+    "titulo": "CRISTALATO SIBERIAN PO CX2,14 85X85 RT A LW LUME",
+    "descricao": "CRISTALATO SIBERIAN PO CX2,14 85X85 RT A LW LUME",
+    "codigo_GTIN": "146043",
+    "preco_unitario_bruto": "67.46",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "7.00",
+    "unidade": "M2",
+    "fechamento_embalagem": "2.14",
+    "em_estoque": true,
+    "estoque_lojas": {
+      "Casa HG - Várzea": 51.36,
+      "Casa HG - Magé/Guapimirim": 49.22,
+      "Casa HG - Atacadão Dos Pisos": 321.0
+    },
+    "marca": "1",
+    "formato": "1",
+    "espessura": 1,
+    "junta_minima": 1,
+    "relevo": true,
+    "acabamento_superficial": "Brilho",
+    "variacao_faces": "Leve variação, existem diferenças perceptíveis entre as peças, mas as texturas e tons apresentados são muito próximos",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Sem tráfego - Indicado para uso em paredes",
+    "pecas_caixa": 1,
+    "peso_bruto_caixa": "1.00",
+    "palet": "1.00",
+    "slug": "146043",
+    "Categoria": 3,
+    "image": "produtos/146043.webp",
     "venda": null,
     "garantia": null,
     "return_devolucao": null,
@@ -5838,7 +7830,7 @@
   "pk": 117,
   "fields": {
     "cliente": 19,
-    "total": "8686.28",
+    "total": "109677.10",
     "criado_em": "2025-04-23T14:58:32.652Z"
   }
 },
@@ -5891,8 +7883,8 @@
   "model": "app.carro",
   "pk": 123,
   "fields": {
-    "cliente": null,
-    "total": "0.00",
+    "cliente": 17,
+    "total": "302.90",
     "criado_em": "2025-05-01T04:56:43.826Z"
   }
 },
@@ -5900,9 +7892,81 @@
   "model": "app.carro",
   "pk": 124,
   "fields": {
+    "cliente": 16,
+    "total": "14838.05",
+    "criado_em": "2025-05-02T16:28:20.461Z"
+  }
+},
+{
+  "model": "app.carro",
+  "pk": 125,
+  "fields": {
     "cliente": null,
     "total": "0.00",
-    "criado_em": "2025-05-02T16:28:20.461Z"
+    "criado_em": "2025-05-02T16:43:01.206Z"
+  }
+},
+{
+  "model": "app.carro",
+  "pk": 126,
+  "fields": {
+    "cliente": null,
+    "total": "0.00",
+    "criado_em": "2025-05-02T17:01:25.757Z"
+  }
+},
+{
+  "model": "app.carro",
+  "pk": 127,
+  "fields": {
+    "cliente": null,
+    "total": "0.00",
+    "criado_em": "2025-05-02T17:13:33.907Z"
+  }
+},
+{
+  "model": "app.carro",
+  "pk": 128,
+  "fields": {
+    "cliente": null,
+    "total": "0.00",
+    "criado_em": "2025-05-02T18:52:12.204Z"
+  }
+},
+{
+  "model": "app.carro",
+  "pk": 129,
+  "fields": {
+    "cliente": null,
+    "total": "0.00",
+    "criado_em": "2025-05-05T17:18:42.537Z"
+  }
+},
+{
+  "model": "app.carro",
+  "pk": 130,
+  "fields": {
+    "cliente": null,
+    "total": "0.00",
+    "criado_em": "2025-05-05T20:32:24.803Z"
+  }
+},
+{
+  "model": "app.carro",
+  "pk": 131,
+  "fields": {
+    "cliente": null,
+    "total": "0.00",
+    "criado_em": "2025-05-05T21:10:27.413Z"
+  }
+},
+{
+  "model": "app.carro",
+  "pk": 132,
+  "fields": {
+    "cliente": null,
+    "total": "0.00",
+    "criado_em": "2025-05-06T15:48:15.660Z"
   }
 },
 {
@@ -6154,19 +8218,45 @@
 },
 {
   "model": "app.carroproduto",
-  "pk": 165,
+  "pk": 167,
   "fields": {
-    "carro": 117,
-    "produto": 52,
-    "preco_unitario": "147.23",
-    "quantidade": 43,
-    "subtotal_bruto": "6330.68",
-    "subtotal": "6330.68",
-    "criado_em": "2025-05-02T16:24:41.542Z"
+    "carro": 123,
+    "produto": 11,
+    "preco_unitario": "75.72",
+    "quantidade": 4,
+    "subtotal_bruto": "681.50",
+    "subtotal": "302.90",
+    "criado_em": "2025-05-02T16:59:36.726Z"
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.carroproduto",
+  "pk": 169,
+  "fields": {
+    "carro": 117,
+    "produto": 84,
+    "preco_unitario": "115.02",
+    "quantidade": 376,
+    "subtotal_bruto": "43018.87",
+    "subtotal": "43248.91",
+    "criado_em": "2025-05-05T20:50:40.169Z"
+  }
+},
+{
+  "model": "app.carroproduto",
+  "pk": 170,
+  "fields": {
+    "carro": 124,
+    "produto": 84,
+    "preco_unitario": "115.02",
+    "quantidade": 129,
+    "subtotal_bruto": "14492.99",
+    "subtotal": "11573.31",
+    "criado_em": "2025-05-05T20:51:33.085Z"
+  }
+},
+{
+  "model": "app.pedidoorder",
   "pk": 5,
   "fields": {
     "cliente": 16,
@@ -6187,15 +8277,14 @@
     "forma_de_pagamento": "",
     "parcelas": 1,
     "valor_parcela": "0.00",
-    "endereco_envio": 1,
+    "endereco_envio": null,
     "endereco_envio_formatado": "cu",
     "criado_em": "2025-01-03T03:29:06.719Z",
-    "id_PagBank": "",
-    "ordenado_por": null
+    "id_PagBank": ""
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 41,
   "fields": {
     "cliente": 20,
@@ -6219,12 +8308,11 @@
     "endereco_envio": 21,
     "endereco_envio_formatado": "Estrada Teresópolis Friburgo KM 0, Prata - 25975-440 Teresópolis/RJ",
     "criado_em": "2025-01-06T17:47:30.250Z",
-    "id_PagBank": "",
-    "ordenado_por": null
+    "id_PagBank": ""
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 49,
   "fields": {
     "cliente": 17,
@@ -6248,12 +8336,11 @@
     "endereco_envio": 57,
     "endereco_envio_formatado": "Rua Manoel José Lebrão 891, Várzea - 25976-025 Teresópolis/RJ",
     "criado_em": "2025-01-13T23:27:41.665Z",
-    "id_PagBank": "",
-    "ordenado_por": null
+    "id_PagBank": ""
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 50,
   "fields": {
     "cliente": 17,
@@ -6277,12 +8364,11 @@
     "endereco_envio": 22,
     "endereco_envio_formatado": "Avenida do Sol 880 Fazenda Santa Ines, Guapimirim - 25940-000 Teresópolis/RJ",
     "criado_em": "2025-01-13T23:30:15.640Z",
-    "id_PagBank": "CHEC_D14944CC-0979-4275-93B8-6F1E71C39BB9",
-    "ordenado_por": null
+    "id_PagBank": "CHEC_D14944CC-0979-4275-93B8-6F1E71C39BB9"
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 52,
   "fields": {
     "cliente": 17,
@@ -6306,12 +8392,11 @@
     "endereco_envio": 21,
     "endereco_envio_formatado": "Estrada Teresópolis Friburgo KM 0, Prata - 25975-440 Teresópolis/RJ",
     "criado_em": "2025-01-17T04:36:32.866Z",
-    "id_PagBank": "CHEC_4C65F67F-1FF9-4FBB-BE8B-A1D80C518AB4",
-    "ordenado_por": null
+    "id_PagBank": "CHEC_4C65F67F-1FF9-4FBB-BE8B-A1D80C518AB4"
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 53,
   "fields": {
     "cliente": 17,
@@ -6335,12 +8420,11 @@
     "endereco_envio": 21,
     "endereco_envio_formatado": "Estrada Teresópolis Friburgo KM 0, Prata - 25975-440 Teresópolis/RJ",
     "criado_em": "2025-01-17T04:44:54.264Z",
-    "id_PagBank": "CHEC_B80DEED7-F363-4408-8876-19843CDD5759",
-    "ordenado_por": null
+    "id_PagBank": "CHEC_B80DEED7-F363-4408-8876-19843CDD5759"
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 62,
   "fields": {
     "cliente": 17,
@@ -6364,12 +8448,11 @@
     "endereco_envio": 21,
     "endereco_envio_formatado": "Estrada Teresópolis Friburgo KM 0, Prata - 25975-440 Teresópolis/RJ",
     "criado_em": "2025-01-31T19:54:50.324Z",
-    "id_PagBank": "",
-    "ordenado_por": null
+    "id_PagBank": ""
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 65,
   "fields": {
     "cliente": 17,
@@ -6393,12 +8476,11 @@
     "endereco_envio": 21,
     "endereco_envio_formatado": "Estrada Teresópolis Friburgo KM 0, Prata - 25975-440 Teresópolis/RJ",
     "criado_em": "2025-02-08T00:41:11.042Z",
-    "id_PagBank": "CHEC_85E8C595-566A-41C2-B21A-7BDC8C832515",
-    "ordenado_por": null
+    "id_PagBank": "CHEC_85E8C595-566A-41C2-B21A-7BDC8C832515"
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 77,
   "fields": {
     "cliente": 17,
@@ -6422,12 +8504,11 @@
     "endereco_envio": 21,
     "endereco_envio_formatado": "Estrada Teresópolis Friburgo KM 0, Prata - 25975-440 Teresópolis/RJ",
     "criado_em": "2025-02-10T20:40:30.159Z",
-    "id_PagBank": "",
-    "ordenado_por": null
+    "id_PagBank": ""
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 78,
   "fields": {
     "cliente": 17,
@@ -6451,12 +8532,11 @@
     "endereco_envio": 21,
     "endereco_envio_formatado": "Estrada Teresópolis Friburgo KM 0, Prata - 25975-440 Teresópolis/RJ",
     "criado_em": "2025-02-10T20:49:29.270Z",
-    "id_PagBank": "",
-    "ordenado_por": null
+    "id_PagBank": ""
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 79,
   "fields": {
     "cliente": 17,
@@ -6480,12 +8560,11 @@
     "endereco_envio": 21,
     "endereco_envio_formatado": "Estrada Teresópolis Friburgo KM 0, Prata - 25975-440 Teresópolis/RJ",
     "criado_em": "2025-02-10T20:50:35.338Z",
-    "id_PagBank": "",
-    "ordenado_por": null
+    "id_PagBank": ""
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 83,
   "fields": {
     "cliente": 17,
@@ -6509,12 +8588,11 @@
     "endereco_envio": 21,
     "endereco_envio_formatado": "Estrada Teresópolis Friburgo KM 0, Prata - 25975-440 Teresópolis/RJ",
     "criado_em": "2025-02-11T20:54:14.363Z",
-    "id_PagBank": "",
-    "ordenado_por": null
+    "id_PagBank": ""
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 85,
   "fields": {
     "cliente": 17,
@@ -6538,12 +8616,11 @@
     "endereco_envio": 21,
     "endereco_envio_formatado": "Estrada Teresópolis Friburgo KM 0, Prata - 25975-440 Teresópolis/RJ",
     "criado_em": "2025-02-12T02:02:43.864Z",
-    "id_PagBank": "",
-    "ordenado_por": null
+    "id_PagBank": ""
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 87,
   "fields": {
     "cliente": 17,
@@ -6567,12 +8644,11 @@
     "endereco_envio": 58,
     "endereco_envio_formatado": "Rua Cupertino Durão 84 Apt 201, Leblon - 22441-030 Rio de Janeiro/RJ",
     "criado_em": "2025-02-13T02:55:16.976Z",
-    "id_PagBank": "",
-    "ordenado_por": null
+    "id_PagBank": ""
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 90,
   "fields": {
     "cliente": 17,
@@ -6596,12 +8672,11 @@
     "endereco_envio": 58,
     "endereco_envio_formatado": "Rua Cupertino Durão 84 Apt 201, Leblon - 22441-030 Rio de Janeiro/RJ",
     "criado_em": "2025-02-13T04:49:53.602Z",
-    "id_PagBank": "",
-    "ordenado_por": null
+    "id_PagBank": ""
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 91,
   "fields": {
     "cliente": 17,
@@ -6625,12 +8700,11 @@
     "endereco_envio": 58,
     "endereco_envio_formatado": "Rua Cupertino Durão 84 Apt 201, Leblon - 22441-030 Rio de Janeiro/RJ",
     "criado_em": "2025-02-13T04:52:24.792Z",
-    "id_PagBank": "",
-    "ordenado_por": null
+    "id_PagBank": ""
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 96,
   "fields": {
     "cliente": 17,
@@ -6654,12 +8728,11 @@
     "endereco_envio": 21,
     "endereco_envio_formatado": "Estrada Teresópolis Friburgo KM 0, Prata - 25975-440 Teresópolis/RJ",
     "criado_em": "2025-02-21T01:54:33.240Z",
-    "id_PagBank": "CHEC_0E0FB9FC-A3C9-4018-B39C-0AD7056B5FBD",
-    "ordenado_por": null
+    "id_PagBank": "CHEC_0E0FB9FC-A3C9-4018-B39C-0AD7056B5FBD"
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 97,
   "fields": {
     "cliente": 17,
@@ -6683,12 +8756,11 @@
     "endereco_envio": 58,
     "endereco_envio_formatado": "Rua Cupertino Durão 84 Apt 201, Leblon - 22441-030 Rio de Janeiro/RJ",
     "criado_em": "2025-03-18T02:22:27.501Z",
-    "id_PagBank": "",
-    "ordenado_por": null
+    "id_PagBank": ""
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 98,
   "fields": {
     "cliente": 17,
@@ -6712,12 +8784,11 @@
     "endereco_envio": 58,
     "endereco_envio_formatado": "Rua Cupertino Durão 84 Apt 201, Leblon - 22441-030 Rio de Janeiro/RJ",
     "criado_em": "2025-03-18T03:33:20.646Z",
-    "id_PagBank": "",
-    "ordenado_por": null
+    "id_PagBank": ""
   }
 },
 {
-  "model": "app.pedido_order",
+  "model": "app.pedidoorder",
   "pk": 99,
   "fields": {
     "cliente": 17,
@@ -6741,12 +8812,39 @@
     "endereco_envio": 21,
     "endereco_envio_formatado": "Estrada Teresópolis Friburgo KM 0, Prata - 25975-440 Teresópolis/RJ",
     "criado_em": "2025-03-19T18:38:04.860Z",
-    "id_PagBank": "",
-    "ordenado_por": null
+    "id_PagBank": ""
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoorder",
+  "pk": 100,
+  "fields": {
+    "cliente": 16,
+    "nome_cliente": "João Guimarães",
+    "cpf_cnpj": "497.705.040-17",
+    "codigo_cliente": "",
+    "telefone": "+55 (21) 97004-4799",
+    "email": "joaomarceloguima23@gmail.com",
+    "carro": 124,
+    "pedido_status": "Pagamento Pendente",
+    "total_bruto": "14838.05",
+    "frete": "0.00",
+    "desconto_retirada": "0.00",
+    "desconto_forma_pagamento": "3264.34",
+    "total_desconto": "3264.34",
+    "total_final": "11573.71",
+    "local_de_pagamento": "dinheiro",
+    "forma_de_pagamento": "dinheiro",
+    "parcelas": 1,
+    "valor_parcela": "11573.71",
+    "endereco_envio": 59,
+    "endereco_envio_formatado": "Rua Padre Tintorio 408 Casa 13, Várzea - 25953-380 Teresópolis/RJ",
+    "criado_em": "2025-05-05T20:57:37.219Z",
+    "id_PagBank": ""
+  }
+},
+{
+  "model": "app.pedidoproduto",
   "pk": 42,
   "fields": {
     "pedido": 62,
@@ -6767,7 +8865,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 49,
   "fields": {
     "pedido": 65,
@@ -6788,7 +8886,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 50,
   "fields": {
     "pedido": 65,
@@ -6809,7 +8907,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 51,
   "fields": {
     "pedido": 65,
@@ -6830,7 +8928,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 52,
   "fields": {
     "pedido": 65,
@@ -6851,7 +8949,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 89,
   "fields": {
     "pedido": 77,
@@ -6872,7 +8970,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 90,
   "fields": {
     "pedido": 78,
@@ -6893,7 +8991,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 91,
   "fields": {
     "pedido": 79,
@@ -6914,7 +9012,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 94,
   "fields": {
     "pedido": 83,
@@ -6935,7 +9033,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 95,
   "fields": {
     "pedido": 85,
@@ -6956,7 +9054,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 96,
   "fields": {
     "pedido": 85,
@@ -6977,7 +9075,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 97,
   "fields": {
     "pedido": 85,
@@ -6998,7 +9096,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 98,
   "fields": {
     "pedido": 87,
@@ -7019,7 +9117,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 99,
   "fields": {
     "pedido": 90,
@@ -7040,7 +9138,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 100,
   "fields": {
     "pedido": 90,
@@ -7061,7 +9159,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 101,
   "fields": {
     "pedido": 91,
@@ -7082,7 +9180,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 116,
   "fields": {
     "pedido": 96,
@@ -7103,7 +9201,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 117,
   "fields": {
     "pedido": 96,
@@ -7124,7 +9222,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 118,
   "fields": {
     "pedido": 96,
@@ -7145,7 +9243,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 119,
   "fields": {
     "pedido": 96,
@@ -7166,7 +9264,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 120,
   "fields": {
     "pedido": 97,
@@ -7187,7 +9285,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 121,
   "fields": {
     "pedido": 97,
@@ -7208,7 +9306,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 122,
   "fields": {
     "pedido": 98,
@@ -7229,7 +9327,7 @@
   }
 },
 {
-  "model": "app.pedido_produto",
+  "model": "app.pedidoproduto",
   "pk": 123,
   "fields": {
     "pedido": 99,
@@ -7247,6 +9345,27 @@
     "desconto_total": "21.32",
     "desconto_unitario": "21.32",
     "total_final": "49.76"
+  }
+},
+{
+  "model": "app.pedidoproduto",
+  "pk": 124,
+  "fields": {
+    "pedido": 100,
+    "produto": 84,
+    "nome_produto": "PORC REALCE 61501 HD A CX1,87 RT LC 61X61 NATIVE IMBUIA",
+    "codigo": "29134",
+    "descricao": "PORC REALCE 61501 HD A CX1,87 RT LC 61X61 NATIVE IMBUIA",
+    "codigo_GTIN": "7898437793915",
+    "preco_unitario_bruto": "61.51",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "5.00",
+    "unidade": "M2",
+    "quantidade": "129.00",
+    "total_bruto": "14492.99",
+    "desconto_total": "2919.68",
+    "desconto_unitario": "22.63",
+    "total_final": "11573.31"
   }
 },
 {
@@ -7841,7 +9960,7 @@
     "name": "Can add pedido_order",
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "codename": "add_pedido_order"
   }
@@ -7852,7 +9971,7 @@
     "name": "Can change pedido_order",
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "codename": "change_pedido_order"
   }
@@ -7863,7 +9982,7 @@
     "name": "Can delete pedido_order",
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "codename": "delete_pedido_order"
   }
@@ -7874,7 +9993,7 @@
     "name": "Can view pedido_order",
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "codename": "view_pedido_order"
   }
@@ -8061,7 +10180,7 @@
     "name": "Can add pedido_ produto",
     "content_type": [
       "app",
-      "pedido_produto"
+      "pedidoproduto"
     ],
     "codename": "add_pedido_produto"
   }
@@ -8072,7 +10191,7 @@
     "name": "Can change pedido_ produto",
     "content_type": [
       "app",
-      "pedido_produto"
+      "pedidoproduto"
     ],
     "codename": "change_pedido_produto"
   }
@@ -8083,7 +10202,7 @@
     "name": "Can delete pedido_ produto",
     "content_type": [
       "app",
-      "pedido_produto"
+      "pedidoproduto"
     ],
     "codename": "delete_pedido_produto"
   }
@@ -8094,7 +10213,7 @@
     "name": "Can view pedido_ produto",
     "content_type": [
       "app",
-      "pedido_produto"
+      "pedidoproduto"
     ],
     "codename": "view_pedido_produto"
   }
@@ -8760,6 +10879,94 @@
   }
 },
 {
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add pedido order",
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "codename": "add_pedidoorder"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change pedido order",
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "codename": "change_pedidoorder"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete pedido order",
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "codename": "delete_pedidoorder"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view pedido order",
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "codename": "view_pedidoorder"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add pedido produto",
+    "content_type": [
+      "app",
+      "pedidoproduto"
+    ],
+    "codename": "add_pedidoproduto"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change pedido produto",
+    "content_type": [
+      "app",
+      "pedidoproduto"
+    ],
+    "codename": "change_pedidoproduto"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete pedido produto",
+    "content_type": [
+      "app",
+      "pedidoproduto"
+    ],
+    "codename": "delete_pedidoproduto"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view pedido produto",
+    "content_type": [
+      "app",
+      "pedidoproduto"
+    ],
+    "codename": "view_pedidoproduto"
+  }
+},
+{
   "model": "auth.user",
   "fields": {
     "password": "pbkdf2_sha256$260000$rGKMqyoycdx9rDxq20zf2Z$//o9JMoMEdeYzqwPcTZCSLsGvaxyMPix+1QfnlF2t0w=",
@@ -8797,7 +11004,7 @@
   "model": "auth.user",
   "fields": {
     "password": "pbkdf2_sha256$260000$wKGW836nV9t5qMMMwSTxdC$f2YBGLJ4Oo2k+ML77t6moJZ+2sTjl0cfDkBM6wPLE54=",
-    "last_login": "2024-12-19T15:22:23.391Z",
+    "last_login": "2025-05-05T20:55:15.750Z",
     "is_superuser": false,
     "username": "joaomarceloguima23@gmail.com",
     "first_name": "João",
@@ -9205,7 +11412,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "1",
     "object_repr": "Pedido_order:1",
@@ -9565,7 +11772,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "5",
     "object_repr": "Pedido_order:5",
@@ -10717,7 +12924,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "4",
     "object_repr": "Pedido_order: 4 | Status: Pedido em Andamento | Cliente: Alva Test",
@@ -10735,7 +12942,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "5",
     "object_repr": "Pedido_order: 5 | Status: Pedido Processando | Cliente: João Guimarães",
@@ -10753,7 +12960,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "8",
     "object_repr": "Pedido_order: 8 | Status: Pedido em Andamento | Cliente: Alva Test",
@@ -10771,7 +12978,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "11",
     "object_repr": "Pedido_order: 11 | Status: Pedido em Andamento | Cliente: Alva Test",
@@ -10789,7 +12996,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "12",
     "object_repr": "Pedido_order: 12 | Status: Pedido em Andamento | Cliente: Alva Test",
@@ -10807,7 +13014,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "13",
     "object_repr": "Pedido_order: 13 | Status: Pedido em Andamento | Cliente: Alva Test",
@@ -10861,7 +13068,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "17",
     "object_repr": "Pedido_order: 17 | Status: Pedido em Andamento | Cliente: Alva Test",
@@ -10897,7 +13104,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "39",
     "object_repr": "Pedido_order: 39 | Status: Pedido em Andamento | Cliente: Alva Test",
@@ -10933,7 +13140,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "42",
     "object_repr": "Pedido_order: 42 | Status: Pedido Recebido | Cliente: Alva Test",
@@ -10951,7 +13158,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "40",
     "object_repr": "Pedido_order: 40 | Status: Pedido Recebido | Cliente: Alva Test",
@@ -10969,7 +13176,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "41",
     "object_repr": "Pedido_order: 41 | Status: Pedido em Andamento | Cliente: Test Test",
@@ -10987,7 +13194,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "42",
     "object_repr": "Pedido_order: 42 | Status: Pedido Recebido | Cliente: Alva Test",
@@ -11005,7 +13212,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "42",
     "object_repr": "Pedido_order: 42 | Status: Pedido Recebido | Cliente: João Guilherme Muniz Alvarez",
@@ -11023,7 +13230,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "42",
     "object_repr": "Pedido_order: 42 | Status: Pedido Recebido | Cliente: Alva Test",
@@ -11041,7 +13248,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "42",
     "object_repr": "Pedido_order: 42 | Status: Pedido Recebido | Cliente: Alva Test",
@@ -11149,7 +13356,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "43",
     "object_repr": "Pedido_order: 43 | Status: Pedido em Andamento | Cliente: Alva Test",
@@ -11167,7 +13374,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "44",
     "object_repr": "Pedido_order: 44 | Status: Pagamento Processando | Cliente: Alva Test",
@@ -11275,7 +13482,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "44",
     "object_repr": "Pedido_order: 44 | Status: Pagamento Processando | Cliente: Alva Test",
@@ -11293,7 +13500,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "42",
     "object_repr": "Pedido_order: 42 | Status: Pagamento Confirmado | Cliente: Alva Test",
@@ -11311,7 +13518,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "44",
     "object_repr": "Pedido_order: 44 | Status: Pagamento Processando | Cliente: Alva Test",
@@ -11689,7 +13896,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "48",
     "object_repr": "Pedido_order: 48 | Status: Pagamento Confirmado | Cliente: Alva Test",
@@ -12715,7 +14922,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "63",
     "object_repr": "Pedido_order: 63 | Status: Pagamento Processando | Cliente: Alva Test",
@@ -12733,7 +14940,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "64",
     "object_repr": "Pedido_order: 64 | Status: Pagamento Processando | Cliente: Alva Test",
@@ -12751,7 +14958,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "66",
     "object_repr": "Pedido_order: 66 | Status: Pagamento Processando | Cliente: Alva Test",
@@ -12769,7 +14976,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "67",
     "object_repr": "Pedido_order: 67 | Status: Pagamento Processando | Cliente: Alva Test",
@@ -12787,7 +14994,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "68",
     "object_repr": "Pedido_order: 68 | Status: Pagamento Processando | Cliente: Alva Test",
@@ -12805,7 +15012,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "69",
     "object_repr": "Pedido_order: 69 | Status: Pagamento Processando | Cliente: Alva Test",
@@ -12823,7 +15030,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "70",
     "object_repr": "Pedido_order: 70 | Status: Pagamento Processando | Cliente: Alva Test",
@@ -12841,7 +15048,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "71",
     "object_repr": "Pedido_order: 71 | Status: Pagamento Processando | Cliente: Alva Test",
@@ -12859,7 +15066,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "72",
     "object_repr": "Pedido_order: 72 | Status: Pagamento Processando | Cliente: Alva Test",
@@ -12877,7 +15084,7 @@
     ],
     "content_type": [
       "app",
-      "pedido_order"
+      "pedidoorder"
     ],
     "object_id": "73",
     "object_repr": "Pedido_order: 73 | Status: Pagamento Processando | Cliente: Alva Test",
@@ -15061,6 +17268,114 @@
     "object_repr": "A",
     "action_flag": 3,
     "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 342,
+  "fields": {
+    "action_time": "2025-05-02T17:21:33.205Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "produto"
+    ],
+    "object_id": "126",
+    "object_repr": "145841 - PORC ALMEIDA TOQUIO ICE AC CX2,86 120X120 LC",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Em estoque\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 343,
+  "fields": {
+    "action_time": "2025-05-02T17:22:08.092Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "produto"
+    ],
+    "object_id": "126",
+    "object_repr": "145841 - PORC ALMEIDA TOQUIO ICE AC CX2,86 120X120 LC",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Em estoque\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 344,
+  "fields": {
+    "action_time": "2025-05-02T17:22:32.679Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "produto"
+    ],
+    "object_id": "126",
+    "object_repr": "145841 - PORC ALMEIDA TOQUIO ICE AC CX2,86 120X120 LC",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Em estoque\", \"Estoque lojas\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 345,
+  "fields": {
+    "action_time": "2025-05-02T18:56:56.454Z",
+    "user": [
+      "Alva"
+    ],
+    "content_type": [
+      "app",
+      "endereco"
+    ],
+    "object_id": "57",
+    "object_repr": "Casa HG - Várzea | Casa HG",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 346,
+  "fields": {
+    "action_time": "2025-05-02T18:57:02.371Z",
+    "user": [
+      "Alva"
+    ],
+    "content_type": [
+      "app",
+      "endereco"
+    ],
+    "object_id": "22",
+    "object_repr": "Casa HG - Magé/Guapimirim | Casa HG",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Titulo\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 347,
+  "fields": {
+    "action_time": "2025-05-05T15:05:56.871Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "produto"
+    ],
+    "object_id": "179",
+    "object_repr": "146043 - CRISTALATO SIBERIAN PO CX2,14 85X85 RT A LW LUME",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Marca\", \"Formato\", \"Espessura\", \"Junta minima\", \"Relevo\", \"Acabamento superficial\", \"Variacao faces\", \"Visualizacao\"]}}]"
   }
 }
 ]
