@@ -894,7 +894,7 @@ def create_payment(request):
         # TODO: Melhorar essa tela de erro pra versão final
         return HttpResponse(f"Error: {response.status_code} - {response.text}")
 
-class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
+class PedidoConfirmadoView(LogedMixin, LojaMixin, BaseContextMixin, TemplateView):
     template_name = "pedidoConfirmado.html"
 
     def get_context_data(self, **kwargs):
