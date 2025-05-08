@@ -228,3 +228,5 @@ TODO-ALVAREZ-RESOLVIDO: Melhorar carroseis no mobile pro usuario ver que tem um 
 TODO-ALVAREZ-RESOLVIDO: Arrumar imagens pra não se distorcerem
 
 TODO-ALVAREZ-RESOLVIDO: Api getpedidos precisa passar separadamente o endereço
+
+TODO-ALVAREZ-RESOLVIDO: Colocar logo do hefesto e do pagseguro no footer

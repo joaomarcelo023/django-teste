@@ -125,7 +125,7 @@ class BaseContextMixin(object):
 
         context['todoscategorias'] = Categoria.objects.all()
 
-        context['footer'] = Empresa.objects.all()
+        context['footer'] = [Empresa.objects.get(titulo="Hefesto"), Empresa.objects.get(titulo="Casa HG"), Empresa.objects.get(titulo="Pagseguro")]
 
         return context
 
