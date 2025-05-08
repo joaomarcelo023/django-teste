@@ -130,7 +130,7 @@ def getPedidoOrder():
     if response.status_code == 200:
         produtos = response.json()
         for produto in produtos:
-            print(f"Produto: {produto['id']}")
+            print(f"Pedido: {produto['id']}")
     else:
         print("Erro ao obter produtos:", response.status_code)
         
@@ -148,7 +148,7 @@ def getByIdPedidoOrder(_id):
 
     if response.status_code == 200:
         produto = response.json()
-        print(f"Produto: {produto}")
+        print(f"Pedido: {produto}")
     else:
         print("Erro ao obter produtos:", response.status_code)
 
@@ -411,7 +411,7 @@ def getProdStats():
 
 # postPedidoOrder("cu") # Não usar, não ta direito
 # getPedidoOrder()
-# getByIdPedidoOrder(85)
+getByIdPedidoOrder(111)
 
 # getProduto()
 # getByCodigoProduto(143830)
@@ -450,7 +450,7 @@ def getProdStats():
 
 # postJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site_filtrados_2.json")
 # patchJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site_filtrados_2.json")
-estoquelojasJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/estoque_master_2.json")
+# estoquelojasJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/estoque_master_2.json")
 # pisosFichaTecJson("C:/djvenv/ProjetoJoaoMarcelo/estoque/codigos_site_3.json")
 # postImg("E:/Users/HP/Pictures/pokemonTCGPocket")
 

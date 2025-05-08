@@ -226,3 +226,5 @@ TODO-ALVAREZ-RESOLVIDO: Arrumar o limite de quantidade no produto detalhe, o val
 TODO-ALVAREZ-RESOLVIDO: Melhorar carroseis no mobile pro usuario ver que tem um carrosel e não só dois produtos
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar imagens pra não se distorcerem
+
+TODO-ALVAREZ-RESOLVIDO: Api getpedidos precisa passar separadamente o endereço

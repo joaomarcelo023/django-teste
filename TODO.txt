@@ -1,8 +1,21 @@
 TODO-ALVAREZ: Arrumar CrazyAlvaPaymentCheckMixin no views
 
-TODO-ALVAREZ: Ver celery pros emails
+TODO-ALVAREZ: Hospedar o site em um link descente
+
+TODO-ALVAREZ: Janela pra editar endereços
+
+TODO-ALVAREZ: Melhorar parte do admin
+
+TODO-ALVAREZ: Conectar o pagseguro com o pagseguro real
+
+TODO-ALVAREZ: Verificar se o cpf/cnpj é valido
+
+TODO-ALVAREZ: Colocar logo do hefesto e do pagseguro no footer
 
 TODO-ALVAREZ: Arrumar pagina de contato
+
+TODO-ALVAREZ: Sumir com o pagamento a prazo pelo site
+
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte

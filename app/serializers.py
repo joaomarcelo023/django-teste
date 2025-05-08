@@ -35,6 +35,11 @@ class FotosProdutoSerializer(serializers.ModelSerializer):
         model = FotosProduto
         fields = '__all__'
 
+class EnderecoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Endereco
+        fields = '__all__'
+
 class PedidoProdutoSerializer(serializers.ModelSerializer):
     class Meta:
         model = PedidoProduto
@@ -42,8 +47,9 @@ class PedidoProdutoSerializer(serializers.ModelSerializer):
 
 class PedidoOrderSerializer(serializers.ModelSerializer):
     pedidoProduto = PedidoProdutoSerializer(many=True, read_only=True)
+    endereco_envio = EnderecoSerializer(read_only=True)
 
     class Meta:
         model = PedidoOrder
         fields = '__all__'
-        extra_fields = ['pedidoProduto']
+        # extra_fields = ['pedidoProduto']
