@@ -232,3 +232,5 @@ TODO-ALVAREZ-RESOLVIDO: Api getpedidos precisa passar separadamente o endereço
 TODO-ALVAREZ-RESOLVIDO: Colocar logo do hefesto e do pagseguro no footer
 
 TODO-ALVAREZ-RESOLVIDO: Sumir com o pagamento a prazo pelo site
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar pagina de contato
