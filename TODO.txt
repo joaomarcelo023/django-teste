@@ -8,8 +8,6 @@ TODO-ALVAREZ: Melhorar parte do admin
 
 TODO-ALVAREZ: Conectar o pagseguro com o pagseguro real
 
-TODO-ALVAREZ: Verificar se o cpf/cnpj é valido
-
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte

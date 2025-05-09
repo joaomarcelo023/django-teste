@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.forms import ModelForm, TextInput, EmailInput
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
+from validate_docbr import CPF, CNPJ
 
 # TODO: Acho que esse checar_PedidoForms não é utilizado
 # class Checar_PedidoForms(forms.ModelForm):
@@ -87,9 +88,17 @@ class ClienteRegistrarForms(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+
         email = cleaned_data.get("email")
         if User.objects.filter(username=email).exists():
             raise forms.ValidationError("Este cliente já existe no banco de dados")
+        
+        cpf_cnpj = cleaned_data.get("cpf_ou_cnpj")
+        cpf = CPF()
+        cnpj = CNPJ()
+        if (not cpf.validate(cpf_cnpj)) and (not cnpj.validate(cpf_cnpj)):
+            raise forms.ValidationError("CPF ou CNPJ invalido")
+
         return cleaned_data
 
 class ClienteEntrarForms(forms.Form):
@@ -184,6 +193,17 @@ class ClienteEditarCPF(forms.Form):
         'style': 'width: 100%; display: flex;',
         'inputmode': 'numeric',
     }), max_length = 14)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        
+        cpf_cnpj = cleaned_data.get("cpf_ou_cnpj")
+        cpf = CPF()
+        cnpj = CNPJ()
+        if (not cpf.validate(cpf_cnpj)) and (not cnpj.validate(cpf_cnpj)):
+            raise forms.ValidationError("CPF ou CNPJ invalido")
+
+        return cleaned_data
     
 class ClienteEditarTelefone(forms.Form):
     telefone_validator = RegexValidator(regex=r'^\(\d{2}\)\s\d{4,5}-\d{4}_?$',message="O número de telefone deve conter DDD mais 8 ou 9 dígitos numéricos.")
