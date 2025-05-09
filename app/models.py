@@ -315,8 +315,13 @@ class Admin(models.Model):
     nome_completo = models.CharField(max_length=200,default="")
     image = models.ImageField(upload_to="admin",null=True,blank=True)
     email = models.EmailField(default="")
-    telefone = models.CharField(max_length=19,default="")
+    telefone = models.CharField(max_length=19,default="",null=True,blank=True)
 
+    def save(self, *args, **kwargs):
+        self.nome_completo = self.user.get_full_name()
+        self.email = self.user.email
+
+        super(Admin, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.user.username
