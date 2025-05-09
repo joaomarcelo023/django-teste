@@ -12,7 +12,7 @@ var TotalCredito = document.getElementById("total-credito-data").textContent;
 var descontoCreditoInit = DescontosDic.desconto_credito;
 
 var vf_check_parcelas = Math.trunc(parseFloat(valorFinal[0].textContent.replace("R$ ", "").replace(",", ".").trim()) / 70);
-// document.querySelector('.test').textContent = valorFinal[0].textContent.replace("R$ ", "").replace(",", ".").trim() + " " + vf_check_parcelas;
+document.querySelector('.test').textContent = "cu";
 
 optionLabel.forEach(e => {
     e.addEventListener('input', function () {
@@ -76,8 +76,16 @@ optionLabel.forEach(e => {
             if (e.querySelector('.methods > .credito  input').checked) {
                 // valorFinal.textContent = e.querySelector('.methods > .credito .total_normal').textContent;
 
-                e.querySelector('.methods > .option_parcelas').style.display = "block";
+                // Fala João (Guilherme ou Marcelo ou Augusto) Pra fazer as parcelas voltarem no pagamento em credito online tu tem que comentar esse if e descomentar a linha embaixo
+                if (e.querySelector('.payment_place').textContent === "Pagar na loja") {
+                    e.querySelector('.methods > .option_parcelas').style.display = "block";
+                }
+                // e.querySelector('.methods > .option_parcelas').style.display = "block";
+                
                 e.querySelector('.methods > .option_parcelas select').name = "parcelas";
+                // if (e.querySelector('.payment_place').textContent !== "Pagar na loja") {
+                //     e.querySelector('.methods > .option_parcelas select').value = "1";
+                // }
                 // e.querySelector('.methods > .option_parcelas select').value = "1";
 
                 // document.querySelector('.test').textContent = `${(DescontosDic.desc_credito_list[e.querySelector('.methods > .option_parcelas select').value - 1] * DescontosDic.total_bruto).toFixed(2)}`;

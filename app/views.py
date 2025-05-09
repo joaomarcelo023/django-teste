@@ -143,7 +143,7 @@ class CrazyAlvaPaymentCheckMixin(object):
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
-class HomeView(LojaMixin, BaseContextMixin, CrazyAlvaPaymentCheckMixin, TemplateView):
+class HomeView(LojaMixin, BaseContextMixin, TemplateView):
     template_name = "home.html"
 
     def get_context_data(self, **kwargs):
@@ -232,8 +232,6 @@ class SobreView(LojaMixin, BaseContextMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        # context['empresa'] = Empresa.objects.all()
         context["enderecosLojas"] = Endereco.objects.filter(cliente=Cliente.objects.get(nome="Casa", sobrenome="HG"))
         context["mapsKey"] = settings.GOOGLE_MAPS_KEY
 
@@ -820,6 +818,8 @@ def create_payment(request):
                 "country": "BRA",
                 "postal_code": cep_numeros
             },
+            "type": "FREE",
+            "address_modifiable": False
         },
         "reference_id": request.POST["pedido_id"],
         "customer_modifiable": False,
@@ -834,30 +834,41 @@ def create_payment(request):
                 "type": "CREDIT_CARD",
                 "config_options": [
                     {
-                        "option": "INTEREST_FREE_INSTALLMENTS",
-                        "value": pedido.parcelas
-                    },
-                    {
-                        "option": "INSTALLMENTS_LIMIT",
-                        "value": pedido.parcelas
+                        "value": "1",
+                        "option": "INSTALLMENTS_LIMIT"
                     }
-                ]
+                ] 
             }
         ],
+        # "payment_methods_configs": [
+        #     {
+        #         "type": "CREDIT_CARD",
+        #         "config_options": [
+        #             {
+        #                 "option": "INTEREST_FREE_INSTALLMENTS",
+        #                 "value": pedido.parcelas
+        #             },
+        #             {
+        #                 "option": "INSTALLMENTS_LIMIT",
+        #                 "value": pedido.parcelas
+        #             }
+        #         ]
+        #     }
+        # ],
         "redirect_url": f"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id={pedido.id}", # f"http://127.0.0.1:8000/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
         # f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}&status=Pagamento_Confirmado"
         # "notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"],
         # "payment_notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"]
     }
 
-    if pedido.frete:
-        payload["shipping"]["type"] = "FIXED"
-        payload["shipping"]["service_type"] = "SEDEX"
-        payload["shipping"]["address_modifiable"] = False
-        payload["shipping"]["amount"] = int(pedido.frete * 100)
-    else:
-        payload["shipping"]["type"] = "FREE"
-        payload["shipping"]["address_modifiable"] = False
+    # if pedido.frete:
+    #     payload["shipping"]["type"] = "FIXED"
+    #     payload["shipping"]["service_type"] = "SEDEX"
+    #     payload["shipping"]["address_modifiable"] = False
+    #     payload["shipping"]["amount"] = int(pedido.frete * 100)
+    # else:
+    #     payload["shipping"]["type"] = "FREE"
+    #     payload["shipping"]["address_modifiable"] = False
 
     for prod in produtos:
         payload["items"].append(
@@ -1787,7 +1798,7 @@ class AdminPedidoView(AdminRequireMixin, BaseContextMixin, DetailView):
         context["PEDIDO_STATUS"] = PEDIDO_STATUS
         return context
 
-class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, ListView):
+class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, TemplateView):
     template_name = "admin_paginas/admintodospedido.html"
 
     queryset = PedidoOrder.objects.all().order_by("-id")

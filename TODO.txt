@@ -12,8 +12,6 @@ TODO-ALVAREZ: Verificar se o cpf/cnpj é valido
 
 TODO-ALVAREZ: Arrumar pagina de contato
 
-TODO-ALVAREZ: Sumir com o pagamento a prazo pelo site
-
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte
