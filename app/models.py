@@ -312,9 +312,9 @@ class Empresa(models.Model):
 
 class Admin(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    nome_completo = models.CharField(max_length=200,default="")
+    nome_completo = models.CharField(max_length=200,default="",null=True,blank=True)
     image = models.ImageField(upload_to="admin",null=True,blank=True)
-    email = models.EmailField(default="")
+    email = models.EmailField(default="",null=True,blank=True)
     telefone = models.CharField(max_length=19,default="",null=True,blank=True)
 
     def save(self, *args, **kwargs):
