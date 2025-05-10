@@ -1081,11 +1081,23 @@ class ClientePerfilView(LogedMixin, LojaMixin, BaseContextMixin, TemplateView):
         enderecos = Endereco.objects.filter(cliente=cliente).order_by("-id")
         context['enderecos'] = enderecos
         return context
-    
+
 class ClientePerfilViewEditarNome(LogedMixin, LojaMixin, BaseContextMixin, TemplateView, FormView):
     template_name = "clienteperfil_editar_nome.html"
     form_class = ClienteEditarNome
     success_url = reverse_lazy("lojaapp:clienteperfil")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+
+        cliente = self.request.user.cliente
+
+        kwargs['initial'] = {
+            'nome': cliente.nome,
+            'sobrenome': cliente.sobrenome
+        }
+
+        return kwargs
 
     def form_valid(self, form):
         nome = form.cleaned_data.get("nome")
@@ -1120,6 +1132,17 @@ class ClientePerfilViewEditarEmail(LogedMixin, LojaMixin, BaseContextMixin, Temp
     form_class = ClienteEditarEmail
     success_url = reverse_lazy("lojaapp:clienteperfil")
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+
+        cliente = self.request.user.cliente
+
+        kwargs['initial'] = {
+            'email': cliente.email
+        }
+
+        return kwargs
+
     def form_valid(self, form):
         email = form.cleaned_data.get("email")
 
@@ -1150,6 +1173,17 @@ class ClientePerfilViewEditarCPF(LogedMixin, LojaMixin, BaseContextMixin, Templa
     form_class = ClienteEditarCPF
     success_url = reverse_lazy("lojaapp:clienteperfil")
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+
+        cliente = self.request.user.cliente
+
+        kwargs['initial'] = {
+            'cpf_ou_cnpj': cliente.cpf_ou_cnpj
+        }
+
+        return kwargs
+
     def form_valid(self, form):
         cpf_ou_cnpj = form.cleaned_data.get("cpf_ou_cnpj")
 
@@ -1176,6 +1210,20 @@ class ClientePerfilViewEditarTelefone(LogedMixin, LojaMixin, BaseContextMixin, T
     template_name = "clienteperfil_editar_telefone.html"
     form_class = ClienteEditarTelefone
     success_url = reverse_lazy("lojaapp:clienteperfil")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+
+        cliente = self.request.user.cliente
+
+        telefoneOG = cliente.telefone
+        telefoneOG = telefoneOG.replace('+55 ', '')
+
+        kwargs['initial'] = {
+            'telefone': telefoneOG
+        }
+
+        return kwargs
 
     def form_valid(self, form):
         # Alva
@@ -1358,6 +1406,60 @@ def endereco_cadastrar(request):
             return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_400_BAD_REQUEST)
         
     return HttpResponse("Invalid request.")
+
+class ClientePerfilViewEditarEndereco(LogedMixin, LojaMixin, BaseContextMixin, TemplateView, FormView):
+    template_name = "clienteperfil_editar_endereco.html"
+    form_class = ClienteEditarEndereco
+    success_url = reverse_lazy("lojaapp:clienteperfil")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        endereco_id = self.kwargs['endereco_id']
+        endereco = Endereco.objects.get(id=endereco_id)
+
+        kwargs['initial'] = {
+            'titulo': endereco.titulo,
+            'cep': endereco.cep,
+            'cidade': endereco.cidade,
+            'estado': endereco.estado,
+            'bairro': endereco.bairro,
+            'rua': endereco.rua,
+            'numero': endereco.numero,
+            'complemento': endereco.complemento,
+        }
+
+        return kwargs
+    
+    def form_valid(self, form):
+        endereco_id = self.kwargs['endereco_id']
+        endereco = Endereco.objects.get(id=endereco_id)
+
+        endereco.titulo = form.cleaned_data.get("titulo")
+        endereco.cep = form.cleaned_data.get("cep")
+        endereco.estado = form.cleaned_data.get("estado")
+        endereco.cidade = form.cleaned_data.get("cidade")
+        endereco.bairro = form.cleaned_data.get("bairro")
+        endereco.rua = form.cleaned_data.get("rua")
+        endereco.numero = form.cleaned_data.get("numero")
+        endereco.complemento = form.cleaned_data.get("complemento")
+        
+        endereco.save()
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+            return f"{self.success_url}?perfil=Endereco"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        cliente = self.request.user.cliente
+        context['enderecos'] = Endereco.objects.filter(cliente=cliente).order_by("-id")
+
+        endereco_id = self.kwargs['endereco_id']
+        context['endereco_edit'] = Endereco.objects.get(id=endereco_id)
+
+        return context
 
 class deletarEnderecoView(LojaMixin, View):
     def get(self,request,*arg,**kwargs):

@@ -119,7 +119,6 @@ class EnderecoRegistrarForms(forms.ModelForm):
         fields = ["titulo","cep","estado","cidade","bairro","rua","numero","complemento"]
 
         widgets = {
-
             'titulo': TextInput(attrs={
                 'class': 'form-control',
                 'style': 'max-width: 300px;',
@@ -164,6 +163,65 @@ class EnderecoRegistrarForms(forms.ModelForm):
             }),
 
         }
+
+class ClienteEditarEndereco(forms.Form):
+    titulo = forms.CharField(widget=TextInput(attrs={
+        'id': 'titulo',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;',
+        'placeholder': 'Título (opcional)'
+    }))
+
+    cep = forms.CharField(widget=TextInput(attrs={
+        'id': 'cep',
+        'class': "form-control cep-input",
+        'style': 'width: 100%; display: flex;',
+        'inputmode': 'numeric',
+        'placeholder': 'CEP'
+    }))
+
+    estado = forms.CharField(widget=TextInput(attrs={
+        'id': 'estado',
+        'class': "form-control estado-input",
+        'style': 'width: 100%; display: flex;',
+        'placeholder': 'Estado'
+    }))
+
+    cidade = forms.CharField(widget=TextInput(attrs={
+        'id': 'cidade',
+        'class': "form-control cidade-input",
+        'style': 'width: 100%; display: flex;',
+        'placeholder': 'Cidade'
+    }))
+    
+    bairro = forms.CharField(widget=TextInput(attrs={
+        'id': 'bairro',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;',
+        'placeholder': 'Bairro'
+    }))
+    
+    rua = forms.CharField(widget=TextInput(attrs={
+        'id': 'rua',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;',
+        'placeholder': 'Rua'
+    }))
+    
+    numero = forms.CharField(widget=TextInput(attrs={
+        'id': 'numero',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;',
+        'inputmode': 'numeric',
+        'placeholder': 'Número'
+    }))
+    
+    complemento = forms.CharField(widget=TextInput(attrs={
+        'id': 'complemento',
+        'class': 'form-control',
+        'style': 'width: 100%; display: flex;',
+        'placeholder': 'Complemento'
+    }))
 
 class ClienteEditarNome(forms.Form):
     nome = forms.CharField(widget=forms.TextInput(attrs={

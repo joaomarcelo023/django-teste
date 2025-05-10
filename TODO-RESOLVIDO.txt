@@ -236,3 +236,5 @@ TODO-ALVAREZ-RESOLVIDO: Sumir com o pagamento a prazo pelo site
 TODO-ALVAREZ-RESOLVIDO: Arrumar pagina de contato
 
 TODO-ALVAREZ-RESOLVIDO: Verificar se o cpf/cnpj é valido
+
+TODO-ALVAREZ-RESOLVIDO: Janela pra editar endereços
