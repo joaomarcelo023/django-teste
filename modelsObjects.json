@@ -268,6 +268,14 @@
 },
 {
   "model": "sessions.session",
+  "pk": "7rgvle4yw51vz6nkn8c087adbqraojh2",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyHFwq549O43NAu7tVUDCbQn479LTS_NHCaZNzMfFamUPMysrqa3JzXQukzDWqX8MwXqkAWKL0kb4CelR9Yxp6XMQW8VvdOq75nlfdu7h4OJ6tTWwuJGagrUjQCOQcR7CQ5Hsmiw-RkFvG3gwgBEwfQdeeM6g8hRfX9Zdz1j:1uD4wZ:XsscxFES4bMeAbzaOJeD-OcQg-9O6h2SNNO0Cftd_CI",
+    "expire_date": "2025-05-22T17:21:59.774Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "9y5b515dihk43b1t0xrswfpgrtu0qkwk",
   "fields": {
     "session_data": ".eJxVjDEOwyAQBP9CHSHhMwZSps8brOPuHJxEIGG7ivL34MiNmy1mdvejCGst48zqGrqLGnFb07gtUv9IGXViEekleRf8xPwomkpe6xz1XtGHXfS9sLxvR_d0kHBJbd3bAZkCTx4IpKMBvQ8tuAdxPeBkwUYA4ywIE3sUCbFRsaZ5h-r7AwVnPQA:1txlXr:jkBQD01JPHxl5TFBDonh1a6-k1qBUMryT4wOrFUp-EQ",
@@ -288,14 +296,6 @@
   "fields": {
     "session_data": "eyJjYXJyb19pZCI6MTE1fQ:1u6H4A:Q1GwBrIxBgUl4EYqmYR6u45IM3j53XyCT80XblNgoRM",
     "expire_date": "2025-05-03T22:53:42.300Z"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "b5im793c95qo1ip8ohg86lf2h4wz4uf9",
-  "fields": {
-    "session_data": "eyJjYXJyb19pZCI6MTIwfQ:1u8sJs:o7YTzFPdAwOZHpd8h4H53tZU2doh5iCgfqQv_SBlaJQ",
-    "expire_date": "2025-05-11T03:04:40.036Z"
   }
 },
 {
@@ -492,6 +492,14 @@
 },
 {
   "model": "sessions.session",
+  "pk": "lwptco9en99be5b9n2bh0dyp24ktnjqd",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2hAHKO24dO8ZyMAMUjUloe3KeHet6abb997_b5WotRpGVhcw55MKtC4lrLO0P1OgDixSesq0CX7QdK861WlpY9Rbonc761tleV339nBQaC6_NUKXTecpSe_FeswDM5GNYonQOoeOfR9tzNAZD-AQEwqDDC56QxnU5wsZ_TyR:1uDQbZ:rvorI_p9QAbYnTCOBGOTEjtODx1dgt55oJM4oWhIa6o",
+    "expire_date": "2025-05-23T16:29:45.359Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "ly7546ts9cadynkfrs9mq3w0cz1dktcs",
   "fields": {
     "session_data": "eyJjYXJyb19pZCI6MTEwfQ:1u5ADB:JlbLmv5f1JlUrhj9VCmQgkqO1j7bf9URBOZPSaMmhk8",
@@ -624,6 +632,14 @@
   "fields": {
     "session_data": "e30:1roEdN:V6hjHXxiAOFimCNoj4pTqsnWNMA2mK0K4zQ-h3atTnc",
     "expire_date": "2024-04-07T03:34:57.781Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "v2sl9htsdu0ku3r0oxtqrwn7ey2mnosp",
+  "fields": {
+    "session_data": "eyJjYXJyb19pZCI6MTM1fQ:1uD53z:rTn958l1RUlH6UY83hXbge1n3e9iFeMcbC1EHY7LOAM",
+    "expire_date": "2025-05-22T17:29:39.297Z"
   }
 },
 {
@@ -834,6 +850,36 @@
   }
 },
 {
+  "model": "app.endereco",
+  "pk": 60,
+  "fields": {
+    "cliente": 17,
+    "titulo": "Test Tere",
+    "cep": "25953-020",
+    "estado": "RJ",
+    "cidade": "Teresópolis",
+    "bairro": "Várzea",
+    "rua": "Rua Monte Líbano",
+    "numero": "53",
+    "complemento": "apt 401"
+  }
+},
+{
+  "model": "app.endereco",
+  "pk": 63,
+  "fields": {
+    "cliente": 21,
+    "titulo": "Casa",
+    "cep": "25980-080",
+    "estado": "RJ",
+    "cidade": "Teresópolis",
+    "bairro": "Três Córregos",
+    "rua": "Estrada Caxambu",
+    "numero": "343",
+    "complemento": "ao lado do chapa hall"
+  }
+},
+{
   "model": "app.categoria",
   "pk": 3,
   "fields": {
@@ -944,9 +990,9 @@
     "venda": "0.00",
     "garantia": null,
     "return_devolucao": null,
-    "visualizacao": 173,
+    "visualizacao": 174,
     "quantidade_vendas": 0,
-    "num_fotos": 3
+    "num_fotos": 2
   }
 },
 {
@@ -1318,7 +1364,7 @@
     "palet": null,
     "slug": "43226",
     "Categoria": 3,
-    "image": "/produtos/NoImgAvailable.webp",
+    "image": "/produtos/43226.webp",
     "venda": null,
     "garantia": null,
     "return_devolucao": null,
@@ -1346,25 +1392,25 @@
       "Casa HG - Magé/Guapimirim": 66.33,
       "Casa HG - Atacadão Dos Pisos": 122.61
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "Alfagres",
+    "formato": "45x45",
+    "espessura": 6,
+    "junta_minima": 5,
+    "relevo": true,
+    "acabamento_superficial": "Brilho",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "6,0 a 10,0",
+    "indicacao_uso": "Pouco tráfego - Indicado para uso interno, sem acesso a áreas externas, em residências",
+    "pecas_caixa": 10,
+    "peso_bruto_caixa": "27.00",
+    "palet": "96.48",
     "slug": "144145",
     "Categoria": 3,
     "image": "produtos/144145.webp",
     "venda": null,
     "garantia": null,
     "return_devolucao": null,
-    "visualizacao": 4,
+    "visualizacao": 6,
     "quantidade_vendas": 0,
     "num_fotos": 1
   }
@@ -1556,25 +1602,25 @@
       "Casa HG - Magé/Guapimirim": 0.0,
       "Casa HG - Atacadão Dos Pisos": 61.71
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "Realce",
+    "formato": "61x61",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Acetinado",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Sem tráfego - Indicado para uso em paredes",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "33.50",
+    "palet": "67.32",
     "slug": "29144",
     "Categoria": 3,
     "image": "produtos/29144.webp",
     "venda": null,
     "garantia": null,
     "return_devolucao": null,
-    "visualizacao": 2,
+    "visualizacao": 3,
     "quantidade_vendas": 0,
     "num_fotos": 1
   }
@@ -1598,25 +1644,25 @@
       "Casa HG - Magé/Guapimirim": 0.0,
       "Casa HG - Atacadão Dos Pisos": 41.14
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "Realce",
+    "formato": "61x61",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Acetinado",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Sem tráfego - Indicado para uso em paredes",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "33.50",
+    "palet": "67.32",
     "slug": "29147",
     "Categoria": 3,
     "image": "produtos/29147.webp",
     "venda": null,
     "garantia": null,
     "return_devolucao": null,
-    "visualizacao": 2,
+    "visualizacao": 3,
     "quantidade_vendas": 0,
     "num_fotos": 1
   }
@@ -1640,18 +1686,18 @@
       "Casa HG - Magé/Guapimirim": 0.0,
       "Casa HG - Atacadão Dos Pisos": 113.15
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "ROX",
+    "formato": "72x72",
+    "espessura": 10,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Acetinado",
+    "variacao_faces": "Alta variação, as peças tem uma diferença bem significativa entre elas",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Sem tráfego - Indicado para uso em paredes",
+    "pecas_caixa": 3,
+    "peso_bruto_caixa": "32.41",
+    "palet": "62.00",
     "slug": "142579",
     "Categoria": 3,
     "image": "produtos/142579.webp",
@@ -1766,18 +1812,18 @@
       "Casa HG - Magé/Guapimirim": 0.0,
       "Casa HG - Atacadão Dos Pisos": 284.24
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "Realce",
+    "formato": "61x61",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Acetinado",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Sem tráfego - Indicado para uso em paredes",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "33.50",
+    "palet": "67.32",
     "slug": "145953",
     "Categoria": 3,
     "image": "produtos/145953.webp",
@@ -1808,18 +1854,18 @@
       "Casa HG - Magé/Guapimirim": 0.0,
       "Casa HG - Atacadão Dos Pisos": 56.1
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "Realce",
+    "formato": "61x61",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Acetinado",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Sem tráfego - Indicado para uso em paredes",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "33.50",
+    "palet": "67.32",
     "slug": "145954",
     "Categoria": 3,
     "image": "produtos/145954.webp",
@@ -1934,18 +1980,18 @@
       "Casa HG - Magé/Guapimirim": 157.5,
       "Casa HG - Atacadão Dos Pisos": 1002.5
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "LEF",
+    "formato": "44x44",
+    "espessura": 7,
+    "junta_minima": 5,
+    "relevo": false,
+    "acabamento_superficial": "Granilha",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "6,0 a 10,0",
+    "indicacao_uso": "Alto tráfego - Indicado para todas as dependências residenciais e comerciais de alto tráfego",
+    "pecas_caixa": 13,
+    "peso_bruto_caixa": "34.00",
+    "palet": "120.00",
     "slug": "143867",
     "Categoria": 3,
     "image": "produtos/143867.webp",
@@ -2858,25 +2904,25 @@
       "Casa HG - Magé/Guapimirim": 0.0,
       "Casa HG - Atacadão Dos Pisos": 235.62
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "Realce",
+    "formato": "61x61",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Acetinado",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Médio tráfego - Indicado para todas as dependências residenciais e comerciais de médio tráfego",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "33.50",
+    "palet": "67.32",
     "slug": "29134",
     "Categoria": 4,
     "image": "produtos/29134.webp",
     "venda": null,
     "garantia": null,
     "return_devolucao": null,
-    "visualizacao": 5,
+    "visualizacao": 6,
     "quantidade_vendas": 2,
     "num_fotos": 1
   }
@@ -2900,18 +2946,18 @@
       "Casa HG - Magé/Guapimirim": 67.32,
       "Casa HG - Atacadão Dos Pisos": 387.09
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "Realce",
+    "formato": "61x61",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Acetinado",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Alto tráfego - Indicado para todas as dependências residenciais e comerciais de alto tráfego",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "33.50",
+    "palet": "67.32",
     "slug": "29136",
     "Categoria": 4,
     "image": "produtos/29136.webp",
@@ -3068,18 +3114,18 @@
       "Casa HG - Magé/Guapimirim": 104.72,
       "Casa HG - Atacadão Dos Pisos": 231.88
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "Realce",
+    "formato": "61x61",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Acetinado",
+    "variacao_faces": "Alta variação, as peças tem uma diferença bem significativa entre elas",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Médio tráfego - Indicado para todas as dependências residenciais e comerciais de médio tráfego",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "33.50",
+    "palet": "67.32",
     "slug": "29135",
     "Categoria": 4,
     "image": "produtos/29135.webp",
@@ -3194,18 +3240,18 @@
       "Casa HG - Magé/Guapimirim": 0.0,
       "Casa HG - Atacadão Dos Pisos": 100.98
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "Realce",
+    "formato": "61x61",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Brilho",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Médio tráfego - Indicado para todas as dependências residenciais e comerciais de médio tráfego",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "33.50",
+    "palet": "67.32",
     "slug": "143113",
     "Categoria": 4,
     "image": "produtos/143113.webp",
@@ -3236,18 +3282,18 @@
       "Casa HG - Magé/Guapimirim": 0.0,
       "Casa HG - Atacadão Dos Pisos": 134.64
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "Realce",
+    "formato": "61x61",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Acetinado",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Alto tráfego - Indicado para todas as dependências residenciais e comerciais de alto tráfego",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "33.50",
+    "palet": "67.32",
     "slug": "143396",
     "Categoria": 4,
     "image": "produtos/143396.webp",
@@ -3278,18 +3324,18 @@
       "Casa HG - Magé/Guapimirim": 0.0,
       "Casa HG - Atacadão Dos Pisos": 110.33
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "Realce",
+    "formato": "61x61",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Brilho",
+    "variacao_faces": "Alta variação, as peças tem uma diferença bem significativa entre elas",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Médio tráfego - Indicado para todas as dependências residenciais e comerciais de médio tráfego",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "33.50",
+    "palet": "67.32",
     "slug": "143397",
     "Categoria": 4,
     "image": "produtos/143397.webp",
@@ -3320,18 +3366,18 @@
       "Casa HG - Magé/Guapimirim": 24.31,
       "Casa HG - Atacadão Dos Pisos": 301.07
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "Realce",
+    "formato": "61x61",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Acetinado",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Alto tráfego - Indicado para todas as dependências residenciais e comerciais de alto tráfego",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "33.50",
+    "palet": "67.32",
     "slug": "143792",
     "Categoria": 4,
     "image": "produtos/143792.webp",
@@ -3362,18 +3408,18 @@
       "Casa HG - Magé/Guapimirim": 57.35,
       "Casa HG - Atacadão Dos Pisos": 0.0
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "ROX",
+    "formato": "72x72",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Acetinado",
+    "variacao_faces": "Alta variação, as peças tem uma diferença bem significativa entre elas",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Alto tráfego - Indicado para todas as dependências residenciais e comerciais de alto tráfego",
+    "pecas_caixa": 3,
+    "peso_bruto_caixa": "31.24",
+    "palet": "62.00",
     "slug": "143814",
     "Categoria": 4,
     "image": "produtos/143814.webp",
@@ -3530,18 +3576,18 @@
       "Casa HG - Magé/Guapimirim": 63.58,
       "Casa HG - Atacadão Dos Pisos": 121.55
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "Realce",
+    "formato": "61x61",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Brilho",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Médio tráfego - Indicado para todas as dependências residenciais e comerciais de médio tráfego",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "33.50",
+    "palet": "67.32",
     "slug": "145020",
     "Categoria": 4,
     "image": "produtos/145020.webp",
@@ -3572,18 +3618,18 @@
       "Casa HG - Magé/Guapimirim": 61.71,
       "Casa HG - Atacadão Dos Pisos": 546.04
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "Realce",
+    "formato": "61x61",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Brilho",
+    "variacao_faces": "Variação moderada, algumas peças são diferentes umas das outras",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Médio tráfego - Indicado para todas as dependências residenciais e comerciais de médio tráfego",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "33.50",
+    "palet": "67.32",
     "slug": "145021",
     "Categoria": 4,
     "image": "produtos/145021.webp",
@@ -3614,18 +3660,18 @@
       "Casa HG - Magé/Guapimirim": 71.06,
       "Casa HG - Atacadão Dos Pisos": 0.0
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "Realce",
+    "formato": "61x61",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Acetinado",
+    "variacao_faces": "Peças uniformes, onde a variação entre uma peça e outra não é perceptível",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Alto tráfego - Indicado para todas as dependências residenciais e comerciais de alto tráfego",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "33.50",
+    "palet": "67.32",
     "slug": "145057",
     "Categoria": 4,
     "image": "produtos/145057.webp",
@@ -3656,18 +3702,18 @@
       "Casa HG - Magé/Guapimirim": 176.12,
       "Casa HG - Atacadão Dos Pisos": 1054.13
     },
-    "marca": null,
-    "formato": null,
-    "espessura": null,
-    "junta_minima": null,
-    "relevo": null,
-    "acabamento_superficial": null,
-    "variacao_faces": null,
-    "classe_tecnica_absorcao_pisos": null,
-    "indicacao_uso": null,
-    "pecas_caixa": null,
-    "peso_bruto_caixa": null,
-    "palet": null,
+    "marca": "ROX",
+    "formato": "72x72",
+    "espessura": 8,
+    "junta_minima": 2,
+    "relevo": true,
+    "acabamento_superficial": "Acetinado",
+    "variacao_faces": "Variação moderada, algumas peças são diferentes umas das outras",
+    "classe_tecnica_absorcao_pisos": "0,0 a 0,5",
+    "indicacao_uso": "Alto tráfego - Indicado para todas as dependências residenciais e comerciais de alto tráfego",
+    "pecas_caixa": 5,
+    "peso_bruto_caixa": "47.40",
+    "palet": "77.70",
     "slug": "145104",
     "Categoria": 4,
     "image": "/produtos/NoImgAvailable.webp",
@@ -6881,15 +6927,6 @@
   }
 },
 {
-  "model": "app.fotosproduto",
-  "pk": 20,
-  "fields": {
-    "produto": 11,
-    "image": "produtos/14342607-1600-1600.webp",
-    "img_num": 3
-  }
-},
-{
   "model": "app.carro",
   "pk": 1,
   "fields": {
@@ -7856,7 +7893,7 @@
   "model": "app.carro",
   "pk": 120,
   "fields": {
-    "cliente": null,
+    "cliente": 17,
     "total": "0.00",
     "criado_em": "2025-04-27T03:04:39.720Z"
   }
@@ -7884,7 +7921,7 @@
   "pk": 123,
   "fields": {
     "cliente": 17,
-    "total": "302.90",
+    "total": "0.00",
     "criado_em": "2025-05-01T04:56:43.826Z"
   }
 },
@@ -7964,9 +8001,54 @@
   "model": "app.carro",
   "pk": 132,
   "fields": {
-    "cliente": null,
+    "cliente": 16,
     "total": "0.00",
     "criado_em": "2025-05-06T15:48:15.660Z"
+  }
+},
+{
+  "model": "app.carro",
+  "pk": 133,
+  "fields": {
+    "cliente": 17,
+    "total": "0.00",
+    "criado_em": "2025-05-07T20:04:34.170Z"
+  }
+},
+{
+  "model": "app.carro",
+  "pk": 134,
+  "fields": {
+    "cliente": 21,
+    "total": "345.06",
+    "criado_em": "2025-05-08T17:21:03.515Z"
+  }
+},
+{
+  "model": "app.carro",
+  "pk": 135,
+  "fields": {
+    "cliente": null,
+    "total": "0.00",
+    "criado_em": "2025-05-08T17:29:39.094Z"
+  }
+},
+{
+  "model": "app.carro",
+  "pk": 136,
+  "fields": {
+    "cliente": null,
+    "total": "0.00",
+    "criado_em": "2025-05-09T16:16:29.462Z"
+  }
+},
+{
+  "model": "app.carro",
+  "pk": 137,
+  "fields": {
+    "cliente": null,
+    "total": "0.00",
+    "criado_em": "2025-05-09T16:16:35.892Z"
   }
 },
 {
@@ -8218,19 +8300,6 @@
 },
 {
   "model": "app.carroproduto",
-  "pk": 167,
-  "fields": {
-    "carro": 123,
-    "produto": 11,
-    "preco_unitario": "75.72",
-    "quantidade": 4,
-    "subtotal_bruto": "681.50",
-    "subtotal": "302.90",
-    "criado_em": "2025-05-02T16:59:36.726Z"
-  }
-},
-{
-  "model": "app.carroproduto",
   "pk": 169,
   "fields": {
     "carro": 117,
@@ -8238,7 +8307,7 @@
     "preco_unitario": "115.02",
     "quantidade": 376,
     "subtotal_bruto": "43018.87",
-    "subtotal": "43248.91",
+    "subtotal": "36760.39",
     "criado_em": "2025-05-05T20:50:40.169Z"
   }
 },
@@ -8253,6 +8322,58 @@
     "subtotal_bruto": "14492.99",
     "subtotal": "11573.31",
     "criado_em": "2025-05-05T20:51:33.085Z"
+  }
+},
+{
+  "model": "app.carroproduto",
+  "pk": 171,
+  "fields": {
+    "carro": 117,
+    "produto": 46,
+    "preco_unitario": "66.71",
+    "quantidade": 7,
+    "subtotal_bruto": "466.98",
+    "subtotal": "396.92",
+    "criado_em": "2025-05-07T20:30:37.532Z"
+  }
+},
+{
+  "model": "app.carroproduto",
+  "pk": 173,
+  "fields": {
+    "carro": 122,
+    "produto": 84,
+    "preco_unitario": "115.02",
+    "quantidade": 3,
+    "subtotal_bruto": "345.07",
+    "subtotal": "345.07",
+    "criado_em": "2025-05-08T17:18:12.344Z"
+  }
+},
+{
+  "model": "app.carroproduto",
+  "pk": 174,
+  "fields": {
+    "carro": 134,
+    "produto": 84,
+    "preco_unitario": "115.02",
+    "quantidade": 2,
+    "subtotal_bruto": "460.08",
+    "subtotal": "230.04",
+    "criado_em": "2025-05-08T17:22:20.871Z"
+  }
+},
+{
+  "model": "app.carroproduto",
+  "pk": 175,
+  "fields": {
+    "carro": 132,
+    "produto": 84,
+    "preco_unitario": "115.02",
+    "quantidade": 3,
+    "subtotal_bruto": "345.07",
+    "subtotal": "345.07",
+    "criado_em": "2025-05-08T17:25:50.213Z"
   }
 },
 {
@@ -8844,6 +8965,34 @@
   }
 },
 {
+  "model": "app.pedidoorder",
+  "pk": 104,
+  "fields": {
+    "cliente": 19,
+    "nome_cliente": "Casa HG",
+    "cpf_cnpj": "11.815.947/0001-77",
+    "codigo_cliente": "",
+    "telefone": "+55 (11) 91111-1111",
+    "email": "test@test.com",
+    "carro": 117,
+    "pedido_status": "Pagamento Processando",
+    "total_bruto": "109677.10",
+    "frete": "0.00",
+    "desconto_retirada": "0.00",
+    "desconto_forma_pagamento": "16451.56",
+    "total_desconto": "16451.56",
+    "total_final": "93225.54",
+    "local_de_pagamento": "online",
+    "forma_de_pagamento": "DEBIT_CARD",
+    "parcelas": 1,
+    "valor_parcela": "93225.54",
+    "endereco_envio": 21,
+    "endereco_envio_formatado": "Estrada Teresópolis Friburgo KM 0, Prata - 25975-440 Teresópolis/RJ",
+    "criado_em": "2025-05-09T16:28:25.017Z",
+    "id_PagBank": ""
+  }
+},
+{
   "model": "app.pedidoproduto",
   "pk": 42,
   "fields": {
@@ -9369,6 +9518,48 @@
   }
 },
 {
+  "model": "app.pedidoproduto",
+  "pk": 127,
+  "fields": {
+    "pedido": 104,
+    "produto": 84,
+    "nome_produto": "PORC REALCE 61501 HD A CX1,87 RT LC 61X61 NATIVE IMBUIA",
+    "codigo": "29134",
+    "descricao": "PORC REALCE 61501 HD A CX1,87 RT LC 61X61 NATIVE IMBUIA",
+    "codigo_GTIN": "7898437793915",
+    "preco_unitario_bruto": "61.51",
+    "desconto_dinheiro": "7.00",
+    "desconto_retira": "5.00",
+    "unidade": "M2",
+    "quantidade": "376.00",
+    "total_bruto": "43018.87",
+    "desconto_total": "6258.48",
+    "desconto_unitario": "16.64",
+    "total_final": "36760.39"
+  }
+},
+{
+  "model": "app.pedidoproduto",
+  "pk": 128,
+  "fields": {
+    "pedido": 104,
+    "produto": 46,
+    "nome_produto": "PISO ALFAGRES 45902 ARBE A CX2,01 PEI2 45X45 BLACK",
+    "codigo": "144145",
+    "descricao": "PISO ALFAGRES 45902 ARBE A CX2,01 PEI2 45X45 BLACK",
+    "codigo_GTIN": "144145",
+    "preco_unitario_bruto": "33.19",
+    "desconto_dinheiro": "8.00",
+    "desconto_retira": "8.00",
+    "unidade": "M2",
+    "quantidade": "7.00",
+    "total_bruto": "466.98",
+    "desconto_total": "70.06",
+    "desconto_unitario": "10.01",
+    "total_final": "396.92"
+  }
+},
+{
   "model": "app.banner",
   "pk": 1,
   "fields": {
@@ -9408,6 +9599,24 @@
     "titulo": "Casa HG",
     "link": "https://casahg.com.br/encarte/",
     "image": "empresas/hg-teste_jXgRLs3.png"
+  }
+},
+{
+  "model": "app.empresa",
+  "pk": 2,
+  "fields": {
+    "titulo": "Hefesto",
+    "link": null,
+    "image": "empresas/Hefesto_1_dwrhQfE.webp"
+  }
+},
+{
+  "model": "app.empresa",
+  "pk": 3,
+  "fields": {
+    "titulo": "Pagseguro",
+    "link": null,
+    "image": "empresas/logo-pagseguro.webp"
   }
 },
 {
@@ -10970,7 +11179,7 @@
   "model": "auth.user",
   "fields": {
     "password": "pbkdf2_sha256$260000$rGKMqyoycdx9rDxq20zf2Z$//o9JMoMEdeYzqwPcTZCSLsGvaxyMPix+1QfnlF2t0w=",
-    "last_login": "2025-05-02T16:40:42.672Z",
+    "last_login": "2025-05-09T16:29:45.338Z",
     "is_superuser": true,
     "username": "Alva",
     "first_name": "",
@@ -11004,17 +11213,635 @@
   "model": "auth.user",
   "fields": {
     "password": "pbkdf2_sha256$260000$wKGW836nV9t5qMMMwSTxdC$f2YBGLJ4Oo2k+ML77t6moJZ+2sTjl0cfDkBM6wPLE54=",
-    "last_login": "2025-05-05T20:55:15.750Z",
-    "is_superuser": false,
+    "last_login": "2025-05-05T20:55:15Z",
+    "is_superuser": true,
     "username": "joaomarceloguima23@gmail.com",
     "first_name": "João",
     "last_name": "Guimarães",
     "email": "joaomarceloguima23@gmail.com",
-    "is_staff": false,
+    "is_staff": true,
     "is_active": true,
-    "date_joined": "2024-03-24T05:09:52.836Z",
+    "date_joined": "2024-03-24T05:09:52Z",
     "groups": [],
     "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$260000$N3pnWuf9NHkjntcfOc0hqZ$DRlbTFGTIKgjwoJW7KCJelhMG6LGPAlPrLGsG3XuC8Y=",
+    "last_login": "2025-05-08T17:21:58Z",
+    "is_superuser": false,
+    "username": "joaoaugustofn2311@gmail.com",
+    "first_name": "joao",
+    "last_name": "augusto",
+    "email": "joaoaugustofn2311@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-05-08T17:21:58Z",
+    "groups": [],
+    "user_permissions": [
+      [
+        "add_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "change_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "delete_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "view_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "add_avaliacao",
+        "app",
+        "avaliacao"
+      ],
+      [
+        "change_avaliacao",
+        "app",
+        "avaliacao"
+      ],
+      [
+        "delete_avaliacao",
+        "app",
+        "avaliacao"
+      ],
+      [
+        "view_avaliacao",
+        "app",
+        "avaliacao"
+      ],
+      [
+        "add_banner",
+        "app",
+        "banner"
+      ],
+      [
+        "change_banner",
+        "app",
+        "banner"
+      ],
+      [
+        "delete_banner",
+        "app",
+        "banner"
+      ],
+      [
+        "view_banner",
+        "app",
+        "banner"
+      ],
+      [
+        "add_carro",
+        "app",
+        "carro"
+      ],
+      [
+        "change_carro",
+        "app",
+        "carro"
+      ],
+      [
+        "delete_carro",
+        "app",
+        "carro"
+      ],
+      [
+        "view_carro",
+        "app",
+        "carro"
+      ],
+      [
+        "add_carroproduto",
+        "app",
+        "carroproduto"
+      ],
+      [
+        "change_carroproduto",
+        "app",
+        "carroproduto"
+      ],
+      [
+        "delete_carroproduto",
+        "app",
+        "carroproduto"
+      ],
+      [
+        "view_carroproduto",
+        "app",
+        "carroproduto"
+      ],
+      [
+        "add_categoria",
+        "app",
+        "categoria"
+      ],
+      [
+        "change_categoria",
+        "app",
+        "categoria"
+      ],
+      [
+        "delete_categoria",
+        "app",
+        "categoria"
+      ],
+      [
+        "view_categoria",
+        "app",
+        "categoria"
+      ],
+      [
+        "add_cliente",
+        "app",
+        "cliente"
+      ],
+      [
+        "change_cliente",
+        "app",
+        "cliente"
+      ],
+      [
+        "delete_cliente",
+        "app",
+        "cliente"
+      ],
+      [
+        "view_cliente",
+        "app",
+        "cliente"
+      ],
+      [
+        "add_curso",
+        "app",
+        "curso"
+      ],
+      [
+        "change_curso",
+        "app",
+        "curso"
+      ],
+      [
+        "delete_curso",
+        "app",
+        "curso"
+      ],
+      [
+        "view_curso",
+        "app",
+        "curso"
+      ],
+      [
+        "add_empresa",
+        "app",
+        "empresa"
+      ],
+      [
+        "change_empresa",
+        "app",
+        "empresa"
+      ],
+      [
+        "delete_empresa",
+        "app",
+        "empresa"
+      ],
+      [
+        "view_empresa",
+        "app",
+        "empresa"
+      ],
+      [
+        "add_encarte",
+        "app",
+        "encarte"
+      ],
+      [
+        "change_encarte",
+        "app",
+        "encarte"
+      ],
+      [
+        "delete_encarte",
+        "app",
+        "encarte"
+      ],
+      [
+        "view_encarte",
+        "app",
+        "encarte"
+      ],
+      [
+        "add_endereco",
+        "app",
+        "endereco"
+      ],
+      [
+        "change_endereco",
+        "app",
+        "endereco"
+      ],
+      [
+        "delete_endereco",
+        "app",
+        "endereco"
+      ],
+      [
+        "view_endereco",
+        "app",
+        "endereco"
+      ],
+      [
+        "add_fotos_produto",
+        "app",
+        "fotosproduto"
+      ],
+      [
+        "add_fotosproduto",
+        "app",
+        "fotosproduto"
+      ],
+      [
+        "change_fotos_produto",
+        "app",
+        "fotosproduto"
+      ],
+      [
+        "change_fotosproduto",
+        "app",
+        "fotosproduto"
+      ],
+      [
+        "delete_fotos_produto",
+        "app",
+        "fotosproduto"
+      ],
+      [
+        "delete_fotosproduto",
+        "app",
+        "fotosproduto"
+      ],
+      [
+        "view_fotos_produto",
+        "app",
+        "fotosproduto"
+      ],
+      [
+        "view_fotosproduto",
+        "app",
+        "fotosproduto"
+      ],
+      [
+        "add_pedido_order",
+        "app",
+        "pedidoorder"
+      ],
+      [
+        "add_pedidoorder",
+        "app",
+        "pedidoorder"
+      ],
+      [
+        "change_pedido_order",
+        "app",
+        "pedidoorder"
+      ],
+      [
+        "change_pedidoorder",
+        "app",
+        "pedidoorder"
+      ],
+      [
+        "delete_pedido_order",
+        "app",
+        "pedidoorder"
+      ],
+      [
+        "delete_pedidoorder",
+        "app",
+        "pedidoorder"
+      ],
+      [
+        "view_pedido_order",
+        "app",
+        "pedidoorder"
+      ],
+      [
+        "view_pedidoorder",
+        "app",
+        "pedidoorder"
+      ],
+      [
+        "add_pedido_produto",
+        "app",
+        "pedidoproduto"
+      ],
+      [
+        "add_pedidoproduto",
+        "app",
+        "pedidoproduto"
+      ],
+      [
+        "change_pedido_produto",
+        "app",
+        "pedidoproduto"
+      ],
+      [
+        "change_pedidoproduto",
+        "app",
+        "pedidoproduto"
+      ],
+      [
+        "delete_pedido_produto",
+        "app",
+        "pedidoproduto"
+      ],
+      [
+        "delete_pedidoproduto",
+        "app",
+        "pedidoproduto"
+      ],
+      [
+        "view_pedido_produto",
+        "app",
+        "pedidoproduto"
+      ],
+      [
+        "view_pedidoproduto",
+        "app",
+        "pedidoproduto"
+      ],
+      [
+        "add_produto",
+        "app",
+        "produto"
+      ],
+      [
+        "change_produto",
+        "app",
+        "produto"
+      ],
+      [
+        "delete_produto",
+        "app",
+        "produto"
+      ],
+      [
+        "view_produto",
+        "app",
+        "produto"
+      ],
+      [
+        "add_test_status",
+        "app",
+        "teststatus"
+      ],
+      [
+        "add_teststatus",
+        "app",
+        "teststatus"
+      ],
+      [
+        "change_test_status",
+        "app",
+        "teststatus"
+      ],
+      [
+        "change_teststatus",
+        "app",
+        "teststatus"
+      ],
+      [
+        "delete_test_status",
+        "app",
+        "teststatus"
+      ],
+      [
+        "delete_teststatus",
+        "app",
+        "teststatus"
+      ],
+      [
+        "view_test_status",
+        "app",
+        "teststatus"
+      ],
+      [
+        "view_teststatus",
+        "app",
+        "teststatus"
+      ],
+      [
+        "add_group",
+        "auth",
+        "group"
+      ],
+      [
+        "change_group",
+        "auth",
+        "group"
+      ],
+      [
+        "delete_group",
+        "auth",
+        "group"
+      ],
+      [
+        "view_group",
+        "auth",
+        "group"
+      ],
+      [
+        "add_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "change_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "delete_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "view_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "add_user",
+        "auth",
+        "user"
+      ],
+      [
+        "change_user",
+        "auth",
+        "user"
+      ],
+      [
+        "delete_user",
+        "auth",
+        "user"
+      ],
+      [
+        "view_user",
+        "auth",
+        "user"
+      ],
+      [
+        "add_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "change_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "delete_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "view_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "add_checkout",
+        "pagseguro",
+        "checkout"
+      ],
+      [
+        "change_checkout",
+        "pagseguro",
+        "checkout"
+      ],
+      [
+        "delete_checkout",
+        "pagseguro",
+        "checkout"
+      ],
+      [
+        "view_checkout",
+        "pagseguro",
+        "checkout"
+      ],
+      [
+        "add_transaction",
+        "pagseguro",
+        "transaction"
+      ],
+      [
+        "change_transaction",
+        "pagseguro",
+        "transaction"
+      ],
+      [
+        "delete_transaction",
+        "pagseguro",
+        "transaction"
+      ],
+      [
+        "view_transaction",
+        "pagseguro",
+        "transaction"
+      ],
+      [
+        "add_transactionhistory",
+        "pagseguro",
+        "transactionhistory"
+      ],
+      [
+        "change_transactionhistory",
+        "pagseguro",
+        "transactionhistory"
+      ],
+      [
+        "delete_transactionhistory",
+        "pagseguro",
+        "transactionhistory"
+      ],
+      [
+        "view_transactionhistory",
+        "pagseguro",
+        "transactionhistory"
+      ],
+      [
+        "add_apikey",
+        "rest_framework_api_key",
+        "apikey"
+      ],
+      [
+        "change_apikey",
+        "rest_framework_api_key",
+        "apikey"
+      ],
+      [
+        "delete_apikey",
+        "rest_framework_api_key",
+        "apikey"
+      ],
+      [
+        "view_apikey",
+        "rest_framework_api_key",
+        "apikey"
+      ],
+      [
+        "add_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "change_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "delete_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "view_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "add_linkcounter",
+        "verify_email",
+        "linkcounter"
+      ],
+      [
+        "change_linkcounter",
+        "verify_email",
+        "linkcounter"
+      ],
+      [
+        "delete_linkcounter",
+        "verify_email",
+        "linkcounter"
+      ],
+      [
+        "view_linkcounter",
+        "verify_email",
+        "linkcounter"
+      ]
+    ]
   }
 },
 {
@@ -11107,6 +11934,24 @@
   }
 },
 {
+  "model": "app.cliente",
+  "pk": 21,
+  "fields": {
+    "user": [
+      "joaoaugustofn2311@gmail.com"
+    ],
+    "nome": "joao",
+    "sobrenome": "augusto",
+    "cpf_ou_cnpj": "17552339730",
+    "cpf_ou_cnpj_formatado": "175.523.397-30",
+    "bool_cpf_cnpj": true,
+    "email": "joaoaugustofn2311@gmail.com",
+    "telefone": "+55 (21) 96688-4438",
+    "data_criacao": "2025-05-08T17:21:59.748Z",
+    "verificado": true
+  }
+},
+{
   "model": "app.admin",
   "pk": 1,
   "fields": {
@@ -11130,6 +11975,32 @@
     "image": "",
     "email": "Jorge@jorge.com",
     "telefone": "+55 (11) 91111-1111"
+  }
+},
+{
+  "model": "app.admin",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "joaomarceloguima23@gmail.com"
+    ],
+    "nome_completo": "João Guimarães",
+    "image": "",
+    "email": "joaomarceloguima23@gmail.com",
+    "telefone": null
+  }
+},
+{
+  "model": "app.admin",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "joaoaugustofn2311@gmail.com"
+    ],
+    "nome_completo": "joao augusto",
+    "image": "",
+    "email": "joaoaugustofn2311@gmail.com",
+    "telefone": null
   }
 },
 {
@@ -17376,6 +18247,582 @@
     "object_repr": "146043 - CRISTALATO SIBERIAN PO CX2,14 85X85 RT A LW LUME",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"Marca\", \"Formato\", \"Espessura\", \"Junta minima\", \"Relevo\", \"Acabamento superficial\", \"Variacao faces\", \"Visualizacao\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 348,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.036Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "102",
+    "object_repr": "Pedido: 102 | Status: Pedido em Andamento | Cliente: Casa HG",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 349,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.061Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "101",
+    "object_repr": "Pedido: 101 | Status: Pagamento Pendente | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 350,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.086Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "100",
+    "object_repr": "Pedido: 100 | Status: Pagamento Pendente | Cliente: João Guimarães",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 351,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.108Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "99",
+    "object_repr": "Pedido: 99 | Status: Pagamento Pendente | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 352,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.132Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "98",
+    "object_repr": "Pedido: 98 | Status: Pagamento Pendente | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 353,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.150Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "97",
+    "object_repr": "Pedido: 97 | Status: Pagamento Pendente | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 354,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.173Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "96",
+    "object_repr": "Pedido: 96 | Status: Pagamento Confirmado | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 355,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.197Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "91",
+    "object_repr": "Pedido: 91 | Status: Pagamento Confirmado | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 356,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.220Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "90",
+    "object_repr": "Pedido: 90 | Status: Pagamento Confirmado | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 357,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.241Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "87",
+    "object_repr": "Pedido: 87 | Status: Pagamento Confirmado | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 358,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.262Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "85",
+    "object_repr": "Pedido: 85 | Status: Pagamento Confirmado | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 359,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.282Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "83",
+    "object_repr": "Pedido: 83 | Status: Pagamento Confirmado | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 360,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.307Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "79",
+    "object_repr": "Pedido: 79 | Status: Pagamento Confirmado | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 361,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.325Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "78",
+    "object_repr": "Pedido: 78 | Status: Pagamento Confirmado | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 362,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.346Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "77",
+    "object_repr": "Pedido: 77 | Status: Pagamento Confirmado | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 363,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.367Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "65",
+    "object_repr": "Pedido: 65 | Status: Pagamento Confirmado | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 364,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.390Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "62",
+    "object_repr": "Pedido: 62 | Status: Pagamento Confirmado | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 365,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.413Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "53",
+    "object_repr": "Pedido: 53 | Status: Pedido Cancelado | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 366,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.434Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "52",
+    "object_repr": "Pedido: 52 | Status: Pagamento Confirmado | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 367,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.460Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "50",
+    "object_repr": "Pedido: 50 | Status: Pedido Processando | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 368,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.483Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "49",
+    "object_repr": "Pedido: 49 | Status: Pedido Completado | Cliente: Alva Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 369,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.512Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "41",
+    "object_repr": "Pedido: 41 | Status: Pedido em Andamento | Cliente: Test Test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 370,
+  "fields": {
+    "action_time": "2025-05-08T17:12:26.533Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "pedidoorder"
+    ],
+    "object_id": "5",
+    "object_repr": "Pedido: 5 | Status: Pedido Cancelado | Cliente: João Guimarães",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 371,
+  "fields": {
+    "action_time": "2025-05-08T17:20:51.614Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "4",
+    "object_repr": "test@test.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 372,
+  "fields": {
+    "action_time": "2025-05-09T03:51:50.652Z",
+    "user": [
+      "Alva"
+    ],
+    "content_type": [
+      "app",
+      "endereco"
+    ],
+    "object_id": "62",
+    "object_repr": "Casa | Casa HG",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 373,
+  "fields": {
+    "action_time": "2025-05-09T15:42:52.452Z",
+    "user": [
+      "Alva"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "3",
+    "object_repr": "joaomarceloguima23@gmail.com",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Staff status\", \"Superuser status\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 374,
+  "fields": {
+    "action_time": "2025-05-09T15:45:21.773Z",
+    "user": [
+      "Alva"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "6",
+    "object_repr": "joaoaugustofn2311@gmail.com",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Staff status\", \"User permissions\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 375,
+  "fields": {
+    "action_time": "2025-05-09T15:53:49.384Z",
+    "user": [
+      "Alva"
+    ],
+    "content_type": [
+      "app",
+      "admin"
+    ],
+    "object_id": "3",
+    "object_repr": "joaomarceloguima23@gmail.com",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 376,
+  "fields": {
+    "action_time": "2025-05-09T15:54:00.821Z",
+    "user": [
+      "Alva"
+    ],
+    "content_type": [
+      "app",
+      "admin"
+    ],
+    "object_id": "4",
+    "object_repr": "joaoaugustofn2311@gmail.com",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 377,
+  "fields": {
+    "action_time": "2025-05-09T16:26:09.057Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "empresa"
+    ],
+    "object_id": "2",
+    "object_repr": "Hefesto",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 378,
+  "fields": {
+    "action_time": "2025-05-09T16:27:14.650Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "empresa"
+    ],
+    "object_id": "3",
+    "object_repr": "Pagseguro",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 379,
+  "fields": {
+    "action_time": "2025-05-09T16:29:16.584Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "app",
+      "empresa"
+    ],
+    "object_id": "3",
+    "object_repr": "Pagseguro",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
   }
 }
 ]

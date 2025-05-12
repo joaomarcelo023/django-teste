@@ -170,7 +170,7 @@ class ClienteEditarEndereco(forms.Form):
         'class': 'form-control',
         'style': 'width: 100%; display: flex;',
         'placeholder': 'Título (opcional)'
-    }))
+    }), required=False)
 
     cep = forms.CharField(widget=TextInput(attrs={
         'id': 'cep',
@@ -183,28 +183,32 @@ class ClienteEditarEndereco(forms.Form):
     estado = forms.CharField(widget=TextInput(attrs={
         'id': 'estado',
         'class': "form-control estado-input",
-        'style': 'width: 100%; display: flex;',
+        'style': 'width: 100%; display: flex; pointer-events: none;',
+        'readonly': 'true',
         'placeholder': 'Estado'
     }))
 
     cidade = forms.CharField(widget=TextInput(attrs={
         'id': 'cidade',
         'class': "form-control cidade-input",
-        'style': 'width: 100%; display: flex;',
+        'style': 'width: 100%; display: flex; pointer-events: none;',
+        'readonly': 'true',
         'placeholder': 'Cidade'
     }))
     
     bairro = forms.CharField(widget=TextInput(attrs={
         'id': 'bairro',
         'class': 'form-control',
-        'style': 'width: 100%; display: flex;',
+        'style': 'width: 100%; display: flex; pointer-events: none;',
+        'readonly': 'true',
         'placeholder': 'Bairro'
     }))
     
     rua = forms.CharField(widget=TextInput(attrs={
         'id': 'rua',
         'class': 'form-control',
-        'style': 'width: 100%; display: flex;',
+        'style': 'width: 100%; display: flex; pointer-events: none;',
+        'readonly': 'true',
         'placeholder': 'Rua'
     }))
     
@@ -221,7 +225,7 @@ class ClienteEditarEndereco(forms.Form):
         'class': 'form-control',
         'style': 'width: 100%; display: flex;',
         'placeholder': 'Complemento'
-    }))
+    }), required=False)
 
 class ClienteEditarNome(forms.Form):
     nome = forms.CharField(widget=forms.TextInput(attrs={

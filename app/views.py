@@ -1443,7 +1443,10 @@ class ClientePerfilViewEditarEndereco(LogedMixin, LojaMixin, BaseContextMixin, T
         endereco.numero = form.cleaned_data.get("numero")
         endereco.complemento = form.cleaned_data.get("complemento")
         
-        endereco.save()
+        
+        cidade_param = unicodedata.normalize('NFKD', form.cleaned_data.get("cidade")).encode('ascii', 'ignore').decode('utf-8').lower()
+        if cidade_param == "teresopolis":
+            endereco.save()
 
         return super().form_valid(form)
 
