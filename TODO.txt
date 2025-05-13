@@ -6,6 +6,8 @@ TODO-ALVAREZ: Melhorar parte do admin
 
 TODO-ALVAREZ: Conectar o pagseguro com o pagseguro real
 
+TODO-ALVAREZ: Arrumar layout mobile em pesquisar e categorias
+
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte
