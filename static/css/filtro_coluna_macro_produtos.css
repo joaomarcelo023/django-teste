@@ -34,12 +34,22 @@
     } */
 }
 /* TODO: Olhar isso porque essa solução com certeza ta uma bosta. Por algum motivo, quando a tela é muito pequena ele joga a janela do dropdown pro topo da pagina. */
-@media (max-width: 385px) {
+@media (max-width: 435px) {
     .filterRowButton_dropdown_menu {
         margin-top: 45.5%;
     }
 }
-@media (max-width: 370px) {
+@media (max-width: 395px) {
+    .filterRowButton_dropdown_menu {
+        margin-top: 47.5%;
+    }
+}
+@media (max-width: 375px) {
+    .filterRowButton_dropdown_menu {
+        margin-top: 45.5%;
+    }
+}
+@media (max-width: 365px) {
     .filterRowButton_dropdown_menu {
         margin-top: 49.5%;
     }
