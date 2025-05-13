@@ -12,9 +12,11 @@ var TotalCredito = document.getElementById("total-credito-data").textContent;
 var descontoCreditoInit = DescontosDic.desconto_credito;
 
 var vf_check_parcelas = Math.trunc(parseFloat(valorFinal[0].textContent.replace("R$ ", "").replace(",", ".").trim()) / 70);
-document.querySelector('.test').textContent = "cu";
+// document.querySelector('.test').textContent = "cu";
 
-optionLabel.forEach(e => {
+const preco_pagamento_main = document.querySelectorAll(".preco_metodo");
+
+optionLabel.forEach((e, i) => {
     e.addEventListener('input', function () {
         optionLabel.forEach(t => {
             t.classList.remove("selected");
@@ -29,6 +31,11 @@ optionLabel.forEach(e => {
         });
         e.classList.add("selected");
 
+        // Mostra  os valores "main" dos outros metodos de pagamento
+        preco_pagamento_main.forEach(ppm => {
+            ppm.style.display = "inline";
+        });
+
         if (e.querySelector('input').value !== "dinheiro") {
             // document.querySelectorAll('.desconto_pagamento_row').forEach(t => {
             //     t.style.display = "none";
@@ -40,6 +47,10 @@ optionLabel.forEach(e => {
                 // t.textContent = `- R$ ${String(DescontosDic.desconto_dinheiro).replace(".", ",")}`;
                 t.textContent = document.querySelector('.desconto_a_vista_cell').textContent;
             });
+
+            // Esconde os valores "main" do metodo de pagamento selecionado
+            preco_pagamento_main[(2 * i)].style.display = "none";
+            preco_pagamento_main[((2 * i) + 1)].style.display = "none";
         }
         else {
             document.querySelectorAll('.desconto_pagamento_row').forEach(t => {
