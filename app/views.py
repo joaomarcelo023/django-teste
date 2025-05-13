@@ -1547,14 +1547,42 @@ class PesquisarView(BaseContextMixin, TemplateView):
                 
                 Caract_indicacao_uso_pisos = self.request.GET.getlist("indicacao_uso_pisos")
                 context['Caract_indicacao_uso_pisos'] = Caract_indicacao_uso_pisos
+            else:
+                Caract_acabamento_superficial_pisos = None
+                Caract_classe_tecnica_absorcao_pisos = None
+                Caract_variacao_faces_pisos = None
+                Caract_indicacao_uso_pisos = None
         except:
             context['categoria'] = None
-            Caract_acabamento_superficial_pisos = None
-            Caract_classe_tecnica_absorcao_pisos = None
-            Caract_variacao_faces_pisos = None            
-            Caract_indicacao_uso_pisos = None
+            # Caract_acabamento_superficial_pisos = None
+            # Caract_classe_tecnica_absorcao_pisos = None
+            # Caract_variacao_faces_pisos = None
+            # Caract_indicacao_uso_pisos = None
 
-        context["marcas"] = resultado.exclude(marca__isnull=True).values_list("marca", flat=True).distinct()
+            if resultado.filter((Q(Categoria__slug__iexact="porcelanatos") | Q(Categoria__slug__iexact="ceramicas"))):
+                context['acabamento_superficial_pisos'] = ACABAMENTO_SUPERFICIAL_PISOS
+                context['classe_tecnica_absorcao_pisos'] = CLASSE_TECNICA_ABSORCAO_PISOS
+                context['variacao_faces_pisos'] = VARIACAO_FACES_PISOS
+                context['indicacao_uso_pisos'] = INDICACAO_DE_USO_PISOS
+
+                Caract_acabamento_superficial_pisos = self.request.GET.getlist("acabamento_superficial_pisos")
+                context['Caract_acabamento_superficial_pisos'] = Caract_acabamento_superficial_pisos
+
+                Caract_classe_tecnica_absorcao_pisos = self.request.GET.getlist("classe_tecnica_absorcao_pisos")
+                context['Caract_classe_tecnica_absorcao_pisos'] = Caract_classe_tecnica_absorcao_pisos
+
+                Caract_variacao_faces_pisos = self.request.GET.getlist("variacao_faces_pisos")
+                context['Caract_variacao_faces_pisos'] = Caract_variacao_faces_pisos
+                
+                Caract_indicacao_uso_pisos = self.request.GET.getlist("indicacao_uso_pisos")
+                context['Caract_indicacao_uso_pisos'] = Caract_indicacao_uso_pisos
+            else:
+                Caract_acabamento_superficial_pisos = None
+                Caract_classe_tecnica_absorcao_pisos = None
+                Caract_variacao_faces_pisos = None
+                Caract_indicacao_uso_pisos = None
+
+        context["marcas"] = Produto.objects.filter(filters, em_estoque=True).exclude(marca__isnull=True).values_list("marca", flat=True).distinct()
         Caract_marcas = self.request.GET.getlist("marcas")
         context['Caract_marcas'] = Caract_marcas
         
@@ -1562,7 +1590,7 @@ class PesquisarView(BaseContextMixin, TemplateView):
         if precoMax or Caract_marcas or Caract_acabamento_superficial_pisos or Caract_classe_tecnica_absorcao_pisos or Caract_variacao_faces_pisos or Caract_indicacao_uso_pisos:
             urlGet = ""
             if precoMax:
-                filters &= (Q(preco_unitario_bruto__lte=decimal.Decimal(precoMax.replace("R$", "").replace(" ", "").replace(',', '.'))))
+                filters &= (Q(preco_unitario_bruto__lte=decimal.Decimal(precoMax.replace("R$", "").replace(" ", "").replace('.', '').replace(',', '.'))))
 
                 urlGet += f"&precoMax={precoMax}"
 
@@ -1742,7 +1770,7 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
             filters = (Q(Categoria__slug__iexact = categoria.slug))
             urlGet = ""
             if precoMax:
-                filters &= (Q(preco_unitario_bruto__lte=decimal.Decimal(precoMax.replace("R$", "").replace(" ", "").replace(',', '.'))))
+                filters &= (Q(preco_unitario_bruto__lte=decimal.Decimal(precoMax.replace("R$", "").replace(" ", "").replace('.', '').replace(',', '.'))))
 
                 urlGet += f"&precoMax={precoMax}"
 
@@ -1798,6 +1826,7 @@ class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
             context["urlGet"] = urlGet
         else:
             all_produtos = Produto.objects.filter(Categoria=categoria, em_estoque=True).order_by(order)
+
         produto_list = preprocessar_precos(all_produtos)
 
         # Paginação

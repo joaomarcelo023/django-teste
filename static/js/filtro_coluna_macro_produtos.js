@@ -1,54 +1,65 @@
+document.addEventListener("DOMContentLoaded", function() {
 // Popup de indicação de uso e variação das faces
-const indicUsoButton = document.querySelector(".indicUsoButton");
-const indicUsowindow = document.querySelector(".indicUsoWindow");
-const indicUsoJanelaClose = document.querySelector(".indicUsoJanelaClose");
+const indicUsoButton = document.querySelectorAll(".indicUsoButton");
+const indicUsowindow = document.querySelectorAll(".indicUsoWindow");
+const indicUsoJanelaClose = document.querySelectorAll(".indicUsoJanelaClose");
 
-const variacaoFacesButton = document.querySelector(".variacaoFacesButton");
-const variacaoFacesWindow = document.querySelector(".variacaoFacesWindow");
-const variacaoFacesJanelaClose = document.querySelector(".variacaoFacesJanelaClose");
+const variacaoFacesButton = document.querySelectorAll(".variacaoFacesButton");
+const variacaoFacesWindow = document.querySelectorAll(".variacaoFacesWindow");
+const variacaoFacesJanelaClose = document.querySelectorAll(".variacaoFacesJanelaClose");
 
-indicUsoButton.addEventListener("click", () => {
-    if (indicUsowindow.style.display === "none") {
-        indicUsowindow.style.display = "block";
-    }
-    else {
-        indicUsowindow.style.display = "none";
-    }
+console.log(indicUsoButton)
+indicUsoButton.forEach((iub, i) => {
+    iub.addEventListener("click", () => {
+        if (indicUsowindow[i].style.display === "none") {
+            indicUsowindow[i].style.display = "block";
+        }
+        else {
+            indicUsowindow[i].style.display = "none";
+        }
 
-    if (variacaoFacesWindow.style.display === "block") {
-        variacaoFacesWindow.style.display = "none";
-    }
+        if (variacaoFacesWindow[i].style.display === "block") {
+            variacaoFacesWindow[i].style.display = "none";
+        }
+    });
 });
 
-indicUsoJanelaClose.addEventListener("click", () => {
-    if (indicUsowindow.style.display === "none") {
-        indicUsowindow.style.display = "block";
-    }
-    else {
-        indicUsowindow.style.display = "none";
-    }
+
+indicUsoJanelaClose.forEach((iujc, i) => {
+    iujc.addEventListener("click", () => {
+        if (indicUsowindow[i].style.display === "none") {
+            indicUsowindow[i].style.display = "block";
+        }
+        else {
+            indicUsowindow[i].style.display = "none";
+        }
+    });
 });
 
-variacaoFacesButton.addEventListener("click", () => {
-    if (variacaoFacesWindow.style.display === "none") {
-        variacaoFacesWindow.style.display = "block";
-    }
-    else {
-        variacaoFacesWindow.style.display = "none";
-    }
+variacaoFacesButton.forEach((vfb, i) => {
+    vfb.addEventListener("click", () => {
+        if (variacaoFacesWindow[i].style.display === "none") {
+            variacaoFacesWindow[i].style.display = "block";
+        }
+        else {
+            variacaoFacesWindow[i].style.display = "none";
+        }
 
-    if (indicUsowindow.style.display === "block") {
-        indicUsowindow.style.display = "none";
-    }
+        if (indicUsowindow[i].style.display === "block") {
+            indicUsowindow[i].style.display = "none";
+        }
+    });
 });
 
-variacaoFacesJanelaClose.addEventListener("click", () => {
-    if (variacaoFacesWindow.style.display === "none") {
-        variacaoFacesWindow.style.display = "block";
-    }
-    else {
-        variacaoFacesWindow.style.display = "none";
-    }
+variacaoFacesJanelaClose.forEach((vfjc, i) => {
+    vfjc.addEventListener("click", () => {
+        if (variacaoFacesWindow[i].style.display === "none") {
+            variacaoFacesWindow[i].style.display = "block";
+        }
+        else {
+            variacaoFacesWindow[i].style.display = "none";
+        }
+    });
 });
 
 $(document).ready(function() {
@@ -64,4 +75,5 @@ $(document).ready(function() {
         showMaskOnHover: false,     // Optional: remove mask on hover
         showMaskOnFocus: false,      // Optional: show mask on focus only
     });
+});
 });

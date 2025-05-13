@@ -9,12 +9,12 @@
 
 {% include 'barra_macro_classificar.html' %}
 <div class="pequeno">
-    {% include "filtro_coluna_macro_produtos.html" %}
+    {% include "filtro_coluna_macro_produtos_pequeno.html" %}
 </div>
 
 <section class="d-flex">
     <div class="grande">
-        {% include "filtro_coluna_macro_produtos.html" %}
+        {% include "filtro_coluna_macro_produtos_grande.html" %}
     </div>
     <div class="productCol">
         <div class="container">
@@ -26,6 +26,8 @@
                 {% endfor %}
             </div>
         </div>
+
+        <br>
         
         <div class="container">
             <div class="row justify-content-center">
@@ -162,4 +164,5 @@
 </section>
 
 <script src="{% static 'js/categoria.js' %}"></script>
+<script src="{% static 'js/filtro_coluna_macro_produtos.js' %}"></script>
 {% endblock %}
