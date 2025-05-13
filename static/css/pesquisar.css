@@ -23,4 +23,8 @@
     .grande {
         display: none;
     }
+
+    .productCol {
+        width: 100vw;
+    }
 }
