@@ -128,9 +128,9 @@ def getPedidoOrder():
     response = requests.get(API_URL_PEDIDO_ORDER, headers=headers)
 
     if response.status_code == 200:
-        produtos = response.json()
-        for produto in produtos:
-            print(f"Pedido: {produto['id']}")
+        pedidos = response.json()
+        for pedido in pedidos:
+            print(f"Pedido: {pedido['id']}: {pedido['endereco_envio']}")
     else:
         print("Erro ao obter produtos:", response.status_code)
         
@@ -147,8 +147,8 @@ def getByIdPedidoOrder(_id):
     response = requests.get(API_URL_PEDIDO_ORDER, headers=headers)
 
     if response.status_code == 200:
-        produto = response.json()
-        print(f"Pedido: {produto}")
+        pedido = response.json()
+        print(f"Pedido: {pedido}")
     else:
         print("Erro ao obter produtos:", response.status_code)
 
@@ -410,8 +410,8 @@ def getProdStats():
 # getByIdTest(10)
 
 # postPedidoOrder("cu") # Não usar, não ta direito
-# getPedidoOrder()
-getByIdPedidoOrder(111)
+getPedidoOrder()
+# getByIdPedidoOrder(115)
 
 # getProduto()
 # getByCodigoProduto(143830)

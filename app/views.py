@@ -2252,24 +2252,29 @@ def consultar_checkout_pag(request):
                     
             if consulta_response.status_code >= 200 and consulta_response.status_code < 300:
                 respJson = consulta_response.json()
-                order_urls = respJson.get("orders")[0].get("links")
-                for dic in order_urls:
-                    if dic["rel"] == "GET":
-                        consulta_order_url = dic["href"]
+                print(respJson)
+                try:
+                    order_urls = respJson.get("orders")[0].get("links")
+                    for dic in order_urls:
+                        if dic["rel"] == "GET":
+                            consulta_order_url = dic["href"]
 
-                order_response = requests.get(consulta_order_url, headers=headers)
+                    order_response = requests.get(consulta_order_url, headers=headers)
 
-                if order_response.status_code >= 200 and order_response.status_code < 300:
-                    charges = order_response.json().get("charges")[0]
-                    # data = json.dumps(charges, indent=4)
-                    # print(order_response.text)
-                    # return redirect(consulta_url)
-                    # return redirect(request.POST["path"])
-                    return render(request, "admin_paginas/adminpedidodetalhe.html", {"pedido_obj":pedido,"PEDIDO_STATUS":PEDIDO_STATUS, "data_Pag":charges, "pagseguro_display":True})
-                    # return JsonResponse(charges)
-                else:
-                    # TODO: Melhorar essa tela de erro pra versão final
-                    return HttpResponse(f"Error: {order_response.status_code} - {order_response.text}")
+                    if order_response.status_code >= 200 and order_response.status_code < 300:
+                        charges = order_response.json().get("charges")[0]
+                        # data = json.dumps(charges, indent=4)
+                        # print(order_response.text)
+                        # return redirect(consulta_url)
+                        # return redirect(request.POST["path"])
+                        return render(request, "admin_paginas/adminpedidodetalhe.html", {"pedido_obj":pedido,"PEDIDO_STATUS":PEDIDO_STATUS, "data_Pag":charges, "pagseguro_display":True})
+                        # return JsonResponse(charges)
+                    else:
+                        # TODO: Melhorar essa tela de erro pra versão final
+                        return HttpResponse(f"Error: {order_response.status_code} - {order_response.text}")
+                except:
+                    messages.success(request, 'Pedido não finalizado')
+                    return render(request, "admin_paginas/adminpedidodetalhe.html", {"pedido_obj":pedido,"PEDIDO_STATUS":PEDIDO_STATUS})
             else:
                 # TODO: Melhorar essa tela de erro pra versão final
                 return HttpResponse(f"Error: {consulta_response.status_code} - {consulta_response.text}")
