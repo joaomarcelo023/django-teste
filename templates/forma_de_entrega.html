@@ -46,7 +46,7 @@
                 </label>
             {% endfor %}
             <a href="{% url 'lojaapp:cadastrarendereco' %}?next={{ request.path }}" class="button-link">Novo endereço</a>
-            <button type="submit" class="button">Continuar</button>
+            <button type="submit" class="button" data-umami-event="Janela de pagamento acessada">Continuar</button>
         </form>
     </div>
 </section>
