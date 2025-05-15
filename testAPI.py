@@ -410,8 +410,8 @@ def getProdStats():
 # getByIdTest(10)
 
 # postPedidoOrder("cu") # Não usar, não ta direito
-getPedidoOrder()
-# getByIdPedidoOrder(115)
+# getPedidoOrder()
+getByIdPedidoOrder(115)
 
 # getProduto()
 # getByCodigoProduto(143830)

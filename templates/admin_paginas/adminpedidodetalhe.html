@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load humanize %}
+{% load custom_filters %}
 
 {% block title %}Detalhes do pedido - CasaHG{% endblock %}
 
@@ -129,7 +130,7 @@
                 </tr>
                 <tr>
                     <td class="pagTableCelTitle">Pago:</td>
-                    <td class="pagTableCelContent">{{ data_Pag.amount.summary.paid }}</td>
+                    <td class="pagTableCelContent">R$ {{ data_Pag.amount.summary.paid|turnFloatReais }}</td>
                 </tr>
             </table>
             {% if data_Pag.payment_method.type == "CREDIT_CARD" and data_Pag.status == "PAID" %}
@@ -163,6 +164,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="id_cancel" value="{{ data_Pag.id }}">
                 <input type="hidden" name="valor_pago" value="{{ data_Pag.amount.value }}">
+                <input type="hidden" name="pedido_id" value="{{ pedido_obj.id }}">
                 <button class="btn btn-danger">Cancelar Pedido</button>
             </form>
         </div>

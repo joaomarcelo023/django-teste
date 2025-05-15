@@ -923,6 +923,7 @@ class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
         if pedido.local_de_pagamento == "online":
             if ta_pago(pedido):
                 pedido.pedido_status = "Pagamento Confirmado"
+                EmailPedidoPagamentoConfirmado(pedido)
         else:
             pedido.pedido_status = "Pagamento Pendente"
 
@@ -2252,7 +2253,7 @@ def consultar_checkout_pag(request):
                     
             if consulta_response.status_code >= 200 and consulta_response.status_code < 300:
                 respJson = consulta_response.json()
-                print(respJson)
+                # print(respJson)
                 try:
                     order_urls = respJson.get("orders")[0].get("links")
                     for dic in order_urls:
@@ -2267,13 +2268,15 @@ def consultar_checkout_pag(request):
                         # print(order_response.text)
                         # return redirect(consulta_url)
                         # return redirect(request.POST["path"])
+                        # print(charges)
                         return render(request, "admin_paginas/adminpedidodetalhe.html", {"pedido_obj":pedido,"PEDIDO_STATUS":PEDIDO_STATUS, "data_Pag":charges, "pagseguro_display":True})
                         # return JsonResponse(charges)
                     else:
                         # TODO: Melhorar essa tela de erro pra versão final
                         return HttpResponse(f"Error: {order_response.status_code} - {order_response.text}")
                 except:
-                    messages.success(request, 'Pedido não finalizado')
+                    messages.success(request, 'Pagamento não finalizado')
+                    print((f"Error: {order_response.status_code} - {order_response.text}"))
                     return render(request, "admin_paginas/adminpedidodetalhe.html", {"pedido_obj":pedido,"PEDIDO_STATUS":PEDIDO_STATUS})
             else:
                 # TODO: Melhorar essa tela de erro pra versão final
@@ -2300,6 +2303,9 @@ def cancelar_checkout_pag(request):
 
         if cancelar_response.status_code >= 200 and cancelar_response.status_code < 300:
             print(cancelar_response.text)
+
+            pedido = PedidoOrder.objects.get(id=request.POST["pedido_id"])
+            EmailPedidoCancelado(pedido)
         else:
             # TODO: Melhorar essa tela de erro pra versão final
             return HttpResponse(f"Error: {cancelar_response.status_code} - {cancelar_response.text}")

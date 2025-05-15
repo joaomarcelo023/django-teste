@@ -50,3 +50,8 @@ def orGet(value, arg):
 @register.filter
 def getByTitulo(value, arg):
     return value[arg]
+
+@register.filter
+def turnFloatReais(value):
+    v = str(value)
+    return v[:-2] + "," + v[-2:]
