@@ -4,6 +4,25 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.prodImage {
+    height: 36px;
+    padding: 0px;
+    margin: 0px;
+    
+    text-align: center;
+    
+    /* object-fit: scale-down; */
+}
+
+td a {
+    color: black;
+}
+
+td a:hover {
+    color: #ff9900;
+    text-decoration: none;
+}
+
 .pagButton {
     width: 50%;
 }

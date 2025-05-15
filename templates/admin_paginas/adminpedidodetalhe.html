@@ -18,6 +18,9 @@
             <p><span class="font-weight-bold"> Pedido ID: </span>{{ pedido_obj.id }}</p>
             <p><span class="font-weight-bold"> Status do pedido: </span><span {% if pedido_obj.pedido_status == "Pedido Completado" %}style="color: black;"{% elif pedido_obj.pedido_status == "Pedido Cancelado" %}style="color: red;"{% else %}style="color: blue;"{% endif %}>{{ pedido_obj.pedido_status }}</span></p>
             <p><span class="font-weight-bold"> Forma de pagamento: </span>{{ pedido_obj.local_de_pagamento }} - {{ pedido_obj.forma_de_pagamento }} {{ pedido_obj.parcelas }}x</p>
+            {% if pedido_obj.local_de_pagamento == "online" %}
+                <p><span class="font-weight-bold"> Id Pagbank: </span>{{ pedido_obj.id_PagBank }}</p>
+            {% endif %}
             <p><span class="font-weight-bold"> Criado em: </span>{{ pedido_obj.criado_em }}</p>
             <p><span class="font-weight-bold"> Nome Cliente: </span>{{ pedido_obj.nome_cliente }}</p>
             <p><span class="font-weight-bold"> CPF/CNPJ Cliente: </span>{{ pedido_obj.cpf_cnpj }}</p>
@@ -31,41 +34,42 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th colspan="2" class="text-center">Item</th>
+                        <th colspan="3" class="text-center">Produtos</th>
                         <th class="text-center">Preço Unitário</th>
                         <th class="text-center">Quantidade</th>
-                        <th></th>
-                        <th class="text-center">Subtotal</th>
-                        <th></th>
+                        <th style="border-right: none;"></th>
+                        <th {% if not carro.carroproduto_set.all %}colspan = "2"{% endif %} class="text-center" style="border-right: none; border-left: none;">Subtotal</th>
+                        <th style="border-left: none;"></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for cp in pedido_obj.carro.carroproduto_set.all %}
                         <tr>
-                            <td>{{ forloop.counter }}</td>
-                            <td class="text-center"><a target="_blank" href="{%url 'lojaapp:produtodetalhe' cp.produto.slug %}">{{ cp.produto.titulo }}</a></td>
-                            <td class="text-center">R$ {{ cp.preco_unitario|intcomma }}</td>
-                            <td class="text-center">{{ cp.quantidade }}</td>
-                            <td colspan="3" class="text-center">R$ {{ cp.subtotal|intcomma }}</td>
+                            <td class="text-center" style="border-right: none;">{{ forloop.counter }}.</td>
+                            <td class="text-center" style="border-left: none; border-right: none;"><img class="prodImage" src="{{ cp.produto.image.url }}"></td>
+                            <td class="text-center" style="border-left: none;"><a href="{% url 'lojaapp:adminprodutodetalhe' cp.produto.slug %}">{{ cp.produto.descricao }}</a></td>
+                            <td class="text-center">R$ {{ cp.preco_unitario|intcomma }} / {{ cp.produto.fechamento_embalagem }}{{ cp.produto.unidade|format_unit }}</td>
+                            <td class="text-center">{{ cp.quantidade|prod:cp.produto.fechamento_embalagem }}{{ cp.produto.unidade|format_unit }}</td>
+                            <td {% if not carro.carroproduto_set.all%}colspan = "4"{% else %}colspan = "3"{% endif %} class="text-center">R$ {{ cp.subtotal_bruto|intcomma }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
                 <tfoot>
-                    {% if pedido.total_desconto %}
+                    {% if pedido_obj.total_desconto %}
                         <tr>
-                            <th colspan="4" class="text-right" style="font-weight: 400;">Desconto:</th>
-                            <th colspan="3" class="text-center" style="font-weight: 400;">R$ {{ pedido_obj.total_desconto|intcomma }}</th>
+                            <th colspan="5" class="text-right" style="font-weight: 400;">Desconto:</th>
+                            <th colspan="4" class="text-center" style="font-weight: 400;">R$ {{ pedido_obj.total_desconto|intcomma }}</th>
                         </tr>
                     {% endif %}
                     {% if pedido_obj.frete %}
                         <tr>
-                            <th colspan="4" class="text-right" style="font-weight: 400;">Frete</th>
-                            <th colspan="3" class="text-center" style="font-weight: 400;">R$ {{ pedido_obj.frete|intcomma }}</th>
+                            <th colspan="5" class="text-right" style="font-weight: 400;">Frete</th>
+                            <th colspan="4" class="text-center" style="font-weight: 400;">R$ {{ pedido_obj.frete|intcomma }}</th>
                         </tr>
                     {% endif %}
                     <tr>
-                        <th colspan="4" class="text-right">Valor total</th>
-                        <th colspan="3" class="text-center">R$ {{ pedido_obj.total_final|intcomma }}</th>
+                        <th colspan="5" class="text-right">Valor total</th>
+                        <th colspan="4" class="text-center">R$ {{ pedido_obj.total_final|intcomma }}</th>
                     </tr>
                 </tfoot>
             </table>
