@@ -134,16 +134,19 @@ class CrazyAlvaPaymentCheckMixin(object):
         pedidos = list(PedidoOrder.objects.filter(pedido_status="Pagamento Processando", local_de_pagamento="online"))
         # print(len(pedidos))
         if len(pedidos):
-            pedido_aleatorio = pedidos[randint(0, len(pedidos))]
+            pedido_aleatorio = pedidos[randint(0, (len(pedidos) - 1))]
 
-            if ta_pago(pedido_aleatorio):
-                pedido_aleatorio.pedido_status = "Pagamento Confirmado"
+            try:
+                if ta_pago(pedido_aleatorio):
+                    pedido_aleatorio.pedido_status = "Pagamento Confirmado"
+            except:
+                print("Pagamento pendente")
 
         return super().dispatch(request,*args,**kwargs)
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
-class HomeView(LojaMixin, BaseContextMixin, TemplateView):
+class HomeView(LojaMixin, CrazyAlvaPaymentCheckMixin, BaseContextMixin, TemplateView):
     template_name = "home.html"
 
     def get_context_data(self, **kwargs):
