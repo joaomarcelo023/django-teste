@@ -703,7 +703,7 @@ def pedido_carro_pagamento(request):
                 pedido.total_desconto = pedido.desconto_forma_pagamento + pedido.desconto_retirada
 
                 pedido.local_de_pagamento = request.POST["local_pagamento"]
-                if "metodo_pagamento" in request.POST:
+                if ("metodo_pagamento" in request.POST) and (request.POST["local_pagamento"] != "dinheiro"):
                     pedido.forma_de_pagamento = request.POST["metodo_pagamento"]
 
                     if "parcelas" in request.POST:
@@ -734,6 +734,7 @@ def pedido_carro_pagamento(request):
 
                             desc = 0
                 else:
+                    pedido.local_de_pagamento = "loja"
                     pedido.forma_de_pagamento = "dinheiro"
                     pedido.parcelas = 1
                     pedido.valor_parcela = pedido.total_final
