@@ -242,3 +242,5 @@ TODO-ALVAREZ-RESOLVIDO: Janela pra editar endereços
 TODO-ALVAREZ-RESOLVIDO: Arrumados problemas com o filtro em pesquisar e categoria
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar layout mobile em pesquisar e categorias
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar CrazyAlvaPaymentCheckMixin no views

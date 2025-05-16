@@ -140,7 +140,7 @@ class CrazyAlvaPaymentCheckMixin(object):
                 if ta_pago(pedido_aleatorio):
                     pedido_aleatorio.pedido_status = "Pagamento Confirmado"
             except:
-                print("Pagamento pendente")
+                print(f"Pedido {pedido_aleatorio.id}: Pagamento pendente")
 
         return super().dispatch(request,*args,**kwargs)
 
@@ -847,6 +847,15 @@ def create_payment(request):
                         "option": "INSTALLMENTS_LIMIT"
                     }
                 ] 
+        #     },
+        #     {
+        #         "type": "DEBIT_CARD",
+        #         "config_options": [
+        #             {
+        #                 "value": "1",
+        #                 "option": "INTEREST_FREE_INSTALLMENTS"
+        #             }
+        #         ] 
             }
         ],
         # "payment_methods_configs": [
@@ -3079,6 +3088,8 @@ def EmailPedidoRealizado(_pedido):
                             "pedido": _pedido,
                             "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
                             "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Recebido.png",
+                            # TODO: Verificar esse link da imagem
+                            # https://vendashg.pythonanywhere.com/media/empresas/hg-teste_jXgRLs3.png
                             "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
