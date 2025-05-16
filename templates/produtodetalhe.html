@@ -105,6 +105,9 @@
             <div>
                 <h2>{{ produto.descricao }}</h2>
                 <p class="categoriaText">Categoria: <a href="{% url 'lojaapp:categoria' produto.Categoria.slug %}">{{ produto.Categoria.titulo }}</a></p>
+                {% if produto.marca %}
+                    <p class="marcaText">Marca: <a href="{% url 'lojaapp:pesquisar' %}?query={{ produto.marca }}">{{ produto.marca }}</a></p>
+                {% endif %}
             </div>
             <hr>
             <div>
@@ -112,8 +115,12 @@
             </div>
             <hr>
             <div>
-                <p class="garantiaText">Garantia: {{ produto.garantia }}</p>
-                <p class="devolucaoText">Politica de devolução: {{ produto.return_devolucao }}</p>
+                {% if produto.garantia %}
+                    <p class="garantiaText">Garantia: {{ produto.garantia }}</p>
+                {% endif %}
+                {% if produto.return_devolucao %}
+                    <p class="devolucaoText">Politica de devolução: {{ produto.return_devolucao }}</p>
+                {% endif %}
             </div>
         </div>
 
