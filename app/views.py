@@ -773,6 +773,11 @@ def pedido_carro_pagamento(request):
                     pedido.pedido_status = "Pagamento Processando"
                     pedido.save()
 
+                    # TODO: Mudar quando liberar pagamento online com cartão de credito
+                    if pedido.forma_de_pagamento == "CREDIT_CARD":
+                        messages.success(request, 'Pagamento online utilizando cartão de credito indisponivel no momento')
+                        return redirect(request.POST['path'])
+                    
                     return create_payment(request)
                 else:
                     # pedido.pedido_status = "Pagamento Pendente"
