@@ -1933,9 +1933,9 @@ class AdminHomeView(AdminRequireMixin, BaseContextMixin, GeraHistoricoProdutosMi
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["ProdutosMaisVendido"] = Produto.objects.all().order_by("-quantidade_vendas")
-        context["ProdutosMaisVistos"] = Produto.objects.all().order_by("-visualizacao")
-        context["Pedidos"] = PedidoOrder.objects.all().order_by("-id")
+        context["ProdutosMaisVendido"] = Produto.objects.all().order_by("-quantidade_vendas")[:21]
+        context["ProdutosMaisVistos"] = Produto.objects.all().order_by("-visualizacao")[:21]
+        context["Pedidos"] = PedidoOrder.objects.all().order_by("-id")[:21]
 
         return context
 
