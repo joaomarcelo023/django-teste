@@ -35,6 +35,13 @@
                             <td style="vertical-align: middle;">{{ p.quantidade_vendas }}</td>
                         </tr>
                     {% endfor %}
+                    <tr>
+                        <td colspan="3" style="vertical-align: middle;">
+                            <a href="{% url 'lojaapp:admintodosprodutos' %}">
+                                Todos os produtos
+                            </a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -62,6 +69,13 @@
                             <td style="vertical-align: middle;">{{ p.visualizacao }}</td>
                         </tr>
                     {% endfor %}
+                    <tr>
+                        <td colspan="3" style="vertical-align: middle;">
+                            <a href="{% url 'lojaapp:admintodosprodutos' %}">
+                                Todos os produtos
+                            </a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -86,6 +100,13 @@
                             <td style="vertical-align: middle;">{{ p.pedido_status }}</td>
                         </tr>
                     {% endfor %}
+                    <tr>
+                        <td colspan="3" style="vertical-align: middle;">
+                            <a href="{% url 'lojaapp:admintodospedido' %}">
+                                Todos os pedidos
+                            </a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
