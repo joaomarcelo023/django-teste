@@ -244,3 +244,5 @@ TODO-ALVAREZ-RESOLVIDO: Arrumados problemas com o filtro em pesquisar e categori
 TODO-ALVAREZ-RESOLVIDO: Arrumar layout mobile em pesquisar e categorias
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar CrazyAlvaPaymentCheckMixin no views
+
+TODO-ALVAREZ-RESOLVIDO: Melhorar parte do admin

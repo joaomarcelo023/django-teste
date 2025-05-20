@@ -1,7 +1,5 @@
 TODO-ALVAREZ: Hospedar o site em um link descente
 
-TODO-ALVAREZ: Melhorar parte do admin
-
 TODO-ALVAREZ: Conectar o pagseguro com o pagseguro real
 
 
