@@ -920,6 +920,9 @@ def create_payment(request):
         pedido.id_PagBank = respJson["id"]
         pedido.save()
 
+        # print(f"Request: {payload}")
+        # print(f"Response: {response.json()}")
+
         return redirect(payment_url)
     else:
         # TODO: Melhorar essa tela de erro pra versão final
