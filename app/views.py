@@ -3,7 +3,7 @@ from .forms import *
 from .models import *
 from .serializers import *
 from django_teste import settings
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import TemplateView, CreateView, FormView, DetailView, ListView
@@ -23,6 +23,7 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from django.core.paginator import Paginator
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from django.template.loader import render_to_string
 from rest_framework import serializers, status, generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -30,7 +31,6 @@ from rest_framework_api_key.permissions import HasAPIKey
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
-from django.template.loader import render_to_string
 from PIL import Image
 from io import BytesIO
 from random import randint
@@ -268,7 +268,7 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
 
         context['limite_estoque'] = sum(produto.estoque_lojas.values())
 
-        context['fotos_produtos'] = produto.images.all() #FotosProduto.objects.filter(produto=produto)
+        context['fotos_produtos'] = produto.images.all().order_by("-img_num") #FotosProduto.objects.filter(produto=produto)
 
         if produto.Categoria.slug == "porcelanatos" or produto.Categoria.slug == "ceramicas":
             context['variacao_faces_pisos'] = VARIACAO_FACES_PISOS
@@ -2772,7 +2772,11 @@ class FotosProdutoListCreateView(generics.ListCreateAPIView):
     permission_classes = [HasAPIKey]
 
     def perform_create(self, serializer):
-        fotoProduto = serializer.save()  # Save the initial model instance
+        prod_cod = self.request.data.get('codigo')
+        # produto = Produto.objects.get(codigo=prod_cod)
+        prod = get_object_or_404(Produto, codigo=prod_cod)
+
+        fotoProduto = serializer.save(produto=prod)  # Save the initial model instance
         
         image_field = fotoProduto.image
         

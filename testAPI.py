@@ -17,7 +17,7 @@ import unicodedata
 
 def postTest(_message):
     # API_URL_TEST = "http://127.0.0.1:8000/api_test/"
-    API_URL_TEST = "https://vendashg.pythonanywhere.com/api_test/"
+    API_URL_TEST = "https://www.loja-casahg.com.br/api_test/"
 
     new_product = {
         "status": _message,
@@ -38,7 +38,7 @@ def postTest(_message):
 
 def getTest():
     API_URL_TEST = "http://127.0.0.1:8000/api_test/"
-    # API_URL_TEST = "https://vendashg.pythonanywhere.com/api_test/"
+    # API_URL_TEST = "https://www.loja-casahg.com.br/api_test/"
 
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -57,7 +57,7 @@ def getTest():
 
 def patchTest(_id, _message):
     API_URL_TEST = "http://127.0.0.1:8000/api_test/" + str(_id) + "/"
-    # API_URL_TEST = "https://vendashg.pythonanywhere.com/api_test/" + str(_id) + "/"
+    # API_URL_TEST = "https://www.loja-casahg.com.br/api_test/" + str(_id) + "/"
 
     update_teste = {
         "status": _message,
@@ -78,7 +78,7 @@ def patchTest(_id, _message):
 
 def getByIdTest(_id):
     # API_URL_TEST = "http://127.0.0.1:8000/api_test/" + str(_id) + "/"
-    API_URL_TEST = "https://vendashg.pythonanywhere.com/api_test/" + str(_id) + "/"
+    API_URL_TEST = "https://www.loja-casahg.com.br/api_test/" + str(_id) + "/"
 
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -96,7 +96,7 @@ def getByIdTest(_id):
 
 def postPedidoOrder(_message): # Não ta funfando ainda
     API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_pedido_order/"
-    # API_URL_PEDIDO_ORDER = "http://vendashg.pythonanywhere.com/api_pedido_order/"
+    # API_URL_PEDIDO_ORDER = "https://www.loja-casahg.com.br/api_pedido_order/"
 
     new_product = {
         "status": _message,
@@ -117,7 +117,7 @@ def postPedidoOrder(_message): # Não ta funfando ainda
 
 def getPedidoOrder():
     API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_pedido_order/"
-    # API_URL_PEDIDO_ORDER = "http://vendashg.pythonanywhere.com/api_pedido_order/"
+    # API_URL_PEDIDO_ORDER = "https://www.loja-casahg.com.br/api_pedido_order/"
 
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -136,7 +136,7 @@ def getPedidoOrder():
         
 def getByIdPedidoOrder(_id):
     API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_pedido_order/" + str(_id) + "/"
-    # API_URL_PEDIDO_ORDER = "https://vendashg.pythonanywhere.com/api_pedido_order/" + str(_id) + "/"
+    # API_URL_PEDIDO_ORDER = "https://www.loja-casahg.com.br/api_pedido_order/" + str(_id) + "/"
 
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -154,11 +154,11 @@ def getByIdPedidoOrder(_id):
 
 def postProduto(_produtodata, _prodfiles):
     API_URL_PRODUTO = "http://127.0.0.1:8000/api_produtos/"
-    # API_URL_PRODUTO = "http://vendashg.pythonanywhere.com/api_produtos/"
+    # API_URL_PRODUTO = "https://www.loja-casahg.com.br/api_produtos/"
 
     cat_slug = unicodedata.normalize('NFKD', _produtodata['Categoria']).encode('ascii', 'ignore').decode('utf-8').lower().replace(" ", "_")
     API_URL_CATEGORIA = f"http://127.0.0.1:8000/api_categorias/{cat_slug}/"
-    # API_URL_CATEGORIA = f"http://vendashg.pythonanywhere.com/api_categorias/{}/"
+    # API_URL_CATEGORIA = f"https://www.loja-casahg.com.br/api_categorias/{}/"
     
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -179,7 +179,7 @@ def postProduto(_produtodata, _prodfiles):
 
 def getProduto():
     API_URL_PRODUTO = "http://127.0.0.1:8000/api_produtos/"
-    # API_URL_PRODUTO = "http://vendashg.pythonanywhere.com/api_produtos/"
+    # API_URL_PRODUTO = "https://www.loja-casahg.com.br/api_produtos/"
 
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -198,7 +198,7 @@ def getProduto():
 
 def getByCodigoProduto(_codigo):
     API_URL_PRODUTO = "http://127.0.0.1:8000/api_produtos/" + str(_codigo) + "/"
-    # API_URL_PRODUTO = "https://vendashg.pythonanywhere.com/api_produtos/" + str(_id) + "/"
+    # API_URL_PRODUTO = "https://www.loja-casahg.com.br/api_produtos/" + str(_id) + "/"
 
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -216,7 +216,7 @@ def getByCodigoProduto(_codigo):
 
 def postJson(_arq):
     API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_upload/"
-    # API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_upload/"
+    # API_URL_PRODUTOS = "https://www.loja-casahg.com.br/chunked_json_upload/"
 
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -247,7 +247,7 @@ def postJson(_arq):
 
 def patchJson(_arq):
     API_URL_PRODUTOS = "http://127.0.0.1:8000/chunked_json_update/"
-    # API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/chunked_json_update/"
+    # API_URL_PRODUTOS = "https://www.loja-casahg.com.br/chunked_json_update/"
 
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -278,7 +278,7 @@ def patchJson(_arq):
 
 def pisosFichaTecJson(_arq):
     API_URL_PISOS = "http://127.0.0.1:8000/chunked_piso_ficha_tec_json_upload/"
-    # API_URL_PISOS = "https://vendashg.pythonanywhere.com/chunked_piso_ficha_tec_json_upload/"
+    # API_URL_PISOS = "https://www.loja-casahg.com.br/chunked_piso_ficha_tec_json_upload/"
 
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -308,7 +308,7 @@ def pisosFichaTecJson(_arq):
 
 def estoquelojasJson(_arq):
     API_URL_ESTOQUE = "http://127.0.0.1:8000/chunked_estoque_json_upload/"
-    # API_URL_ESTOQUE = "https://vendashg.pythonanywhere.com/chunked_estoque_json_upload/"
+    # API_URL_ESTOQUE = "https://www.loja-casahg.com.br/chunked_estoque_json_upload/"
 
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -338,7 +338,7 @@ def estoquelojasJson(_arq):
 
 def upload_image(_image_path):
     API_URL_IMG = "http://127.0.0.1:8000/chunked_img_upload/"
-    # API_URL_IMG = "https://vendashg.pythonanywhere.com/chunked_img_upload/"
+    # API_URL_IMG = "https://www.loja-casahg.com.br/chunked_img_upload/"
 
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -389,7 +389,7 @@ def postImg(_imgDir, _imgDic, _imgList):
 
 def getProdStats():
     API_URL_PRODUTOS = "http://127.0.0.1:8000/produto_stats/"
-    # API_URL_PRODUTOS = "https://vendashg.pythonanywhere.com/produto_stats/"
+    # API_URL_PRODUTOS = "https://www.loja-casahg.com.br/produto_stats/"
 
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -401,6 +401,23 @@ def getProdStats():
 
     return response.json()
 
+def postFotoExtra(_produtodata, _prodfiles):
+    API_URL_PRODUTO = "http://127.0.0.1:8000/api_fotos_produtos/"
+    # API_URL_PRODUTO = "https://www.loja-casahg.com.br/api_fotos_produtos/"
+    
+    headers = {
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        #"Content-Type": "application/json"
+    }
+
+    response = requests.post(API_URL_PRODUTO, data=_produtodata, files=_prodfiles, headers=headers)
+
+    if response.status_code == 201:
+        print("Produto cadastrado com sucesso!")
+    else:
+        print("Erro ao cadastrar produto:", response.status_code)
+
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- #
 
 # postTest("Fala ai") # A mensagem é printada na pagina /contato/
@@ -411,7 +428,7 @@ def getProdStats():
 
 # postPedidoOrder("cu") # Não usar, não ta direito
 # getPedidoOrder()
-getByIdPedidoOrder(115)
+# getByIdPedidoOrder(115)
 
 # getProduto()
 # getByCodigoProduto(143830)
@@ -438,13 +455,19 @@ getByIdPedidoOrder(115)
 #     "indicação_uso": "LA",
 # }
 
-# prodFiles = {
-#     "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Giratina.jpg", "rb"),
-# }
+prodFiles = {
+    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Giratina.jpg", "rb"),
+}
 
 # postProduto(prodData, prodFiles)
 
 # postProduto(prodData, None)
+
+prodData = {
+    "codigo": "142925",
+}
+
+postFotoExtra(prodData, prodFiles)
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- #
 

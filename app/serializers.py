@@ -34,6 +34,9 @@ class FotosProdutoSerializer(serializers.ModelSerializer):
     class Meta:
         model = FotosProduto
         fields = '__all__'
+        extra_kwargs = {
+            'produto': {'required': False}
+        }
 
 class EnderecoSerializer(serializers.ModelSerializer):
     class Meta:
