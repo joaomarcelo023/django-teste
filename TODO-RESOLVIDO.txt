@@ -246,3 +246,9 @@ TODO-ALVAREZ-RESOLVIDO: Arrumar layout mobile em pesquisar e categorias
 TODO-ALVAREZ-RESOLVIDO: Arrumar CrazyAlvaPaymentCheckMixin no views
 
 TODO-ALVAREZ-RESOLVIDO: Melhorar parte do admin
+
+TODO-ALVAREZ-RESOLVIDO: Hospedar o site em um link descente
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar API de FotosProduto no backend
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar umami para novo url

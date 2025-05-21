@@ -1,6 +1,10 @@
-TODO-ALVAREZ: Hospedar o site em um link descente
+TODO-ALVAREZ: Conectar o site com contas reais da loja e não minhas pessoais
 
 TODO-ALVAREZ: Conectar o pagseguro com o pagseguro real
+
+TODO-ALVAREZ: Arrumar produtodetalhe.html pra lidar com mais que 4 fotos
+
+TODO-ALVAREZ: Arrumar API de FotosProduto no sistema da loja
 
 
 "Coisas que precisam estar bem estruturadas:
