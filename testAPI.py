@@ -418,6 +418,41 @@ def postFotoExtra(_produtodata, _prodfiles):
     else:
         print("Erro ao cadastrar produto:", response.status_code)
 
+def manda_grupo_imagem(self):
+    # Dados para a API
+    # API_URL_PRODUTO = "http://127.0.0.1:8000/api_fotos_produtos/"
+    API_URL_PRODUTO = "https://www.loja-casahg.com.br/api_fotos_produtos/"
+    
+    headers = {
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        #"Content-Type": "application/json"
+    }
+
+    # Coleta e envio das imagens
+    df = pd.read_json("dados/codigos_site_filtrados.json", encoding="latin-1")
+    base = r"cria_ambientes"
+    imgList = []
+
+    for codigo in df['codigo']:
+        pasta_codigo = os.path.join(base, str(codigo))
+        if os.path.isdir(pasta_codigo):
+            for nome_arquivo in os.listdir(pasta_codigo):
+                if nome_arquivo.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
+                    caminho = os.path.join(pasta_codigo, nome_arquivo)
+
+                    prodData = {"codigo": codigo}
+                    prodFiles = {"image": open(caminho, "rb")}
+
+                    response = requests.post(API_URL_PRODUTO, data=prodData, files=prodFiles, headers=headers)
+
+                    if response.status_code == 201:
+                        print("Foto enviada com sucesso!")
+                    else:
+                        print("Erro ao enviar foto:", response.status_code)
+        else:
+            print(f"Aviso: pasta não encontrada para código {codigo}")
+
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- #
 
 # postTest("Fala ai") # A mensagem é printada na pagina /contato/

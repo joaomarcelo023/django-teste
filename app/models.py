@@ -164,9 +164,12 @@ class Produto(models.Model):
     def __str__(self):
         return f"{self.codigo} - {self.descricao}"
 
+def user_upload_path(instance, filename):
+    return f"produtos/{instance.produto.codigo}/profile_pics/{filename}"
+
 class FotosProduto(models.Model):
     produto = models.ForeignKey(Produto,related_name="images",on_delete=models.CASCADE,default="")
-    image = models.ImageField(upload_to="produtos")
+    image = models.ImageField(upload_to=user_upload_path)
     img_num = models.SmallIntegerField(null=True,blank=True)
 
     def save(self, *args, **kwargs):
