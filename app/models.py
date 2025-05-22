@@ -169,7 +169,7 @@ def user_upload_path(instance, filename):
 
 class FotosProduto(models.Model):
     produto = models.ForeignKey(Produto,related_name="images",on_delete=models.CASCADE,default="")
-    image = models.ImageField(upload_to=user_upload_path)
+    image = models.ImageField(upload_to=user_upload_path, unique=True)
     img_num = models.SmallIntegerField(null=True,blank=True)
 
     def save(self, *args, **kwargs):

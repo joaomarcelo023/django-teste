@@ -432,7 +432,6 @@ def manda_grupo_imagem(self):
     # Coleta e envio das imagens
     df = pd.read_json("dados/codigos_site_filtrados.json", encoding="latin-1")
     base = r"cria_ambientes"
-    imgList = []
 
     for codigo in df['codigo']:
         pasta_codigo = os.path.join(base, str(codigo))
