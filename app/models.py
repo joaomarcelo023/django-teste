@@ -165,7 +165,7 @@ class Produto(models.Model):
         return f"{self.codigo} - {self.descricao}"
 
 def user_upload_path(instance, filename):
-    return f"produtos/{instance.produto.codigo}/profile_pics/{filename}"
+    return f"produtos/{instance.produto.codigo}/{filename}"
 
 class FotosProduto(models.Model):
     produto = models.ForeignKey(Produto,related_name="images",on_delete=models.CASCADE,default="")
