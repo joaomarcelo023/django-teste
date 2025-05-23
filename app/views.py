@@ -2881,21 +2881,27 @@ class PedidoProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
 # verifica se todos os produtos tem fotos
 def ChecaFotosProdutos(request):
     for prod in Produto.objects.all():
-        # path = (settings.MEDIA_ROOT + prod.image.url).replace("media/media", "media")
+        path = (settings.MEDIA_ROOT + prod.image.url).replace("media/media", "media")
 
-        # if not os.path.exists(path):
-        #     new_path = "/produtos/NoImgAvailable.webp"
-        #     prod.image.name = new_path#os.path.relpath(new_path, settings.MEDIA_ROOT)
-        #     prod.save()
-        # else:
-        #     if prod.image.url == "/media/produtos/NoImgAvailable.webp":
-        #         pathCodigo = f"{settings.MEDIA_ROOT}/produtos/{prod.codigo}.webp"
+        if not os.path.exists(path):
+            new_path = "/produtos/NoImgAvailable.webp"
+            prod.image.name = new_path#os.path.relpath(new_path, settings.MEDIA_ROOT)
+            prod.save()
+        else:
+            if prod.image.url == "/media/produtos/NoImgAvailable.webp":
+                pathCodigo = f"{settings.MEDIA_ROOT}/produtos/{prod.codigo}.webp"
 
-        #         if os.path.exists(pathCodigo):
-        #             new_path = f"/produtos/{prod.codigo}.webp"
-        #             prod.image.name = new_path#os.path.relpath(new_path, settings.MEDIA_ROOT)
-        #             prod.save()
+                if os.path.exists(pathCodigo):
+                    new_path = f"/produtos/{prod.codigo}.webp"
+                    prod.image.name = new_path#os.path.relpath(new_path, settings.MEDIA_ROOT)
+                    prod.save()
 
+    if request.method == 'POST':
+        return redirect(request.POST["path"])
+    
+# Reseta o numero de fotos de todos os produtos
+def ChecaFotosProdutos(request):
+    for prod in Produto.objects.all():
         prod.num_fotos = 1
         prod.save()
 
