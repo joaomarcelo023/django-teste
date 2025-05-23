@@ -6,6 +6,10 @@ TODO-ALVAREZ: Arrumar produtodetalhe.html pra lidar com mais que 4 fotos
 
 TODO-ALVAREZ: Arrumar API de FotosProduto no sistema da loja
 
+TODO-ALVAREZ: Arrumar endereço de entrega no pagseguro pra endereços sem complementos
+
+TODO-ALVAREZ: Arrumar pagamento pra se a pessoa voltar à janela de pagamento depois de um pagamente que deu errado, o desconto resete
+
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte

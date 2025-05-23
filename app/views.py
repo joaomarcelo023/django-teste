@@ -268,7 +268,7 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
 
         context['limite_estoque'] = sum(produto.estoque_lojas.values())
 
-        context['fotos_produtos'] = produto.images.all().order_by("-img_num") #FotosProduto.objects.filter(produto=produto)
+        context['fotos_produtos'] = produto.images.all().order_by("img_num") #FotosProduto.objects.filter(produto=produto)
 
         if produto.Categoria.slug == "porcelanatos" or produto.Categoria.slug == "ceramicas":
             context['variacao_faces_pisos'] = VARIACAO_FACES_PISOS
@@ -873,7 +873,7 @@ def create_payment(request):
         #         ]
         #     }
         # ],
-        "redirect_url": f"https://vendashg.pythonanywhere.com/pedido-cofirmado/?id={pedido.id}", # f"http://127.0.0.1:8000/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
+        "redirect_url": f"https://www.loja-casahg.com.br/pedido-cofirmado/?id={pedido.id}", # f"http://127.0.0.1:8000/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
         # f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}&status=Pagamento_Confirmado"
         # "notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"],
         # "payment_notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"]
