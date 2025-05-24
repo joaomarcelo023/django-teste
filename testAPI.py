@@ -14,6 +14,7 @@ import json
 from django_teste import settings
 import pandas as pd
 import unicodedata
+from PIL import Image
 
 def postTest(_message):
     # API_URL_TEST = "http://127.0.0.1:8000/api_test/"
@@ -402,8 +403,8 @@ def getProdStats():
     return response.json()
 
 def postFotoExtra(_produtodata, _prodfiles):
-    API_URL_PRODUTO = "http://127.0.0.1:8000/api_fotos_produtos/"
-    # API_URL_PRODUTO = "https://www.loja-casahg.com.br/api_fotos_produtos/"
+    API_URL_PRODUTO = "http://127.0.0.1:8000/api_fotos_produtos_upload/"
+    # API_URL_PRODUTO = "https://www.loja-casahg.com.br/api_fotos_produtos_upload/"
     
     headers = {
         "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
@@ -413,8 +414,9 @@ def postFotoExtra(_produtodata, _prodfiles):
 
     response = requests.post(API_URL_PRODUTO, data=_produtodata, files=_prodfiles, headers=headers)
 
-    if response.status_code == 201:
-        print("Produto cadastrado com sucesso!")
+    if response.status_code >= 200 and response.status_code < 300:
+        resp = response.json()
+        print(f"{resp['message']}: foto {resp['file_url']}, produto {resp['Produto']}")
     else:
         print("Erro ao cadastrar produto:", response.status_code)
 
@@ -451,6 +453,84 @@ def manda_grupo_imagem(self):
                         print("Erro ao enviar foto:", response.status_code)
         else:
             print(f"Aviso: pasta não encontrada para código {codigo}")
+
+def manda_grupo_imagem(self):
+    API_URL_PRODUTO = "https://www.loja-casahg.com.br/api_fotos_produtos/"
+    headers = {"Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE}
+
+    df = pd.read_json("dados/codigos_site_filtrados.json", encoding="latin-1")
+    base = r"../../cria_ambientes/revestimentos"
+
+    for codigo in df['codigo']:
+        pasta_codigo = os.path.join(base, str(codigo))
+
+        if not os.path.isdir(pasta_codigo):
+            print(f"Aviso: pasta não encontrada para código {codigo}")
+
+            continue
+
+        json_path = None
+        for f in os.listdir(pasta_codigo):
+            if f.lower().endswith('.json'):
+                json_path = os.path.join(pasta_codigo, f)
+
+                # Passei essa parte pra dentro desse if e tirei o envio pra api, ele já vai enviar no proximo for
+                with open(json_path, 'r', encoding='utf-8') as jf:
+                    j = json.load(jf)
+                cor = j.get('cor', {}).get('0')
+                altura = j.get('altura', {}).get('0')
+                largura = j.get('largura', {}).get('0')
+
+                if cor and altura and largura:
+                    w, h = int(largura), int(altura)
+                    rgb = tuple(cor)
+                    img = Image.new('RGB', (w, h), rgb)
+
+                    img_solid_path = os.path.join(pasta_codigo, f"{codigo}_solid.png")
+                    img.save(img_solid_path)
+
+                break
+
+        ## Se rodar com as mudanças pode apagar essa parte
+        # if json_path:
+        #     with open(json_path, 'r', encoding='utf-8') as jf:
+        #         j = json.load(jf)
+        #     cor = j.get('cor', {}).get('0')
+        #     altura = j.get('altura', {}).get('0')
+        #     largura = j.get('largura', {}).get('0')
+
+        #     if cor and altura and largura:
+        #         w, h = int(largura), int(altura)
+        #         rgb = tuple(cor)
+        #         img = Image.new('RGB', (w, h), rgb)
+
+        #         img_solid_path = os.path.join(pasta_codigo, f"{codigo}_solid.png")
+        #         img.save(img_solid_path)
+
+        #         with open(img_solid_path, 'rb') as f_im:
+        #             data = {"codigo": codigo}
+        #             files = {"image": f_im}
+        #             response = requests.post(API_URL_PRODUTO, data=data, files=files, headers=headers)
+
+        #         if response.status_code == 201:
+        #             print(f"Foto sólida do código {codigo} enviada com sucesso!")
+        #         else:
+        #             print(f"Erro ao enviar foto sólida do código {codigo}:", response.status_code)
+
+        #         continue
+
+        for nome_arquivo in os.listdir(pasta_codigo):
+            if nome_arquivo.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
+                caminho = os.path.join(pasta_codigo, nome_arquivo)
+                with open(caminho, 'rb') as f_img:
+                    data = {"codigo": codigo}
+                    files = {"image": f_img}
+                    response = requests.post(API_URL_PRODUTO, data=data, files=files, headers=headers)
+
+                if response.status_code == 201:
+                    print(f"Foto {nome_arquivo} do código {codigo} enviada com sucesso!")
+                else:
+                    print(f"Erro ao enviar foto {nome_arquivo} do código {codigo}:", response.status_code)
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- #
 
@@ -490,7 +570,7 @@ def manda_grupo_imagem(self):
 # }
 
 prodFiles = {
-    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Giratina.jpg", "rb"),
+    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Lucario.jpg", "rb"),
 }
 
 # postProduto(prodData, prodFiles)

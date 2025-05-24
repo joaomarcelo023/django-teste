@@ -98,6 +98,7 @@ urlpatterns = [
     ## Fotos Produto
     path('api_fotos_produtos/', FotosProdutoListCreateView.as_view(), name='fotos_produto_list'),
     path('api_fotos_produtos/<int:pk>/', FotosProdutoDetailView.as_view(), name='fotos_produto_detail'),
+    path('api_fotos_produtos_upload/', FotosProdutoUploadView.as_view(), name='fotos_produto_list_upload'),
 
     ## Pedido Order
     path('api_pedido_order/', PedidoOrderListCreateView.as_view(), name='pedido_order_list'),

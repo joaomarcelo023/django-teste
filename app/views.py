@@ -2830,6 +2830,67 @@ class FotosProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
                 fotoProduto.produto.num_fotos -= 1
                 fotoProduto.save()
 
+class FotosProdutoUploadView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    permission_classes = [HasAPIKey]
+
+    def post(self, request):
+        prod_cod = request.data.get('codigo')
+        prod = get_object_or_404(Produto, codigo=prod_cod)
+        img = request.FILES.get('image')
+
+        fotosExistentes = FotosProduto.objects.filter(produto=prod)
+        image_field = None
+        # Verificação se a foto já existe
+        if fotosExistentes:
+            for fotoObj in fotosExistentes:
+                # Se a foto já existe
+                if os.path.splitext(os.path.basename(fotoObj.image.url))[0] == os.path.splitext(os.path.basename(img.name))[0]:
+                    upload_dir = fotoObj.image.path
+                    upload_dir = upload_dir.replace(os.path.basename(fotoObj.image.url), "")
+                    file_name = img.name
+
+                    temp_file_path = os.path.join(upload_dir, file_name)
+
+                    # Remove o original
+                    os.remove(fotoObj.image.path)
+
+                    # Converte pra webp
+                    image = Image.open(img).convert("RGB")
+                    new_path = f"{os.path.splitext(temp_file_path)[0]}.webp"
+
+                    # Salva o novo
+                    image.save(new_path, "webp")
+
+                    return JsonResponse({"message": "Foto atualizada", "Produto": fotoObj.produto.codigo, "file_url": fotoObj.image.url})
+
+        # Se a foto for nova
+        if not image_field:
+            fotoProduto = FotosProduto.objects.create(produto=prod, image=img)
+            
+            image_field = fotoProduto.image
+        
+            if image_field:
+                temp_file_path = image_field.path
+
+                # Converte pra webp
+                file, ext = os.path.splitext(temp_file_path)
+                image = Image.open(temp_file_path).convert("RGB")
+                new_path = f"{file}.webp"
+                image.save(new_path, "webp")
+
+                # Remove o original
+                if ext != ".webp":
+                    os.remove(temp_file_path)
+
+                # Update the model with the new WebP image
+                fotoProduto.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+                fotoProduto.produto.num_fotos -= 1
+                fotoProduto.save()
+
+            return JsonResponse({"message": "Nova foto criada", "Produto": fotoProduto.produto.codigo, "file_url": fotoProduto.image.url})
+
 ## Pedido Order
 class PedidoOrderListCreateView(generics.ListCreateAPIView):
     queryset = PedidoOrder.objects.prefetch_related("pedidoProduto")
@@ -2891,10 +2952,25 @@ def ChecaFotosProdutos(request):
             if prod.image.url == "/media/produtos/NoImgAvailable.webp":
                 pathCodigo = f"{settings.MEDIA_ROOT}/produtos/{prod.codigo}.webp"
 
-                if os.path.exists(pathCodigo):
-                    new_path = f"/produtos/{prod.codigo}.webp"
-                    prod.image.name = new_path#os.path.relpath(new_path, settings.MEDIA_ROOT)
-                    prod.save()
+                if prod.num_fotos == 1:
+                    if os.path.exists(pathCodigo):
+                        new_path = f"/produtos/{prod.codigo}.webp"
+                        prod.image.name = new_path#os.path.relpath(new_path, settings.MEDIA_ROOT)
+                        prod.save()
+                else:
+                    try:
+                        newFotoObjeto = FotosProduto.objects.get(produto=prod, img_num=2)
+                        new_path = newFotoObjeto.image.name
+                        prod.image.name = new_path
+                        prod.save()
+                    except FotosProduto.DoesNotExist:
+                        prod.num_fotos = 1
+
+                        if os.path.exists(pathCodigo):
+                            new_path = f"/produtos/{prod.codigo}.webp"
+                            prod.image.name = new_path
+
+                        prod.save()
 
     if request.method == 'POST':
         return redirect(request.POST["path"])
