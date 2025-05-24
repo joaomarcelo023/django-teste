@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from rest_framework_api_key.models import AbstractAPIKey
+import os
 
 class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -176,6 +177,10 @@ class FotosProduto(models.Model):
         self.produto.num_fotos += 1
         self.produto.save()
 
+        if self.produto.num_fotos == 2:
+            self.produto.image.name = self.image.name
+            self.produto.save()
+
         self.img_num = self.produto.num_fotos
 
         return super(FotosProduto, self).save(*args, **kwargs)
@@ -183,6 +188,14 @@ class FotosProduto(models.Model):
     def delete(self, *args, **kwargs):
         self.produto.num_fotos -= 1
         self.produto.save()
+
+        if self.produto.num_fotos == 1:
+            new_path = f"/produtos/{self.produto.codigo}.webp"
+            if not os.path.exists("media/" + new_path):
+                new_path = "/produtos/NoImgAvailable.webp"
+
+            self.produto.image.name = new_path
+            self.produto.save()
 
         self.image.delete(save=False)
 
