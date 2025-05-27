@@ -183,6 +183,10 @@ class FotosProduto(models.Model):
                 self.produto.save()
 
             self.img_num = self.produto.num_fotos
+        else:
+            if self.img_num == 2:
+                self.produto.image.name = self.image.name
+                self.produto.save()
 
         return super(FotosProduto, self).save(*args, **kwargs)
     

@@ -2889,7 +2889,7 @@ class FotosProdutoUploadView(APIView):
 
                 # Update the model with the new WebP image
                 fotoProduto.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
-                fotoProduto.produto.num_fotos -= 1
+                # fotoProduto.produto.num_fotos -= 1
                 fotoProduto.save()
 
             return JsonResponse({"message": "Nova foto criada", "Produto": fotoProduto.produto.codigo, "file_url": fotoProduto.image.url})
@@ -2946,12 +2946,10 @@ class PedidoProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
 def ChecaFotosProdutos(request):
     for prod in Produto.objects.all():
         path = (settings.MEDIA_ROOT + prod.image.url).replace("media/media", "media")
+        print(prod.image.name)
+        print(prod.image.url)
 
-        if not os.path.exists(path):
-            new_path = "/produtos/NoImgAvailable.webp"
-            prod.image.name = new_path#os.path.relpath(new_path, settings.MEDIA_ROOT)
-            prod.save()
-        else:
+        if os.path.exists(path):
             if prod.image.url == "/media/produtos/NoImgAvailable.webp":
                 pathCodigo = f"{settings.MEDIA_ROOT}/produtos/{prod.codigo}.webp"
 
@@ -2974,6 +2972,10 @@ def ChecaFotosProdutos(request):
                             prod.image.name = new_path
 
                         prod.save()
+        else:
+            new_path = "/produtos/NoImgAvailable.webp"
+            prod.image.name = new_path#os.path.relpath(new_path, settings.MEDIA_ROOT)
+            prod.save()
 
     if request.method == 'POST':
         return redirect(request.POST["path"])
