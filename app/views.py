@@ -2971,7 +2971,11 @@ def ChecaFotosProdutos(request):
 
                         prod.save()
         else:
-            new_path = "/produtos/NoImgAvailable.webp"
+            pathCodigo = f"{settings.MEDIA_ROOT}/produtos/{prod.codigo}.webp"
+            if os.path.exists(pathCodigo):
+                new_path = f"/produtos/{prod.codigo}.webp"
+            else:
+                new_path = "/produtos/NoImgAvailable.webp"
             prod.image.name = new_path#os.path.relpath(new_path, settings.MEDIA_ROOT)
             prod.save()
 
