@@ -207,7 +207,7 @@ class FotosProduto(models.Model):
         super(FotosProduto, self).delete(*args, **kwargs)
 
     def __str__(self):
-        return self.produto.titulo + ": " + str(self.img_num)
+        return f"{self.produto.codigo} - {self.produto.titulo}: {self.img_num}"
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
