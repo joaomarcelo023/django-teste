@@ -37,13 +37,13 @@
                 </tbody>
                 <tfoot>
                     {% if pedido.frete %}
-                        <tr>
+                        <tr style="display: none;">
                             <th colspan="3" class="text-right" style="vertical-align: middle; font-weight: 400; font-size: smaller;">Frete:</th>
                             <th colspan="3" class="text-center" style="vertical-align: middle; font-weight: 400; font-size: small;">R$ {{ pedido.frete|intcomma }}</th>
                         </tr>
                     {% endif %}
                     {% if pedido.total_desconto %}
-                        <tr>
+                        <tr style="display: none;">
                             <th colspan="3" class="text-right" style="vertical-align: middle; font-weight: 400; font-size: smaller;">Desconto:</th>
                             <th colspan="3" class="text-center" style="vertical-align: middle; font-weight: 400; font-size: small;">R$ {{ pedido.total_desconto|intcomma }}</th>
                         </tr>
@@ -374,13 +374,13 @@
                 </tbody>
                 <tfoot>
                     {% if pedido.frete %}
-                        <tr>
+                        <tr style="display: none;">
                             <th colspan="4" class="text-right" style="vertical-align: middle; font-weight: 400;">Frete:</th>
                             <th colspan="3" class="text-center" style="vertical-align: middle; font-weight: 400;">R$ {{ pedido.frete|intcomma }}</th>
                         </tr>
                     {% endif %}
                     {% if pedido.total_desconto %}
-                        <tr>
+                        <tr style="display: none;">
                             <th colspan="4" class="text-right" style="vertical-align: middle; font-weight: 400;">Desconto:</th>
                             <th colspan="3" class="text-center" style="vertical-align: middle; font-weight: 400;">R$ {{ pedido.total_desconto|intcomma }}</th>
                         </tr>
