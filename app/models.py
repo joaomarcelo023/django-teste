@@ -174,14 +174,15 @@ class FotosProduto(models.Model):
     img_num = models.SmallIntegerField(null=True,blank=True)
 
     def save(self, *args, **kwargs):
-        self.produto.num_fotos += 1
-        self.produto.save()
-
-        if self.produto.num_fotos == 2:
-            self.produto.image.name = self.image.name
+        if not self.img_num:
+            self.produto.num_fotos += 1
             self.produto.save()
 
-        self.img_num = self.produto.num_fotos
+            if self.produto.num_fotos == 2:
+                self.produto.image.name = self.image.name
+                self.produto.save()
+
+            self.img_num = self.produto.num_fotos
 
         return super(FotosProduto, self).save(*args, **kwargs)
     
