@@ -2,8 +2,6 @@ TODO-ALVAREZ: Conectar o site com contas reais da loja e não minhas pessoais
 
 TODO-ALVAREZ: Conectar o pagseguro com o pagseguro real
 
-TODO-ALVAREZ: Arrumar endereço de entrega no pagseguro pra endereços sem complementos
-
 TODO-ALVAREZ: Arrumar pagamento pra se a pessoa voltar à janela de pagamento depois de um pagamente que deu errado, o desconto resete
 
 

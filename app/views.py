@@ -820,7 +820,7 @@ def create_payment(request):
             "address": {
                 "street": pedido.endereco_envio.rua,
                 "number": pedido.endereco_envio.numero,
-                "complement": pedido.endereco_envio.complemento,
+                # "complement": pedido.endereco_envio.complemento,
                 "locality": pedido.endereco_envio.bairro,
                 "city": pedido.endereco_envio.cidade,
                 "region_code": pedido.endereco_envio.estado,
@@ -887,6 +887,9 @@ def create_payment(request):
     # else:
     #     payload["shipping"]["type"] = "FREE"
     #     payload["shipping"]["address_modifiable"] = False
+
+    if pedido.endereco_envio.complemento:
+        payload["shipping"]["address"]["complement"] =  pedido.endereco_envio.complemento
 
     for prod in produtos:
         payload["items"].append(

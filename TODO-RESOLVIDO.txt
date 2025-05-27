@@ -259,3 +259,5 @@ TODO-ALVAREZ-RESOLVIDO: Arrumar API de FotosProduto no sistema da loja
   TODO-ALVAREZ-RESOLVIDO: Tranformar numa APIView generica pra lidar com patch e post
   
   TODO-ALVAREZ-RESOLVIDO: Colocar pra foto do objeto produto ser a primeira das FotosProduto
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar endereço de entrega no pagseguro pra endereços sem complementos
