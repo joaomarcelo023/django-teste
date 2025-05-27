@@ -2946,8 +2946,6 @@ class PedidoProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
 def ChecaFotosProdutos(request):
     for prod in Produto.objects.all():
         path = (settings.MEDIA_ROOT + prod.image.url).replace("media/media", "media")
-        print(prod.image.name)
-        print(prod.image.url)
 
         if os.path.exists(path):
             if prod.image.url == "/media/produtos/NoImgAvailable.webp":
@@ -2981,9 +2979,16 @@ def ChecaFotosProdutos(request):
         return redirect(request.POST["path"])
     
 # Reseta o numero de fotos de todos os produtos
-def ChecaFotosProdutos(request):
+def ResetaFotosProdutos(request):
     for prod in Produto.objects.all():
         prod.num_fotos = 1
+
+        if os.path.exists(f"{settings.MEDIA_ROOT}/produtos/{prod.codigo}.webp"):
+            new_path = f"/produtos/{prod.codigo}.webp"            
+        else:
+            new_path = "/produtos/NoImgAvailable.webp"
+        prod.image.name = new_path
+
         prod.save()
 
     if request.method == 'POST':

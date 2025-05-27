@@ -68,6 +68,7 @@ urlpatterns = [
     path('atualiza_produto/', atualiza_produto, name='atualiza_produto'),
     path('atualiza_ficha_produto/', atualiza_ficha_produto, name='atualiza_ficha_produto'),
     path('ChecaFotosProdutos/', ChecaFotosProdutos, name='ChecaFotosProdutos'),
+    path('ResetaFotosProdutos/', ResetaFotosProdutos, name='ResetaFotosProdutos'),
     path('upload_imagem_extra_produtos/', upload_imagem_extra_produtos, name='upload_imagem_extra_produtos'),
     path('delete_imagem_extra_produtos/', delete_imagem_extra_produtos, name='delete_imagem_extra_produtos'),
 
