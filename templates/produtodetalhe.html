@@ -20,13 +20,27 @@
     <div class="row produtoRow pequeno">
         <div class="col-11 ml-auto mr-auto imgCol">
             <div class="imgMain">
-                <img id="mainImg" src="{{ produto.image.url }}" class="img-fluid mainImg">
+                <img src="{{ produto.image.url }}" class="img-fluid mainImg">
             </div>
             <div class="imgWrapper d-flex">
-                <button><img src="{{ produto.image.url }}" style="border-bottom: 5px solid #ff9900;"></button>
-                {% for foto in fotos_produtos %}
-                    <button><img src="{{ foto.image.url }}"></button>
-                {% endfor %}
+                <!-- <button><img src="{{ produto.image.url }}" style="border-bottom: 5px solid #ff9900;"></button> -->
+                {% if fotos_produtos %}
+                    {% if fotos_produtos|length|lt:5 %}
+                        {% for foto in fotos_produtos %}
+                            <button><img src="{{ foto.image.url }}" {% if forloop.first %}style="border-bottom: 5px solid #ff9900;"{% endif %}></button>
+                        {% endfor %}
+                    {% else %}
+                        {% for foto in fotos_produtos %}
+                            {% if forloop.counter|lt:4 %}
+                                <button><img src="{{ foto.image.url }}" {% if forloop.first %}style="border-bottom: 5px solid #ff9900;"{% endif %}></button>
+                            {% elif forloop.counter == 4 %}
+                                <button class="moreImgsButton"><span class="moreImgs">+{{ fotos_produtos|length|mn:3 }}</span></button>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% else %}
+                    <button><img src="{{ produto.image.url }}" style="border-bottom: 5px solid #ff9900;"></button>
+                {% endif %}
             </div>
         </div>
         <br>
@@ -91,14 +105,37 @@
     <div class="row produtoRow grande">
         <div class="col-5 imgCol">
             <div class="imgMain">
-                <img id="mainImg" src="{{ produto.image.url }}" class="img-fluid mainImg">
+                {% if fotos_produtos %}
+                    <button class="arrow-left-foto grande">
+                        <svg height="100%" width="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M11 9L8 12M8 12L11 15M8 12H16M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#ff9900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </button>
+                    <button class="arrow-right-foto grande">
+                        <svg height="100%" width="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M13 15L16 12M16 12L13 9M16 12H8M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#ff9900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </button>
+                {% endif %}
+                <img src="{{ produto.image.url }}" class="img-fluid mainImg">
             </div>
             <div class="imgWrapper d-flex">
-                <button><img src="{{ produto.image.url }}" style="border-bottom: 5px solid #ff9900;"></button>
-                {% for foto in fotos_produtos %}
-                    <button><img src="{{ foto.image.url }}"></button>
-                {% endfor %}
+                <!-- <button><img src="{{ produto.image.url }}" style="border-bottom: 5px solid #ff9900;"></button> -->
+                {% if fotos_produtos %}
+                    {% if fotos_produtos|length|lt:5 %}
+                        {% for foto in fotos_produtos %}
+                            <button><img src="{{ foto.image.url }}" {% if forloop.first %}style="border-bottom: 5px solid #ff9900;"{% endif %}></button>
+                        {% endfor %}
+                    {% else %}
+                        {% for foto in fotos_produtos %}
+                            {% if forloop.counter|lt:4 %}
+                                <button><img src="{{ foto.image.url }}" {% if forloop.first %}style="border-bottom: 5px solid #ff9900;"{% endif %}></button>
+                            {% elif forloop.counter == 4 %}
+                                <button class="moreImgsButton"><span class="moreImgs">+{{ fotos_produtos|length|mn:3 }}</span></button>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% else %}
+                    <button><img src="{{ produto.image.url }}" style="border-bottom: 5px solid #ff9900;"></button>
+                {% endif %}
             </div>
+
         </div>
 
         <div class="col-4 ml-auto mr-auto detalheCol">
@@ -309,6 +346,7 @@
     {% endif %}
 </section>
 <br>
+<!-- Produtos similares -->
 {% if produtos_similares|length > 0 %}
     <section class="container">
         <div class="row">
@@ -319,6 +357,7 @@
     </section>
 {% endif %}
 
+<!-- Janelas de variação de face e indicação de uso -->
 {% if produto.Categoria.slug == "ceramicas" or produto.Categoria.slug == "porcelanatos" %}
     <div class="variacaoFacesWindow" style="display: none;">
         <div class="d-flex">
@@ -358,6 +397,30 @@
                 </tr>
             {% endfor %}
         </table>
+    </div>
+{% endif %}
+
+<!-- Janela com as fotos extra -->
+{% if fotos_produtos %}
+    <div class="moreImgsWindow container" style="display: none;">
+        <div class="row">
+            <span class="col"></span>
+            <span class="col-auto moreImgsJanelaClose"><b>x</b></span>
+        </div>
+        <div class="row">
+            <div class="col-5 imgCol_moreImgs imgCol_moreImgs_main">
+                <div class="imgMain_moreImgs">
+                    <img src="{{ produto.image.url }}" class="img-fluid mainImg_moreImgs">
+                </div>
+            </div>
+            <div class="col-7 imgCol_moreImgs imgCol_moreImgs_sub">
+                <div class="imgWrapper_moreImgs">
+                    {% for foto in fotos_produtos %}
+                        <button><img src="{{ foto.image.url }}" {% if forloop.first %}style="border-bottom: 5px solid #ff9900;"{% endif %}></button>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 {% endif %}
 

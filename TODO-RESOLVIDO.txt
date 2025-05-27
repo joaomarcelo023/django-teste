@@ -252,3 +252,10 @@ TODO-ALVAREZ-RESOLVIDO: Hospedar o site em um link descente
 TODO-ALVAREZ-RESOLVIDO: Arrumar API de FotosProduto no backend
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar umami para novo url
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar produtodetalhe.html pra lidar com mais que 4 fotos
+
+TODO-ALVAREZ-RESOLVIDO: Arrumar API de FotosProduto no sistema da loja
+  TODO-ALVAREZ-RESOLVIDO: Tranformar numa APIView generica pra lidar com patch e post
+  
+  TODO-ALVAREZ-RESOLVIDO: Colocar pra foto do objeto produto ser a primeira das FotosProduto

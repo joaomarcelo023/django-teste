@@ -1,3 +1,26 @@
+// Esc sai das janelas popup
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' || event.keyCode === 27 || event.which === 27) {  // Prefer this (standard)
+        if (indicUsowindow){
+            if (indicUsowindow.style.display === "block") {
+                indicUsowindow.style.display = "none";
+            }
+        }
+
+        if (variacaoFacesWindow){
+            if (variacaoFacesWindow.style.display === "block") {
+                variacaoFacesWindow.style.display = "none";
+            }
+        }
+
+        if (moreImgsWindow){
+            if (moreImgsWindow.style.display === "block") {
+                moreImgsWindow.style.display = "none";
+            }
+        }
+    }
+});
+
 // Controle de quantidade
 const quantidadeValor = document.querySelectorAll(".quantValue");
 const quantidadeCaixas = document.querySelectorAll(".quantidade_total_caixas");
@@ -68,23 +91,121 @@ function inputUnit(quant) {
     }
 }
 
-// Mudança da imagem
+// Controle da imagem
+//// Mudança da imagem
 const imgButtons = document.querySelectorAll(".imgWrapper > button");
 const imgButtonsImgs = document.querySelectorAll(".imgWrapper > button > img");
-// const imgMain = document.getElementById("mainImg");
+const imgButtonsImgsList = [...document.querySelectorAll(".imgWrapper > button > img")];
 const imgMain = document.querySelectorAll(".mainImg");
+
+const imgButtonsImgsLim = (imgButtonsImgs.length / 2);
+const arrowLeftImgs = document.querySelector(".arrow-left-foto");
+const arrowRightImgs = document.querySelector(".arrow-right-foto");
+var currentImg = 0;
+
+arrowLeftImgs.addEventListener("click", () => {
+    currentImg = currentImg - 1;
+    if (currentImg < 0) {
+        currentImg = imgButtonsImgsLim - 1;
+    }
+
+    imgMain.forEach(im => {
+        im.src = imgButtonsImgsList[currentImg].src;
+    });
+
+    
+    imgButtonsImgs.forEach(t => {
+        t.style.borderBottom = "none";
+    });
+    imgButtonsImgsList[(imgButtonsImgsLim + currentImg)].style.borderBottom = "5px solid #ff9900";
+});
+
+arrowRightImgs.addEventListener("click", () => {
+    currentImg = currentImg + 1;
+    if (currentImg >= imgButtonsImgsLim) {
+        currentImg = 0;
+    }
+
+    imgMain.forEach(im => {
+        im.src = imgButtonsImgsList[currentImg].src;
+    });
+
+    
+    imgButtonsImgs.forEach(t => {
+        t.style.borderBottom = "none";
+    });
+    imgButtonsImgsList[(imgButtonsImgsLim + currentImg)].style.borderBottom = "5px solid #ff9900";
+});
 
 imgButtons.forEach(e => {
     e.addEventListener("click", function(event) {
-        imgMain.forEach(e => {
-            e.src = event.target.src;
-        });        
+        if (imgButtonsImgsList.includes(event.target)) {
+            imgMain.forEach(im => {
+                im.src = event.target.src;
+            });
+    
+            imgButtonsImgs.forEach(t => {
+                t.style.borderBottom = "none";
+            });
+    
+            event.target.style.borderBottom = "5px solid #ff9900";
+        }
 
-        imgButtonsImgs.forEach(t => {
-            t.style.borderBottom = "none";
-        })
+        if (imgButtonsImgsList.indexOf(event.target) >= imgButtonsImgsLim) {
+            currentImg = imgButtonsImgsList.indexOf(event.target) - imgButtonsImgsLim;
+        } else {
+            currentImg = imgButtonsImgsList.indexOf(event.target);
+        }
+        
+    });
+});
 
-        event.target.style.borderBottom = "5px solid #ff9900";
+//// Tela das imagens extra que não cabem na pagina
+const moreImgsButton = document.querySelectorAll(".imgWrapper > .moreImgsButton");
+const moreImgsWindow = document.querySelector(".moreImgsWindow");
+const moreImgsJanelaClose = document.querySelector(".moreImgsJanelaClose");
+
+if (moreImgsButton) {
+    moreImgsButton.forEach(mib => {
+        mib.addEventListener("click", () => {
+            if (moreImgsWindow.style.display === "none") {
+                moreImgsWindow.style.display = "block";
+            }
+            else {
+                moreImgsWindow.style.display = "none";
+            }
+        });
+    });
+
+    moreImgsJanelaClose.addEventListener("click", () => {
+        if (moreImgsWindow.style.display === "none") {
+            moreImgsWindow.style.display = "block";
+        }
+        else {
+            moreImgsWindow.style.display = "none";
+        }
+    });
+}
+
+const imgButtons_moreImgs = document.querySelectorAll(".imgWrapper_moreImgs > button");
+const imgButtonsImgs_moreImgs = document.querySelectorAll(".imgWrapper_moreImgs > button > img");
+const imgButtonsImgsList_moreImgs = [...document.querySelectorAll(".imgWrapper_moreImgs > button > img")];
+const imgMain_moreImgs = document.querySelectorAll(".mainImg_moreImgs");
+
+imgButtons_moreImgs.forEach(e => {
+    e.addEventListener("click", function(event) {
+        if (imgButtonsImgsList_moreImgs.includes(event.target)) {
+            imgMain_moreImgs.forEach(im => {
+                im.src = event.target.src;
+            });
+    
+            imgButtonsImgs_moreImgs.forEach(t => {
+                t.style.borderBottom = "none";
+            });
+    
+            event.target.style.borderBottom = "5px solid #ff9900";
+        }
+        
     });
 });
 
@@ -96,62 +217,84 @@ const variacaoFacesButton = document.querySelector(".variacaoFacesButton");
 const variacaoFacesWindow = document.querySelector(".variacaoFacesWindow");
 const variacaoFacesJanelaClose = document.querySelector(".variacaoFacesJanelaClose");
 
-indicUsoButton.addEventListener("click", () => {
-    if (indicUsowindow.style.display === "none") {
-        indicUsowindow.style.display = "block";
-    }
-    else {
-        indicUsowindow.style.display = "none";
-    }
+if (indicUsoButton) {
+    indicUsoButton.addEventListener("click", () => {
+        if (indicUsowindow.style.display === "none") {
+            indicUsowindow.style.display = "block";
+        }
+        else {
+            indicUsowindow.style.display = "none";
+        }
 
-    if (variacaoFacesWindow.style.display === "block") {
-        variacaoFacesWindow.style.display = "none";
-    }
-});
+        if (variacaoFacesWindow.style.display === "block") {
+            variacaoFacesWindow.style.display = "none";
+        }
+    });
 
-indicUsoJanelaClose.addEventListener("click", () => {
-    if (indicUsowindow.style.display === "none") {
-        indicUsowindow.style.display = "block";
-    }
-    else {
-        indicUsowindow.style.display = "none";
-    }
-});
+    indicUsoJanelaClose.addEventListener("click", () => {
+        if (indicUsowindow.style.display === "none") {
+            indicUsowindow.style.display = "block";
+        }
+        else {
+            indicUsowindow.style.display = "none";
+        }
+    });
+}
 
-variacaoFacesButton.addEventListener("click", () => {
-    if (variacaoFacesWindow.style.display === "none") {
-        variacaoFacesWindow.style.display = "block";
-    }
-    else {
-        variacaoFacesWindow.style.display = "none";
-    }
+if (variacaoFacesButton) {
+    variacaoFacesButton.addEventListener("click", () => {
+        if (variacaoFacesWindow.style.display === "none") {
+            variacaoFacesWindow.style.display = "block";
+        }
+        else {
+            variacaoFacesWindow.style.display = "none";
+        }
 
-    if (indicUsowindow.style.display === "block") {
-        indicUsowindow.style.display = "none";
-    }
-});
+        if (indicUsowindow.style.display === "block") {
+            indicUsowindow.style.display = "none";
+        }
+    });
 
-variacaoFacesJanelaClose.addEventListener("click", () => {
-    if (variacaoFacesWindow.style.display === "none") {
-        variacaoFacesWindow.style.display = "block";
-    }
-    else {
-        variacaoFacesWindow.style.display = "none";
-    }
-});
+    variacaoFacesJanelaClose.addEventListener("click", () => {
+        if (variacaoFacesWindow.style.display === "none") {
+            variacaoFacesWindow.style.display = "block";
+        }
+        else {
+            variacaoFacesWindow.style.display = "none";
+        }
+    });
+}
 
-// Tamanho do produto_pequenos
+// Tamanho do produto_pequenos e moreImgsWindow
 const mobile = document.querySelector(".pequeno");
 const divPreco = document.querySelectorAll(".divPreco");
+const imgCol_moreImgs_main = document.querySelector(".imgCol_moreImgs_main");
+const imgCol_moreImgs_sub = document.querySelector(".imgCol_moreImgs_sub");
 
 if (window.getComputedStyle(mobile).display === "none") {
+    // produto_pequenos
     divPreco.forEach(div => {
         div.classList.remove("col-8");
         div.classList.add("col-9");
     });
+
+    // moreImgsWindow
+    imgCol_moreImgs_main.classList.remove("col-12");
+    imgCol_moreImgs_main.classList.add("col-5");
+
+    imgCol_moreImgs_sub.classList.remove("col-12");
+    imgCol_moreImgs_sub.classList.add("col-7");
 } else {
+    // produto_pequenos
     divPreco.forEach(div => {
         div.classList.add("col-8");
         div.classList.remove("col-9");
     });
+
+    // moreImgsWindow
+    imgCol_moreImgs_main.classList.remove("col-5");
+    imgCol_moreImgs_main.classList.add("col-12");
+
+    imgCol_moreImgs_sub.classList.remove("col-7");
+    imgCol_moreImgs_sub.classList.add("col-12");
 }

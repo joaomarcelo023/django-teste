@@ -578,7 +578,7 @@ prodFiles = {
 # postProduto(prodData, None)
 
 prodData = {
-    "codigo": "142925",
+    "codigo": "143830",
 }
 
 postFotoExtra(prodData, prodFiles)

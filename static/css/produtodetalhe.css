@@ -12,11 +12,26 @@ body {
         
         left: 33vw;
     }
+
     .variacaoFacesWindow {
         top: 97.5vh;
     }
+
     .indicUsoWindow {
         top: 117.5vh;
+    }
+
+    .moreImgsWindow {
+        left: 20vw;
+        top: 21vh;
+    }
+
+    .imgCol_moreImgs_main {
+        height: 500px;
+    }
+
+    .imgCol_moreImgs_sub {
+        height: 500px;
     }
 
     .fichaTec td {
@@ -24,17 +39,56 @@ body {
     }
     
 }
+
 @media (max-width: 750px) {
-    .variacaoFacesWindow, .indicUsoWindow {
+    .variacaoFacesWindow, .indicUsoWindow, .moreImgsWindow {
         width: 85vw;
         
         left: 7.5vw;
     }
+
     .variacaoFacesWindow {
         top: 162vh;
     }
+
     .indicUsoWindow {
         top: 215vh;
+    }
+
+    .moreImgsWindow {
+        top: 21vh;
+    }
+
+    .imgMain_moreImgs {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .imgCol_moreImgs {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .imgCol_moreImgs_sub {
+        display: flex;
+        justify-content: center;
+    }
+
+    .imgWrapper_moreImgs {
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: 1px;
+        justify-content: center;
+    }
+
+    .imgCol_moreImgs_main {
+        height: 500px;
+    }
+
+    .imgCol_moreImgs_sub {
+        height: 360px;
     }
 
     .fichaTec td {
@@ -61,13 +115,13 @@ hr {
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 .imgCol {
-    padding: 0px;
+    padding: 0;
     height: 500px;
 }
 
 .imgMain {
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     margin-bottom: 5px;
 
     width: 100%;
@@ -75,8 +129,8 @@ hr {
 }
 
 .imgMain img {
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     width: 100%;
     height: 100%;
     
@@ -84,8 +138,8 @@ hr {
 }
 
 .imgWrapper {
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     width: 100%;
     height: 20%;
 
@@ -100,7 +154,7 @@ hr {
     margin-left: 1%;
     margin-right: 1%;
 
-    padding: 0px;
+    padding: 0;
 
     border: none;
 }
@@ -109,7 +163,100 @@ hr {
     height: 100%;
     width: 100%;
 
-    margin: 0px;
+    margin: 0;
+}
+
+.imgWrapper .moreImgs{
+    font-size: x-large;
+    font-weight: 650;
+}
+
+.arrow-left-foto, .arrow-right-foto{
+    position: absolute;
+    top: 0;
+    left: 20px;
+    right: auto;
+    bottom:0;
+    width: 70px;
+    height: 80%;
+    text-align: center;
+    border: none;
+    opacity: 0.5;
+    transition: all 300ms ease-in-out;
+    background: transparent;
+    z-index: 1;
+}
+
+.arrow-left-foto{
+    left: .5%;
+}
+
+.arrow-right-foto{
+    left: auto;
+    right: .5%;
+}
+
+.arrow-left-foto:hover {
+    opacity: 1;
+    width: 80px;
+}
+.arrow-right-foto:hover {
+    opacity: 1;
+    width: 80px;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+.imgCol_moreImgs {
+    padding: 0;
+    /* height: 500px; */
+}
+
+.imgMain_moreImgs {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 5px;
+
+    width: 100%;
+    height: 80%;
+}
+
+.imgMain_moreImgs img {
+    padding: 0;
+    margin: 0;
+    width: 98%;
+    height: 98%;
+    
+    object-fit: contain;
+}
+
+.imgWrapper_moreImgs {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+
+    padding-top: 5px;
+}
+
+.imgWrapper_moreImgs button {
+    height: 20%;
+    width: 22%;
+
+    margin: 2%;
+    margin-left: 1%;
+    margin-right: 1%;
+
+    padding: 0;
+
+    border: none;
+}
+
+.imgWrapper_moreImgs img {
+    height: 100%;
+    width: 100%;
+
+    margin: 0;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
@@ -156,8 +303,8 @@ hr {
 
 .disponibilidadeCompra {
     font-weight: 240;
-    /* padding: 0px;
-    margin: 0px; */
+    /* padding: 0;
+    margin: 0; */
 }
 
 .compraCol hr {
@@ -166,20 +313,20 @@ hr {
 }
 
 .precoFull {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .preco {
     font-weight: 700;
     font-size: x-large;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .preco_dinheiro {
     font-weight: 500;
     font-size: small;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .unidade {
@@ -188,7 +335,7 @@ hr {
 }
 
 .condPreco {
-    margin-top: 0px;
+    margin-top: 0;
     font-weight: 400;
     font-size: medium;
 }
@@ -287,7 +434,7 @@ hr {
     cursor: pointer;
 }
 
-.variacaoFacesWindow, .indicUsoWindow {
+.variacaoFacesWindow, .indicUsoWindow, .moreImgsWindow {
     position: absolute;
 
     background-color: white;
@@ -295,13 +442,15 @@ hr {
     border-radius: 21px;
 
     padding: 12px;
+
+    z-index: 2;
 }
 
 .variacaoFacesWindow h4, .indicUsoWindow h4 {
     width: 98%;
 }
 
-.indicUsoJanelaClose, .variacaoFacesJanelaClose {
+.indicUsoJanelaClose, .variacaoFacesJanelaClose, .moreImgsJanelaClose {
     width: 2%;
     height: 16%;
 

@@ -41,6 +41,10 @@ def prod(value, arg):
     return round((float(value) * float(arg)), 2)
 
 @register.filter
+def mn(value, arg):
+    return (value - arg)
+
+@register.filter
 def orGet(value, arg):
     if value:
         return value
