@@ -10,9 +10,9 @@ class FotosProdutoAdmin(admin.ModelAdmin):
     def delete_queryset(self, request, queryset):
         related_produtos = (
             queryset
-            .values('produto_id', 'id')  # Group by the ForeignKey
-            .annotate(total=Count('id'))  # Count FPs per F
-            .filter(total__gt=0)  # Safety check
+            .values('produto_id', 'id')
+            .annotate(total=Count('id'))
+            .filter(total__gt=0)
         )
         
         for entry in related_produtos:
