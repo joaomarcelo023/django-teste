@@ -139,6 +139,7 @@ class CrazyAlvaPaymentCheckMixin(object):
             try:
                 if ta_pago(pedido_aleatorio):
                     pedido_aleatorio.pedido_status = "Pagamento Confirmado"
+                    pedido_aleatorio.save()
             except:
                 print(f"Pedido {pedido_aleatorio.id}: Pagamento pendente")
 
