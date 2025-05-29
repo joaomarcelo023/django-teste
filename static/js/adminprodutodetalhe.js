@@ -1,27 +1,143 @@
+// Controle da imagem
+//// Mudança da imagem
 const imgButtons = document.querySelectorAll(".imgWrapper > .imgButton");
 const imgButtonsImgs = document.querySelectorAll(".imgWrapper > .imgButton > img");
+const imgButtonsImgsList = [...document.querySelectorAll(".imgWrapper > button > img")];
 const imgMain = document.querySelectorAll(".mainImg");
 
-imgButtons.forEach(e => {
-    e.addEventListener("click", function(event) {
-        imgMain.forEach(e => {
-            e.src = event.target.src;
-        });        
+const imgButtonsImgsLim = imgButtonsImgs.length;
+const arrowLeftImgs = document.querySelector(".arrow-left-foto");
+const arrowRightImgs = document.querySelector(".arrow-right-foto");
+var currentImg = 0;
 
+////// Muda a imagem com as setas
+if (arrowLeftImgs) {
+    arrowLeftImgs.addEventListener("click", () => {
+        currentImg = currentImg - 1;
+        if (currentImg < 0) {
+            currentImg = imgButtonsImgsLim - 1;
+        }
+    
+        imgMain.forEach(im => {
+            im.src = imgButtonsImgsList[currentImg].src;
+        });
+        
         imgButtonsImgs.forEach(t => {
             t.style.borderBottom = "none";
-        })
+        });
+        
+        imgButtonsImgsList[currentImg].style.borderBottom = "5px solid #ff9900";
+    });
+}
 
-        event.target.style.borderBottom = "5px solid #ff9900";
+if (arrowRightImgs) {
+    arrowRightImgs.addEventListener("click", () => {
+        currentImg = currentImg + 1;
+        if (currentImg >= imgButtonsImgsLim) {
+            currentImg = 0;
+        }
+
+        imgMain.forEach(im => {
+            im.src = imgButtonsImgsList[currentImg].src;
+        });
+        
+        imgButtonsImgs.forEach(t => {
+            t.style.borderBottom = "none";
+        });
+
+        imgButtonsImgsList[currentImg].style.borderBottom = "5px solid #ff9900";
+    });
+}
+
+////// Muda imagem com clique
+imgButtons.forEach(e => {
+    e.addEventListener("click", function(event) {
+        if (imgButtonsImgsList.includes(event.target)) {
+            imgMain.forEach(im => {
+                im.src = event.target.src;
+            });
+    
+            imgButtonsImgs.forEach(t => {
+                t.style.borderBottom = "none";
+            });
+    
+            event.target.style.borderBottom = "5px solid #ff9900";
+        }
+
+        currentImg = imgButtonsImgsList.indexOf(event.target);
+        
     });
 });
 
+//// Adiciona foto
 const botao = document.getElementById('fotoExtraProdutoInputButton')
 if (botao) {
     botao.addEventListener('click', function () {
         document.getElementById('fotoExtraProdutoInputFile').click();
     });
 }
+
+//// Tela das imagens extra que não cabem na pagina
+const moreImgsButton = document.querySelectorAll(".imgWrapper > .moreImgsButton");
+const moreImgsWindow = document.querySelector(".moreImgsWindow");
+const moreImgsJanelaClose = document.querySelector(".moreImgsJanelaClose");
+
+if (moreImgsButton) {
+    moreImgsButton.forEach(mib => {
+        mib.addEventListener("click", () => {
+            if (moreImgsWindow.style.display === "none") {
+                moreImgsWindow.style.display = "block";
+            }
+            else {
+                moreImgsWindow.style.display = "none";
+            }
+        });
+    });
+
+    if (moreImgsJanelaClose) {
+        moreImgsJanelaClose.addEventListener("click", () => {
+            if (moreImgsWindow.style.display === "none") {
+                moreImgsWindow.style.display = "block";
+            }
+            else {
+                moreImgsWindow.style.display = "none";
+            }
+        });
+    }
+}
+
+const imgButtons_moreImgs = document.querySelectorAll(".imgWrapper_moreImgs > button");
+const imgButtonsImgs_moreImgs = document.querySelectorAll(".imgWrapper_moreImgs > button > img");
+const imgButtonsImgsList_moreImgs = [...document.querySelectorAll(".imgWrapper_moreImgs > button > img")];
+const imgMain_moreImgs = document.querySelectorAll(".mainImg_moreImgs");
+
+imgButtons_moreImgs.forEach(e => {
+    e.addEventListener("click", function(event) {
+        if (imgButtonsImgsList_moreImgs.includes(event.target)) {
+            imgMain_moreImgs.forEach(im => {
+                im.src = event.target.src;
+            });
+    
+            imgButtonsImgs_moreImgs.forEach(t => {
+                t.style.borderBottom = "none";
+            });
+    
+            event.target.style.borderBottom = "5px solid #ff9900";
+        }
+        
+    });
+});
+
+//// Esc sai das janelas popup
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' || event.keyCode === 27 || event.which === 27) {
+        if (moreImgsWindow){
+            if (moreImgsWindow.style.display === "block") {
+                moreImgsWindow.style.display = "none";
+            }
+        }
+    }
+});
 
 // Graficos
 const codProd = document.getElementById("codigo_produto").getAttribute("data-codigo");
@@ -60,7 +176,7 @@ for (let n = 0; n < mesesVisuli.length; n++) {
 //     yVisuli.push(grafico_visuli_data[n]?.[codProd] || 0);
 // }
 
-// Vendas
+//// Vendas
 var vendas = {
     x: Object.keys(grafico_vendas_data),
     y: yVendas,
@@ -78,7 +194,7 @@ var layout_vendas = {
 
 Plotly.newPlot(GraficoVendas, data_vendas, layout_vendas, {scrollZoom: true, modeBarButtonsToRemove: ['lasso2d'], displaylogo: false});
 
-// Visualização
+//// Visualização
 var visuli = {
     x: Object.keys(grafico_visuli_data),
     y: yVisuli,

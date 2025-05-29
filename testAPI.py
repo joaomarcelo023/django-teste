@@ -570,7 +570,7 @@ def manda_grupo_imagem(self):
 # }
 
 prodFiles = {
-    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Lucario.jpg", "rb"),
+    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Weezing.jpg", "rb"),
 }
 
 # postProduto(prodData, prodFiles)

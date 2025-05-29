@@ -2098,6 +2098,14 @@ class AdminProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
 
         context['estoque_total'] = sum(produto.estoque_lojas.values())
 
+        pathCodigo = f"{settings.MEDIA_ROOT}/produtos/{produto.codigo}.webp"
+        # TODO: Mudar pro nome do site
+        if os.path.exists(pathCodigo):
+            pathCodigo = f"http://127.0.0.1:8000/media/produtos/{produto.codigo}.webp"
+        else:
+            pathCodigo = f"http://127.0.0.1:8000/media/produtos/NoImgAvailable.webp"
+        context['foto_produto_codigo'] = pathCodigo
+
         context['fotos_produtos'] = produto.images.all()
 
         context['categorias'] = Categoria.objects.all()
