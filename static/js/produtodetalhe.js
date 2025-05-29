@@ -103,39 +103,43 @@ const arrowLeftImgs = document.querySelector(".arrow-left-foto");
 const arrowRightImgs = document.querySelector(".arrow-right-foto");
 var currentImg = 0;
 
-arrowLeftImgs.addEventListener("click", () => {
-    currentImg = currentImg - 1;
-    if (currentImg < 0) {
-        currentImg = imgButtonsImgsLim - 1;
-    }
+if (arrowLeftImgs) {
+    arrowLeftImgs.addEventListener("click", () => {
+        currentImg = currentImg - 1;
+        if (currentImg < 0) {
+            currentImg = imgButtonsImgsLim - 1;
+        }
 
-    imgMain.forEach(im => {
-        im.src = imgButtonsImgsList[currentImg].src;
+        imgMain.forEach(im => {
+            im.src = imgButtonsImgsList[currentImg].src;
+        });
+
+        
+        imgButtonsImgs.forEach(t => {
+            t.style.borderBottom = "none";
+        });
+        imgButtonsImgsList[(imgButtonsImgsLim + currentImg)].style.borderBottom = "5px solid #ff9900";
     });
+}
 
-    
-    imgButtonsImgs.forEach(t => {
-        t.style.borderBottom = "none";
+if (arrowRightImgs){
+    arrowRightImgs.addEventListener("click", () => {
+        currentImg = currentImg + 1;
+        if (currentImg >= imgButtonsImgsLim) {
+            currentImg = 0;
+        }
+
+        imgMain.forEach(im => {
+            im.src = imgButtonsImgsList[currentImg].src;
+        });
+
+        
+        imgButtonsImgs.forEach(t => {
+            t.style.borderBottom = "none";
+        });
+        imgButtonsImgsList[(imgButtonsImgsLim + currentImg)].style.borderBottom = "5px solid #ff9900";
     });
-    imgButtonsImgsList[(imgButtonsImgsLim + currentImg)].style.borderBottom = "5px solid #ff9900";
-});
-
-arrowRightImgs.addEventListener("click", () => {
-    currentImg = currentImg + 1;
-    if (currentImg >= imgButtonsImgsLim) {
-        currentImg = 0;
-    }
-
-    imgMain.forEach(im => {
-        im.src = imgButtonsImgsList[currentImg].src;
-    });
-
-    
-    imgButtonsImgs.forEach(t => {
-        t.style.borderBottom = "none";
-    });
-    imgButtonsImgsList[(imgButtonsImgsLim + currentImg)].style.borderBottom = "5px solid #ff9900";
-});
+}
 
 imgButtons.forEach(e => {
     e.addEventListener("click", function(event) {
@@ -177,14 +181,16 @@ if (moreImgsButton) {
         });
     });
 
-    moreImgsJanelaClose.addEventListener("click", () => {
-        if (moreImgsWindow.style.display === "none") {
-            moreImgsWindow.style.display = "block";
-        }
-        else {
-            moreImgsWindow.style.display = "none";
-        }
-    });
+    if (moreImgsJanelaClose) {
+        moreImgsJanelaClose.addEventListener("click", () => {
+            if (moreImgsWindow.style.display === "none") {
+                moreImgsWindow.style.display = "block";
+            }
+            else {
+                moreImgsWindow.style.display = "none";
+            }
+        });
+    }
 }
 
 const imgButtons_moreImgs = document.querySelectorAll(".imgWrapper_moreImgs > button");
