@@ -906,7 +906,7 @@ def create_payment(request):
 
     headers = {
         "accept": "*/*",
-        "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN_SANDBOX,
+        "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN,
         "Content-type": "application/json"
     }
     
@@ -2279,7 +2279,7 @@ def consultar_checkout_pag(request):
 
             headers = {
                 "accept": "*/*",
-                "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN_SANDBOX,
+                "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN,
             }
 
             consulta_response = requests.get(url, headers=headers)
@@ -2328,7 +2328,7 @@ def cancelar_checkout_pag(request):
 
         headers = {
             "accept": "*/*",
-            "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN_SANDBOX,
+            "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN,
             "Content-type": "application/json"
         }
 
@@ -3067,7 +3067,7 @@ def ta_pago(_pedido):
 
     headers = {
         "accept": "*/*",
-        "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN_SANDBOX,
+        "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN,
     }
 
     consulta_response = requests.get(url, headers=headers)
