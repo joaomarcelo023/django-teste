@@ -876,8 +876,8 @@ def create_payment(request):
         # ],
         "redirect_url": f"https://www.loja-casahg.com.br/pedido-cofirmado/?id={pedido.id}", # f"http://127.0.0.1:8000/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
         # f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}&status=Pagamento_Confirmado"
-        # "notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"],
-        # "payment_notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"]
+        # "notification_urls": ["https://www.loja-casahg.com.br/test_atualizacao_pag/"],
+        # "payment_notification_urls": ["https://www.loja-casahg.com.br/test_atualizacao_pag/"]
     }
 
     # if pedido.frete:
@@ -3161,8 +3161,8 @@ def EmailClienteRegistrado(_cliente):
                         "emails/emailClienteRegistrado.html",
                         context={
                             "cliente": _cliente,
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
-                            "linkVerif": f"https://vendashg.pythonanywhere.com{reverse('lojaapp:verifica_user', kwargs={'uidb64': uid, 'token': token})}",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "linkVerif": f"https://www.loja-casahg.com.br{reverse('lojaapp:verifica_user', kwargs={'uidb64': uid, 'token': token})}",
                         },
                     )
 
@@ -3182,8 +3182,8 @@ def EmailVerificaCliente(_cliente):
                         "emails/emailVerificaCLiente.html",
                         context={
                             "cliente": _cliente,
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
-                            "linkVerif": f"https://vendashg.pythonanywhere.com{reverse('lojaapp:verifica_user', kwargs={'uidb64': uid, 'token': token})}",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "linkVerif": f"https://www.loja-casahg.com.br{reverse('lojaapp:verifica_user', kwargs={'uidb64': uid, 'token': token})}",
                         },
                     )
 
@@ -3201,11 +3201,11 @@ def EmailPedidoRealizado(_pedido):
                         "emails/emailPedidoRealizado.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Recebido.png",
+                            "urlDetalhePedido": f"https://www.loja-casahg.com.br/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://www.loja-casahg.com.br/media/progressoPedido/Pedido_Recebido.png",
                             # TODO: Verificar esse link da imagem
-                            # https://vendashg.pythonanywhere.com/media/empresas/hg-teste_jXgRLs3.png
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            # https://www.loja-casahg.com.br/media/empresas/hg-teste_jXgRLs3.png
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -3222,9 +3222,9 @@ def EmailPedidoPagamentoConfirmado(_pedido):
                         "emails/emailPedidoPagamentoConfirmado.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pagamento_Confirmado.png",
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "urlDetalhePedido": f"https://www.loja-casahg.com.br/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://www.loja-casahg.com.br/media/progressoPedido/Pagamento_Confirmado.png",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -3241,9 +3241,9 @@ def EmailPedidoEnviado(_pedido):
                         "emails/emailPedidoEnviado.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Caminho.png",
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "urlDetalhePedido": f"https://www.loja-casahg.com.br/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://www.loja-casahg.com.br/media/progressoPedido/Pedido_Caminho.png",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -3260,9 +3260,9 @@ def EmailPedidoProntoRetirada(_pedido):
                         "emails/emailPedidoProntoRetirada.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Caminho.png",
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "urlDetalhePedido": f"https://www.loja-casahg.com.br/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://www.loja-casahg.com.br/media/progressoPedido/Pedido_Caminho.png",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -3279,9 +3279,9 @@ def EmailPedidoCancelado(_pedido):
                         "emails/emailPedidoCancelado.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Cancelado.png",
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "urlDetalhePedido": f"https://www.loja-casahg.com.br/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://www.loja-casahg.com.br/media/progressoPedido/Pedido_Cancelado.png",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -3298,9 +3298,9 @@ def EmailPedidoCompleto(_pedido):
                         "emails/emailPedidoCompleto.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Completado.png",
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "urlDetalhePedido": f"https://www.loja-casahg.com.br/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://www.loja-casahg.com.br/media/progressoPedido/Pedido_Completado.png",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -3318,7 +3318,7 @@ def testEmail(_emailCliente, _cliente, _pedido):
     #                     "emails/emailClienteRegistrado.html",
     #                     context={
     #                         "cliente": _cliente,
-    #                         "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+    #                         "logo": "https://www.loja-casahg.com.br" + Empresa.objects.get(titulo="Casa HG").image.url,
     #                     },
     #                 )
     
@@ -3328,9 +3328,9 @@ def testEmail(_emailCliente, _cliente, _pedido):
                         "emails/emailPedidoPagamentoConfirmado.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pagamento_Confirmado.png",
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "urlDetalhePedido": f"https://www.loja-casahg.com.br/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://www.loja-casahg.com.br/media/progressoPedido/Pagamento_Confirmado.png",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
