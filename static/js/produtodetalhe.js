@@ -178,6 +178,14 @@ if (moreImgsButton) {
             else {
                 moreImgsWindow.style.display = "none";
             }
+
+            if (indicUsowindow.style.display === "block") {
+                indicUsowindow.style.display = "none";
+            }
+
+            if (variacaoFacesWindow.style.display === "block") {
+                variacaoFacesWindow.style.display = "none";
+            }
         });
     });
 
@@ -235,6 +243,10 @@ if (indicUsoButton) {
         if (variacaoFacesWindow.style.display === "block") {
             variacaoFacesWindow.style.display = "none";
         }
+
+        if (moreImgsWindow.style.display === "block") {
+            moreImgsWindow.style.display = "none";
+        }
     });
 
     indicUsoJanelaClose.addEventListener("click", () => {
@@ -258,6 +270,10 @@ if (variacaoFacesButton) {
 
         if (indicUsowindow.style.display === "block") {
             indicUsowindow.style.display = "none";
+        }
+
+        if (moreImgsWindow.style.display === "block") {
+            moreImgsWindow.style.display = "none";
         }
     });
 
