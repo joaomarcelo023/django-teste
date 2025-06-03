@@ -804,7 +804,7 @@ def create_payment(request):
     cpf_cnpj_numeros = pedido.cpf_cnpj.replace(".", "").replace("-", "")
     cep_numeros = pedido.endereco_envio.cep.replace("-", "")
 
-    url = "https://sandbox.api.pagseguro.com/checkouts" # TODO: Mudar
+    url = "https://api.pagseguro.com/checkouts"
     
     payload = {
         "customer": {
@@ -2275,7 +2275,7 @@ def consultar_checkout_pag(request):
         if request.POST["checkout_id"]:
             pedido = PedidoOrder.objects.get(id=request.POST["pedido_id"])
 
-            url = "https://sandbox.api.pagseguro.com/checkouts/" + request.POST["checkout_id"] + "?offset=0&limit=10"
+            url = "https://api.pagseguro.com/checkouts/" + request.POST["checkout_id"] + "?offset=0&limit=10"
 
             headers = {
                 "accept": "*/*",
@@ -2321,7 +2321,7 @@ def cancelar_checkout_pag(request):
     if request.method == 'POST':
         # print(request.POST)
         # pedido = PedidoOrder.objects.get(id=request.POST["pedido_id"])
-        url = "https://internal.sandbox.api.pagseguro.com/charges/" + request.POST["id_cancel"] + "/cancel"
+        url = "https://internal.api.pagseguro.com/charges/" + request.POST["id_cancel"] + "/cancel"
         # internal.
 
         payload = { "amount": { "value": request.POST["valor_pago"] } }
@@ -3063,7 +3063,7 @@ def delete_imagem_extra_produtos(request):
 
 # Verifica que o pedido online ta pago
 def ta_pago(_pedido):
-    url = "https://sandbox.api.pagseguro.com/checkouts/" + _pedido.id_PagBank + "?offset=0&limit=10"
+    url = "https://api.pagseguro.com/checkouts/" + _pedido.id_PagBank + "?offset=0&limit=10"
 
     headers = {
         "accept": "*/*",
