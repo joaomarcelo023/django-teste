@@ -804,7 +804,7 @@ def create_payment(request):
     cpf_cnpj_numeros = pedido.cpf_cnpj.replace(".", "").replace("-", "")
     cep_numeros = pedido.endereco_envio.cep.replace("-", "")
 
-    url = "https://api.pagseguro.com/checkouts" # TODO: Mudar
+    url = "https://sandbox.api.pagseguro.com/checkouts" # TODO: Mudar
     
     payload = {
         "customer": {
@@ -900,7 +900,7 @@ def create_payment(request):
                 "description": prod.produto.descricao,
                 "quantity": prod.quantidade,
                 "unit_amount": int((prod.subtotal / prod.quantidade) * 100),
-                "image_url": "https://vendashg.pythonanywhere.com" + prod.produto.image.url
+                "image_url": "https://www.loja-casahg.com.br" + prod.produto.image.url
             }
         )
 
@@ -2275,7 +2275,7 @@ def consultar_checkout_pag(request):
         if request.POST["checkout_id"]:
             pedido = PedidoOrder.objects.get(id=request.POST["pedido_id"])
 
-            url = "https://api.pagseguro.com/checkouts/" + request.POST["checkout_id"] + "?offset=0&limit=10"
+            url = "https://sandbox.api.pagseguro.com/checkouts/" + request.POST["checkout_id"] + "?offset=0&limit=10"
 
             headers = {
                 "accept": "*/*",
@@ -3037,7 +3037,7 @@ def upload_imagem_extra_produtos(request):
 
             # Update the model with the new WebP image
             fotoProduto.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
-            produto.num_fotos -= 1
+            # produto.num_fotos -= 1
             fotoProduto.save()
 
             return redirect(request.POST["path"])
@@ -3063,7 +3063,7 @@ def delete_imagem_extra_produtos(request):
 
 # Verifica que o pedido online ta pago
 def ta_pago(_pedido):
-    url = "https://api.pagseguro.com/checkouts/" + _pedido.id_PagBank + "?offset=0&limit=10"
+    url = "https://sandbox.api.pagseguro.com/checkouts/" + _pedido.id_PagBank + "?offset=0&limit=10"
 
     headers = {
         "accept": "*/*",

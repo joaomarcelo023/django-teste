@@ -204,6 +204,12 @@ class FotosProduto(models.Model):
 
         self.image.delete(save=False)
 
+        for fp in FotosProduto.objects.filter(produto=self.produto):
+            if fp.img_num > self.img_num:
+                fp.img_num -= 1
+
+                fp.save()
+
         super(FotosProduto, self).delete(*args, **kwargs)
 
     def __str__(self):
