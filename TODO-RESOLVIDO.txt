@@ -268,3 +268,5 @@ TODO-ALVAREZ-RESOLVIDO: Melhorar layout das fotos extras em produto detalhe no m
   TODO-ALVAREZ-RESOLVIDO: Diminuir um pouco a foto principal na janela de fotos extra
 
   TODO-ALVAREZ-RESOLVIDO: Mudar o X
+
+TODO-ALVAREZ-RESOLVIDO: Conectar o pagseguro com o pagseguro real
