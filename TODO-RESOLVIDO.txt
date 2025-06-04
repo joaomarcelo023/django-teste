@@ -270,3 +270,5 @@ TODO-ALVAREZ-RESOLVIDO: Melhorar layout das fotos extras em produto detalhe no m
   TODO-ALVAREZ-RESOLVIDO: Mudar o X
 
 TODO-ALVAREZ-RESOLVIDO: Conectar o pagseguro com o pagseguro real
+
+TODO-ALVAREZ-(acho que)RESOLVIDO: Arrumar pagamento pra se a pessoa voltar à janela de pagamento depois de um pagamente que deu errado, o desconto resete
