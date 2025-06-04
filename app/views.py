@@ -636,6 +636,16 @@ class CheckOutView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, Pedido
 
         pedido = PedidoOrder.objects.get(carro=carro_obj)
         context["pedido"] = pedido
+
+        # Reseta o carro produto e pedido produto pro caso do usuario não finalizar a compra online
+        if pedido.local_de_pagamento == "online":
+            for prod in CarroProduto.objects.filter(carro=carro_obj):
+                prod.subtotal = prod.subtotal_bruto
+                prod.save()
+
+            if pedido.pedido_status == "Pagamento Processando":
+                for pedProd in PedidoProduto.objects.filter(pedido=pedido):
+                    pedProd.delete()
     
         # descontos formas de pagamento
         desc_dinheiro = 0
@@ -900,9 +910,11 @@ def create_payment(request):
                 "description": prod.produto.descricao,
                 "quantity": prod.quantidade,
                 "unit_amount": int((prod.subtotal / prod.quantidade) * 100),
-                "image_url": "https://www.loja-casahg.com.br" + prod.produto.image.url
+                "image_url": f"https://www.loja-casahg.com.br{prod.produto.image.url}"
             }
         )
+
+        print(f"https://www.loja-casahg.com.br{prod.produto.image.url}")
 
     headers = {
         "accept": "*/*",
@@ -2308,7 +2320,8 @@ def consultar_checkout_pag(request):
                         # TODO: Melhorar essa tela de erro pra versão final
                         return HttpResponse(f"Error: {order_response.status_code} - {order_response.text}")
                 except:
-                    messages.success(request, 'Pagamento não finalizado')
+                    # messages.success(request, 'Pagamento não finalizado')
+                    messages.success(request, f"Error: {order_response.status_code} - {order_response.text}")
                     print((f"Error: {order_response.status_code} - {order_response.text}"))
                     return render(request, "admin_paginas/adminpedidodetalhe.html", {"pedido_obj":pedido,"PEDIDO_STATUS":PEDIDO_STATUS})
             else:
