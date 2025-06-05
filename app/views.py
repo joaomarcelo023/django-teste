@@ -814,7 +814,7 @@ def create_payment(request):
     cpf_cnpj_numeros = pedido.cpf_cnpj.replace(".", "").replace("-", "")
     cep_numeros = pedido.endereco_envio.cep.replace("-", "")
 
-    url = "https://sandbox.api.pagseguro.com/checkouts"
+    url = "https://api.pagseguro.com/checkouts"
     
     payload = {
         "customer": {
@@ -918,8 +918,7 @@ def create_payment(request):
 
     headers = {
         "accept": "*/*",
-        # "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN,
-        "Authorization": "Bearer 5acfb0fe-4fde-4362-a1ba-3df091ee5c8e78087e274343be15e2d976f74bf08ad8740d-1860-48bb-8668-875c09dae1c6",
+        "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN,
         "Content-type": "application/json"
     }
     
