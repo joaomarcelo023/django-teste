@@ -11,6 +11,7 @@
 import os
 import requests
 import json
+import base64
 from django_teste import settings
 import pandas as pd
 import unicodedata
@@ -117,23 +118,33 @@ def postPedidoOrder(_message): # Não ta funfando ainda
         print("Erro ao cadastrar produto:", response.status_code)
 
 def getPedidoOrder():
-    API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_pedido_order/"
-    # API_URL_PEDIDO_ORDER = "https://www.loja-casahg.com.br/api_pedido_order/"
+    # API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_pedido_order/"
+    API_URL_PEDIDO_ORDER = "https://www.loja-casahg.com.br/api_pedido_order/"
 
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
-        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        # "Authorization": f"Basic {base64.b64encode('alvarez:alvarez'.encode()).decode()}",
+        "Authorization": f"Api-Key {settings.TESTKEY_API_CASAHG_PYTHONANYWHERE}",
+        # "X-API-Key": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
+    # login_data = {
+    #     'username': 'vendashg',
+    #     'password': 'alvarez',
+    # }
 
-    response = requests.get(API_URL_PEDIDO_ORDER, headers=headers)
+    session = requests.Session()
+    session.auth = ('alvarez', 'alvarez')
+    # session.post("https://www.loja-casahg.com.br/", auth=('alvarez', 'alvarez'))
+    response = session.get(API_URL_PEDIDO_ORDER, headers=headers)
+    # response = requests.get(API_URL_PEDIDO_ORDER, auth=('alvarez', 'alvarez'), headers=headers)
 
     if response.status_code == 200:
         pedidos = response.json()
         for pedido in pedidos:
             print(f"Pedido: {pedido['id']}: {pedido['endereco_envio']}")
     else:
-        print("Erro ao obter produtos:", response.status_code)
+        print("Erro ao obter produtos:", response.status_code, response.text)
         
 def getByIdPedidoOrder(_id):
     API_URL_PEDIDO_ORDER = "http://127.0.0.1:8000/api_pedido_order/" + str(_id) + "/"
@@ -179,12 +190,12 @@ def postProduto(_produtodata, _prodfiles):
         print("Erro ao cadastrar produto:", response.status_code)
 
 def getProduto():
-    API_URL_PRODUTO = "http://127.0.0.1:8000/api_produtos/"
-    # API_URL_PRODUTO = "https://www.loja-casahg.com.br/api_produtos/"
+    # API_URL_PRODUTO = "http://127.0.0.1:8000/api_produtos/"
+    API_URL_PRODUTO = "https://www.loja-casahg.com.br/api_produtos/"
 
     headers = {
-        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
-        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
+        # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
+        "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
 
@@ -541,7 +552,7 @@ def manda_grupo_imagem(self):
 # getByIdTest(10)
 
 # postPedidoOrder("cu") # Não usar, não ta direito
-# getPedidoOrder()
+getPedidoOrder()
 # getByIdPedidoOrder(115)
 
 # getProduto()
@@ -569,19 +580,19 @@ def manda_grupo_imagem(self):
 #     "indicação_uso": "LA",
 # }
 
-prodFiles = {
-    "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Weezing.jpg", "rb"),
-}
+# prodFiles = {
+#     "image": open("E:/Users/HP/Pictures/pokemonTCGPocket/Weezing.jpg", "rb"),
+# }
 
 # postProduto(prodData, prodFiles)
 
 # postProduto(prodData, None)
 
-prodData = {
-    "codigo": "143830",
-}
+# prodData = {
+#     "codigo": "143830",
+# }
 
-postFotoExtra(prodData, prodFiles)
+# postFotoExtra(prodData, prodFiles)
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- #
 

@@ -814,7 +814,7 @@ def create_payment(request):
     cpf_cnpj_numeros = pedido.cpf_cnpj.replace(".", "").replace("-", "")
     cep_numeros = pedido.endereco_envio.cep.replace("-", "")
 
-    url = "https://api.pagseguro.com/checkouts"
+    url = "https://sandbox.api.pagseguro.com/checkouts"
     
     payload = {
         "customer": {
@@ -858,15 +858,15 @@ def create_payment(request):
                         "option": "INSTALLMENTS_LIMIT"
                     }
                 ] 
-        #     },
-        #     {
-        #         "type": "DEBIT_CARD",
-        #         "config_options": [
-        #             {
-        #                 "value": "1",
-        #                 "option": "INTEREST_FREE_INSTALLMENTS"
-        #             }
-        #         ] 
+            # },
+            # {
+            #     "type": "DEBIT_CARD",
+            #     "config_options": [
+            #         {
+            #             "value": "1",
+            #             "option": "INSTALLMENTS_LIMIT"
+            #         }
+            #     ]
             }
         ],
         # "payment_methods_configs": [
@@ -914,11 +914,12 @@ def create_payment(request):
             }
         )
 
-        print(f"https://www.loja-casahg.com.br{prod.produto.image.url}")
+        # print(f"https://www.loja-casahg.com.br{prod.produto.image.url}")
 
     headers = {
         "accept": "*/*",
-        "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN,
+        # "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN,
+        "Authorization": "Bearer 5acfb0fe-4fde-4362-a1ba-3df091ee5c8e78087e274343be15e2d976f74bf08ad8740d-1860-48bb-8668-875c09dae1c6",
         "Content-type": "application/json"
     }
     
@@ -3084,21 +3085,24 @@ def ta_pago(_pedido):
     }
 
     consulta_response = requests.get(url, headers=headers)
-                    
-    if consulta_response.status_code >= 200 and consulta_response.status_code < 300:
-        respJson = consulta_response.json()
-        order_urls = respJson.get("orders")[0].get("links")
-        for dic in order_urls:
-            if dic["rel"] == "GET":
-                consulta_order_url = dic["href"]
+    
+    try:
+        if consulta_response.status_code >= 200 and consulta_response.status_code < 300:
+            respJson = consulta_response.json()
+            order_urls = respJson.get("orders")[0].get("links")
+            for dic in order_urls:
+                if dic["rel"] == "GET":
+                    consulta_order_url = dic["href"]
 
-        order_response = requests.get(consulta_order_url, headers=headers)
+            order_response = requests.get(consulta_order_url, headers=headers)
 
-        if order_response.status_code >= 200 and order_response.status_code < 300:
-            status = order_response.json().get("charges")[0].get("status")
+            if order_response.status_code >= 200 and order_response.status_code < 300:
+                status = order_response.json().get("charges")[0].get("status")
 
-            if status == "PAID":
-                return True
+                if status == "PAID":
+                    return True
+    except:
+        return False
             
     return False
 
