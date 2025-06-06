@@ -1069,7 +1069,7 @@ class ClienteEntrarView(LojaMixin, BaseContextMixin, FormView):
                 return render(self.request, self.template_name,
                               {"form": form, "error": "Cliente nao existe"})
         else:
-            error_message = "Falha na autenticação. Email: {}, Senha: {}".format(email, password)
+            error_message = "Falha na autenticação."
             return render(self.request, self.template_name,
                           {"form": form, "error": error_message})
 
@@ -3104,6 +3104,53 @@ def ta_pago(_pedido):
         return False
             
     return False
+
+# Faz o download do log do pedido pelo pagseguro
+def download_order(request):
+    if request.POST["checkout_id"]:
+
+        url_checkout = f"https://api.pagseguro.com/checkouts/{request.POST["checkout_id"]}"
+
+        headers = {
+            "accept": "*/*",
+            "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN,
+        }
+
+        try:
+            consulta_response = requests.get(url_checkout, headers=headers)
+                    
+            if consulta_response.status_code >= 200 and consulta_response.status_code < 300:
+                respJson = consulta_response.json()
+                order = respJson['orders'][0]['id']
+
+                url_order = f"https://api.pagseguro.com/orders/{order}"
+
+                try:
+                    order_response = requests.get(url_order, headers=headers)
+
+                    if order_response.status_code >= 200 and order_response.status_code < 300:
+                        orderJson = order_response.json()
+
+                        oderDic = json.dumps(orderJson, indent=4)
+
+                        response = HttpResponse(oderDic, content_type='text/plain')
+                        response['Content-Disposition'] = f'attachment; filename="Log-Pedido{request.POST["pedido_id"]}.txt"'
+                        return response
+                    else:
+                        messages.success(request, f"Error: {order_response.status_code} - {order_response.text}")
+                        return redirect(request.POST["path"])
+                except:
+                    messages.success(request, f"Error: Could not get order")
+                    return redirect(request.POST["path"])
+            else:
+                messages.success(request, f"Error: {consulta_response.status_code} - {consulta_response.text}")
+                return redirect(request.POST["path"])
+                # return HttpResponse(f"Error: {consulta_response.status_code} - {consulta_response.text}")
+        except:
+            messages.success(request, f"Error: Could not get checkout")
+            return redirect(request.POST["path"])
+        
+    return redirect(request.POST["path"])
 
 # Formata o valor do preço dos produtos para mostrar de forma mais interessante no site
 def preprocessar_precos(_produtos):
