@@ -3109,7 +3109,7 @@ def ta_pago(_pedido):
 def download_order(request):
     if request.POST["checkout_id"]:
 
-        url_checkout = f"https://api.pagseguro.com/checkouts/{request.POST["checkout_id"]}"
+        url_checkout = f"https://api.pagseguro.com/checkouts/{request.POST['checkout_id']}"
 
         headers = {
             "accept": "*/*",
@@ -3134,7 +3134,7 @@ def download_order(request):
                         oderDic = json.dumps(orderJson, indent=4)
 
                         response = HttpResponse(oderDic, content_type='text/plain')
-                        response['Content-Disposition'] = f'attachment; filename="Log-Pedido{request.POST["pedido_id"]}.txt"'
+                        response['Content-Disposition'] = f'attachment; filename="Log-Pedido{request.POST['pedido_id']}.txt"'
                         return response
                     else:
                         messages.success(request, f"Error: {order_response.status_code} - {order_response.text}")
