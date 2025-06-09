@@ -847,6 +847,10 @@ def create_payment(request):
         "payment_methods": [
             { 
                 "type": pedido.forma_de_pagamento 
+            },
+            {
+                "type": "debit_card",
+                "brands": ["visa"]
             }
         ],
         "payment_methods_configs": [
