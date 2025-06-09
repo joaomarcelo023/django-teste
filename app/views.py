@@ -3134,7 +3134,8 @@ def download_order(request):
                         oderDic = json.dumps(orderJson, indent=4)
 
                         response = HttpResponse(oderDic, content_type='text/plain')
-                        response['Content-Disposition'] = f'attachment; filename="Log-Pedido{request.POST['pedido_id']}.txt"'
+                        pedido_id = request.POST['pedido_id']
+                        response['Content-Disposition'] = f'attachment; filename="Log-Pedido{pedido_id}.txt"'
                         return response
                     else:
                         messages.success(request, f"Error: {order_response.status_code} - {order_response.text}")
