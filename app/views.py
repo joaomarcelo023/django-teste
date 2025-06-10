@@ -9,7 +9,7 @@ from django.views import View
 from django.views.generic import TemplateView, CreateView, FormView, DetailView, ListView
 from django.views.generic.edit import DeleteView
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.utils.decorators import method_decorator
@@ -847,10 +847,10 @@ def create_payment(request):
         "payment_methods": [
             { 
                 "type": pedido.forma_de_pagamento 
-            },
-            {
-                "type": "DEBIT_CARD",
-                "brands": ["visa"]
+            # },
+            # {
+            #     "type": "DEBIT_CARD",
+            #     "brands": ["visa"]
             }
         ],
         "payment_methods_configs": [
@@ -890,8 +890,8 @@ def create_payment(request):
         # ],
         "redirect_url": f"https://www.loja-casahg.com.br/pedido-cofirmado/?id={pedido.id}", # f"http://127.0.0.1:8000/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
         # f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}&status=Pagamento_Confirmado"
-        # "notification_urls": ["https://www.loja-casahg.com.br/test_atualizacao_pag/"],
-        # "payment_notification_urls": ["https://www.loja-casahg.com.br/test_atualizacao_pag/"]
+        "notification_urls": ["https://www.loja-casahg.com.br/notifica_pag_pedido/"],
+        "payment_notification_urls": ["https://www.loja-casahg.com.br/notifica_pagamento_pag_pedido/"],
     }
 
     # if pedido.frete:
@@ -965,6 +965,21 @@ class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
             if ta_pago(pedido):
                 pedido.pedido_status = "Pagamento Confirmado"
                 EmailPedidoPagamentoConfirmado(pedido)
+
+            try:
+                url = f"https://api.pagseguro.com/checkouts/{pedido.id_PagBank}"
+                headers = {
+                    "accept": "*/*",
+                    "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN,
+                }
+
+                consulta_response = requests.get(url, headers=headers)
+                respJson = consulta_response.json()
+
+                pedido.order_PagBank = respJson['orders'][0]['id']
+                pedido.save()
+            except:
+                print(f"Não foi podido verificar o order id do pedido {pedido.id}")
         else:
             pedido.pedido_status = "Pagamento Pendente"
 
@@ -1985,7 +2000,7 @@ class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, TemplateView):
 
         pedidoType_select = self.request.GET.get('pedidos', 'Todos')
 
-        context = {
+        context.update({
             'PedidosAndamento' : PedidoOrder.objects.filter(pedido_status="Pedido  em Andamento").order_by("-id"),
             'PedidosRecebido' : PedidoOrder.objects.filter(pedido_status="Pedido Recebido").order_by("-id"),
             'PagamentoPendente' : PedidoOrder.objects.filter(pedido_status="Pagamento Pendente").order_by("-id"),
@@ -1996,7 +2011,7 @@ class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, TemplateView):
             'PedidosProntaRetirada' : PedidoOrder.objects.filter(pedido_status="Pedido Pronta Retirada").order_by("-id"),
             'PedidosCompletado' : PedidoOrder.objects.filter(pedido_status="Pedido Completado").order_by("-id"),
             'PedidosCancelado' : PedidoOrder.objects.filter(pedido_status="Pedido Cancelado").order_by("-id"),
-        }
+        })
         
         statusList = []
         for i,j in PEDIDO_STATUS:
@@ -2967,6 +2982,47 @@ class PedidoProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [HasAPIKey]
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
+
+# Webhook de notificação do pagseguro
+@csrf_exempt
+def notifica_pag_pedido(request):
+    if request.method == 'POST':
+        data = request.json()
+
+        try:
+            pedido = PedidoOrder.objects.get(id_PagBank=data['id'])
+            if data['status'] == "EXPIRED":
+                pedido.pedido_status = "Pedido Cancelado"
+                pedido.save()
+
+            TestStatus.objects.create(status=data,cu=data['id'])
+
+            return HttpResponse(status=200)
+        except:
+            return HttpResponse(status=404)
+        
+    return HttpResponse(status=405)
+
+@csrf_exempt
+def notifica_pagamento_pag_pedido(request):
+    if request.method == 'POST':
+        data = request.json()
+
+        try:
+            pedido = PedidoOrder.objects.get(order_PagBank=data['id'])
+            if data['charges']['status'] == "PAID":
+                pedido.pedido_status = "Pagamento Confirmado"
+            elif data['charges']['status'] == "CANCELED" or data['charges']['status'] == "DECLINED":
+                pedido.pedido_status = "Pedido Cancelado"
+            pedido.save()
+
+            TestStatus.objects.create(status=data,cu=data['id'])
+
+            return HttpResponse(status=200)
+        except:
+            return HttpResponse(status=404)
+        
+    return HttpResponse(status=405)
 
 # verifica se todos os produtos tem fotos
 def ChecaFotosProdutos(request):

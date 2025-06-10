@@ -281,6 +281,7 @@ class PedidoOrder(models.Model):
     criado_em = models.DateTimeField(auto_now_add=True)
 
     id_PagBank = models.CharField(max_length=200,default="",null=True,blank=True)
+    order_PagBank = models.CharField(max_length=200,default="",null=True,blank=True)
 
     def __str__(self):
         return "Pedido: " + str(self.id) + " | Status: " + self.pedido_status + " | Cliente: " + self.nome_cliente

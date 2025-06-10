@@ -72,6 +72,8 @@ urlpatterns = [
     path('ResetaFotosProdutos/', ResetaFotosProdutos, name='ResetaFotosProdutos'),
     path('upload_imagem_extra_produtos/', upload_imagem_extra_produtos, name='upload_imagem_extra_produtos'),
     path('delete_imagem_extra_produtos/', delete_imagem_extra_produtos, name='delete_imagem_extra_produtos'),
+    path('notifica_pag_pedido/', notifica_pag_pedido, name='notifica_pag_pedido'),
+    path('notifica_pagamento_pag_pedido/', notifica_pagamento_pag_pedido, name='notifica_pagamento_pag_pedido'),
 
     # Tests
     path('test_atualizacao_pag/', test_atualizacao_pag, name='test_atualizacao_pag'),

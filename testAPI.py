@@ -123,21 +123,11 @@ def getPedidoOrder():
 
     headers = {
         # "Authorization": "Api-Key " + settings.TESTKEY_API_CASAHG,
-        # "Authorization": f"Basic {base64.b64encode('alvarez:alvarez'.encode()).decode()}",
         "Authorization": f"Api-Key {settings.TESTKEY_API_CASAHG_PYTHONANYWHERE}",
-        # "X-API-Key": "Api-Key " + settings.TESTKEY_API_CASAHG_PYTHONANYWHERE,
         "Content-Type": "application/json"
     }
-    # login_data = {
-    #     'username': 'vendashg',
-    #     'password': 'alvarez',
-    # }
 
-    session = requests.Session()
-    session.auth = ('alvarez', 'alvarez')
-    # session.post("https://www.loja-casahg.com.br/", auth=('alvarez', 'alvarez'))
-    response = session.get(API_URL_PEDIDO_ORDER, headers=headers)
-    # response = requests.get(API_URL_PEDIDO_ORDER, auth=('alvarez', 'alvarez'), headers=headers)
+    response = requests.get(API_URL_PEDIDO_ORDER, headers=headers)
 
     if response.status_code == 200:
         pedidos = response.json()
