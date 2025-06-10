@@ -27,6 +27,7 @@ urlpatterns = [
     path("forma-de-entrega/", FormaDeEntregaView.as_view(), name="formadeentrega"),
     path("checkout/", CheckOutView.as_view(), name="checkout"),
     path("pedido-cofirmado/", PedidoConfirmadoView.as_view(), name="pedidoconfirmado"),
+    path("pedido-erro/", PedidoErroView.as_view(), name="pedidoerro"),
 
     # Login
     path("registrar/", ClienteRegistrarView.as_view(), name="clienteregistrar"),

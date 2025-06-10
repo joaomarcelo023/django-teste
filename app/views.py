@@ -945,8 +945,9 @@ def create_payment(request):
 
         return redirect(payment_url)
     else:
+        return render(request, "pedidoError.html", {"pedido_obj":pedido, "error_code":response.status_code, "error_message":response.text})
         # TODO: Melhorar essa tela de erro pra versão final
-        return HttpResponse(f"Error: {response.status_code} - {response.text}")
+        # return HttpResponse(f"Error: {response.status_code} - {response.text}")
 
 class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
     template_name = "pedidoConfirmado.html"
@@ -1001,6 +1002,9 @@ class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
         context["numProdCarro"] = 0
 
         return context
+
+class PedidoErroView(LogedMixin, BaseContextMixin, TemplateView):
+    template_name = "pedidoErro.html"
 
 class ClienteRegistrarView(LojaMixin, BaseContextMixin, CreateView):
     template_name = "clienteregistrar.html"
