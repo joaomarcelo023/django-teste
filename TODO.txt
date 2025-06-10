@@ -1,9 +1,4 @@
-TODO-ALVAREZ: Conectar o site com contas reais da loja e não minhas pessoais
-  TODO-ALVAREZ-RESOLVIDO: Gmail
-  
-  TODO-ALVAREZ-RESOLVIDO: API Google
-  
-  TODO-ALVAREZ: Umami
+TODO-ALVAREZ: Colocar todos os status de pedidos na pagina de pedidos do admin
 
 
 "Coisas que precisam estar bem estruturadas:
