@@ -1,5 +1,7 @@
 TODO-ALVAREZ: Colocar todos os status de pedidos na pagina de pedidos do admin
 
+TODO-ALVAREZ: Entender do pagamento por cartão de debito do pagseguro
+
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte
