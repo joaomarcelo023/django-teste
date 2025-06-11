@@ -315,6 +315,15 @@ class PedidoProduto(models.Model):
     def __str__(self):
         return "Pedido: " + str(self.pedido.id) + " | Codigo do produto: " + self.codigo + " | Produto: " + self.nome_produto
 
+class PedidoErro(models.Model):
+    cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE,default="",null=True)
+    carro = models.ForeignKey(Carro,on_delete=models.CASCADE)
+
+    ocorrido_em = models.DateTimeField(auto_now_add=True)
+
+    erro_code = models.CharField(max_length=10,null=True,blank=True)
+    erro_message = models.CharField(max_length=200,null=True,blank=True)
+
 class Banner(models.Model):    
     title = models.CharField(max_length=100, blank=True)
 

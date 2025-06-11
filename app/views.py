@@ -945,7 +945,8 @@ def create_payment(request):
 
         return redirect(payment_url)
     else:
-        return render(request, "pedidoError.html", {"pedido_obj":pedido, "error_code":response.status_code, "error_message":response.text})
+        PedidoErro.objects.create(pedido=pedido,cliente=pedido.cliente,erro_code=response.status_code,erro_message=response.text)
+        return render(request, "pedidoError.html", {"error_code":response.status_code, "error_message":response.text})
         # TODO: Melhorar essa tela de erro pra versão final
         # return HttpResponse(f"Error: {response.status_code} - {response.text}")
 
