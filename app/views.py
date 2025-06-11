@@ -774,7 +774,7 @@ def pedido_carro_pagamento(request):
                     PedidoProduto.objects.create(pedido=pedido, produto=produto, nome_produto=produto.titulo, codigo=produto.codigo, 
                                                 descricao=produto.descricao, codigo_GTIN=produto.codigo_GTIN, preco_unitario_bruto=produto.preco_unitario_bruto, 
                                                 desconto_dinheiro=produto.desconto_dinheiro, desconto_retira=produto.desconto_retira, unidade=produto.unidade, 
-                                                quantidade=produtosCarro.quantidade, total_bruto=produtosCarro.subtotal_bruto, 
+                                                quantidade=(produtosCarro.quantidade * produto.fechamento_embalagem), total_bruto=produtosCarro.subtotal_bruto, 
                                                 desconto_total=(produtosCarro.subtotal_bruto - produtosCarro.subtotal), 
                                                 desconto_unitario=(produtosCarro.subtotal_bruto - produtosCarro.subtotal) / produtosCarro.quantidade, 
                                                 total_final=produtosCarro.subtotal)
@@ -988,11 +988,52 @@ class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
         # pedido.pedido_status = pedido_status.replace("_", " ")
         pedido.save()
 
-        # Aumenta a quantidade de venda de cada produto
+        # Aumenta a quantidade de venda de cada produto e diminui o estoque
         pedidoProduto = PedidoProduto.objects.filter(pedido=pedido)
+        loja = Cliente.objects.get(cpf_ou_cnpj="11815947000177")
         for pp in pedidoProduto:
             produto = Produto.objects.get(id=pp.produto.id)
             produto.quantidade_vendas += 1
+
+            if pedido.endereco_envio.cliente == loja:
+                if produto.estoque_lojas[pedido.endereco_envio.titulo] >= pp.quantidade:
+                    produto.estoque_lojas[pedido.endereco_envio.titulo] -= pp.quantidade
+                else:
+                    dif = float(pp.quantidade) - produto.estoque_lojas[pedido.endereco_envio.titulo]
+                    produto.estoque_lojas[pedido.endereco_envio.titulo] = 0
+
+                    if pedido.endereco_envio.titulo != "Casa HG - Atacadão Dos Pisos":
+                        if produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"] >= dif:
+                            produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"] -= dif
+                        else:
+                            dif2 = dif - produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"]
+                            produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"] = 0
+
+                            for el in produto.estoque_lojas.items():
+                                if el[1] != 0:
+                                    ne = el[1] - dif2
+                                    produto.estoque_lojas.update({el[0]: ne})
+                    else:
+                        if produto.estoque_lojas["Casa HG - Várzea"] >= dif:
+                            produto.estoque_lojas["Casa HG - Várzea"] -= dif
+                        else:
+                            dif2 = dif - produto.estoque_lojas["Casa HG - Várzea"]
+                            produto.estoque_lojas["Casa HG - Várzea"] = 0
+                            produto.estoque_lojas["Casa HG - Magé/Guapimirim"] -= dif2
+            else:
+                if produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"] >= float(pp.quantidade):
+                    produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"] -= float(pp.quantidade)
+                else:
+                    dif = float(pp.quantidade) - produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"]
+                    produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"] = 0
+
+                    if produto.estoque_lojas["Casa HG - Várzea"] >= dif:
+                        produto.estoque_lojas["Casa HG - Várzea"] -= dif
+                    else:
+                        dif2 = dif - produto.estoque_lojas["Casa HG - Várzea"]
+                        produto.estoque_lojas["Casa HG - Várzea"] = 0
+                        produto.estoque_lojas["Casa HG - Magé/Guapimirim"] -= dif2
+
             produto.save()
 
         # Cria carro novo

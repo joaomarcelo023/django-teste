@@ -324,7 +324,7 @@ class PedidoErro(models.Model):
     erro_code = models.CharField(max_length=10,null=True,blank=True)
     erro_message = models.CharField(max_length=200,null=True,blank=True)
 
-class Banner(models.Model):    
+class Banner(models.Model):
     title = models.CharField(max_length=100, blank=True)
 
     image_grande = models.ImageField(upload_to='banners')
