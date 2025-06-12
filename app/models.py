@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from rest_framework_api_key.models import AbstractAPIKey
-from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
 import os
 
 class Cliente(models.Model):
