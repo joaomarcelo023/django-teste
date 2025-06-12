@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from rest_framework_api_key.models import AbstractAPIKey
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 import os
 
 class Cliente(models.Model):
@@ -324,6 +326,9 @@ class PedidoErro(models.Model):
     erro_code = models.CharField(max_length=10,null=True,blank=True)
     erro_message = models.CharField(max_length=200,null=True,blank=True)
 
+    def __str__(self):
+        return f"Carro: {self.carro} | Cliente: {self.cliente} | erro: {self.erro_code}"
+
 class Banner(models.Model):
     title = models.CharField(max_length=100, blank=True)
 
@@ -362,6 +367,14 @@ class Admin(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class AdminLog(models.Model):
+    funcionario = models.ForeignKey(Admin,on_delete=models.SET_NULL,null=True)
+    log = models.CharField(max_length=200)
+    ocorrido_em = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.ocorrido_em.strftime('%d/%m/%y %H:%M')} UTC | {self.funcionario} | {self.log}"
 
 class APIKey(AbstractAPIKey):
     criado_em = models.DateTimeField(auto_now_add=True)

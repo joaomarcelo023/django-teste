@@ -2066,11 +2066,24 @@ class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, TemplateView):
 
         return context
 
+class AdminLogsView(AdminRequireMixin, BaseContextMixin, TemplateView):
+    template_name = "admin_paginas/adminlogs.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['logs'] = AdminLog.objects.all().order_by('-ocorrido_em')
+
+        return context
+
 class AdminPedidoMudarView(AdminRequireMixin, BaseContextMixin, ListView):
     def post(self,request,*args,**kwargs):
         pedido_id = self.kwargs["pk"]
         pedido_obj = PedidoOrder.objects.get(id=pedido_id)
         novo_status = request.POST.get("status")
+        
+        AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Pedido {pedido_id} - status alterado de {pedido_obj.pedido_status} para {novo_status}")
+
         pedido_obj.pedido_status = novo_status
         pedido_obj.save()
 
@@ -2227,6 +2240,8 @@ def atualiza_produto(request):
 
             produto.save()
 
+            AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Produto {produto.slug} - dados basicos alterados")
+
         return redirect(request.POST["path"])
 
     return HttpResponse("Invalid request.")
@@ -2277,6 +2292,8 @@ def atualiza_ficha_produto(request):
                 produto.palet = requestCopy["palet"]
 
             produto.save()
+
+            AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Produto {produto.slug} - ficha tecnica alterados")
             
         return redirect(request.POST["path"])
 
@@ -2345,7 +2362,7 @@ class PesquisarAdminView(AdminRequireMixin, BaseContextMixin, TemplateView):
         context['resultados'] = result
 
         return context
-    
+
 def consultar_checkout_pag(request):
     if request.method == 'POST':
         # print(request.POST)
@@ -2410,16 +2427,23 @@ def cancelar_checkout_pag(request):
             "Content-type": "application/json"
         }
 
-        cancelar_response = requests.get(url, json=payload, headers=headers)
+        try:
+            cancelar_response = requests.get(url, json=payload, headers=headers)
 
-        if cancelar_response.status_code >= 200 and cancelar_response.status_code < 300:
-            print(cancelar_response.text)
+            if cancelar_response.status_code >= 200 and cancelar_response.status_code < 300:
+                print(cancelar_response.text)
 
-            pedido = PedidoOrder.objects.get(id=request.POST["pedido_id"])
-            EmailPedidoCancelado(pedido)
-        else:
-            # TODO: Melhorar essa tela de erro pra versão final
-            return HttpResponse(f"Error: {cancelar_response.status_code} - {cancelar_response.text}")
+                pedido = PedidoOrder.objects.get(id=request.POST["pedido_id"])
+                pedido.pedido_status = "Pedido Cancelado"
+                pedido.save()
+
+                EmailPedidoCancelado(pedido)
+                AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Pedido {pedido.id} - cancelado")
+            else:
+                # TODO: Melhorar essa tela de erro pra versão final
+                return HttpResponse(f"Error: {cancelar_response.status_code} - {cancelar_response.text}")
+        except:
+            return HttpResponse("Invalid request.")
         
     return HttpResponse("Invalid request.")
 
@@ -2600,6 +2624,7 @@ class ChunkedProdutoJsonUploadView(APIView):
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
+            AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"API Upload produtos")
             return Response({"message": "JSON Upload Complete"})
 
         return Response({"message": "Chunk received"})
@@ -2675,6 +2700,7 @@ class ChunkedProdutoJsonUpdateView(APIView):
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
+            AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"API Update produtos")
             return Response({"message": "JSON Upload Complete"})
 
         return Response({"message": "Chunk received"})
@@ -2722,6 +2748,7 @@ class ChunkedEstoqueJsonUploadView(APIView):
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
+            AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"API Upload estoque")
             return Response({"message": "JSON Upload Complete"})
 
         return Response({"message": "Chunk received"})
@@ -2797,6 +2824,7 @@ class ChunkedProdutoPisoFichaTecJsonUploadView(APIView):
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
+            AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"API Upload fichas tecnicas")
             return Response({"message": "JSON Upload Complete"})
 
         return Response({"message": "Chunk received"})
@@ -2833,6 +2861,7 @@ class ChunkedProdutoImgUploadView(APIView):
                 os.remove(temp_file_path)
             
             file_url = os.path.join(settings.MEDIA_URL, "produtos", os.path.basename(converted_file_path))
+
             return JsonResponse({"message": "Upload complete", "file_url": file_url})
 
         return JsonResponse({"message": "Chunk received", "chunk_index": chunk_index})
@@ -2988,11 +3017,28 @@ class PedidoOrderListCreateView(generics.ListCreateAPIView):
 
     permission_classes = [HasAPIKey]
 
+    def list(self, request, *args, **kwargs):
+        try:
+            AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"API LIST Pedidos")
+        except:
+            print("Erro ao gerar log de LIST Pedidos")
+
+        return super().list(request, *args, **kwargs)
+
 class PedidoOrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PedidoOrder.objects.prefetch_related("pedidoProduto")
     serializer_class = PedidoOrderSerializer
 
     permission_classes = [HasAPIKey]
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        try:
+            AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"API Retrieve Pedido {instance.id}")
+        except:
+            print(f"Erro ao gerar log de Retrieve Pedido {instance.id}")
+            
+        return super().retrieve(request, *args, **kwargs)
 
     def perform_update(self, serializer):
         pedido_obj = serializer.save()
@@ -3159,6 +3205,8 @@ def upload_imagem_extra_produtos(request):
             # produto.num_fotos -= 1
             fotoProduto.save()
 
+            AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Produto {fotoProduto.produto.slug} - imagem {fotoProduto.image.name} adicionada")
+
             return redirect(request.POST["path"])
         else:
             print("Form Errors:", form.errors)
@@ -3171,6 +3219,8 @@ def delete_imagem_extra_produtos(request):
     if request.method == 'POST':
         try:
             foto = FotosProduto.objects.get(id=request.POST['foto'])
+
+            AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Produto {foto.produto.slug} - imagem {foto.image.name} deletada")
 
             foto.delete()
 
