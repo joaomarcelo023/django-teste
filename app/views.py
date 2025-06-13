@@ -3087,6 +3087,8 @@ def notifica_pag_pedido(request):
                 pedido.pedido_status = "Pedido Cancelado"
                 pedido.save()
 
+                EmailPedidoCancelado(pedido)
+                AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"Pedido {pedido.id} - cancelado - PagSeguro")
             TestStatus.objects.create(status=data,cu=data['id'])
 
             return HttpResponse(status=200)
@@ -3104,8 +3106,12 @@ def notifica_pagamento_pag_pedido(request):
             pedido = PedidoOrder.objects.get(order_PagBank=data['id'])
             if data['charges']['status'] == "PAID":
                 pedido.pedido_status = "Pagamento Confirmado"
+                EmailPedidoPagamentoConfirmado(pedido)
+                AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"Pedido {pedido.id} - pagamento confirmado - PagSeguro")
             elif data['charges']['status'] == "CANCELED" or data['charges']['status'] == "DECLINED":
                 pedido.pedido_status = "Pedido Cancelado"
+                EmailPedidoCancelado(pedido)
+                AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"Pedido {pedido.id} - cancelado - PagSeguro")
             pedido.save()
 
             TestStatus.objects.create(status=data,cu=data['id'])
@@ -3155,7 +3161,7 @@ def ChecaFotosProdutos(request):
 
     if request.method == 'POST':
         return redirect(request.POST["path"])
-    
+
 # Reseta o numero de fotos de todos os produtos
 def ResetaFotosProdutos(request):
     for prod in Produto.objects.all():
@@ -3171,7 +3177,7 @@ def ResetaFotosProdutos(request):
 
     if request.method == 'POST':
         return redirect(request.POST["path"])
-    
+
 # Fotos extras pros produtos
 ## Lança fotos
 def upload_imagem_extra_produtos(request):
