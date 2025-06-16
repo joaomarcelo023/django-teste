@@ -78,6 +78,7 @@ urlpatterns = [
     path('notifica_pag_pedido/', notifica_pag_pedido, name='notifica_pag_pedido'),
     path('notifica_pagamento_pag_pedido/', notifica_pagamento_pag_pedido, name='notifica_pagamento_pag_pedido'),
     path('banner_status/', banner_status, name='banner_status'),
+    path('banner_create/', banner_create, name='banner_create'),
     path('banner_deletar/', banner_deletar, name='banner_deletar'),
 
     # Tests

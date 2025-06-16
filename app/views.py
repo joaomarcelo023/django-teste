@@ -3191,9 +3191,53 @@ def ResetaFotosProdutos(request):
 # Cria banner
 def banner_create(request):
     if request.method == 'POST':
-        # Banner.objects.create(title=request.POST["banner_title"], image_grande=, image_pequena=, link=request.POST["banner_link"], active=request.POST.get("banner_state", False))
+        state = False
+        if request.POST.get("banner_state", False) == "on":
+            state = True
         
-        # AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Banner {banner.title} - criado")
+        imagem_PC = request.FILES.get('banner_img_big')
+        imagem_Mobile = request.FILES.get('banner_img_small')
+
+        banner = Banner.objects.create(title=request.POST["banner_title"], image_grande=imagem_PC, image_pequena=imagem_Mobile, link=request.POST["banner_link"], active=state)
+
+        # Converte pra webp
+        ## Imagem grande
+        path = (settings.MEDIA_ROOT + banner.image_grande.url).replace("media/media", "media")
+        temp_file_path = path
+
+        ### Converte pra webp
+        file, ext = os.path.splitext(temp_file_path)
+        image = Image.open(temp_file_path).convert("RGB")
+        new_path = f"{file}.webp"
+        image.save(new_path, "webp")
+
+        ### Remove o original
+        if ext != ".webp":
+            os.remove(temp_file_path)
+
+        ### Update the model with the new WebP image
+        banner.image_grande.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+
+        ## Imagem pequena
+        path = (settings.MEDIA_ROOT + banner.image_pequena.url).replace("media/media", "media")
+        temp_file_path = path
+
+        ### Converte pra webp
+        file, ext = os.path.splitext(temp_file_path)
+        image = Image.open(temp_file_path).convert("RGB")
+        new_path = f"{file}.webp"
+        image.save(new_path, "webp")
+
+        ### Remove o original
+        if ext != ".webp":
+            os.remove(temp_file_path)
+
+        ### Update the model with the new WebP image
+        banner.image_pequena.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
+
+        banner.save()
+        
+        AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Banner {banner.title} - criado")
 
         return redirect(request.POST["path"])
 

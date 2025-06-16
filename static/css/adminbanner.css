@@ -11,6 +11,10 @@
     width: 50%;
 }
 
+.buttonImg {
+    cursor: pointer;
+}
+
 .imgInputGrande{
     height: 16.67vh;
     border: 1px solid #151635;
@@ -26,6 +30,14 @@
 .linkInput {
     width: 100%;
 }
+
+/* .linkInput:invalid {
+    border-color: red;
+}
+
+.linkInput:valid {
+    border-color: green;
+} */
 
 hr {
     background-color: #151635;
