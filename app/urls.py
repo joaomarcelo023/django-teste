@@ -60,6 +60,7 @@ urlpatterns = [
     path('admin-categoria/', AdminCategoriasView.as_view(), name="admincategoria"),
     path('admin-pesquisar/', PesquisarAdminView.as_view(), name="adminpesquisar"),
     path('admin-logs/', AdminLogsView.as_view(), name="adminlogs"),
+    path('admin-banners/', AdminBannersView.as_view(), name="adminbanners"),
 
     # POST
     path('endereco_cadastrar/', endereco_cadastrar, name='endereco_cadastrar'),
@@ -76,6 +77,8 @@ urlpatterns = [
     path('delete_imagem_extra_produtos/', delete_imagem_extra_produtos, name='delete_imagem_extra_produtos'),
     path('notifica_pag_pedido/', notifica_pag_pedido, name='notifica_pag_pedido'),
     path('notifica_pagamento_pag_pedido/', notifica_pagamento_pag_pedido, name='notifica_pagamento_pag_pedido'),
+    path('banner_status/', banner_status, name='banner_status'),
+    path('banner_deletar/', banner_deletar, name='banner_deletar'),
 
     # Tests
     path('test_atualizacao_pag/', test_atualizacao_pag, name='test_atualizacao_pag'),

@@ -2076,6 +2076,17 @@ class AdminLogsView(AdminRequireMixin, BaseContextMixin, TemplateView):
 
         return context
 
+class AdminBannersView(AdminRequireMixin, BaseContextMixin, TemplateView):
+    template_name = "admin_paginas/adminbanner.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['banners'] = Banner.objects.all().order_by("-id")
+        # context['upload_img'] 
+
+        return context
+
 class AdminPedidoMudarView(AdminRequireMixin, BaseContextMixin, ListView):
     def post(self,request,*args,**kwargs):
         pedido_id = self.kwargs["pk"]
@@ -3175,6 +3186,39 @@ def ResetaFotosProdutos(request):
         prod.save()
 
     if request.method == 'POST':
+        return redirect(request.POST["path"])
+
+# Cria banner
+def banner_create(request):
+    if request.method == 'POST':
+        # Banner.objects.create(title=request.POST["banner_title"], image_grande=, image_pequena=, link=request.POST["banner_link"], active=request.POST.get("banner_state", False))
+        
+        # AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Banner {banner.title} - criado")
+
+        return redirect(request.POST["path"])
+
+# Muda status do banner
+def banner_status(request):
+    if request.method == 'POST':
+        banner = Banner.objects.get(id=request.POST["banner_id"])
+        banner.active = request.POST.get("banner_state", False)
+        banner.save()
+
+        status = "desativado"
+        if banner.active:
+            status = "ativado"
+
+        AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Banner {banner.title} - {status}")
+
+        return redirect(request.POST["path"])
+
+# deleta o banner
+def banner_deletar(request):
+    if request.method == 'POST':
+        banner = Banner.objects.get(id=request.POST["banner_id"])
+        AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Banner {banner.title} - deletado")
+        banner.delete()
+
         return redirect(request.POST["path"])
 
 # Fotos extras pros produtos

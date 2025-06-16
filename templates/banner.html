@@ -13,12 +13,16 @@
         <div class="gallery">
             <!-- Links -->
             {% for banner in banners %}
-                <a id="L{{forloop.counter}}" draggable="false" href="{{banner.link}}"></a>
+                {% if banner.active %}
+                    <a id="L{{forloop.counter}}" draggable="false" href="{{banner.link}}"></a>
+                {% endif %}
             {% endfor %}
             <!-- Banners -->
             {% for banner in banners %}
-                <img draggable="false" src="{{banner.image_grande.url}}" class="item-grande" {% if not forloop.first %}loading="lazy"{% endif %}>
-                <img draggable="false" src="{{banner.image_pequena.url}}" class="item-pequeno" {% if not forloop.first %}loading="lazy"{% endif %}>
+                {% if banner.active %}
+                    <img draggable="false" src="{{banner.image_grande.url}}" class="item-grande" {% if not forloop.first %}loading="lazy"{% endif %}>
+                    <img draggable="false" src="{{banner.image_pequena.url}}" class="item-pequeno" {% if not forloop.first %}loading="lazy"{% endif %}>
+                {% endif %}
             {% endfor %}
         </div>
     </div>
