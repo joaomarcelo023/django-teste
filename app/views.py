@@ -224,7 +224,7 @@ class HomeView(LojaMixin, CrazyAlvaPaymentCheckMixin, BaseContextMixin, Template
         
         context['mais_vendidos'] = preprocessar_precos(Produto.objects.filter(em_estoque=True).order_by("-quantidade_vendas")[:7]) # Tem que ser um numero impar de pordutos
 
-        context['banners'] = Banner.objects.all()
+        context['banners'] = Banner.objects.all().order_by("position")
 
         # TODO: Apagar esse teste
         # testEmail("jggenio@gmail.com", User.objects.get(username="Alva"), PedidoOrder.objects.get(id=96))
@@ -2082,7 +2082,8 @@ class AdminBannersView(AdminRequireMixin, BaseContextMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['banners'] = Banner.objects.all().order_by("-id")
+        context['banners'] = Banner.objects.all().order_by("-position")
+        context['activeBanners'] = Banner.objects.filter(active=True)
         # context['upload_img'] 
 
         return context
@@ -3188,7 +3189,8 @@ def ResetaFotosProdutos(request):
     if request.method == 'POST':
         return redirect(request.POST["path"])
 
-# Cria banner
+# Banners
+## Cria banner
 def banner_create(request):
     if request.method == 'POST':
         state = False
@@ -3241,11 +3243,18 @@ def banner_create(request):
 
         return redirect(request.POST["path"])
 
-# Muda status do banner
+## Muda status do banner
 def banner_status(request):
     if request.method == 'POST':
         banner = Banner.objects.get(id=request.POST["banner_id"])
         banner.active = request.POST.get("banner_state", False)
+
+        if not banner.active:
+            for b in Banner.objects.filter(active=True):
+                if b.position > banner.position:
+                    b.position -= 1
+                    b.save()
+
         banner.save()
 
         status = "desativado"
@@ -3256,11 +3265,43 @@ def banner_status(request):
 
         return redirect(request.POST["path"])
 
-# deleta o banner
+## Muda posição do banner
+def banner_position(request):
+    if request.method == 'POST':
+        activeBanners = Banner.objects.filter(active=True)
+        banner = Banner.objects.get(id=request.POST["banner_id"])
+
+        if banner.position < int(request.POST['banner_position']):
+            for ab in activeBanners:
+                if ab.position > banner.position and ab.position <= int(request.POST['banner_position']):
+                    ab.position -= 1
+                    ab.save()
+        else:
+            for ab in activeBanners:
+                if ab.position >= int(request.POST['banner_position']) and ab.position < banner.position:
+                    ab.position += 1
+                    ab.save()
+
+        banner.position = int(request.POST['banner_position'])
+        banner.save()
+
+        AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Banner {banner.title} - mudado para posição {request.POST['banner_position']}")
+
+        return redirect(request.POST["path"])
+
+## deleta o banner
 def banner_deletar(request):
     if request.method == 'POST':
+        activeBanners = Banner.objects.filter(active=True)
         banner = Banner.objects.get(id=request.POST["banner_id"])
+
+        for ab in activeBanners:
+            if ab.position > banner.position:
+                ab.position -= 1
+                ab.save()
+
         AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Banner {banner.title} - deletado")
+
         banner.delete()
 
         return redirect(request.POST["path"])

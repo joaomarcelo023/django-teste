@@ -80,6 +80,7 @@ urlpatterns = [
     path('banner_status/', banner_status, name='banner_status'),
     path('banner_create/', banner_create, name='banner_create'),
     path('banner_deletar/', banner_deletar, name='banner_deletar'),
+    path('banner_position/', banner_position, name='banner_position'),
 
     # Tests
     path('test_atualizacao_pag/', test_atualizacao_pag, name='test_atualizacao_pag'),

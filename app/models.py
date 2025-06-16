@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Max
 from django.contrib.auth.models import User
 from rest_framework_api_key.models import AbstractAPIKey
 import os
@@ -337,8 +338,22 @@ class Banner(models.Model):
 
     active = models.BooleanField(default=True)
 
+    position = models.PositiveSmallIntegerField(default=0,null=True,blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.active:
+            if self.position == 0:
+                topBanner = Banner.objects.filter(active=True).aggregate(Max('position'))
+                maxValue = topBanner['position__max']
+
+                self.position = maxValue + 1
+        else:
+            self.position = 0
+
+        return super().save(*args, **kwargs)
+
     def __str__(self):
-        return self.title
+        return f"{self.title} | Posição: {self.position}"
     
 class Empresa(models.Model):
     titulo = models.CharField(max_length=200)
