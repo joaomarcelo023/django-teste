@@ -1,6 +1,8 @@
-TODO-ALVAREZ: Conectar o site com contas reais da loja e não minhas pessoais
+TODO-ALVAREZ: Colocar todos os status de pedidos na pagina de pedidos do admin
 
-TODO-ALVAREZ: Conectar o pagseguro com o pagseguro real
+TODO-ALVAREZ: Entender do pagamento por cartão de debito do pagseguro
+
+TODO-ALVAREZ: Mudar fotos banner
 
 
 "Coisas que precisam estar bem estruturadas:

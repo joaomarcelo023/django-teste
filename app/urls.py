@@ -27,6 +27,7 @@ urlpatterns = [
     path("forma-de-entrega/", FormaDeEntregaView.as_view(), name="formadeentrega"),
     path("checkout/", CheckOutView.as_view(), name="checkout"),
     path("pedido-cofirmado/", PedidoConfirmadoView.as_view(), name="pedidoconfirmado"),
+    path("pedido-erro/", PedidoErroView.as_view(), name="pedidoerro"),
 
     # Login
     path("registrar/", ClienteRegistrarView.as_view(), name="clienteregistrar"),
@@ -58,6 +59,7 @@ urlpatterns = [
     path("admin-produto/<slug:slug>/", AdminProdutoView.as_view(), name="adminprodutodetalhe"),
     path('admin-categoria/', AdminCategoriasView.as_view(), name="admincategoria"),
     path('admin-pesquisar/', PesquisarAdminView.as_view(), name="adminpesquisar"),
+    path('admin-logs/', AdminLogsView.as_view(), name="adminlogs"),
 
     # POST
     path('endereco_cadastrar/', endereco_cadastrar, name='endereco_cadastrar'),
@@ -65,12 +67,15 @@ urlpatterns = [
     path('pedido_carro_pagamento/', pedido_carro_pagamento, name='pedido_carro_pagamento'),
     path('consultar_checkout_pag/', consultar_checkout_pag, name='consultar_checkout_pag'),
     path('cancelar_checkout_pag/', cancelar_checkout_pag, name='cancelar_checkout_pag'),
+    path('download_order/', download_order, name='download_order'),
     path('atualiza_produto/', atualiza_produto, name='atualiza_produto'),
     path('atualiza_ficha_produto/', atualiza_ficha_produto, name='atualiza_ficha_produto'),
     path('ChecaFotosProdutos/', ChecaFotosProdutos, name='ChecaFotosProdutos'),
     path('ResetaFotosProdutos/', ResetaFotosProdutos, name='ResetaFotosProdutos'),
     path('upload_imagem_extra_produtos/', upload_imagem_extra_produtos, name='upload_imagem_extra_produtos'),
     path('delete_imagem_extra_produtos/', delete_imagem_extra_produtos, name='delete_imagem_extra_produtos'),
+    path('notifica_pag_pedido/', notifica_pag_pedido, name='notifica_pag_pedido'),
+    path('notifica_pagamento_pag_pedido/', notifica_pagamento_pag_pedido, name='notifica_pagamento_pag_pedido'),
 
     # Tests
     path('test_atualizacao_pag/', test_atualizacao_pag, name='test_atualizacao_pag'),

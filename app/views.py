@@ -9,7 +9,7 @@ from django.views import View
 from django.views.generic import TemplateView, CreateView, FormView, DetailView, ListView
 from django.views.generic.edit import DeleteView
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.utils.decorators import method_decorator
@@ -636,6 +636,16 @@ class CheckOutView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, Pedido
 
         pedido = PedidoOrder.objects.get(carro=carro_obj)
         context["pedido"] = pedido
+
+        # Reseta o carro produto e pedido produto pro caso do usuario não finalizar a compra online
+        if pedido.local_de_pagamento == "online":
+            for prod in CarroProduto.objects.filter(carro=carro_obj):
+                prod.subtotal = prod.subtotal_bruto
+                prod.save()
+
+            if pedido.pedido_status == "Pagamento Processando":
+                for pedProd in PedidoProduto.objects.filter(pedido=pedido):
+                    pedProd.delete()
     
         # descontos formas de pagamento
         desc_dinheiro = 0
@@ -764,7 +774,7 @@ def pedido_carro_pagamento(request):
                     PedidoProduto.objects.create(pedido=pedido, produto=produto, nome_produto=produto.titulo, codigo=produto.codigo, 
                                                 descricao=produto.descricao, codigo_GTIN=produto.codigo_GTIN, preco_unitario_bruto=produto.preco_unitario_bruto, 
                                                 desconto_dinheiro=produto.desconto_dinheiro, desconto_retira=produto.desconto_retira, unidade=produto.unidade, 
-                                                quantidade=produtosCarro.quantidade, total_bruto=produtosCarro.subtotal_bruto, 
+                                                quantidade=(produtosCarro.quantidade * produto.fechamento_embalagem), total_bruto=produtosCarro.subtotal_bruto, 
                                                 desconto_total=(produtosCarro.subtotal_bruto - produtosCarro.subtotal), 
                                                 desconto_unitario=(produtosCarro.subtotal_bruto - produtosCarro.subtotal) / produtosCarro.quantidade, 
                                                 total_final=produtosCarro.subtotal)
@@ -804,7 +814,7 @@ def create_payment(request):
     cpf_cnpj_numeros = pedido.cpf_cnpj.replace(".", "").replace("-", "")
     cep_numeros = pedido.endereco_envio.cep.replace("-", "")
 
-    url = "https://api.pagseguro.com/checkouts" # TODO: Mudar
+    url = "https://api.pagseguro.com/checkouts"
     
     payload = {
         "customer": {
@@ -837,6 +847,10 @@ def create_payment(request):
         "payment_methods": [
             { 
                 "type": pedido.forma_de_pagamento 
+            # },
+            # {
+            #     "type": "DEBIT_CARD",
+            #     "brands": ["visa"]
             }
         ],
         "payment_methods_configs": [
@@ -848,15 +862,15 @@ def create_payment(request):
                         "option": "INSTALLMENTS_LIMIT"
                     }
                 ] 
-        #     },
-        #     {
-        #         "type": "DEBIT_CARD",
-        #         "config_options": [
-        #             {
-        #                 "value": "1",
-        #                 "option": "INTEREST_FREE_INSTALLMENTS"
-        #             }
-        #         ] 
+            # },
+            # {
+            #     "type": "DEBIT_CARD",
+            #     "config_options": [
+            #         {
+            #             "value": "1",
+            #             "option": "INSTALLMENTS_LIMIT"
+            #         }
+            #     ]
             }
         ],
         # "payment_methods_configs": [
@@ -876,8 +890,8 @@ def create_payment(request):
         # ],
         "redirect_url": f"https://www.loja-casahg.com.br/pedido-cofirmado/?id={pedido.id}", # f"http://127.0.0.1:8000/pedido-cofirmado/?id={pedido.id}&status=Pagamento_Confirmado",
         # f"{reverse_lazy('lojaapp:pedidoconfirmado')}?id={pedido.id}&status=Pagamento_Confirmado"
-        # "notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"],
-        # "payment_notification_urls": ["https://vendashg.pythonanywhere.com/test_atualizacao_pag/"]
+        "notification_urls": ["https://www.loja-casahg.com.br/notifica_pag_pedido/"],
+        "payment_notification_urls": ["https://www.loja-casahg.com.br/notifica_pagamento_pag_pedido/"],
     }
 
     # if pedido.frete:
@@ -900,9 +914,11 @@ def create_payment(request):
                 "description": prod.produto.descricao,
                 "quantity": prod.quantidade,
                 "unit_amount": int((prod.subtotal / prod.quantidade) * 100),
-                "image_url": "https://vendashg.pythonanywhere.com" + prod.produto.image.url
+                "image_url": f"https://www.loja-casahg.com.br{prod.produto.image.url}"
             }
         )
+
+        # print(f"https://www.loja-casahg.com.br{prod.produto.image.url}")
 
     headers = {
         "accept": "*/*",
@@ -929,8 +945,10 @@ def create_payment(request):
 
         return redirect(payment_url)
     else:
+        PedidoErro.objects.create(pedido=pedido,cliente=pedido.cliente,erro_code=response.status_code,erro_message=response.text)
+        return render(request, "pedidoError.html", {"error_code":response.status_code, "error_message":response.text})
         # TODO: Melhorar essa tela de erro pra versão final
-        return HttpResponse(f"Error: {response.status_code} - {response.text}")
+        # return HttpResponse(f"Error: {response.status_code} - {response.text}")
 
 class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
     template_name = "pedidoConfirmado.html"
@@ -949,17 +967,73 @@ class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
             if ta_pago(pedido):
                 pedido.pedido_status = "Pagamento Confirmado"
                 EmailPedidoPagamentoConfirmado(pedido)
+
+            try:
+                url = f"https://api.pagseguro.com/checkouts/{pedido.id_PagBank}"
+                headers = {
+                    "accept": "*/*",
+                    "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN,
+                }
+
+                consulta_response = requests.get(url, headers=headers)
+                respJson = consulta_response.json()
+
+                pedido.order_PagBank = respJson['orders'][0]['id']
+                pedido.save()
+            except:
+                print(f"Não foi podido verificar o order id do pedido {pedido.id}")
         else:
             pedido.pedido_status = "Pagamento Pendente"
 
         # pedido.pedido_status = pedido_status.replace("_", " ")
         pedido.save()
 
-        # Aumenta a quantidade de venda de cada produto
+        # Aumenta a quantidade de venda de cada produto e diminui o estoque
         pedidoProduto = PedidoProduto.objects.filter(pedido=pedido)
+        loja = Cliente.objects.get(cpf_ou_cnpj="11815947000177")
         for pp in pedidoProduto:
             produto = Produto.objects.get(id=pp.produto.id)
             produto.quantidade_vendas += 1
+
+            if pedido.endereco_envio.cliente == loja:
+                if produto.estoque_lojas[pedido.endereco_envio.titulo] >= pp.quantidade:
+                    produto.estoque_lojas[pedido.endereco_envio.titulo] -= pp.quantidade
+                else:
+                    dif = float(pp.quantidade) - produto.estoque_lojas[pedido.endereco_envio.titulo]
+                    produto.estoque_lojas[pedido.endereco_envio.titulo] = 0
+
+                    if pedido.endereco_envio.titulo != "Casa HG - Atacadão Dos Pisos":
+                        if produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"] >= dif:
+                            produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"] -= dif
+                        else:
+                            dif2 = dif - produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"]
+                            produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"] = 0
+
+                            for el in produto.estoque_lojas.items():
+                                if el[1] != 0:
+                                    ne = el[1] - dif2
+                                    produto.estoque_lojas.update({el[0]: ne})
+                    else:
+                        if produto.estoque_lojas["Casa HG - Várzea"] >= dif:
+                            produto.estoque_lojas["Casa HG - Várzea"] -= dif
+                        else:
+                            dif2 = dif - produto.estoque_lojas["Casa HG - Várzea"]
+                            produto.estoque_lojas["Casa HG - Várzea"] = 0
+                            produto.estoque_lojas["Casa HG - Magé/Guapimirim"] -= dif2
+            else:
+                if produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"] >= float(pp.quantidade):
+                    produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"] -= float(pp.quantidade)
+                else:
+                    dif = float(pp.quantidade) - produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"]
+                    produto.estoque_lojas["Casa HG - Atacadão Dos Pisos"] = 0
+
+                    if produto.estoque_lojas["Casa HG - Várzea"] >= dif:
+                        produto.estoque_lojas["Casa HG - Várzea"] -= dif
+                    else:
+                        dif2 = dif - produto.estoque_lojas["Casa HG - Várzea"]
+                        produto.estoque_lojas["Casa HG - Várzea"] = 0
+                        produto.estoque_lojas["Casa HG - Magé/Guapimirim"] -= dif2
+
             produto.save()
 
         # Cria carro novo
@@ -970,6 +1044,9 @@ class PedidoConfirmadoView(LogedMixin, BaseContextMixin, TemplateView):
         context["numProdCarro"] = 0
 
         return context
+
+class PedidoErroView(LogedMixin, BaseContextMixin, TemplateView):
+    template_name = "pedidoErro.html"
 
 class ClienteRegistrarView(LojaMixin, BaseContextMixin, CreateView):
     template_name = "clienteregistrar.html"
@@ -1057,7 +1134,7 @@ class ClienteEntrarView(LojaMixin, BaseContextMixin, FormView):
                 return render(self.request, self.template_name,
                               {"form": form, "error": "Cliente nao existe"})
         else:
-            error_message = "Falha na autenticação. Email: {}, Senha: {}".format(email, password)
+            error_message = "Falha na autenticação."
             return render(self.request, self.template_name,
                           {"form": form, "error": error_message})
 
@@ -1969,7 +2046,7 @@ class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, TemplateView):
 
         pedidoType_select = self.request.GET.get('pedidos', 'Todos')
 
-        context = {
+        context.update({
             'PedidosAndamento' : PedidoOrder.objects.filter(pedido_status="Pedido  em Andamento").order_by("-id"),
             'PedidosRecebido' : PedidoOrder.objects.filter(pedido_status="Pedido Recebido").order_by("-id"),
             'PagamentoPendente' : PedidoOrder.objects.filter(pedido_status="Pagamento Pendente").order_by("-id"),
@@ -1980,7 +2057,7 @@ class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, TemplateView):
             'PedidosProntaRetirada' : PedidoOrder.objects.filter(pedido_status="Pedido Pronta Retirada").order_by("-id"),
             'PedidosCompletado' : PedidoOrder.objects.filter(pedido_status="Pedido Completado").order_by("-id"),
             'PedidosCancelado' : PedidoOrder.objects.filter(pedido_status="Pedido Cancelado").order_by("-id"),
-        }
+        })
         
         statusList = []
         for i,j in PEDIDO_STATUS:
@@ -1989,11 +2066,24 @@ class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, TemplateView):
 
         return context
 
+class AdminLogsView(AdminRequireMixin, BaseContextMixin, TemplateView):
+    template_name = "admin_paginas/adminlogs.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['logs'] = AdminLog.objects.all().order_by('-ocorrido_em')
+
+        return context
+
 class AdminPedidoMudarView(AdminRequireMixin, BaseContextMixin, ListView):
     def post(self,request,*args,**kwargs):
         pedido_id = self.kwargs["pk"]
         pedido_obj = PedidoOrder.objects.get(id=pedido_id)
         novo_status = request.POST.get("status")
+        
+        AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Pedido {pedido_id} - status alterado de {pedido_obj.pedido_status} para {novo_status}")
+
         pedido_obj.pedido_status = novo_status
         pedido_obj.save()
 
@@ -2099,11 +2189,10 @@ class AdminProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
         context['estoque_total'] = sum(produto.estoque_lojas.values())
 
         pathCodigo = f"{settings.MEDIA_ROOT}/produtos/{produto.codigo}.webp"
-        # TODO: Mudar pro nome do site
         if os.path.exists(pathCodigo):
-            pathCodigo = f"http://127.0.0.1:8000/media/produtos/{produto.codigo}.webp"
+            pathCodigo = f"http://www.loja-casahg.com.br/media/produtos/{produto.codigo}.webp"
         else:
-            pathCodigo = f"http://127.0.0.1:8000/media/produtos/NoImgAvailable.webp"
+            pathCodigo = f"http://www.loja-casahg.com.br/media/produtos/NoImgAvailable.webp"
         context['foto_produto_codigo'] = pathCodigo
 
         context['fotos_produtos'] = produto.images.all()
@@ -2149,6 +2238,8 @@ def atualiza_produto(request):
             produto.desconto_retira = decimal.Decimal(request.POST["desconto_retira"].replace(",", "."))
 
             produto.save()
+
+            AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Produto {produto.slug} - dados basicos alterados")
 
         return redirect(request.POST["path"])
 
@@ -2200,6 +2291,8 @@ def atualiza_ficha_produto(request):
                 produto.palet = requestCopy["palet"]
 
             produto.save()
+
+            AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Produto {produto.slug} - ficha tecnica alterados")
             
         return redirect(request.POST["path"])
 
@@ -2268,7 +2361,7 @@ class PesquisarAdminView(AdminRequireMixin, BaseContextMixin, TemplateView):
         context['resultados'] = result
 
         return context
-    
+
 def consultar_checkout_pag(request):
     if request.method == 'POST':
         # print(request.POST)
@@ -2308,7 +2401,8 @@ def consultar_checkout_pag(request):
                         # TODO: Melhorar essa tela de erro pra versão final
                         return HttpResponse(f"Error: {order_response.status_code} - {order_response.text}")
                 except:
-                    messages.success(request, 'Pagamento não finalizado')
+                    # messages.success(request, 'Pagamento não finalizado')
+                    messages.success(request, f"Error: {order_response.status_code} - {order_response.text}")
                     print((f"Error: {order_response.status_code} - {order_response.text}"))
                     return render(request, "admin_paginas/adminpedidodetalhe.html", {"pedido_obj":pedido,"PEDIDO_STATUS":PEDIDO_STATUS})
             else:
@@ -2321,7 +2415,7 @@ def cancelar_checkout_pag(request):
     if request.method == 'POST':
         # print(request.POST)
         # pedido = PedidoOrder.objects.get(id=request.POST["pedido_id"])
-        url = "https://internal.sandbox.api.pagseguro.com/charges/" + request.POST["id_cancel"] + "/cancel"
+        url = "https://internal.api.pagseguro.com/charges/" + request.POST["id_cancel"] + "/cancel"
         # internal.
 
         payload = { "amount": { "value": request.POST["valor_pago"] } }
@@ -2332,16 +2426,23 @@ def cancelar_checkout_pag(request):
             "Content-type": "application/json"
         }
 
-        cancelar_response = requests.get(url, json=payload, headers=headers)
+        try:
+            cancelar_response = requests.get(url, json=payload, headers=headers)
 
-        if cancelar_response.status_code >= 200 and cancelar_response.status_code < 300:
-            print(cancelar_response.text)
+            if cancelar_response.status_code >= 200 and cancelar_response.status_code < 300:
+                print(cancelar_response.text)
 
-            pedido = PedidoOrder.objects.get(id=request.POST["pedido_id"])
-            EmailPedidoCancelado(pedido)
-        else:
-            # TODO: Melhorar essa tela de erro pra versão final
-            return HttpResponse(f"Error: {cancelar_response.status_code} - {cancelar_response.text}")
+                pedido = PedidoOrder.objects.get(id=request.POST["pedido_id"])
+                pedido.pedido_status = "Pedido Cancelado"
+                pedido.save()
+
+                EmailPedidoCancelado(pedido)
+                AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Pedido {pedido.id} - cancelado")
+            else:
+                # TODO: Melhorar essa tela de erro pra versão final
+                return HttpResponse(f"Error: {cancelar_response.status_code} - {cancelar_response.text}")
+        except:
+            return HttpResponse("Invalid request.")
         
     return HttpResponse("Invalid request.")
 
@@ -2522,6 +2623,7 @@ class ChunkedProdutoJsonUploadView(APIView):
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
+            AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"API Upload produtos")
             return Response({"message": "JSON Upload Complete"})
 
         return Response({"message": "Chunk received"})
@@ -2597,6 +2699,7 @@ class ChunkedProdutoJsonUpdateView(APIView):
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
+            AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"API Update produtos")
             return Response({"message": "JSON Upload Complete"})
 
         return Response({"message": "Chunk received"})
@@ -2644,6 +2747,7 @@ class ChunkedEstoqueJsonUploadView(APIView):
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
+            AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"API Upload estoque")
             return Response({"message": "JSON Upload Complete"})
 
         return Response({"message": "Chunk received"})
@@ -2719,6 +2823,7 @@ class ChunkedProdutoPisoFichaTecJsonUploadView(APIView):
             except json.JSONDecodeError:
                 return Response({"error": "Invalid JSON"}, status=400)
             
+            AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"API Upload fichas tecnicas")
             return Response({"message": "JSON Upload Complete"})
 
         return Response({"message": "Chunk received"})
@@ -2755,6 +2860,7 @@ class ChunkedProdutoImgUploadView(APIView):
                 os.remove(temp_file_path)
             
             file_url = os.path.join(settings.MEDIA_URL, "produtos", os.path.basename(converted_file_path))
+
             return JsonResponse({"message": "Upload complete", "file_url": file_url})
 
         return JsonResponse({"message": "Chunk received", "chunk_index": chunk_index})
@@ -2910,11 +3016,28 @@ class PedidoOrderListCreateView(generics.ListCreateAPIView):
 
     permission_classes = [HasAPIKey]
 
+    def list(self, request, *args, **kwargs):
+        try:
+            AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"API LIST Pedidos")
+        except:
+            print("Erro ao gerar log de LIST Pedidos")
+
+        return super().list(request, *args, **kwargs)
+
 class PedidoOrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PedidoOrder.objects.prefetch_related("pedidoProduto")
     serializer_class = PedidoOrderSerializer
 
     permission_classes = [HasAPIKey]
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        try:
+            AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"API Retrieve Pedido {instance.id}")
+        except:
+            print(f"Erro ao gerar log de Retrieve Pedido {instance.id}")
+            
+        return super().retrieve(request, *args, **kwargs)
 
     def perform_update(self, serializer):
         pedido_obj = serializer.save()
@@ -2950,6 +3073,53 @@ class PedidoProdutoDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [HasAPIKey]
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
+
+# Webhook de notificação do pagseguro
+@csrf_exempt
+def notifica_pag_pedido(request):
+    if request.method == 'POST':
+        data = request.json()
+
+        try:
+            pedido = PedidoOrder.objects.get(id_PagBank=data['id'])
+            if data['status'] == "EXPIRED":
+                pedido.pedido_status = "Pedido Cancelado"
+                pedido.save()
+
+                EmailPedidoCancelado(pedido)
+                AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"Pedido {pedido.id} - cancelado - PagSeguro")
+            TestStatus.objects.create(status=data,cu=data['id'])
+
+            return HttpResponse(status=200)
+        except:
+            return HttpResponse(status=404)
+        
+    return HttpResponse(status=405)
+
+@csrf_exempt
+def notifica_pagamento_pag_pedido(request):
+    if request.method == 'POST':
+        data = request.json()
+
+        try:
+            pedido = PedidoOrder.objects.get(order_PagBank=data['id'])
+            if data['charges']['status'] == "PAID":
+                pedido.pedido_status = "Pagamento Confirmado"
+                EmailPedidoPagamentoConfirmado(pedido)
+                AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"Pedido {pedido.id} - pagamento confirmado - PagSeguro")
+            elif data['charges']['status'] == "CANCELED" or data['charges']['status'] == "DECLINED":
+                pedido.pedido_status = "Pedido Cancelado"
+                EmailPedidoCancelado(pedido)
+                AdminLog.objects.create(funcionario=Admin.objects.get(nome_completo="Admin Loja"), log=f"Pedido {pedido.id} - cancelado - PagSeguro")
+            pedido.save()
+
+            TestStatus.objects.create(status=data,cu=data['id'])
+
+            return HttpResponse(status=200)
+        except:
+            return HttpResponse(status=404)
+        
+    return HttpResponse(status=405)
 
 # verifica se todos os produtos tem fotos
 def ChecaFotosProdutos(request):
@@ -2990,7 +3160,7 @@ def ChecaFotosProdutos(request):
 
     if request.method == 'POST':
         return redirect(request.POST["path"])
-    
+
 # Reseta o numero de fotos de todos os produtos
 def ResetaFotosProdutos(request):
     for prod in Produto.objects.all():
@@ -3006,7 +3176,7 @@ def ResetaFotosProdutos(request):
 
     if request.method == 'POST':
         return redirect(request.POST["path"])
-    
+
 # Fotos extras pros produtos
 ## Lança fotos
 def upload_imagem_extra_produtos(request):
@@ -3037,8 +3207,10 @@ def upload_imagem_extra_produtos(request):
 
             # Update the model with the new WebP image
             fotoProduto.image.name = os.path.relpath(new_path, settings.MEDIA_ROOT)
-            produto.num_fotos -= 1
+            # produto.num_fotos -= 1
             fotoProduto.save()
+
+            AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Produto {fotoProduto.produto.slug} - imagem {fotoProduto.image.name} adicionada")
 
             return redirect(request.POST["path"])
         else:
@@ -3052,6 +3224,8 @@ def delete_imagem_extra_produtos(request):
     if request.method == 'POST':
         try:
             foto = FotosProduto.objects.get(id=request.POST['foto'])
+
+            AdminLog.objects.create(funcionario=Admin.objects.get(user=request.user), log=f"Produto {foto.produto.slug} - imagem {foto.image.name} deletada")
 
             foto.delete()
 
@@ -3071,23 +3245,74 @@ def ta_pago(_pedido):
     }
 
     consulta_response = requests.get(url, headers=headers)
-                    
-    if consulta_response.status_code >= 200 and consulta_response.status_code < 300:
-        respJson = consulta_response.json()
-        order_urls = respJson.get("orders")[0].get("links")
-        for dic in order_urls:
-            if dic["rel"] == "GET":
-                consulta_order_url = dic["href"]
+    
+    try:
+        if consulta_response.status_code >= 200 and consulta_response.status_code < 300:
+            respJson = consulta_response.json()
+            order_urls = respJson.get("orders")[0].get("links")
+            for dic in order_urls:
+                if dic["rel"] == "GET":
+                    consulta_order_url = dic["href"]
 
-        order_response = requests.get(consulta_order_url, headers=headers)
+            order_response = requests.get(consulta_order_url, headers=headers)
 
-        if order_response.status_code >= 200 and order_response.status_code < 300:
-            status = order_response.json().get("charges")[0].get("status")
+            if order_response.status_code >= 200 and order_response.status_code < 300:
+                status = order_response.json().get("charges")[0].get("status")
 
-            if status == "PAID":
-                return True
+                if status == "PAID":
+                    return True
+    except:
+        return False
             
     return False
+
+# Faz o download do log do pedido pelo pagseguro
+def download_order(request):
+    if request.POST["checkout_id"]:
+
+        url_checkout = f"https://api.pagseguro.com/checkouts/{request.POST['checkout_id']}"
+
+        headers = {
+            "accept": "*/*",
+            "Authorization": "Bearer " + settings.PAGSEGURO_TOKEN,
+        }
+
+        try:
+            consulta_response = requests.get(url_checkout, headers=headers)
+                    
+            if consulta_response.status_code >= 200 and consulta_response.status_code < 300:
+                respJson = consulta_response.json()
+                order = respJson['orders'][0]['id']
+
+                url_order = f"https://api.pagseguro.com/orders/{order}"
+
+                try:
+                    order_response = requests.get(url_order, headers=headers)
+
+                    if order_response.status_code >= 200 and order_response.status_code < 300:
+                        orderJson = order_response.json()
+
+                        oderDic = json.dumps(orderJson, indent=4)
+
+                        response = HttpResponse(oderDic, content_type='text/plain')
+                        pedido_id = request.POST['pedido_id']
+                        response['Content-Disposition'] = f'attachment; filename="Log-Pedido{pedido_id}.txt"'
+                        return response
+                    else:
+                        messages.success(request, f"Error: {order_response.status_code} - {order_response.text}")
+                        return redirect(request.POST["path"])
+                except:
+                    messages.success(request, f"Error: Could not get order")
+                    return redirect(request.POST["path"])
+            else:
+                messages.success(request, f"Error: {consulta_response.status_code} - {consulta_response.text}")
+                return redirect(request.POST["path"])
+                # return HttpResponse(f"Error: {consulta_response.status_code} - {consulta_response.text}")
+        except:
+            messages.success(request, f"Error: Could not get checkout")
+            return redirect(request.POST["path"])
+        
+    return redirect(request.POST["path"])
 
 # Formata o valor do preço dos produtos para mostrar de forma mais interessante no site
 def preprocessar_precos(_produtos):
@@ -3161,8 +3386,8 @@ def EmailClienteRegistrado(_cliente):
                         "emails/emailClienteRegistrado.html",
                         context={
                             "cliente": _cliente,
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
-                            "linkVerif": f"https://vendashg.pythonanywhere.com{reverse('lojaapp:verifica_user', kwargs={'uidb64': uid, 'token': token})}",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "linkVerif": f"https://www.loja-casahg.com.br{reverse('lojaapp:verifica_user', kwargs={'uidb64': uid, 'token': token})}",
                         },
                     )
 
@@ -3182,8 +3407,8 @@ def EmailVerificaCliente(_cliente):
                         "emails/emailVerificaCLiente.html",
                         context={
                             "cliente": _cliente,
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
-                            "linkVerif": f"https://vendashg.pythonanywhere.com{reverse('lojaapp:verifica_user', kwargs={'uidb64': uid, 'token': token})}",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "linkVerif": f"https://www.loja-casahg.com.br{reverse('lojaapp:verifica_user', kwargs={'uidb64': uid, 'token': token})}",
                         },
                     )
 
@@ -3201,11 +3426,10 @@ def EmailPedidoRealizado(_pedido):
                         "emails/emailPedidoRealizado.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Recebido.png",
-                            # TODO: Verificar esse link da imagem
-                            # https://vendashg.pythonanywhere.com/media/empresas/hg-teste_jXgRLs3.png
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "urlDetalhePedido": f"https://www.loja-casahg.com.br/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://www.loja-casahg.com.br/media/progressoPedido/Pedido_Recebido.png",
+                            # https://www.loja-casahg.com.br/media/empresas/hg-teste_jXgRLs3.png
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -3222,9 +3446,9 @@ def EmailPedidoPagamentoConfirmado(_pedido):
                         "emails/emailPedidoPagamentoConfirmado.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pagamento_Confirmado.png",
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "urlDetalhePedido": f"https://www.loja-casahg.com.br/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://www.loja-casahg.com.br/media/progressoPedido/Pagamento_Confirmado.png",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -3241,9 +3465,9 @@ def EmailPedidoEnviado(_pedido):
                         "emails/emailPedidoEnviado.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Caminho.png",
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "urlDetalhePedido": f"https://www.loja-casahg.com.br/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://www.loja-casahg.com.br/media/progressoPedido/Pedido_Caminho.png",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -3260,9 +3484,9 @@ def EmailPedidoProntoRetirada(_pedido):
                         "emails/emailPedidoProntoRetirada.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Caminho.png",
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "urlDetalhePedido": f"https://www.loja-casahg.com.br/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://www.loja-casahg.com.br/media/progressoPedido/Pedido_Caminho.png",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -3279,9 +3503,9 @@ def EmailPedidoCancelado(_pedido):
                         "emails/emailPedidoCancelado.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Cancelado.png",
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "urlDetalhePedido": f"https://www.loja-casahg.com.br/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://www.loja-casahg.com.br/media/progressoPedido/Pedido_Cancelado.png",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -3298,9 +3522,9 @@ def EmailPedidoCompleto(_pedido):
                         "emails/emailPedidoCompleto.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pedido_Completado.png",
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "urlDetalhePedido": f"https://www.loja-casahg.com.br/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://www.loja-casahg.com.br/media/progressoPedido/Pedido_Completado.png",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 
@@ -3318,7 +3542,7 @@ def testEmail(_emailCliente, _cliente, _pedido):
     #                     "emails/emailClienteRegistrado.html",
     #                     context={
     #                         "cliente": _cliente,
-    #                         "logo": "https://vendashg.pythonanywhere.com" + Empresa.objects.get(titulo="Casa HG").image.url,
+    #                         "logo": "https://www.loja-casahg.com.br" + Empresa.objects.get(titulo="Casa HG").image.url,
     #                     },
     #                 )
     
@@ -3328,9 +3552,9 @@ def testEmail(_emailCliente, _cliente, _pedido):
                         "emails/emailPedidoPagamentoConfirmado.html",
                         context={
                             "pedido": _pedido,
-                            "urlDetalhePedido": f"https://vendashg.pythonanywhere.com/perfil/pedido-{_pedido.id}",
-                            "statusImg": "http://vendashg.pythonanywhere.com/media/progressoPedido/Pagamento_Confirmado.png",
-                            "logo": f"https://vendashg.pythonanywhere.com{Empresa.objects.get(titulo='Casa HG').image.url}",
+                            "urlDetalhePedido": f"https://www.loja-casahg.com.br/perfil/pedido-{_pedido.id}",
+                            "statusImg": "http://www.loja-casahg.com.br/media/progressoPedido/Pagamento_Confirmado.png",
+                            "logo": f"https://www.loja-casahg.com.br{Empresa.objects.get(titulo='Casa HG').image.url}",
                         },
                     )
 

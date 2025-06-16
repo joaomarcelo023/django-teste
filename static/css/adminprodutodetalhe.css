@@ -199,7 +199,7 @@
 
 .imgWrapper_moreImgs button {
     height: 20%;
-    width: 22%;
+    width: 15%;
 
     margin: 2%;
     margin-left: 1%;
@@ -208,6 +208,14 @@
     padding: 0;
 
     border: none;
+}
+
+.imgWrapper_moreImgs .imgButtonMain {
+    margin-right: 7%;
+}
+
+.imgWrapper_moreImgs form {
+    display: inline;
 }
 
 .imgWrapper_moreImgs img {
@@ -236,6 +244,13 @@
     display: flex;
     justify-content: flex-end;
     cursor: pointer;
+}
+
+.moreImgsWindow .deleteButton {
+    height: 5.7%;
+    width: 4%;
+
+    top: -6.75%;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */

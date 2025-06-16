@@ -21,6 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
+# TODO: Hide this
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-_%2ijo73=odl&uh$ndlyj%xi!l^&xi77r99ykek!lsc@ukx=pu'
 
@@ -150,7 +151,6 @@ REST_FRAMEWORK = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# TODO: Mudar as chave das APIs para contas da loja
 load_dotenv()
 
 GOOGLE_MAPS_KEY = os.getenv("GOOGLE_MAPS_KEY")
@@ -160,12 +160,11 @@ PAGSEGURO_TOKEN = os.getenv("PAGSEGURO_TOKEN")
 TESTKEY_API_CASAHG = os.getenv("TESTKEY_API_CASAHG")
 TESTKEY_API_CASAHG_PYTHONANYWHERE = os.getenv("TESTKEY_API_CASAHG_PYTHONANYWHERE")
 
-# TODO: Mudar o EMAIL_HOST_USER e EMAIL_HOST_PASSWORD pro da loja e EMAIL_BACKEND pra versão smtp
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"   # "django.core.mail.backends.console.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"                                   # Use your email provider's SMTP server
 EMAIL_PORT = 587                                                # Typically 587 for TLS or 465 for SSL
 EMAIL_USE_TLS = True                                            # Use TLS (or EMAIL_USE_SSL = True if using port 465)
-EMAIL_HOST_USER = "casahgalva@gmail.com"                        # Your email
+EMAIL_HOST_USER = "atendimento@loja-casahg.com"                 # Your email
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")          # Use an app password (not your real password)
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER                            # Default sender email
 

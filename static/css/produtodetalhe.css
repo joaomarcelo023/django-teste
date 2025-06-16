@@ -26,6 +26,10 @@ body {
         top: 21vh;
     }
 
+    .imgMain_moreImgs {
+        height: 80%;
+    }
+
     .imgCol_moreImgs_main {
         height: 500px;
     }
@@ -63,6 +67,8 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
+
+        height: 100%;
     }
 
     .imgCol_moreImgs {
@@ -84,16 +90,24 @@ body {
     }
 
     .imgCol_moreImgs_main {
-        height: 500px;
+        height: 64vh;
+    }
+
+    .imgCol_moreImgs_main img {
+        border-bottom: 1px solid #ff9900;
     }
 
     .imgCol_moreImgs_sub {
-        height: 360px;
+        height: 64vh;
     }
 
     .fichaTec td {
         /* text-align: justify; */
         text-align: center;
+    }
+    
+    .moreImgsJanelaClose {
+        font-size: x-large;
     }
 }
 
@@ -218,13 +232,13 @@ hr {
     margin-bottom: 5px;
 
     width: 100%;
-    height: 80%;
+    /* height: 80%; */
 }
 
 .imgMain_moreImgs img {
     padding: 0;
     margin: 0;
-    width: 98%;
+    width: 95%;
     height: 98%;
     
     object-fit: contain;

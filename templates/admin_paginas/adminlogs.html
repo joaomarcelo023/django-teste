@@ -1,0 +1,28 @@
+{% extends "admin_paginas/adminbase.html" %}
+
+{% load static %}
+{% load humanize %}
+{% load l10n %}
+
+{% block title %}Logs - CasaHG{% endblock %}
+
+
+{% block content %}
+<section class="container">
+    <div class="row">
+        <div class="col-sm-12 mx-auto">
+            <div class="tabela table-responsive">
+                <table class="table text-center">
+                    {% for l in logs %}
+                        <tr>
+                            <td>{{ l.ocorrido_em }}</td>
+                            <td>{{ l.log }}</td>
+                            <td>{{ l.funcionario.nome_completo }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

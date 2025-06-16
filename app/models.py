@@ -204,6 +204,12 @@ class FotosProduto(models.Model):
 
         self.image.delete(save=False)
 
+        for fp in FotosProduto.objects.filter(produto=self.produto):
+            if fp.img_num > self.img_num:
+                fp.img_num -= 1
+
+                fp.save()
+
         super(FotosProduto, self).delete(*args, **kwargs)
 
     def __str__(self):
@@ -275,6 +281,7 @@ class PedidoOrder(models.Model):
     criado_em = models.DateTimeField(auto_now_add=True)
 
     id_PagBank = models.CharField(max_length=200,default="",null=True,blank=True)
+    order_PagBank = models.CharField(max_length=200,default="",null=True,blank=True)
 
     def __str__(self):
         return "Pedido: " + str(self.id) + " | Status: " + self.pedido_status + " | Cliente: " + self.nome_cliente
@@ -308,7 +315,19 @@ class PedidoProduto(models.Model):
     def __str__(self):
         return "Pedido: " + str(self.pedido.id) + " | Codigo do produto: " + self.codigo + " | Produto: " + self.nome_produto
 
-class Banner(models.Model):    
+class PedidoErro(models.Model):
+    cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE,default="",null=True)
+    carro = models.ForeignKey(Carro,on_delete=models.CASCADE)
+
+    ocorrido_em = models.DateTimeField(auto_now_add=True)
+
+    erro_code = models.CharField(max_length=10,null=True,blank=True)
+    erro_message = models.CharField(max_length=200,null=True,blank=True)
+
+    def __str__(self):
+        return f"Carro: {self.carro} | Cliente: {self.cliente} | erro: {self.erro_code}"
+
+class Banner(models.Model):
     title = models.CharField(max_length=100, blank=True)
 
     image_grande = models.ImageField(upload_to='banners')
@@ -346,6 +365,14 @@ class Admin(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class AdminLog(models.Model):
+    funcionario = models.ForeignKey(Admin,on_delete=models.SET_NULL,null=True)
+    log = models.CharField(max_length=200)
+    ocorrido_em = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.ocorrido_em.strftime('%d/%m/%y %H:%M')} UTC | {self.funcionario} | {self.log}"
 
 class APIKey(AbstractAPIKey):
     criado_em = models.DateTimeField(auto_now_add=True)

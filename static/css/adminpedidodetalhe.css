@@ -23,12 +23,20 @@ td a:hover {
     text-decoration: none;
 }
 
+.pagDiv {
+    width: 100%;
+}
+
+.pagDiv form {
+    width: 49%;
+}
+
 .pagButton {
-    width: 50%;
+    width: 100%;
 }
 
 .statusDiv {
-    width: 50%;
+    width: 49%;
     display: flex;
 }
 
