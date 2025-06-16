@@ -11,6 +11,38 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/adminhome.css' %}">
 
 <section class="container">
+    <div class="row adminLinksRow">
+        <div class="col-6">
+            <ul>
+                <li>
+                    <a href="https://eu.umami.is/websites/4e6aeeb5-ac3c-4a7d-8b04-5b7400a966e7">Estatísticas</a>
+                </li>
+                <li>
+                    <a href="{% url 'lojaapp:adminlogs' %}">Logs</a>
+                </li>
+                <li>
+                    <a href="{% url 'lojaapp:adminbanners' %}">Banners</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-6">
+            <ul>
+                <li>
+                    <a href="{% url 'lojaapp:admincategoria' %}">Categorias</a>
+                </li>
+                <li>
+                    <a href="{% url 'lojaapp:admintodosprodutos' %}">Produtos</a>
+                </li>
+                <li>
+                    <a href="{% url 'lojaapp:admintodospedido' %}">Pedidos</a>
+                </li>
+                <li>
+                    <a href="{% url 'lojaapp:home' %}">Loja</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <br>
     <div class="row">
         <div class="col-4">
             <h4>Produtos mais vendido</h4>

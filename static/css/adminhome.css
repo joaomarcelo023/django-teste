@@ -1,3 +1,13 @@
+.adminLinksRow {
+    border-radius: 10px;
+    border: 1px solid #ff9900;
+    background-color: #f8f9fa;
+}
+
+.adminLinksRow ul {
+    margin-top: 10px;
+}
+
 .prodImage {
     height: 36px;
     padding: 0px;
@@ -15,11 +25,11 @@ th, td {
     text-align: center;
 }
 
-td a {
+a {
     color: black;
 }
 
-td a:hover {
+a:hover {
     color: #ff9900;
     text-decoration: none;
 }
