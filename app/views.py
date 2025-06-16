@@ -3362,7 +3362,7 @@ def download_order(request):
 def preprocessar_precos(_produtos):
         for produto in _produtos:
             venda_parts = str(produto.preco_unitario_bruto).split('.')
-            precoDesc = round((produto.preco_unitario_bruto * (1 - ((produto.desconto_dinheiro + produto.desconto_retira + 0.15) / 100))), 2)
+            precoDesc = round((produto.preco_unitario_bruto * (1 - ((produto.desconto_dinheiro + produto.desconto_retira + decimal.Decimal(0.15)) / 100))), 2)
             venda_parts_desc = str(precoDesc).split('.')
             precoCaixa = round((produto.preco_unitario_bruto * produto.fechamento_embalagem), 2)
             venda_parts_caixa = str(precoCaixa).split('.')
