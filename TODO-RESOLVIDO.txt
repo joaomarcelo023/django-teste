@@ -281,3 +281,5 @@ TODO-ALVAREZ-RESOLVIDO: Conectar o site com contas reais da loja e não minhas p
   TODO-ALVAREZ-RESOLVIDO: API Google
   
   TODO-ALVAREZ-RESOLVIDO: Umami
+
+TODO-ALVAREZ-RESOLVIDO: Mudar fotos banner
