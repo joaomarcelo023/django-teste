@@ -30,6 +30,8 @@
     margin-left: 5%;
 
     text-align: center;
+
+    object-fit: scale-down;
 }
 
 .pequeno .table {

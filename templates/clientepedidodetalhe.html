@@ -92,7 +92,7 @@
                                 </tr>
                                 <tr>
                                     <td class="text-right" style="border-bottom: none; border-top: none; width: 50%;">Subtotal:</td>
-                                    <td class="text-left" style="border-bottom: none; border-top: none; width: 50%;">R$ {{ cp.subtotal|intcomma }}</td>
+                                    <td class="text-left" style="border-bottom: none; border-top: none; width: 50%;">R$ {{ cp.subtotal_bruto|intcomma }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -102,6 +102,10 @@
                     {% endif %}
                 {% endfor %}
                 <br>
+                {% if pedido_obj.total_desconto %}
+                    <span class="spanTotal d-flex" style="display: flex; justify-content: flex-end; font-weight: 400;">Total: R$ {{ pedido_obj.total_bruto|intcomma }}</span>
+                    <span class="spanTotal d-flex" style="display: flex; justify-content: flex-end; font-weight: 400;">Desconto: R$ {{ pedido_obj.total_desconto|intcomma }}</span>
+                {% endif %}
                 <span class="spanTotal d-flex" style="display: flex; justify-content: flex-end;">Total: R$ {{ pedido_obj.total_final|intcomma }}</span>
                 <br>
             </div>
@@ -124,12 +128,16 @@
                             <td class="text-center"><a target="_blank" href="{%url 'lojaapp:produtodetalhe' cp.produto.slug %}">{{ cp.produto.titulo }}</a></td>
                             <td class="text-center">R$ {{ cp.preco_unitario|intcomma }}</td>
                             <td class="text-center">{{ cp.quantidade }}</td>
-                            <td colspan="3" class="text-center">R$ {{ cp.subtotal|intcomma }}</td>
+                            <td colspan="3" class="text-center">R$ {{ cp.subtotal_bruto|intcomma }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
                 <tfoot>
-                    {% if pedido.total_desconto %}
+                    {% if pedido_obj.total_desconto %}
+                        <tr>
+                            <th colspan="4" class="text-right" style="font-weight: 400;">Valor total</th>
+                            <th colspan="3" class="text-center" style="font-weight: 400;">R$ {{ pedido_obj.total_bruto|intcomma }}</th>
+                        </tr>
                         <tr>
                             <th colspan="4" class="text-right" style="font-weight: 400;">Desconto:</th>
                             <th colspan="3" class="text-center" style="font-weight: 400;">R$ {{ pedido_obj.total_desconto|intcomma }}</th>
