@@ -348,6 +348,9 @@
         <div class="row justify-content-center">
             <div class="col-12" style="display: flex; justify-content: center;">
                 {% for logo in footer %}
+                    {% if forloop.first %}
+                        <span style="width: 10.6vw;">&nbsp;</span>
+                    {% endif %}
                     <a href="{{ logo.link }}" target="_blank"><img src="{{ logo.image.url }}" style="height: 70px;"></a>{% if not forloop.last %}&emsp;{% endif %}
                 {% endfor %}
             </div>
