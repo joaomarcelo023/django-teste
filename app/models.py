@@ -351,6 +351,12 @@ class Banner(models.Model):
             self.position = 0
 
         return super().save(*args, **kwargs)
+    
+    def delete(self, *args, **kwargs):
+        self.image_grande.delete(save=False)
+        self.image_pequena.delete(save=False)
+
+        return super().delete(*args, **kwargs)
 
     def __str__(self):
         return f"{self.title} | Posição: {self.position}"
