@@ -29,3 +29,21 @@
     display:flex;
     vertical-align: middle;
 }
+
+.avisosRow {
+    width: 100%;
+}
+
+.avisos {
+    background-color: #ff9900;
+    color: #151635;
+    border-radius: 10px;
+    border: 2px solid #151635;
+    
+    text-align:center;
+    text-transform: uppercase;
+    font-weight: bold;
+
+    padding: 25px;
+    margin: 16px 25px;
+}

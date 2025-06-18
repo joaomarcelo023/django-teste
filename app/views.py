@@ -566,6 +566,8 @@ class FormaDeEntregaView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, 
         context["dataAmanha"] = amanha.strftime("%d/%m/%y")
         context["dataEntrega"] = dia.strftime("%d/%m/%y")
 
+        context["minimoEntrega"] = carro_obj.total >= decimal.Decimal(300)
+
         return context
     
 def pedido_carro_endereco(request):

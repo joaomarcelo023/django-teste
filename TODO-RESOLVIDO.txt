@@ -283,3 +283,5 @@ TODO-ALVAREZ-RESOLVIDO: Conectar o site com contas reais da loja e não minhas p
   TODO-ALVAREZ-RESOLVIDO: Umami
 
 TODO-ALVAREZ-RESOLVIDO: Mudar fotos banner
+
+TODO-ALVAREZ-RESOLVIDO: Colocar limite minimo pra entrega de 300 reais
