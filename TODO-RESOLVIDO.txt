@@ -291,3 +291,5 @@ TODO-ALVAREZ-RESOLVIDO: Apagar objeto teste do site
 TODO-ALVAREZ-RESOLVIDO: Colocar todos os status de pedidos na pagina de pedidos do admin
 
 TODO-ALVAREZ-RESOLVIDO: Deixar o codigo do footer melhor
+
+TODO-ALVAREZ-RESOLVIDO: Melhorar janela de pesquisa quando nenhum produto é encontrado

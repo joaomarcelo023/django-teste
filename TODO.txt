@@ -8,8 +8,6 @@ TODO-ALVAREZ: fazer uma tela para caso de erro direcionando para o email ou para
 
 TODO-ALVAREZ: Arrumar dimensões do produtos_pequenos
 
-TODO-ALVAREZ: Melhorar janela de pesquisa quando nenhum produto é encontrado
-
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte
