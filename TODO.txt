@@ -1,8 +1,16 @@
-TODO-ALVAREZ: Colocar todos os status de pedidos na pagina de pedidos do admin
-
 TODO-ALVAREZ: Entender do pagamento por cartão de debito do pagseguro
 
-TODO-ALVAREZ: Apagar objeto teste do site
+TODO-ALVAREZ: Colocar banner falando do preço minimo pra entrega
+
+TODO-ALVAREZ: desligar o modo debug
+
+TODO-ALVAREZ: fazer uma tela para caso de erro direcionando para o email ou para o whatsapp da loja
+
+TODO-ALVAREZ: Arrumar dimensões do produtos_pequenos
+
+TODO-ALVAREZ: Melhorar janela de pesquisa quando nenhum produto é encontrado
+
+TODO-ALVAREZ: 
 
 
 "Coisas que precisam estar bem estruturadas:
