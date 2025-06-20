@@ -30,6 +30,12 @@
     vertical-align: middle;
 }
 
+.avisosImg {
+    height: 7.5vh;
+    width: 100%;
+    object-fit: cover;
+}
+
 .avisosRow {
     width: 100%;
 }
