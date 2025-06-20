@@ -10,7 +10,7 @@ TODO-ALVAREZ: Arrumar dimensões do produtos_pequenos
 
 TODO-ALVAREZ: Melhorar janela de pesquisa quando nenhum produto é encontrado
 
-TODO-ALVAREZ: 
+TODO-ALVAREZ: Deixar o codigo do footer melhor
 
 
 "Coisas que precisam estar bem estruturadas:
