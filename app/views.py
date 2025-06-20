@@ -31,6 +31,7 @@ from rest_framework_api_key.permissions import HasAPIKey
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from math import ceil
 from PIL import Image
 from io import BytesIO
 from random import randint
@@ -269,7 +270,9 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
 
         context['limite_estoque'] = sum(produto.estoque_lojas.values())
 
-        context['fotos_produtos'] = produto.images.all().order_by("img_num") #FotosProduto.objects.filter(produto=produto)
+        fotosExtras = produto.images.all().order_by("img_num") #FotosProduto.objects.filter(produto=produto)
+        context['fotos_produtos'] = fotosExtras
+        context['fotos_extra_height'] = (500 / 4) * ceil(len(fotosExtras) / 4)
 
         if produto.Categoria.slug == "porcelanatos" or produto.Categoria.slug == "ceramicas":
             context['variacao_faces_pisos'] = VARIACAO_FACES_PISOS
