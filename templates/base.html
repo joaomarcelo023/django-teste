@@ -351,11 +351,11 @@
                     {% if forloop.first %}
                         <span class="grande" style="width: 10.6vw;">&nbsp;</span>
                     {% endif %}
-                    {% if not forloop.last %}
-                        <a href="{{ logo.link }}" target="_blank"><img src="{{ logo.image.url }}" style="height: 70px;"></a>&emsp;
+                    {% if logo.titulo != "Pagseguro" %}
+                        <a href="{{ logo.link }}" target="_blank"><img src="{{ logo.image.url }}" style="height: 70px;"></a>{% if not forloop.last %}&emsp;{% endif %}
                     {% else %}
-                        <a class="grande" href="{{ logo.link }}" target="_blank"><img src="{{ logo.image.url }}" style="height: 70px;"></a>
-                        <a class="pequeno" href="{{ logo.link }}" target="_blank"><img src="{% static 'img/Pagseguro.webp' %}" style="height: 70px;"></a>
+                        <a class="grande" href="{{ logo.link }}" target="_blank"><img src="{{ logo.image.url }}" style="height: 70px;"></a>{% if not forloop.last %}&emsp;{% endif %}
+                        <a class="pequeno" href="{{ logo.link }}" target="_blank"><img src="{% static 'img/Pagseguro.webp' %}" style="height: 70px;"></a>{% if not forloop.last %}&emsp;{% endif %}
                     {% endif %}
                 {% endfor %}
             </div>
