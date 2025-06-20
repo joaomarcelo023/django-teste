@@ -272,7 +272,8 @@ class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
 
         fotosExtras = produto.images.all().order_by("img_num") #FotosProduto.objects.filter(produto=produto)
         context['fotos_produtos'] = fotosExtras
-        context['fotos_extra_height'] = (500 / 4) * ceil(len(fotosExtras) / 4)
+        context['fotos_extra_height_grande'] = (500 / 4) * ceil(len(fotosExtras) / 4)
+        context['fotos_extra_height_pequeno'] = (64 / 4) * ceil(len(fotosExtras) / 4)
 
         if produto.Categoria.slug == "porcelanatos" or produto.Categoria.slug == "ceramicas":
             context['variacao_faces_pisos'] = VARIACAO_FACES_PISOS

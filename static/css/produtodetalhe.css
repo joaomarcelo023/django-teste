@@ -101,9 +101,9 @@ body {
         border-bottom: 1px solid #ff9900;
     }
 
-    .imgCol_moreImgs_sub {
+    /* .imgCol_moreImgs_sub {
         height: 64vh;
-    }
+    } */
      
     .imgWrapper_moreImgs button {
         height: 20%;
