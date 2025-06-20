@@ -1,7 +1,5 @@
 TODO-ALVAREZ: Entender do pagamento por cartão de debito do pagseguro
 
-TODO-ALVAREZ: Colocar banner falando do preço minimo pra entrega
-
 TODO-ALVAREZ: desligar o modo debug
 
 TODO-ALVAREZ: fazer uma tela para caso de erro direcionando para o email ou para o whatsapp da loja

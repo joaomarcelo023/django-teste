@@ -293,3 +293,5 @@ TODO-ALVAREZ-RESOLVIDO: Colocar todos os status de pedidos na pagina de pedidos 
 TODO-ALVAREZ-RESOLVIDO: Deixar o codigo do footer melhor
 
 TODO-ALVAREZ-RESOLVIDO: Melhorar janela de pesquisa quando nenhum produto é encontrado
+
+TODO-ALVAREZ-RESOLVIDO: Colocar banner falando do preço minimo pra entrega
