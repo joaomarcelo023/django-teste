@@ -4,7 +4,7 @@ TODO-ALVAREZ: desligar o modo debug
 
 TODO-ALVAREZ: fazer uma tela para caso de erro direcionando para o email ou para o whatsapp da loja
 
-TODO-ALVAREZ: Arrumar dimensões do produtos_pequenos
+TODO-ALVAREZ: Aumentar a altura da janela de fotos extra no produtodetalhes
 
 
 "Coisas que precisam estar bem estruturadas:
