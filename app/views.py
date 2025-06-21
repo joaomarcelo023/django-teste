@@ -1587,6 +1587,8 @@ class PesquisarView(BaseContextMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         
         kw = self.request.GET.get("query")
+        if kw.endswith(" "):
+            kw = kw.rstrip()
 
         # Ordenação (barra_macro_classificar.html)
         classificar_selected = self.request.GET.get("Classificar", "Destaque")
@@ -2342,6 +2344,8 @@ class PesquisarAdminView(AdminRequireMixin, BaseContextMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         kw = self.request.GET.get("query")
+        if kw.endswith(" "):
+            kw = kw.rstrip()
         desamb = self.request.GET.get("desambiguidade")
         pedido = PedidoOrder.objects.filter(Q(nome_cliente__icontains = kw) | Q(email__icontains = kw) | Q(id__iexact = kw)).order_by("-id")
         produto = Produto.objects.filter(Q(codigo__iexact = kw) | Q(codigo_GTIN__iexact = kw) | Q(slug__iexact = kw) | Q(descricao__icontains = kw) | Q(titulo__icontains = kw) | Q(Categoria__titulo__icontains = kw))

@@ -297,3 +297,5 @@ TODO-ALVAREZ-RESOLVIDO: Melhorar janela de pesquisa quando nenhum produto é enc
 TODO-ALVAREZ-RESOLVIDO: Colocar banner falando do preço minimo pra entrega
 
 TODO-ALVAREZ-RESOLVIDO: Arrumar dimensões do produtos_pequenos
+
+TODO-ALVAREZ-RESOLVIDO: Aumentar a altura da janela de fotos extra no produtodetalhes
