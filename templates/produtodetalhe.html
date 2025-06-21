@@ -414,15 +414,7 @@
                 </div>
             </div>
             <!-- Esse erro é um falso positivo, ignorar ou descobrir uma forma de fazer o editor parar de mostrar erro -->
-            <div class="col-7 imgCol_moreImgs imgCol_moreImgs_sub grande" style="height: {{ fotos_extra_height_grande }}px;">
-                <div class="imgWrapper_moreImgs">
-                    {% for foto in fotos_produtos %}
-                        <button><img src="{{ foto.image.url }}" {% if forloop.first %}style="border-bottom: 5px solid #ff9900;"{% endif %}></button>
-                    {% endfor %}
-                </div>
-            </div>
-            <!-- Esse erro é um falso positivo, ignorar ou descobrir uma forma de fazer o editor parar de mostrar erro -->
-            <div class="col-7 imgCol_moreImgs imgCol_moreImgs_sub pequeno" style="height: {{ fotos_extra_height_pequeno }}vh;">
+            <div class="col-7 imgCol_moreImgs imgCol_moreImgs_sub" style="height: {{ fotos_extra_height_grande }}px;">
                 <div class="imgWrapper_moreImgs">
                     {% for foto in fotos_produtos %}
                         <button><img src="{{ foto.image.url }}" {% if forloop.first %}style="border-bottom: 5px solid #ff9900;"{% endif %}></button>
