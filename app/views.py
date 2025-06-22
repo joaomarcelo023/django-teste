@@ -2215,7 +2215,11 @@ class AdminProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
             pathCodigo = f"http://www.loja-casahg.com.br/media/produtos/NoImgAvailable.webp"
         context['foto_produto_codigo'] = pathCodigo
 
-        context['fotos_produtos'] = produto.images.all()
+        # context['fotos_produtos'] = produto.images.all()
+        fotosExtras = produto.images.all().order_by("img_num") #FotosProduto.objects.filter(produto=produto)
+        context['fotos_produtos'] = fotosExtras
+        context['fotos_extra_height_grande'] = (500 / 4) * ceil(len(fotosExtras) / 4)
+        context['fotos_extra_height_pequeno'] = (64 / 4) * ceil(len(fotosExtras) / 4)
 
         context['categorias'] = Categoria.objects.all()
 

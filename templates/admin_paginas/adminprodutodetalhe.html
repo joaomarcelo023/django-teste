@@ -298,7 +298,8 @@
                     <img src="{{ foto_produto_codigo }}" class="img-fluid mainImg_moreImgs">
                 </div>
             </div>
-            <div class="col-7 imgCol_moreImgs imgCol_moreImgs_sub">
+            <!-- Esse erro é um falso positivo, ignorar ou descobrir uma forma de fazer o editor parar de mostrar erro -->
+            <div class="col-7 imgCol_moreImgs imgCol_moreImgs_sub" style="height: {{ fotos_extra_height_grande }}px;">
                 <div class="imgWrapper_moreImgs">
                     <button class="imgButton imgButtonMain" style="border: 1px solid red;"><img src="{{ foto_produto_codigo }}" style="border-bottom: 5px solid #ff9900;"></button>
                     {% for foto in fotos_produtos %}
