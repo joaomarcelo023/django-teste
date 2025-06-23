@@ -1,0 +1,38 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.formCol {
+    max-width: 500px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    margin: 50px auto;
+}
+
+.form-group input, .form-control {
+    border: 2px solid rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+}
+
+.form-group div{
+    margin-bottom: 20px;
+}
+
+.btn-success {
+    width: 100%;
+}
+
+.cep-link {
+    color: #3483fa;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+.estado-input, .cidade-input, .bairro-input, .rua-input {
+    pointer-events: none;
+    background-color: #f9f9f9;
+}

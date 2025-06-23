@@ -1,0 +1,14 @@
+.desambiguiBtn {
+    border: none;
+    background-color: transparent;
+
+    font-weight: 600;
+    color: #ff9900;
+
+    padding: 0;
+}
+
+.desambiguiBtn:hover {
+    color: #151635;
+    text-decoration: underline;
+}

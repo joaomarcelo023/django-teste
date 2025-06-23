@@ -1,0 +1,30 @@
+@media (max-width: 577px) {
+    .col-lg-3, .col-md-4, .col-sm-6, .col-12 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    
+    .m-3 {
+        margin: 1px 1px 30px !important;
+    }
+}
+
+@media only screen and (min-width: 750px) {
+    .pequeno {
+        display: none;
+    }
+
+    .productCol {
+        width: 89vw;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .grande {
+        display: none;
+    }
+
+    .productCol {
+        width: 100vw;
+    }
+}

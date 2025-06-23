@@ -1,0 +1,121 @@
+@media only screen and (min-width: 750px) {
+    .pequeno * {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .grande * {
+        display: none;
+    }
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* Grande */
+.grande .table-container {
+    height: 68vh;
+}
+
+.grande .table-responsive {
+    width: 100%;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.grande .table {
+    border-collapse: collapse;
+    margin-bottom: 0px;
+}
+
+.grande .prodImage {
+    height: 36px;
+    padding: 0px;
+    margin: 0px;
+    
+    text-align: center;
+    
+    /* object-fit: scale-down; */
+}
+
+.grande .table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+}
+
+td a {
+    color: black;
+}
+
+td a:hover {
+    color: #ff9900;
+    text-decoration: none;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+th a {
+    width: 100%;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* Pequeno */
+.pequeno .spanTotal {
+    font-weight: 750;
+    font-size: large;
+}
+.pequeno .btnTot {
+    width: 100%;
+    /* margin-bottom: 5px; */
+    margin-top: 10px;
+}
+
+.pequeno .colImage {
+    padding: 0px;
+    margin: 0px;
+
+    background-color: white;
+    
+    /* border: 1px solid red; */
+}
+
+.pequeno .colTable {
+    padding: 0px;
+    margin: 0px;
+
+    background-color: white;
+
+    /* border: 1px solid blue; */
+}
+
+.pequeno .prodImage {
+    width: 100%;
+    height: 100%;
+    
+    padding: 0px;
+    margin: 0px;
+    
+    text-align: center;
+    
+    object-fit: contain;
+}
+
+.pequeno .table {
+    width: 100%;
+
+    padding: 0px;
+    margin: 0px;
+}
+
+.pequeno td {
+    background-color: white;
+
+    border-left: none;
+    border-right: none;
+
+    font-size: small;
+}

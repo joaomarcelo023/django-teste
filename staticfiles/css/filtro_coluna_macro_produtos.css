@@ -1,0 +1,192 @@
+/* .filterCol * {
+    border: 1px solid red;
+} */
+
+@media (min-width: 750px) {
+    .variacaoFacesWindow, .indicUsoWindow {
+        width: 25vw;
+        
+        left: 10vw;
+    }
+
+    .variacaoFacesWindow {
+        top: 40vh;
+    }
+
+    .indicUsoWindow {
+        top: 60vh;
+    }
+    
+}
+@media (max-width: 750px) {
+    .variacaoFacesWindow, .indicUsoWindow {
+        width: 85vw;
+        
+        left: 7.5vw;
+    }
+
+    /* .variacaoFacesWindow {
+        top: 242vh;
+    }
+
+    .indicUsoWindow {
+        top: 242vh;
+    } */
+}
+/* TODO: Olhar isso porque essa solução com certeza ta uma bosta. Por algum motivo, quando a tela é muito pequena ele joga a janela do dropdown pro topo da pagina. */
+@media (max-width: 435px) {
+    .filterRowButton_dropdown_menu {
+        margin-top: 45.5%;
+    }
+}
+@media (max-width: 395px) {
+    .filterRowButton_dropdown_menu {
+        margin-top: 47.5%;
+    }
+}
+@media (max-width: 375px) {
+    .filterRowButton_dropdown_menu {
+        margin-top: 45.5%;
+    }
+}
+@media (max-width: 365px) {
+    .filterRowButton_dropdown_menu {
+        margin-top: 49.5%;
+    }
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+.filterRow {
+    width: 100%;
+}
+
+.filterRowDiv{
+    background-color: white;
+}
+
+.filterRowButton {
+    width: 98%;
+    margin-left: 1%;
+    margin-right: 1%;
+
+    border-top: 1px solid #151635;
+}
+
+.filterRowButton_custom {
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+}
+
+.filterRowButton_dropdown_menu {
+    width: 90%;
+
+    /* margin-top: 49.5%; */
+    margin-right: 3%;
+    margin-left: 3%;
+}
+
+.filterRow .filterRowForm {
+    width: 100%;
+    margin-left: 15px;
+}
+
+.filterRow .caractTitle {
+    width: 100%;
+    font-weight: bold;
+}
+
+.filterRow .precoInput {
+    width: 81%;
+}
+
+.filterRow .filterRowForm ul {
+    padding: 0;
+    margin: 0;
+
+    list-style: none;
+}
+
+.filterRow .filterRowFormSection {
+    width: 90%;
+}
+
+.filterRow .filterRowForm label {
+    margin: 0;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+.filterCol {
+    /* position: absolute; */
+    /* background-color: white; */
+    width: 11vw;
+}
+
+.filterCol .filterColForm {
+    width: 100%;
+    margin-left: 15px;
+}
+
+.filterCol .caractTitle {
+    width: 100%;
+    font-weight: bold;
+}
+
+.filterCol .caractTitle .btnInfo {
+    cursor: pointer;
+}
+
+.filterCol .precoInput {
+    width: 90%;
+}
+
+.filterCol .filterColForm ul {
+    padding: 0;
+    margin: 0;
+
+    width: 11vw;
+
+    list-style: none;
+}
+
+.filterCol .filterColFormSection {
+    width: 11vw;
+}
+
+.filterCol .filterColForm label {
+    margin: 0;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+.variacaoFacesWindow, .indicUsoWindow {
+    position: absolute;
+
+    z-index: 1;
+
+    background-color: white;
+    border: 2px solid #ff9900;
+    border-radius: 21px;
+
+    padding: 12px;
+}
+
+.variacaoFacesWindow h4, .indicUsoWindow h4 {
+    width: 98%;
+}
+
+.indicUsoJanelaClose, .variacaoFacesJanelaClose {
+    width: 2%;
+    height: 16%;
+
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+}
+
+.variacaoFacesWindow td, .indicUsoWindow td {
+    text-align: justify;
+    vertical-align: middle;
+}

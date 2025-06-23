@@ -1,0 +1,136 @@
+@media (min-width: 750px) {
+    .div-produtos_pequenos {
+        height: 39vh;
+        width: 17vw;
+        /* margin-top: 10px; */
+        /* margin-right: 1.5vw; */
+        /* margin-bottom: 10px; */
+        /* margin-left: 1.5vw; */
+        border: 2px solid #EEEEEE;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+        border-radius: 10px;
+    }
+
+    .linkProd {
+        margin-top: 10px;
+        margin-right: 1.5vw;
+        margin-bottom: 10px;
+        margin-left: 1.5vw;
+
+        border-radius: 10px;
+    }
+
+    .divImagemProd {
+        max-height: 60%;
+    }
+
+    .imagemProdutos {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 750px) {
+    .div-produtos_pequenos {
+        height: 125vw;
+        width: 45vw;
+        /* margin-top: 10px; */
+        /* margin-right: 1.5vw; */
+        /* margin-bottom: 10px; */
+        /* margin-left: 1.5vw; */
+        border: 2px solid #EEEEEE;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+        border-radius: 10px;
+    }
+
+    .linkProd {
+        margin-top: 10px;
+        margin-right: 1.5vw;
+        margin-bottom: 10px;
+        margin-left: 1.5vw;
+
+        border-radius: 10px;
+    }
+
+    .divImagemProd {
+        max-height: 45%;
+    }
+
+    .imagemProdutos {
+        padding: 2px;
+    }
+}
+
+.linkProd {
+    color: currentColor;
+    text-decoration: none;
+    display: flex;
+}
+
+.linkProd:hover {
+    color: #464646;
+    text-decoration: none;
+    box-shadow:  0 5px 18px 5px rgba(255, 153, 0, 0.6);
+}
+
+.div-produtos_pequenos {
+    background: #fff;
+    padding: 0;
+    position: relative;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    display: flex;
+    flex-shrink:1;
+}
+
+.divSub-produtos_pequenos {
+    height: 100%;
+    margin: auto;
+    padding: 0;
+    justify-content: center;
+    flex-direction: column;
+    flex-shrink: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.divImagemProd {
+    aspect-ratio: 0.75;
+    object-fit: scale-down;
+    margin: 0px;
+    padding: 0px;
+    height: auto;
+    width: auto;
+    align-items: center;
+    flex-shrink:1;
+    justify-content: center;
+    
+    /* border: 1px solid red; */
+}
+
+.imagemProdutos {
+    object-fit: contain;
+    height: 100%;
+    width: 100%;
+}
+
+.divInfoProd {
+    width: 90%;
+    margin: auto;
+    padding: 0;
+
+    text-align: justify;
+}
+
+.titulo {
+    height: 55%;
+    font-size: medium;
+    color: black;
+}
+
+.info {
+    margin: 0px;
+
+    font-size: small;
+    color: #464646;
+}

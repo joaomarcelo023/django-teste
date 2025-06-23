@@ -1,0 +1,43 @@
+.adminLinksRow {
+    border-radius: 10px;
+    border: 1px solid #ff9900;
+    background-color: #f8f9fa;
+}
+
+.adminLinksRow ul {
+    margin-top: 10px;
+}
+
+.prodImage {
+    height: 36px;
+    padding: 0px;
+    margin: 0px;
+    
+    text-align: center;
+}
+
+.table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+}
+
+a {
+    color: black;
+}
+
+a:hover {
+    color: #ff9900;
+    text-decoration: none;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+th a {
+    width: 100%;
+}

@@ -1,0 +1,90 @@
+.detalhesDiv {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.prodImage {
+    height: 36px;
+    padding: 0px;
+    margin: 0px;
+    
+    text-align: center;
+    
+    /* object-fit: scale-down; */
+}
+
+td a {
+    color: black;
+}
+
+td a:hover {
+    color: #ff9900;
+    text-decoration: none;
+}
+
+.pagDiv {
+    width: 100%;
+}
+
+.pagDiv form {
+    width: 49%;
+}
+
+.pagButton {
+    width: 100%;
+}
+
+.statusDiv {
+    width: 49%;
+    display: flex;
+}
+
+.statusDiv select {
+    vertical-align: middle;
+    height: 37px;
+    width: 60%;
+}
+
+.statusDiv span {
+    width: 1%;
+}
+
+.statusDiv button {
+    vertical-align: middle;
+    width: 39%;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+.PagSeguroTitulo h3 {
+    height: 100%;
+    width: 97.5%;
+    justify-content: center;
+    align-items: baseline;
+
+    padding: 0px;
+    margin: 0px;
+}
+
+.PagSeguroTitulo a {
+    width: 2.5%;
+    justify-content: end;
+    align-items: start;
+
+    color: black;
+    text-decoration: none;
+}
+
+.pagTable {
+    width: 100%;
+}
+
+.pagTableCelTitle {
+    width: 30%;
+    max-width: 50%;
+}
+
+.pagTableCelContent {
+    min-width: 50%;
+}

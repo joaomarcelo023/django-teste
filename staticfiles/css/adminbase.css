@@ -1,0 +1,29 @@
+@media only screen and (min-width: 750px) {
+    .pequeno * {
+        display: none;
+    }
+
+    .grande {
+        border-bottom: 2px solid #ff9900;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .grande * {
+        display: none;
+    }
+    .texto-menu {
+        display: none;
+
+    }
+    
+    .pequeno {
+        border-bottom: 2px solid #ff9900;
+    }
+}
+
+.user {
+    background-color: #151635;
+    color: #ff9900;
+    display: flex;
+}

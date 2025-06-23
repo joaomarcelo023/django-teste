@@ -2,3 +2,4 @@ test.py
 cad.txt
 .env
 db.sqlite3
+logs/django_errors.log

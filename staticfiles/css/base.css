@@ -1,0 +1,169 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    background-color: #EBEBEB;
+}
+
+@media only screen and (min-width: 750px) {
+    .pequeno {
+        display: none;
+    }    
+
+    .numProdCarro {
+        position: relative;
+        left: -7px;
+        top: -7px;
+        width: 24px;
+        height: 24px;
+
+        border: 2px solid #ff9900;
+        border-radius: 50%;
+
+        /* color: #ff9900; */
+        background-color: #151635;
+        text-align: center;
+        line-height: 18px;
+
+        margin: 0px;
+    }
+
+    .btn-custom:hover .numProdCarro {
+        border-color: #151635;
+        background-color: #ff9900;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .grande {
+        display: none;
+    }
+
+    .texto-menu {
+        display: none;
+
+    }
+
+    .numProdCarro {
+        width: 40%;
+        margin-left: 10%;
+
+        font-size: smaller;
+        justify-content: center;
+    }
+}
+
+#closeButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.popup-menu-mobile {
+    opacity: 0;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #363a3f;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: opacity 0.5s;
+    background-color: #151635;
+}
+
+section {
+    flex: 1;
+}
+
+.zoom-effect {
+    transition: transform 0.3s ease-in-out;
+}
+
+.zoom-effect:hover {
+    transform: scale(1.1);
+}
+
+.custom-max-width-input {
+    max-width: 300px;
+}
+
+.custom-max-width-input2 {
+    max-width: 170px;
+}
+
+.btn-custom {
+    background-color: #151635;
+    color: #ff9900;
+    border-color: #ff9900;
+    border-width: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+}
+
+.btn-custom:hover {
+    background-color: #ff9900;
+    border-color: #ff9900;
+    color: #151635;
+}
+
+.pequenoMenu {
+    padding: 1px;
+    margin: 0px;
+    height: 5vh;
+    
+    /* border: 1px solid red; */
+}
+
+.pequenoMenuBtn {
+    height: 100%;
+    width: 100%;
+
+    line-height: 100%;
+    text-align: center;
+}
+
+.form-custom-background {
+    background-color: #151635;
+}
+
+.texto-cor-secundaria {
+    color: #ff9900;
+    transition: 0.3s ease-in-out;
+}
+
+.texto-cor-secundaria:hover {
+    color: #c47500;
+}
+
+footer {
+    background-color: transparent;
+    border-top: 2px solid #ff9900;
+    /* background-color: #151635; */
+    /* color: #ff9900; */
+    box-shadow: none;
+}
+
+footer .row {
+    padding-top: 10px;
+    width: 100%;
+
+    color: #ff9900;
+}
+
+.pequeno .dropdown-menu {
+    /* position: absolute; */
+    right: 0;
+    left: auto;
+}

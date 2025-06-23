@@ -1,0 +1,159 @@
+@media (min-width: 750px) {
+    .termos_condicoes_Div label {
+        font-size: small;
+    }
+
+    .termos_condicoes_janela {
+        width: 25vw;
+        
+        left: 37.5vw;
+        top: 25vh;
+    }
+}
+@media (max-width: 750px) {
+    .termos_condicoes_Div label {
+        font-size: x-small;
+    }
+
+    .termos_condicoes_janela {
+        width: 85vw;
+        
+        left: 7.5vw;
+        top: 33vh;
+    }
+}
+
+.option {
+    /* display: flex; */
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.option_title {
+    display: flex;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.option_method {
+    display: flex;
+    padding-left: 20px;
+    padding-right: 11px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.option_parcelas {
+    display: flex;
+    padding-left: 50px;
+    padding-right: 11px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.option input {
+    margin-right: 10px;
+}
+
+.selected {
+    border-color: #007bff;
+    background-color: #f0f8ff;
+}
+
+.payment {
+    font-size: 14px;
+    margin-left: auto;
+    margin-bottom: 0px;
+    width: 100%;
+}
+
+.payment_place {
+    font-weight: bold;
+    width: 100%;
+}
+
+.payment_method {
+    /* font-size: 14px; */
+    /* margin-left: auto; */
+    width: 100%;
+}
+
+.total_normal {
+    color: green;
+}
+
+.total_desconto {
+    text-decoration: line-through;
+    color: red;
+}
+
+.parcelas {
+    font-size: 14px;
+    margin-left: auto;
+    margin-bottom: 0px;
+    width: 100%;
+}
+
+.parcelas_select {
+    /* border: none; */
+    border-radius: 20%;
+    /* border-color: #007bff; */
+    /* background-color: #f0f8ff; */
+    text-align: end;
+}
+
+.endereco {
+    background-color: white;
+    padding: 2.5%;
+    border-radius: 15px;
+}
+
+.termos_condicoes_Div {
+    width: 95%;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+.termos_condicoes_Div label {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.termos_condicoes_Div span {
+    color: #ff9900;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.termos_condicoes_janela {
+    position: absolute;
+
+    background-color: white;
+    border: 2px solid #ff9900;
+    border-radius: 21px;
+
+    padding: 12px;
+}
+
+.termos_condicoes_janela h4 {
+    width: 98%;
+}
+
+.termos_condicoes_janela_close {
+    width: 2%;
+    height: 16%;
+
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+}
+
+.termos_condicoes_janela li {
+    text-align: justify;
+}
