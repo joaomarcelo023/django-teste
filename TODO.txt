@@ -2,8 +2,6 @@ TODO-ALVAREZ: Entender do pagamento por cartão de debito do pagseguro
 
 TODO-ALVAREZ: desligar o modo debug
 
-TODO-ALVAREZ: fazer uma tela para caso de erro direcionando para o email ou para o whatsapp da loja
-
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte

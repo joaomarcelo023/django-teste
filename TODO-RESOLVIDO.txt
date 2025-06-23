@@ -299,3 +299,5 @@ TODO-ALVAREZ-RESOLVIDO: Colocar banner falando do preço minimo pra entrega
 TODO-ALVAREZ-RESOLVIDO: Arrumar dimensões do produtos_pequenos
 
 TODO-ALVAREZ-RESOLVIDO: Aumentar a altura da janela de fotos extra no produtodetalhes
+
+TODO-ALVAREZ-RESOLVIDO: fazer uma tela para caso de erro direcionando para o email ou para o whatsapp da loja

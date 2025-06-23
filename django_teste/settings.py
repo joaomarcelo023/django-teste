@@ -30,6 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1',"vendashg.pythonanywhere.com","loja-casahg.com.br","www.loja-casahg.com.br"]
 
+ADMINS = [('Casa HG', 'atendimento@loja-casahg.com')]
 
 # Application definition
 
@@ -173,3 +174,23 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER                            # Default sender
 DATA_UPLOAD_MAX_MEMORY_SIZE = 500 * 1024 * 1024  # 500MB for JSON
 
 FILE_UPLOAD_MAX_MEMORY_SIZE = 1 * 1024 * 1024 * 1024  # 1GB for files
+
+# Error logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,  # Keeps default logs active
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'logs/django_errors.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}

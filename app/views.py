@@ -247,7 +247,6 @@ class ContatoView(LojaMixin, BaseContextMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['API'] = list(TestStatus.objects.all())[-1]
 
         return context
 
@@ -3714,6 +3713,19 @@ def testEmail(_emailCliente, _cliente, _pedido):
     #     [_emailCliente],
     #     fail_silently=False,
     # )
+
+# Paginas de erro
+def custom_400(request, exception):
+    return render(request, "error.html", {"error_code":"400", "error_message":"Bad Request"}, status=400)
+
+def custom_403(request, exception):
+    return render(request, "error.html", {"error_code":"403", "error_message":"Forbidden"}, status=403)
+
+def custom_404(request, exception):
+    return render(request, "error.html", {"error_code":"404", "error_message":"Not Found"}, status=404)
+
+def custom_500(request):
+    return render(request, "error.html", {"error_code":"500", "error_message":"Server error"}, status=500)
 
 # Função para testar requests de POST vindos do site
 def testPOST(request):

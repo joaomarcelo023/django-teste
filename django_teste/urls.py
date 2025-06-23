@@ -27,3 +27,8 @@ urlpatterns = [
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler400 = 'app.views.custom_400'
+handler403 = 'app.views.custom_403'
+handler404 = 'app.views.custom_404'
+handler500 = 'app.views.custom_500'
