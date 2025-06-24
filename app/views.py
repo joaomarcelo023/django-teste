@@ -3716,16 +3716,60 @@ def testEmail(_emailCliente, _cliente, _pedido):
 
 # Paginas de erro
 def custom_400(request, exception):
-    return render(request, "erro.html", {"error_code":"400", "error_message":"Bad Request"}, status=400)
+    carro_id = request.session.get("carro_id")
+    if carro_id:
+        carro_obj = Carro.objects.get(id=carro_id)
+        produtos = list(CarroProduto.objects.filter(carro=carro_obj))
+        if produtos:
+            numProdCarro = len(produtos)
+
+    todoscategorias = Categoria.objects.all()
+
+    footer = [Empresa.objects.get(titulo="Hefesto"), Empresa.objects.get(titulo="Casa HG"), Empresa.objects.get(titulo="Pagseguro")]
+    
+    return render(request, "erro.html", {"numProdCarro":numProdCarro, "todoscategorias":todoscategorias, "footer":footer, "error_code":"400", "error_message":"Bad Request"}, status=400)
 
 def custom_403(request, exception):
-    return render(request, "erro.html", {"error_code":"403", "error_message":"Forbidden"}, status=403)
+    carro_id = request.session.get("carro_id")
+    if carro_id:
+        carro_obj = Carro.objects.get(id=carro_id)
+        produtos = list(CarroProduto.objects.filter(carro=carro_obj))
+        if produtos:
+            numProdCarro = len(produtos)
+
+    todoscategorias = Categoria.objects.all()
+
+    footer = [Empresa.objects.get(titulo="Hefesto"), Empresa.objects.get(titulo="Casa HG"), Empresa.objects.get(titulo="Pagseguro")]
+    
+    return render(request, "erro.html", {"numProdCarro":numProdCarro, "todoscategorias":todoscategorias, "footer":footer, "error_code":"403", "error_message":"Forbidden"}, status=403)
 
 def custom_404(request, exception):
-    return render(request, "erro.html", {"error_code":"404", "error_message":"Not Found"}, status=404)
+    carro_id = request.session.get("carro_id")
+    if carro_id:
+        carro_obj = Carro.objects.get(id=carro_id)
+        produtos = list(CarroProduto.objects.filter(carro=carro_obj))
+        if produtos:
+            numProdCarro = len(produtos)
+
+    todoscategorias = Categoria.objects.all()
+
+    footer = [Empresa.objects.get(titulo="Hefesto"), Empresa.objects.get(titulo="Casa HG"), Empresa.objects.get(titulo="Pagseguro")]
+    
+    return render(request, "erro.html", {"numProdCarro":numProdCarro, "todoscategorias":todoscategorias, "footer":footer, "error_code":"404", "error_message":"Not Found"}, status=404)
 
 def custom_500(request):
-    return render(request, "erro.html", {"error_code":"500", "error_message":"Server error"}, status=500)
+    carro_id = request.session.get("carro_id")
+    if carro_id:
+        carro_obj = Carro.objects.get(id=carro_id)
+        produtos = list(CarroProduto.objects.filter(carro=carro_obj))
+        if produtos:
+            numProdCarro = len(produtos)
+
+    todoscategorias = Categoria.objects.all()
+
+    footer = [Empresa.objects.get(titulo="Hefesto"), Empresa.objects.get(titulo="Casa HG"), Empresa.objects.get(titulo="Pagseguro")]
+    
+    return render(request, "erro.html", {"numProdCarro":numProdCarro, "todoscategorias":todoscategorias, "footer":footer, "error_code":"500", "error_message":"Server error"}, status=500)
 
 # Função para testar requests de POST vindos do site
 def testPOST(request):
