@@ -1,7 +1,5 @@
 TODO-ALVAREZ: Entender do pagamento por cartão de debito do pagseguro
 
-TODO-ALVAREZ: desligar o modo debug
-
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte
