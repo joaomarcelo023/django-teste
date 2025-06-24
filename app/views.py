@@ -951,7 +951,17 @@ def create_payment(request):
         return redirect(payment_url)
     else:
         PedidoErro.objects.create(pedido=pedido,cliente=pedido.cliente,erro_code=response.status_code,erro_message=response.text)
-        return render(request, "pedidoError.html", {"error_code":response.status_code, "error_message":response.text})
+        carro_id = request.session.get("carro_id")
+        if carro_id:
+            carro_obj = Carro.objects.get(id=carro_id)
+            produtos = list(CarroProduto.objects.filter(carro=carro_obj))
+            if produtos:
+                numProdCarro = len(produtos)
+
+        todoscategorias = Categoria.objects.all()
+
+        footer = [Empresa.objects.get(titulo="Hefesto"), Empresa.objects.get(titulo="Casa HG"), Empresa.objects.get(titulo="Pagseguro")]
+        return render(request, "pedidoError.html", {"numProdCarro":numProdCarro, "todoscategorias":todoscategorias, "footer":footer, "error_code":response.status_code, "error_message":response.text})
         # TODO: Melhorar essa tela de erro pra versão final
         # return HttpResponse(f"Error: {response.status_code} - {response.text}")
 
