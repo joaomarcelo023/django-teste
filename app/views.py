@@ -50,7 +50,7 @@ class AdminRequireMixin(object):
         else:
             return redirect("/admin-login/")
         return super().dispatch(request,*args,**kwargs)
-    
+
 class GeraHistoricoProdutosMixin(object):
     def dispatch(self, request, *args, **kwargs):
         geraHistoricoProdutos(Produto.objects.all())
@@ -89,7 +89,7 @@ class VerifMixin(object):
             return redirect("lojaapp:home")
         
         return super().dispatch(request,*args, **kwargs)
-    
+
 class CarroComItemsMixin(object):
     def dispatch(self,request,*args, **kwargs):
         carro_id = request.session.get("carro_id")
@@ -388,7 +388,7 @@ class AddCarroView2(LojaMixin, BaseContextMixin, TemplateView):
                 carro_obj.save()
 
         return context
-    
+
 class AddCarroQuantView(LojaMixin, BaseContextMixin, TemplateView):
     def get(self,request,*arg,**kwargs):
         produto_id = request.GET.get("prod_id")
@@ -572,7 +572,7 @@ class FormaDeEntregaView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, 
         context["minimoEntrega"] = carro_obj.total >= decimal.Decimal(300)
 
         return context
-    
+
 def pedido_carro_endereco(request):
     if request.method == 'POST':
         try:
@@ -1368,7 +1368,7 @@ class ClientePerfilViewEditarTelefone(LogedMixin, LojaMixin, BaseContextMixin, T
         context['cliente'] = cliente
         
         return context
-    
+
 class ClientePerfilViewAlterarSenha(LogedMixin, LojaMixin, BaseContextMixin, FormView):
     template_name = "cliente_alterar_senha.html"
     form_class = ClienteAlterarSenhaForms
@@ -2064,7 +2064,7 @@ class AdminTodosPedidoView(AdminRequireMixin, BaseContextMixin, TemplateView):
         pedidoType_select = self.request.GET.get('pedidos', 'Todos')
 
         context.update({
-            'PedidosAndamento' : PedidoOrder.objects.filter(pedido_status="Pedido  em Andamento").order_by("-id"),
+            'PedidosAndamento' : PedidoOrder.objects.filter(pedido_status="Pedido em Andamento").order_by("-id"),
             'PedidosRecebido' : PedidoOrder.objects.filter(pedido_status="Pedido Recebido").order_by("-id"),
             'PagamentoPendente' : PedidoOrder.objects.filter(pedido_status="Pagamento Pendente").order_by("-id"),
             'PagamentoProcessando' : PedidoOrder.objects.filter(pedido_status="Pagamento Processando").order_by("-id"),
@@ -2250,7 +2250,7 @@ class AdminProdutoView(AdminRequireMixin, BaseContextMixin, TemplateView):
             context['grafico_visuli_data'] = {}
 
         return context
-    
+
 def atualiza_produto(request):
     if request.method == 'POST':
         if request.POST["salvar"] == "True":
@@ -3548,7 +3548,7 @@ def EmailClienteRegistrado(_cliente):
     )
     email.attach_alternative(html_content, "text/html")
     email.send()
-    
+
 def EmailVerificaCliente(_cliente):
     token = generate_verification_token(_cliente)
     uid = encode_user_id(_cliente)
