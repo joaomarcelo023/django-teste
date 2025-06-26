@@ -305,3 +305,5 @@ TODO-ALVAREZ-RESOLVIDO: fazer uma tela para caso de erro direcionando para o ema
 TODO-ALVAREZ-RESOLVIDO: desligar o modo debug
 
 TODO-ALVAREZ-RESOLVIDO: Arruma o login do admin-home
+
+TODO-ALVAREZ-RESOLVIDO: hide secret key
