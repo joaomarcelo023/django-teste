@@ -2020,7 +2020,7 @@ class AdminLoginView(BaseContextMixin, FormView):
     form_class = ClienteEntrarForms
     success_url = reverse_lazy("lojaapp:adminhome")
     def form_valid(self, form):
-        unome = form.cleaned_data.get("usuario")
+        unome = form.cleaned_data.get("email")
         pword = form.cleaned_data.get("senha")
         usr = authenticate(username = unome, password = pword)
         if usr is not None and Admin.objects.filter(user=usr).exists():

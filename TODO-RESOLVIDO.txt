@@ -303,3 +303,5 @@ TODO-ALVAREZ-RESOLVIDO: Aumentar a altura da janela de fotos extra no produtodet
 TODO-ALVAREZ-RESOLVIDO: fazer uma tela para caso de erro direcionando para o email ou para o whatsapp da loja
 
 TODO-ALVAREZ-RESOLVIDO: desligar o modo debug
+
+TODO-ALVAREZ-RESOLVIDO: Arruma o login do admin-home

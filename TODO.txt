@@ -1,4 +1,8 @@
-TODO-ALVAREZ: Entender do pagamento por cartão de debito do pagseguro
+TODO-ALVAREZ: Entender do pagamento por cartão de debito do pagsegurov
+
+TODO-ALVAREZ: Tira o pyany do modo debug
+
+TODO-ALVAREZ: Tirar o pagamento online por debito do ar
 
 
 "Coisas que precisam estar bem estruturadas:
