@@ -307,3 +307,5 @@ TODO-ALVAREZ-RESOLVIDO: desligar o modo debug
 TODO-ALVAREZ-RESOLVIDO: Arruma o login do admin-home
 
 TODO-ALVAREZ-RESOLVIDO: hide secret key
+
+TODO-ALVAREZ-RESOLVIDO: Tirar o pagamento online por debito do ar
