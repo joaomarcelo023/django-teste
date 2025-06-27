@@ -61,6 +61,7 @@ urlpatterns = [
     path('admin-pesquisar/', PesquisarAdminView.as_view(), name="adminpesquisar"),
     path('admin-logs/', AdminLogsView.as_view(), name="adminlogs"),
     path('admin-banners/', AdminBannersView.as_view(), name="adminbanners"),
+    path('admin-pesquisar-logs/', AdminPesquisarLogsView.as_view(), name="adminpesquisarlogs"),
 
     # POST
     path('endereco_cadastrar/', endereco_cadastrar, name='endereco_cadastrar'),

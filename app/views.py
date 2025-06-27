@@ -10,6 +10,7 @@ from django.views.generic import TemplateView, CreateView, FormView, DetailView,
 from django.views.generic.edit import DeleteView
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse, FileResponse
+from django.utils import timezone
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.utils.decorators import method_decorator
@@ -17,7 +18,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.core.cache import cache
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.core.paginator import Paginator
@@ -1598,6 +1599,11 @@ class PesquisarView(BaseContextMixin, TemplateView):
         kw = self.request.GET.get("query")
         if kw.endswith(" "):
             kw = kw.rstrip()
+        
+        log = unicodedata.normalize('NFKD', kw).encode('ascii', 'ignore').decode('utf-8').lower()
+        if log.endswith("s"):
+            log = log.rstrip("s")
+        LogPesquisa.objects.create(pesquisa=log)
 
         # Ordenação (barra_macro_classificar.html)
         classificar_selected = self.request.GET.get("Classificar", "Destaque")
@@ -2090,6 +2096,20 @@ class AdminLogsView(AdminRequireMixin, BaseContextMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         context['logs'] = AdminLog.objects.all().order_by('-ocorrido_em')
+
+        return context
+
+class AdminPesquisarLogsView(AdminRequireMixin, BaseContextMixin, TemplateView):
+    template_name = "admin_paginas/adminpesquisarlogs.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        mes_passado = timezone.now() - datetime.timedelta(days=30)
+
+        context['recentLogs'] = LogPesquisa.objects.all().order_by('-ocorrido_em')[:21]
+        context['topLogs'] = LogPesquisa.objects.values('pesquisa').annotate(search_count=Count('id')).order_by('-search_count')[:21]
+        context['topRecentLogs'] = LogPesquisa.objects.filter(ocorrido_em__gte=mes_passado).values('pesquisa').annotate(search_count=Count('id')).order_by('-search_count')[:21]
 
         return context
 
@@ -3015,6 +3035,7 @@ class FotosProdutoUploadView(APIView):
 
                     # Salva o novo
                     image.save(new_path, "webp")
+                    image_field = fotoObj.image
 
                     return JsonResponse({"message": "Foto atualizada", "Produto": fotoObj.produto.codigo, "file_url": fotoObj.image.url})
 

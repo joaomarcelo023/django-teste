@@ -60,7 +60,7 @@ class Endereco(models.Model):
     def __str__(self):
         return self.titulo + " | " + self.cliente.nome + " " + self.cliente.sobrenome
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
 class Categoria(models.Model):
     titulo = models.CharField(max_length=200)
@@ -216,7 +216,14 @@ class FotosProduto(models.Model):
     def __str__(self):
         return f"{self.produto.codigo} - {self.produto.titulo}: {self.img_num}"
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+class LogPesquisa(models.Model):
+    pesquisa = models.CharField(max_length=50,default="")
+    ocorrido_em = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.ocorrido_em} - {self.pesquisa}"
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
 class Carro(models.Model):
     cliente = models.ForeignKey(Cliente,on_delete=models.SET_NULL,null=True,blank=True)
@@ -238,7 +245,7 @@ class CarroProduto(models.Model):
     def __str__(self):
         return "Carro: " + str(self.carro.id) + " | CarroProduto: " + str(self.id)
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
 PEDIDO_STATUS=[
     ("Pedido em Andamento", "Pedido em Andamento"),
@@ -328,6 +335,8 @@ class PedidoErro(models.Model):
     def __str__(self):
         return f"Carro: {self.carro} | Cliente: {self.cliente} | erro: {self.erro_code}"
 
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
+
 class Banner(models.Model):
     title = models.CharField(max_length=100, blank=True)
 
@@ -369,7 +378,7 @@ class Empresa(models.Model):
     def __str__(self):
         return self.titulo
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
 class Admin(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -399,7 +408,7 @@ class APIKey(AbstractAPIKey):
     criado_em = models.DateTimeField(auto_now_add=True)
     obj = models.ForeignKey(Empresa, on_delete=models.CASCADE, related_name="api_keys")
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
 
 class TestStatus(models.Model):
     status = models.CharField(max_length=2000,default="",null=True,blank=True)
