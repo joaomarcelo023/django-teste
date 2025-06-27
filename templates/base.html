@@ -230,9 +230,9 @@
                             <img style="height:70px; object-fit:cover;" src="{{ empresa.image.url }}" alt="" class="img-fluid">
                     </a>
                     <!-- barra de pesquisa -->
-                    <form class="d-flex mt-3 mb-3" method="get" action="{% url 'lojaapp:pesquisar' %}" data-umami-event="Pesquisa" data-umami-event-pesquisa="{{ request.GET.query }}">
+                    <form class="d-flex mt-3 mb-3" method="get" action="{% url 'lojaapp:pesquisar' %}">
                         <input class="form-control custom-max-width-input mt-4 mb-4 me-1" type="search" placeholder="Busque aqui" name="query" value="{{ request.GET.query }}">
-                        <button class="btn btn-custom font-weight-bold mt-4 mb-4" type="submit">
+                        <button class="btn btn-custom font-weight-bold mt-4 mb-4" type="submit" data-umami-event="Pesquisa" data-umami-event-pesquisa="{{ request.GET.query }}">
                             <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7" style="stroke-width: 3;"><g fill="none" stroke="currentColor"><path stroke-linecap="square" d="M18.5 18.3l-3.4-3.4"/><circle cx="8" cy="8" r="7"/></g></svg>
                         </button>
                     </form>
