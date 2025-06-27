@@ -245,12 +245,12 @@
             <div class="col-12" style="display: flex; justify-content: center;">
                 {% for logo in footer %}
                 {% if forloop.first %}
-                    <span class="grande" style="width: 10.6vw;">&nbsp;</span>
+                    <span class="grande" style="width: 10.6vw; border-bottom: none;">&nbsp;</span>
                 {% endif %}
                 {% if logo.titulo != "Pagseguro" %}
                     <a href="{{ logo.link }}" target="_blank"><img src="{{ logo.image.url }}" style="height: 70px;"></a>{% if not forloop.last %}&emsp;{% endif %}
                 {% else %}
-                    <a class="grande" href="{{ logo.link }}" target="_blank"><img src="{{ logo.image.url }}" style="height: 70px;"></a>{% if not forloop.last %}&emsp;{% endif %}
+                    <a class="grande" href="{{ logo.link }}" target="_blank" style="border-bottom: none;"><img src="{{ logo.image.url }}" style="height: 70px;"></a>{% if not forloop.last %}&emsp;{% endif %}
                     <a class="pequeno" href="{{ logo.link }}" target="_blank"><img src="{% static 'img/Pagseguro.webp' %}" style="height: 70px;"></a>{% if not forloop.last %}&emsp;{% endif %}
                 {% endif %}
             {% endfor %}
