@@ -1146,13 +1146,22 @@ class ClienteEntrarView(LojaMixin, BaseContextMixin, FormView):
         if user is not None:
             if Cliente.objects.filter(user=user).exists():
                 login(self.request, user)
-            else:
+            else:            
+                todoscategorias = Categoria.objects.all()
+
+                footer = [Empresa.objects.get(titulo="Hefesto"), Empresa.objects.get(titulo="Casa HG"), Empresa.objects.get(titulo="Pagseguro")]
+                
                 return render(self.request, self.template_name,
                               {"form": form, "error": "Cliente nao existe"})
         else:
             error_message = "Falha na autenticação."
+
+            todoscategorias = Categoria.objects.all()
+
+            footer = [Empresa.objects.get(titulo="Hefesto"), Empresa.objects.get(titulo="Casa HG"), Empresa.objects.get(titulo="Pagseguro")]
+
             return render(self.request, self.template_name,
-                          {"form": form, "error": error_message})
+                          {"form": form, "error": error_message, "todoscategorias":todoscategorias, "footer":footer})
 
         return super().form_valid(form)
 
