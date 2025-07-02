@@ -1150,9 +1150,9 @@ class ClienteEntrarView(LojaMixin, BaseContextMixin, FormView):
                 todoscategorias = Categoria.objects.all()
 
                 footer = [Empresa.objects.get(titulo="Hefesto"), Empresa.objects.get(titulo="Casa HG"), Empresa.objects.get(titulo="Pagseguro")]
-                
+
                 return render(self.request, self.template_name,
-                              {"form": form, "error": "Cliente nao existe"})
+                              {"form": form, "error": "Cliente nao existe", "todoscategorias":todoscategorias, "footer":footer})
         else:
             error_message = "Falha na autenticação."
 
@@ -2041,7 +2041,9 @@ class AdminLoginView(BaseContextMixin, FormView):
         if usr is not None and Admin.objects.filter(user=usr).exists():
             login(self.request, usr)
         else:
-            return render(self.request,self.template_name,{"form":self.form_class,"error":"usuario nao corresponde"})
+            footer = [Empresa.objects.get(titulo="Hefesto"), Empresa.objects.get(titulo="Casa HG"), Empresa.objects.get(titulo="Pagseguro")]
+
+            return render(self.request,self.template_name,{"form":self.form_class,"error":"usuario nao corresponde", "footer":footer})
         return super().form_valid(form)
 
 class AdminHomeView(AdminRequireMixin, BaseContextMixin, GeraHistoricoProdutosMixin, TemplateView):
