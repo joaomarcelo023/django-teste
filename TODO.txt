@@ -1,4 +1,4 @@
-TODO-ALVAREZ: Entender do pagamento por cartão de debito do pagsegurov
+TODO-ALVAREZ: Entender do pagamento por cartão de debito do pagseguro
 
 
 "Coisas que precisam estar bem estruturadas:
