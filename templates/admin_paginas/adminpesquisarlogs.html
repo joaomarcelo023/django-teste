@@ -1,0 +1,68 @@
+{% extends "admin_paginas/adminbase.html" %}
+
+{% load static %}
+{% load humanize %}
+{% load l10n %}
+
+{% block title %}Logs - CasaHG{% endblock %}
+
+
+{% block content %}
+<section class="container">
+    <div class="row">
+        <div class="col">
+            <p>Vendas:</p>
+            <div class="grafDiv">
+                <div id="graficoPesquisas" class="grafPequeno"></div>
+            </div>
+            
+            <p>Vendas:</p>
+            <div class="grafDiv">
+                <div id="graficoPesquisas" class="grafPequeno"></div>
+            </div>
+        </div>
+
+        <div class="col-2 mx-auto">
+            <div class="tabela table-responsive">
+                <p>Ultimas pesquisas:</p>
+                <table class="table text-center">
+                    {% for rl in recentLogs %}
+                        <tr>
+                            <!-- <td>{{ rl.ocorrido_em }}</td> -->
+                            <td>{{ rl.pesquisa }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="col-2 mx-auto">
+            <div class="tabela table-responsive">
+                <p>Top pesquisas:</p>
+                <table class="table text-center">
+                    {% for tl in topLogs %}
+                        <tr>
+                            <td>{{ tl.pesquisa }}</td>
+                            <td>{{ tl.search_count }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        
+        <div class="col-2 mx-auto">
+            <div class="tabela table-responsive">
+                <p>Top pesquisas dos ultimos 30 dias:</p>
+                <table class="table text-center">
+                    {% for trl in topRecentLogs %}
+                        <tr>
+                            <td>{{ trl.pesquisa }}</td>
+                            <td>{{ trl.search_count }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
