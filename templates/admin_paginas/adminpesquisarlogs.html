@@ -8,23 +8,26 @@
 
 
 {% block content %}
+<script src="https://cdn.plot.ly/plotly-3.0.1.min.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/adminpesquisarlogs.css' %}">
+
 <section class="container">
     <div class="row">
         <div class="col">
-            <p>Vendas:</p>
+            <!-- <p>Top pesquisas:</p> -->
             <div class="grafDiv">
-                <div id="graficoPesquisas" class="grafPequeno"></div>
+                <div id="graficoPesquisasTop" class="grafPequeno"></div>
             </div>
-            
-            <p>Vendas:</p>
+            <br>
+            <!-- <p>Top pesquisas dos ultimos 30 dias:</p> -->
             <div class="grafDiv">
-                <div id="graficoPesquisas" class="grafPequeno"></div>
-            </div>
+                <div id="graficoPesquisasTopDias" class="grafPequeno"></div>
+            </div>            
         </div>
 
         <div class="col-2 mx-auto">
             <div class="tabela table-responsive">
-                <p>Ultimas pesquisas:</p>
+                <p class="tabela_title">Ultimas pesquisas:</p>
                 <table class="table text-center">
                     {% for rl in recentLogs %}
                         <tr>
@@ -36,33 +39,53 @@
             </div>
         </div>
 
-        <div class="col-2 mx-auto">
-            <div class="tabela table-responsive">
-                <p>Top pesquisas:</p>
+        <div class="col-2" style="border-left: 1px solid #151635;">
+            <div class="tabela">
+                <p class="tabela_title">Top pesquisas:</p>
                 <table class="table text-center">
-                    {% for tl in topLogs %}
-                        <tr>
-                            <td>{{ tl.pesquisa }}</td>
-                            <td>{{ tl.search_count }}</td>
-                        </tr>
-                    {% endfor %}
+                    <tbody>
+                        {% for tl in topLogs %}
+                            <tr>
+                                <td>{{ tl.pesquisa }}</td>
+                                <td>{{ tl.search_count }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </div>
         
-        <div class="col-2 mx-auto">
-            <div class="tabela table-responsive">
-                <p>Top pesquisas dos ultimos 30 dias:</p>
+        <div class="col-2">
+            <div class="tabela">
+                <p class="tabela_title">Top pesquisas dos ultimos 30 dias:</p>
                 <table class="table text-center">
-                    {% for trl in topRecentLogs %}
-                        <tr>
-                            <td>{{ trl.pesquisa }}</td>
-                            <td>{{ trl.search_count }}</td>
-                        </tr>
-                    {% endfor %}
+                    <tbody>
+                        {% for trl in topRecentLogs %}
+                            <tr>
+                                <td>{{ trl.pesquisa }}</td>
+                                <td>{{ trl.search_count }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 </section>
+
+<script id="grafico_top_dias_data_x" type="application/json">
+    {{ graf_topRecentLogs_x|safe }}
+</script>
+<script id="grafico_top_dias_data_y" type="application/json">
+    {{ graf_topRecentLogs_y|safe }}
+</script>
+
+<script id="grafico_top_data_x" type="application/json">
+    {{ graf_topLogs_x|safe }}
+</script>
+<script id="grafico_top_data_y" type="application/json">
+    {{ graf_topLogs_y|safe }}
+</script>
+
+<script src="{% static 'js/adminpesquisarlogs.js' %}"></script>
 {% endblock %}

@@ -1602,6 +1602,22 @@ class deletarEnderecoView(LojaMixin, View):
 class PesquisarView(BaseContextMixin, TemplateView):
     template_name = "pesquisar.html"
 
+    def get(self, request, *args, **kwargs):
+        kw = self.request.GET.get("query")
+        if kw.endswith(" "):
+            kw = kw.rstrip()
+        
+        log = unicodedata.normalize('NFKD', kw).encode('ascii', 'ignore').decode('utf-8').lower()
+        if log != "":
+            if log.endswith("s"):
+                log = log.rstrip("s")
+
+        if log == "endereco":
+            LogPesquisa.objects.create(pesquisa=log)
+            return redirect(reverse_lazy("lojaapp:sobre"))
+        
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -1610,9 +1626,10 @@ class PesquisarView(BaseContextMixin, TemplateView):
             kw = kw.rstrip()
         
         log = unicodedata.normalize('NFKD', kw).encode('ascii', 'ignore').decode('utf-8').lower()
-        if log.endswith("s"):
-            log = log.rstrip("s")
-        LogPesquisa.objects.create(pesquisa=log)
+        if log != "":
+            if log.endswith("s"):
+                log = log.rstrip("s")
+            LogPesquisa.objects.create(pesquisa=log)
 
         # Ordenação (barra_macro_classificar.html)
         classificar_selected = self.request.GET.get("Classificar", "Destaque")
@@ -2118,9 +2135,25 @@ class AdminPesquisarLogsView(AdminRequireMixin, BaseContextMixin, TemplateView):
 
         mes_passado = timezone.now() - datetime.timedelta(days=30)
 
-        context['recentLogs'] = LogPesquisa.objects.all().order_by('-ocorrido_em')[:21]
-        context['topLogs'] = LogPesquisa.objects.values('pesquisa').annotate(search_count=Count('id')).order_by('-search_count')[:21]
-        context['topRecentLogs'] = LogPesquisa.objects.filter(ocorrido_em__gte=mes_passado).values('pesquisa').annotate(search_count=Count('id')).order_by('-search_count')[:21]
+        context['recentLogs'] = LogPesquisa.objects.all().order_by('-ocorrido_em')
+        context['topLogs'] = LogPesquisa.objects.values('pesquisa').annotate(search_count=Count('id')).order_by('-search_count')
+        context['topRecentLogs'] = LogPesquisa.objects.filter(ocorrido_em__gte=mes_passado).values('pesquisa').annotate(search_count=Count('id')).order_by('-search_count')
+
+        xTopRecentes = []
+        yTopRecentes = []
+        for lp in LogPesquisa.objects.filter(ocorrido_em__gte=mes_passado).values('pesquisa').annotate(search_count=Count('id')).order_by('-search_count')[:21]:
+            xTopRecentes.append(lp["pesquisa"])
+            yTopRecentes.append(lp["search_count"])
+        context['graf_topRecentLogs_x'] = json.dumps(xTopRecentes)
+        context['graf_topRecentLogs_y'] = json.dumps(yTopRecentes)
+
+        xTop = []
+        yTop = []
+        for lp in LogPesquisa.objects.values('pesquisa').annotate(search_count=Count('id')).order_by('-search_count')[:21]:
+            xTop.append(lp["pesquisa"])
+            yTop.append(lp["search_count"])
+        context['graf_topLogs_x'] = json.dumps(xTop)
+        context['graf_topLogs_y'] = json.dumps(yTop)
 
         return context
 
