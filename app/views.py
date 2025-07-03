@@ -1612,9 +1612,10 @@ class PesquisarView(BaseContextMixin, TemplateView):
             if log.endswith("s"):
                 log = log.rstrip("s")
 
-        if log == "endereco":
             LogPesquisa.objects.create(pesquisa=log)
-            return redirect(reverse_lazy("lojaapp:sobre"))
+
+            if log == "endereco":
+                return redirect(reverse_lazy("lojaapp:sobre") + '#enderecos')
         
         return super().get(request, *args, **kwargs)
 
@@ -1624,12 +1625,6 @@ class PesquisarView(BaseContextMixin, TemplateView):
         kw = self.request.GET.get("query")
         if kw.endswith(" "):
             kw = kw.rstrip()
-        
-        log = unicodedata.normalize('NFKD', kw).encode('ascii', 'ignore').decode('utf-8').lower()
-        if log != "":
-            if log.endswith("s"):
-                log = log.rstrip("s")
-            LogPesquisa.objects.create(pesquisa=log)
 
         # Ordenação (barra_macro_classificar.html)
         classificar_selected = self.request.GET.get("Classificar", "Destaque")
