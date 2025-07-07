@@ -58,7 +58,7 @@ class ClienteRegistrarForms(forms.ModelForm):
         'inputmode': 'numeric',
         'placeholder': 'Telefone (apenas números)',
         # 'placeholder': '(__) _____-____'
-    }), max_length = 15)
+    })) #, max_length = 15)
 
     cpf_ou_cnpj = forms.CharField(validators=[cpf_validator], label="CPF ou CNPJ", widget=TextInput(attrs={
         'class': "form-control cpf-cnpj",

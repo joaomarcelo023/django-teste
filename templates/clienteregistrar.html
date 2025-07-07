@@ -14,6 +14,7 @@
             <form action="" method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
+                <span class="phone_number_possible_error errorlist" style="display: none;">Número de digitos superior ao esperado</span>
 
                 <div class="termos_condicoes_Div my-3">
                     <div class="d-flex align-items-start" style="display: table;">

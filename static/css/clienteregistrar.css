@@ -25,6 +25,8 @@
 
 .errorlist{
     color: red;
+    list-style-type: none;
+    text-align: center;
 }
 
 .termos_condicoes_Div {
