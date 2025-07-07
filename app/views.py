@@ -233,7 +233,7 @@ class HomeView(LojaMixin, CrazyAlvaPaymentCheckMixin, BaseContextMixin, Template
 
         return context
 
-class SobreView(LojaMixin, BaseContextMixin, TemplateView):
+class SobreView(LojaMixin, CrazyAlvaPaymentCheckMixin, BaseContextMixin, TemplateView):
     template_name = "sobre.html"
 
     def get_context_data(self, **kwargs):
@@ -243,7 +243,7 @@ class SobreView(LojaMixin, BaseContextMixin, TemplateView):
 
         return context
 
-class ContatoView(LojaMixin, BaseContextMixin, TemplateView):
+class ContatoView(LojaMixin, CrazyAlvaPaymentCheckMixin, BaseContextMixin, TemplateView):
     template_name = "contato.html"
 
     def get_context_data(self, **kwargs):
@@ -251,7 +251,7 @@ class ContatoView(LojaMixin, BaseContextMixin, TemplateView):
 
         return context
 
-class ProdutosDetalheView(LojaMixin, BaseContextMixin, TemplateView):
+class ProdutosDetalheView(LojaMixin, CrazyAlvaPaymentCheckMixin, BaseContextMixin, TemplateView):
     template_name = "produtodetalhe.html"
     
     def get_context_data(self, **kwargs):
@@ -633,6 +633,15 @@ class CheckOutView(LogedMixin, VerifMixin, LojaMixin, CarroComItemsMixin, Pedido
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        cliente = self.request.user.cliente
+        cliente_tel = cliente.telefonecliente.telefone[9:].replace("-", "")
+
+        if (cliente_tel[0] == "9") and (len(cliente_tel) == 9):
+            context["temCel"] = True
+        else:
+            context["temCel"] = False
+
         carro_id = self.request.session.get("carro_id",None)
         if carro_id:
             carro_obj = Carro.objects.get(id=carro_id)
@@ -817,6 +826,11 @@ def create_payment(request):
     produtos = CarroProduto.objects.filter(carro=carro)
 
     telefone_numeros = pedido.telefone.replace("-", "")
+    ddd = telefone_numeros[5:7]
+    tel = telefone_numeros[9:]
+    if (tel[0] != "9") or (len(tel) != 9):
+        ddd = "21"
+        tel = "970366886"
     cpf_cnpj_numeros = pedido.cpf_cnpj.replace(".", "").replace("-", "")
     cep_numeros = pedido.endereco_envio.cep.replace("-", "")
 
@@ -825,9 +839,9 @@ def create_payment(request):
     payload = {
         "customer": {
             "phone": {
-                "area": pedido.telefone[5:7],
+                "area": ddd,
                 "country": "+55",
-                "number": telefone_numeros[9:]
+                "number": tel
             },
             "name": pedido.nome_cliente,
             "email": pedido.email,
@@ -1599,7 +1613,7 @@ class deletarEnderecoView(LojaMixin, View):
 
         return redirect(f"{reverse_lazy('lojaapp:clienteperfil')}?perfil=Endereco")
 
-class PesquisarView(BaseContextMixin, TemplateView):
+class PesquisarView(LojaMixin, CrazyAlvaPaymentCheckMixin, BaseContextMixin, TemplateView):
     template_name = "pesquisar.html"
 
     def get(self, request, *args, **kwargs):
@@ -1859,7 +1873,7 @@ class PesquisarView(BaseContextMixin, TemplateView):
 
         return context
 
-class CategoriaView(LojaMixin, BaseContextMixin, TemplateView):
+class CategoriaView(LojaMixin, CrazyAlvaPaymentCheckMixin, BaseContextMixin, TemplateView):
     template_name = "categoria.html"
 
     def get_context_data(self, **kwargs):
