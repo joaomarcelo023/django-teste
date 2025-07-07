@@ -2,6 +2,8 @@ TODO-ALVAREZ: Entender do pagamento por cartão de debito do pagseguro
 
 TODO-ALVAREZ: trackear screen resolution para a gente testar com mais assertividade
 
+TODO-ALVAREZ: forçar usuario a preencher um celular para o pagamento online
+
 
 "Coisas que precisam estar bem estruturadas:
   Apresentar toda a linha de piso, argamassa e rejunte
