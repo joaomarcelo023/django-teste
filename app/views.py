@@ -1618,18 +1618,19 @@ class PesquisarView(LojaMixin, CrazyAlvaPaymentCheckMixin, BaseContextMixin, Tem
 
     def get(self, request, *args, **kwargs):
         kw = self.request.GET.get("query")
-        if kw.endswith(" "):
-            kw = kw.rstrip()
+        kw = kw.strip()
         
-        log = unicodedata.normalize('NFKD', kw).encode('ascii', 'ignore').decode('utf-8').lower()
-        if log != "":
-            if log.endswith("s"):
-                log = log.rstrip("s")
+        pg = self.request.GET.get("page")
+        if not pg:
+            log = unicodedata.normalize('NFKD', kw).encode('ascii', 'ignore').decode('utf-8').lower()
+            if log != "":
+                if log.endswith("s"):
+                    log = log.rstrip("s")
 
-            LogPesquisa.objects.create(pesquisa=log)
+                LogPesquisa.objects.create(pesquisa=log)
 
-            if log == "endereco":
-                return redirect(reverse_lazy("lojaapp:sobre") + '#enderecos')
+                if log == "endereco":
+                    return redirect(reverse_lazy("lojaapp:sobre") + '#enderecos')
         
         return super().get(request, *args, **kwargs)
 
@@ -1637,9 +1638,8 @@ class PesquisarView(LojaMixin, CrazyAlvaPaymentCheckMixin, BaseContextMixin, Tem
         context = super().get_context_data(**kwargs)
         
         kw = self.request.GET.get("query")
-        if kw.endswith(" "):
-            kw = kw.rstrip()
-
+        kw = kw.strip()
+        
         # Ordenação (barra_macro_classificar.html)
         classificar_selected = self.request.GET.get("Classificar", "Destaque")
         if classificar_selected == "Destaque":
