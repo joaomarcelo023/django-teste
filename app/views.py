@@ -1623,7 +1623,7 @@ class PesquisarView(LojaMixin, CrazyAlvaPaymentCheckMixin, BaseContextMixin, Tem
         pg = self.request.GET.get("page")
         if not pg:
             log = unicodedata.normalize('NFKD', kw).encode('ascii', 'ignore').decode('utf-8').lower()
-            if log != "":
+            if (log != "") and (log != "1"):
                 if log.endswith("s"):
                     log = log.rstrip("s")
 
